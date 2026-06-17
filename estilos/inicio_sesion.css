@@ -1,0 +1,507 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #111;
+    overflow: hidden; /* Evita scrolls innecesarios */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.fondo {
+    position: relative;
+    width: 100vw;  /* Ocupa todo el ancho */
+    height: 100vh; /* Ocupa todo el alto */
+    overflow: hidden;
+}
+
+.fondo-img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; /* asegura que la imagen llene el espacio sin deformarse */ 
+    object-position: center; /* asegura que al hacerse pequeña, se recorte por los lados por igual */
+    display: block;
+}
+
+.contenedor-principal {
+    position: absolute;
+    inset: 0;
+}
+
+.mesa-usuario {
+    position: absolute;
+    
+    top: 68.5%; 
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: linear-gradient(180deg, #09840000, #00000000);
+    padding: 1%;
+    width: 400px;
+    height: 200px;
+    border-radius: 20px;/
+}
+
+.mesa-usuario label[for="usuario"],
+.mesa-usuario label[for="contrasena"]
+ {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    text-shadow: #000000 3px 5px 5px;
+}
+
+.input-usuario {
+    transform: translate(40px, 0px);
+    color: rgb(0, 0, 0);
+    width: 68%;
+    border-color: #907715bb;
+    border-radius: 6px;
+}
+
+.mesa-usuario .input-contrasena[type="text"]
+ {
+    transform: translate(10px, 0px);
+    color: rgb(0, 0, 0);
+    width: 68%;
+    border-color: #907715bb;
+    border-radius: 6px;
+}
+
+/*para cuando al seleccionar un input el color del borde cambie*/
+.mesa-usuario input[type="text"]:focus,
+.mesa-usuario input[type="password"]:focus{
+    outline: none;
+    border-color: #ffeb3b; /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 5px #ffeb3b; /* Agrega un efecto de sombra */
+}
+
+.mesa-usuario input[type="password"]
+ {
+    transform: translate(10px, 0px);    
+    color: rgb(0, 0, 0);
+    width:68%;
+    border-color: #907715bb;
+    border-radius: 6px;
+}
+
+/*estilos para el boton de iniciar sesion*/
+.mesa-usuario button{   
+    transform: translate(100px,-50px);
+    margin-top: 40px;
+    width: 50%;
+    padding: 10px;
+    background: linear-gradient(180deg, #04780a, #000000d0);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+button:hover{
+    background: linear-gradient(180deg, #019808, #000000);
+    transition: 0.3s;
+    transform:translate(100px,-50px) scale(1.1);
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1px;
+    top: 8%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #666; 
+    transition: color 0.2s ease;
+    z-index: 10;
+    user-select: none;
+}
+
+.toggle-passwordd {
+    position: absolute;
+    right: 12px;
+    top: 16%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #666;
+    transition: color 0.2s ease;
+    z-index: 10;
+    user-select: none;
+    background-color: #ffffff;
+}
+
+/* Ocultar el ojo nativo que pone Edge/Chrome por defecto */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+.registrar-cuenta{
+    width: 300px;
+    margin:  20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0, 0, 0.1);
+}
+#registrar-cuenta:checked ~ .registrar-cuenta {
+    display: block;
+}
+
+label [for= "registrar-cuenta"] {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Estilos para el modal de registro */
+#modal-registro {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    font-family: arial;
+    justify-content: center;    /* centra horizontal */
+    align-items: center;        /* centra vertical */
+}
+
+#modal-registro.activo{
+    display: flex;
+}
+
+#modal-registro > div {
+    background: linear-gradient(180deg, #087000ec, #000000da);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 700px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+#modal-registro .modal-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#modal-registro h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 24px;
+    text-align: center;
+}
+
+#cerrar-modal {
+    position: absolute;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+#cerrar-modal:hover {
+    color: #b2ff9d;
+    transform: translate(0px,0px);
+    scale: (1,2);
+}
+
+#registro-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+#registro-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+#registro-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+#registro-form input:focus {
+    outline: none;
+    border-color: #04780a;
+    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
+}
+
+#registro-form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+#registro-form select:focus {
+    outline: none;
+    border-color: #04780a;
+    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
+}
+
+#registro-form button {
+    width: 30%;
+    padding: 10px;
+    background: linear-gradient(180deg, #04780a, #1a2c18e8);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    grid-column: span 2; /* Hace que el botón ocupe ambas columnas */
+    justify-self: center; /* Centra horizontalmente */
+}
+
+#registro-form button:hover {
+    background: linear-gradient(180deg, #019808, #000000);
+    transform: translate(0px,-4px);
+}
+
+/* Modal recuperar contraseña */
+#modal-recuperar {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-recuperar.activo {
+    display: flex;
+}
+
+#modal-recuperar > div {
+    background: linear-gradient(98deg, #8a8a8a, #d0d0d0);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+}
+
+#recuperar-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+#recuperar-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#recuperar-form input:focus {
+    outline: none;
+    border-color: #04780a;
+    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
+}
+
+#recuperar-form button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(180deg, #04780a, #000000d0);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+#recuperar-form button:hover {
+    background: linear-gradient(180deg, #019808, #000000);
+    transform: translate(0px,-4px);
+}
+
+@media (max-width: 1400px) {
+    .mesa-usuario {
+        top: 68.1%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .mesa-usuario {
+        top: 68.1%;
+    }
+    .mesa-usuario input[type="text"] {
+        width: 66%;
+    }
+    .mesa-usuario input[type="password"] {
+        width: 66%;
+    }
+    .toggle-password {
+        right: 10px;
+    }
+}
+
+@media (max-width: 440px) {
+    .mesa-usuario {
+        top: 68.1%;
+    }
+    .mesa-usuario {
+        width: 90%; 
+    }
+    .mesa-usuario input[type="text"] {
+        width: 63%;
+    }
+    .mesa-usuario input[type="password"] {
+        width: 63%;
+    }
+    .mesa-usuario label[for="usuario"],
+    .mesa-usuario label[for="contrasena"]
+    {
+        margin-left: 5px;
+    }
+    .toggle-password {
+        right: 15px;
+    }
+    .mesa-usuario .input-contrasena[type="text"]
+    {
+        width: 63%;
+    }
+    .mesa-usuario button {
+        transform: translate(90px,-50px);
+    }
+}
+
+@media (max-width: 410px) {
+    .mesa-usuario {
+        top: 68.1%;
+    }
+    .mesa-usuario {
+        width: 90%; 
+    }
+    .mesa-usuario button {
+        transform: translate(90px,-50px);
+    }
+    .mesa-usuario input[type="text"] {
+        width: 60%;
+    }
+    .mesa-usuario input[type="password"] {
+        width: 60%;
+    }
+    .toggle-password {
+        right: 15px;
+    }
+    .mesa-usuario .input-contrasena[type="text"]
+    {
+        width: 60%;
+    }
+}
+
+@media (max-width: 380px) {
+    .mesa-usuario {
+        top: 68.1%;
+    }
+    .mesa-usuario {
+        width: 90%; 
+    }
+    .mesa-usuario button {
+        transform: translate(90px,-50px);
+    }
+    .mesa-usuario input[type="text"] {
+        width: 58%;
+    }
+    .mesa-usuario input[type="password"] {
+        width: 58%;
+    }
+    .toggle-password {
+        right: 10px;
+    }
+    .mesa-usuario .input-contrasena[type="text"]
+    {
+        width: 58%;
+    }
+}
+
+@media (max-width: 360px) {
+    .mesa-usuario {
+        top: 68.1%;
+    }
+    .mesa-usuario {
+        width: 90%; 
+    }
+    .mesa-usuario button {
+        transform: translate(90px,-50px);
+    }
+    .mesa-usuario input[type="text"] {
+        width: 55%;
+    }
+    .mesa-usuario input[type="password"] {
+        width: 55%;
+    }
+    .mesa-usuario .input-contrasena[type="text"]
+    {
+        width: 55%;
+    }
+}
+
+@media (max-width: 330px) {
+    .mesa-usuario {
+        top: 68.1%;
+    }
+    .mesa-usuario {
+        width: 90%; 
+    }
+    .mesa-usuario button {
+        transform: translate(75px,-50px);
+    }
+    .mesa-usuario input[type="text"] {
+        width: 50%;
+    }
+    .mesa-usuario input[type="password"] {
+        width: 50%;
+    }
+    .toggle-password {
+        right: 15px;
+    }
+    .mesa-usuario .input-contrasena[type="text"]
+    {
+        width: 50%;
+    }
+}

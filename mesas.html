@@ -1,0 +1,910 @@
+<!DOCTYPE html> 
+<html lang="es">
+   <head> 
+    <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+     <title>Inventario/productos</title> <link rel="stylesheet" href="estilos/mesas.css"> 
+     <link rel="stylesheet" href="estilos/variables.css"> 
+     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+    <style>
+        .tarjeta-mesa-agregar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed var(--color-principal, #ccc); /* Usa variable o gris */
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px; /* Ajusta según tus tarjetas normales */
+            height: 350px; /* Ajusta según tus tarjetas normales */
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .tarjeta-mesa-agregar:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .icon-agregar {
+            font-size: 6rem;
+            color: var(--color-principal, #333); /* Usa variable o gris */
+        }
+        .mesa-title {
+            font-size: 1.9rem;
+            margin-bottom: 20px;
+            margin-top: 0;
+            color: var(--color-principal); /* Usa variable o gris */
+            background: var(--mesa-titulo, rgba(255, 255, 255, 0.2)); /* Usa variable o un fondo semitransparente */
+            padding: 15px 50px;
+            text-shadow: 0 2px 5px var(--sombra-texto); 
+            border-radius: 9px;
+        }
+        .tarjeta-mesa {
+    position: relative; /* Esto es clave para que la X se posicione */
+}
+
+        /* X oculta por defecto */
+        .btn-eliminar-mesa {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.2s ease;
+            pointer-events: none; /* No se puede clickear cuando está oculta */
+        }
+
+        /*Cuando pasas el mouse por la mesa, aparece la X */
+        .tarjeta-mesa:hover .btn-eliminar-mesa {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto; /* Ahora sí se puede clickear */
+        }
+
+        .btn-eliminar-mesa:hover {
+            background: rgba(220, 38, 38, 1);
+            transform: scale(1.15) rotate(90deg);
+        }
+                /* Menú de confirmación superpuesto en la tarjeta */
+        .menu-confirmacion-accion {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 10, 30, 0.95); /* Fondo oscuro combinado con tu neón */
+            border-radius: 13px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 20;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .menu-confirmacion-accion p {
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px var(--color-principal);
+        }
+
+        /* Botones del menú de elección */
+        .menu-confirmacion-accion button {
+            width: 85%;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s ease, filter 0.2s ease;
+        }
+
+        .menu-confirmacion-accion button:hover {
+            transform: scale(1.03);
+        }
+
+        .btn-acc-desactivar {
+            background: black;
+            border: 2px solid var(--color-principal, #146d02); /* Amarillo / Advertencia */
+            color: #f3f3f3;
+        }
+
+          .btn-acc-eliminar {
+            background: #000000; /* Rojo / Peligro */
+            border: 2px solid #ff4444;
+            color: #fff;
+        }
+
+        .btn-acc-cancelar {
+            background: #4b5563; /* Gris / Neutral */
+            color: #fff;
+        }
+        .tarjeta-mesa.mesa-desactivada {
+            opacity: 0.35; /* Se vuelve semi-transparente */
+            filter: grayscale(80%); /* Pierde el brillo neón llamativo */
+            border: 2px dashed #ffffff !important; /* Borde rojo discontinuo de alerta */
+        }
+
+        /* Dejar que la X siga funcionando aun estando desactivada para poder reactivarla o borrarla */
+        .tarjeta-mesa.mesa-desactivada .btn-eliminar-mesa {
+            pointer-events: auto !important;
+            background: #eab308; /* Cambia a amarillo indicando que sirve para gestionar */
+        }
+        .icono-img {
+    width: 23px;
+    height: 23px;
+    object-fit: contain;
+}
+
+
+    </style>
+</head>
+<body class="mesas-page"> <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
+    <div id="panel" class="panel-accesibilidad">
+        <button onclick="cambiarTema('rojo')">Rojo</button>
+        <button onclick="cambiarTema('morado')">Morado</button>
+        <button onclick="cambiarTema('azul')">Azul</button>
+        <button onclick="restablecerTema()">Restablecer</button>
+    </div>
+
+    <input type="checkbox" id="btn-menu" hidden>
+    
+<header class="header-mesas"> 
+    <div class="container"> 
+        <div class="btn-menu"> 
+            <label for="btn-menu" class="icon-menu">☰</label> 
+        </div> 
+    </div> 
+    
+    <div class="logo"> 
+        <h2>𝙈𝙀<span>𝙎</span>𝘼𝙎</h2>
+    </div> 
+
+    <div class="header-right">
+        <a href="#" id="boton-perfil" class="cuenta-btn">
+            <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
+            <span id="nombre-display" class="nombre">Cargando...</span>
+        </a>
+    </div>
+</header>
+
+<label class="overlay" for="btn-menu"></label>
+
+    <nav class="menu-lateral">
+      <div class="menu-header">
+        <div class="menu-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="8" r="3"/>
+              <circle cx="6" cy="16" r="2.5"/>
+              <circle cx="18" cy="16" r="2.5"/>
+            </svg>
+          </div>
+          <h3>Menú</h3>
+        </div>
+        <label for="btn-menu" class="close-menu" aria-label="Cerrar menú">✕</label>
+      </div>
+
+      <div class="menu-opciones">
+        <div class="menu-section-label">Principal</div>
+        <ul>
+          <li>
+            <a href="inicio.html">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </span>
+              <span class="nav-label">Inicio</span>
+            </a>
+          </li>
+          <li>
+            <a href="mesas.html">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="3" rx="1"/><line x1="6" y1="13" x2="6" y2="20"/><line x1="18" y1="13" x2="18" y2="20"/><rect x="2" y="7" width="20" height="3" rx="1"/></svg>
+              </span>
+              <span class="nav-label">Mesas</span>
+            </a>
+          </li>
+          <li class="has-sub">
+            <input type="checkbox" id="sub-inventario">
+            <label class="sub-toggle" for="sub-inventario">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </span>
+              <span class="nav-label">Inventario</span>
+              <svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </label>
+            <ul class="submenu">
+              <li>
+                <a href="proveedores.html">
+                  <span class="nav-label">Proveedores</span>
+                </a>
+              </li>
+              <li>
+                <a href="productos.html">
+                  <span class="nav-label">Productos</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="personalizacion.html">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.59L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </span>
+              <span class="nav-label">Personalización</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="divider"></div>
+        <div class="menu-section-label">Sistema</div>
+        <ul>
+          <li class="item-salir">
+            <a href="Inicio_sesion.html">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              </span>
+              <span class="nav-label">Salir</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="menu-footer">
+        <div class="status-dot"></div>
+        <span class="menu-version">DAMADD v2.0 · </span>
+      </div>
+    </nav>
+
+<!-- Modal Factura -->
+<div id="invoice-modal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-header-icon"><i class="ti ti-receipt"></i></div>
+        <div>
+          <p class="modal-header-label">Factura</p>
+          <h2>Mesa  <span id="invoice-mesa-num">1</span></h2>
+        </div>
+      </div>
+      <button class="modal-close" aria-label="Cerrar">&times;</button>
+    </div>
+
+    <div class="invoice-meta">
+      <div class="invoice-meta-item">
+        <span>Fecha</span>
+        <strong id="invoice-date"></strong>
+      </div>
+      <div class="invoice-meta-item">
+        <span>Hora inicio</span>
+        <strong id="invoice-time"></strong>
+      </div>
+      <div class="invoice-meta-item">
+        <span>Tiempo</span>
+        <strong id="invoice-duration"></strong>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <div class="invoice-details">
+
+        <h3><i class="ti ti-shopping-bag"></i> Productos pedidos</h3>
+        <div class="invoice-table-wrap">
+          <table class="invoice-table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th style="text-align:center;">Cant.</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody id="invoice-products">
+              <tr>
+                <td colspan="3" class="invoice-empty" id="no-products">
+                  <i class="ti ti-mood-empty"></i><span>Sin productos pedidos</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="invoice-totals">
+          <p><span>Total tiempo</span> <strong>COP <span id="invoice-subtotal">0</span></strong></p>
+          <p><span>Total productos</span> <strong>COP 0</strong></p>
+        </div>
+        <div class="invoice-total-final">
+          <span>Total</span>
+          <span>COP <span id="invoice-total">0</span></span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="invoice-actions">
+      <button class="btn-close-modal">Cerrar</button>
+      <button class="btn-print" onclick="procesarPago()"><i class="ti ti-printer"></i> Aceptar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Pago Exitoso -->
+<div id="payment-success-modal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+
+    <div class="modal-header" style="background: #1a6e2e;">
+      <div class="modal-header-left">
+        <div class="modal-header-icon">✓</div>
+        <div>
+          <p class="modal-header-label">Estado</p>
+          <h2>Pago exitoso</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-body" style="text-align: center; padding: 32px 24px;">
+      <p style="font-size: 15px; color: #444; margin-bottom: 10px;">Pago registrado correctamente.</p>
+      <p style="font-size: 15px; color: #444; margin-bottom: 6px;">
+        Método de pago: <strong id="payment-method-display" style="color: #3C3489;">-</strong>
+      </p>
+      <p style="font-size: 15px; color: #444;">
+        Mesa <span id="success-mesa-num">1</span> lista para un nuevo cliente.
+      </p>
+    </div>
+
+    <div class="invoice-actions">
+      <button class="btn-close-modal" onclick="cerrarPagoExitoso()">Cerrar</button>
+      <button class="btn-print" onclick="imprimirFactura()"><i class="ti ti-printer"></i> Imprimir</button>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="products-modal" class="modal" aria-hidden="true">
+  <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+    <div class="modal-header">
+      <h2>Seleccionar Producto - Mesa <span id="products-mesa-num">1</span></h2>
+      <button class="modal-close" id="close-products-modal" aria-label="Cerrar">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="products-list"></div>
+    </div>
+  </div>
+</div>
+
+<label class="overlay" for="btn-menu"></label>
+
+<div class="mesas-grid"> 
+  <div class="menu-juegos">
+    <div class="opcion activa" onclick="mostrarMesasDeTrago(event)">Billar</div>
+    <div class="opcion" onclick="mostrarBolirana(event)">Bolirana</div>
+    <div class="opcion" onclick="mostrarMesas(event)">Mesas</div>
+    
+    <div class="opcion-pedidos" id="btn-pedidos" title="Ver Pedidos">
+        <img src="imagenes/cervezas.png" alt="pedidos">
+    </div>
+  </div>
+
+  <div id="contenedor-mesas-billar">
+    <div class="mesa-row" id="fila-billar-1">
+      <div class="tarjeta-mesa" id="mesa-billar-1">
+        <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">1</span></h2>
+          <img src="imagenes/mesa-morada.png" alt="Mesa 1" class="mesa-foto">
+          <div class="mesa-acciones">
+            <div class="time-container container-mesa1">
+              <div class="time-display time-display-mesa1" aria-live="polite">00:00:00</div>
+              <button class="time-btn mesa1" type="button" >Tiempo ▾</button>
+                <div class="time-menu time-menu-mesa1" aria-hidden="true">
+              <button class="time-option">1 min</button>
+              <button class="time-option">30 min</button>
+              <button class="time-option">1 hora</button>
+              <button class="time-option">1:30 hora</button>
+              <button class="time-option">2 horas</button>
+              <button class="time-option stop-option">Detener cronómetro</button>
+            </div>
+            </div>
+          
+            <button class="factura-btn mesa1" data-mesa="1" data-tipo="Billar">Factura</button>
+          </div>
+      </div>
+      
+      <div class="tarjeta-mesa-agregar" id="btn-agregar-mesa-billar" onclick="agregarNuevaMesaBillar()">
+          <div class="icon-agregar">+</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mesas_normales" class="mesasN-contenedor" style="display: none;">
+    <div class="mesa-row" id="fila-mesas-1">
+      <div class="tarjeta-mesa" id="mesa-mesas-1">
+        <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">1</span></h2>
+        <img src="imagenes/mesa_centarse.png" alt="Mesa 1" class="mesa-foto">
+        <div class="mesa-acciones">
+          <div class="time-container container-mesas1">
+            <div class="time-display time-display-mesas1" aria-live="polite">00:00:00</div>
+            <button class="time-btn mesas1" type="button">Tiempo ▾</button>
+            <div class="time-menu time-menu-mesas1" aria-hidden="true">
+              <button class="time-option">30 min</button>
+              <button class="time-option">1 hora</button>
+              <button class="time-option">2 horas</button>
+              <button class="time-option stop-option">Detener</button>
+            </div>
+          </div>
+          <button class="factura-btn mesas1"data-mesa="1" data-tipo="Mesas">Factura</button>
+        </div>
+      </div>
+
+    
+
+      <div class="tarjeta-mesa-agregar" id="btn-agregar-mesas" onclick="agregarNuevaMesa()">
+          <div class="icon-agregar">+</div>
+      </div>
+    </div>
+  </div> 
+    <div id="bolirana-unica" class="bolirana-contenedor" style="display: none;">
+    <div class="mesa-row" id="fila-bolirana-1">
+      <div class="tarjeta-mesa" id="mesa-bolirana-1">
+        <h2 class="mesa-title">Bolirana <span class="numero-mesa-badge">1</span></h2>
+        <img src="imagenes/bolirana.png" alt="Bolirana 1" class="mesa-foto">
+        <div class="mesa-acciones">
+          <div class="time-container container-bolirana1">
+            <div class="time-display time-display-bolirana1" aria-live="polite">00:00:00</div>
+            <button class="time-btn bolirana1" type="button">Tiempo ▾</button>
+            <div class="time-menu time-menu-bolirana1" aria-hidden="true">
+              <button class="time-option">30 min</button>
+              <button class="time-option">1 hora</button>
+              <button class="time-option">2 horas</button>
+              <button class="time-option stop-option">Detener</button>
+            </div>
+          </div>
+          <button class="factura-btn bolirana1" data-mesa="1" data-tipo="Bolirana">Factura</button>
+        </div>
+      </div>
+
+    
+
+      <div class="tarjeta-mesa-agregar" id="btn-agregar-bolirana" onclick="agregarNuevaBolirana()">
+          <div class="icon-agregar">+</div>
+      </div>
+    </div>
+  </div>
+
+</div> <footer class="footer-main">
+    <div class="footer-content">
+      <div class="footer-section">
+        <img src="imagenes/logo.png" alt="Logo de DAMADD" class="footer-logo">
+        <p class="footer-brand">DAMADD — La mejor opción</p>
+      </div>
+      <div class="footer-section">
+        <h3>Redes Sociales</h3>
+        <div class="social-icons">
+          <a href="#" title="Facebook" class="social-link"><img src="imagenes/facebook.png" alt="facebook"></a>
+          <a href="#" title="Instagram" class="social-link"><img src="imagenes/instagram.png" alt="instagram"></a>
+          <a href="#" title="WhatsApp" class="social-link"><img src="imagenes/whatsapp.png" alt="whatsapp"></a>
+          <a href="#" title="TikTok" class="social-link"><img src="imagenes/tik-tok.png" alt="tik-tok"></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Contacto</h3>
+        <p>Email: DAMADD@gmail.com</p>
+        <p>Teléfono: +57 (3) 2245 18377</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 DAMADD. Todos los derechos reservados a DAMADD.</p>
+    </div>
+
+<script>
+// Mantener los contadores solo como base por si el contenedor está vacío
+let contadorMesasBillar = 1; 
+let contadorBoliranas = 1;
+let contadorMesasNormales = 1;
+
+// Función genérica e inteligente para encontrar el siguiente número disponible
+function obtenerSiguienteNumeroMesa(selectorTarjetas) {
+    const tarjetas = document.querySelectorAll(selectorTarjetas);
+    if (tarjetas.length === 0) return 1;
+
+    // Extraemos todos los números actuales de los badges de las mesas
+    const numerosExistentes = Array.from(tarjetas).map(tarjeta => {
+        const badge = tarjeta.querySelector('.numero-mesa-badge');
+        return badge ? parseInt(badge.textContent) : 0;
+    }).sort((a, b) => a - b);
+
+    // Buscamos el primer hueco disponible (ej: si hay 1 y 3, devuelve 2)
+    let siguienteNumero = 1;
+    for (let i = 0; i < numerosExistentes.length; i++) {
+        if (numerosExistentes[i] === siguienteNumero) {
+            siguienteNumero++;
+        } else if (numerosExistentes[i] > siguienteNumero) {
+            break;
+        }
+    }
+    return siguienteNumero;
+}
+
+function agregarNuevaMesaBillar() {
+    // Calculamos el número real que le corresponde según las que ya existen
+    const numMesa = obtenerSiguienteNumeroMesa('#contenedor-mesas-billar .tarjeta-mesa');
+    const botonAgregar = document.getElementById('btn-agregar-mesa-billar');
+
+    const nuevaMesaHTML = `
+        <div class="tarjeta-mesa" id="mesa-billar-${numMesa}">
+            <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-billar-${numMesa}')">✕</button>
+            <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesa}</span></h2>
+            <img src="imagenes/mesa-morada.png" alt="Mesa ${numMesa}" class="mesa-foto">
+            <div class="mesa-acciones">
+                <div class="time-container container-mesa${numMesa}">
+                    <div class="time-display time-display-mesa${numMesa}" aria-live="polite">00:00:00</div>
+                    <button class="time-btn mesa${numMesa}" type="button">Tiempo ▾</button>
+                    <div class="time-menu time-menu-mesa${numMesa}" aria-hidden="true">
+                        <button class="time-option">1 min</button>
+                        <button class="time-option">30 min</button>
+                        <button class="time-option">1 hora</button>
+                        <button class="time-option">1:30 hora</button>
+                        <button class="time-option">2 horas</button>
+                        <button class="time-option stop-option">Detener cronómetro</button>
+                    </div>
+                </div>
+                <button class="factura-btn" data-mesa="${numMesa}" data-tipo="Billar">Factura</button>
+            </div>
+        </div>
+    `;
+    
+    botonAgregar.insertAdjacentHTML('beforebegin', nuevaMesaHTML);
+    const mesaRecienCreada = document.getElementById(`mesa-billar-${numMesa}`);
+    
+    gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
+    gsap.to(mesaRecienCreada, {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        onComplete: () => {
+            if (typeof inicializarEventoMesa === 'function') {
+                inicializarEventoMesa(numMesa);
+            }
+            console.log(`Mesa Billar ${numMesa} agregada`);
+        }
+    });
+}
+
+function agregarNuevaBolirana() {
+    const numBolirana = obtenerSiguienteNumeroMesa('#bolirana-unica .tarjeta-mesa');
+    const botonAgregarBolirana = document.getElementById('btn-agregar-bolirana');
+
+    const nuevaBoliranaHTML = `
+        <div class="tarjeta-mesa" id="mesa-bolirana-${numBolirana}">
+            <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-bolirana-${numBolirana}')">✕</button>
+            <h2 class="mesa-title">Bolirana <span class="numero-mesa-badge">${numBolirana}</span></h2>
+            <img src="imagenes/bolirana.png" alt="Bolirana ${numBolirana}" class="mesa-foto">
+            <div class="mesa-acciones">
+              <div class="time-container container-bolirana${numBolirana}">
+                <div class="time-display time-display-bolirana${numBolirana}" aria-live="polite">00:00:00</div>
+                <button class="time-btn bolirana${numBolirana}" type="button">Tiempo ▾</button>
+                <div class="time-menu time-menu-bolirana${numBolirana}" aria-hidden="true">
+                  <button class="time-option">30 min</button>
+                  <button class="time-option">1 hora</button>
+                  <button class="time-option">2 horas</button>
+                  <button class="time-option stop-option">Detener</button>
+                </div>
+              </div>
+              <button class="factura-btn" data-mesa="${numBolirana}" data-tipo="Bolirana">Factura</button>
+            </div>
+        </div>
+    `;
+    
+    botonAgregarBolirana.insertAdjacentHTML('beforebegin', nuevaBoliranaHTML);
+    const mesaRecienCreada = document.getElementById(`mesa-bolirana-${numBolirana}`);
+    
+    gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
+    gsap.to(mesaRecienCreada, {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        onComplete: () => {
+            if (typeof inicializarEventoMesa === 'function') {
+                inicializarEventoMesa(numBolirana);
+            }
+            console.log(`Bolirana ${numBolirana} agregada`);
+        }
+    });
+}
+
+function agregarNuevaMesa() {
+    const numMesaNormal = obtenerSiguienteNumeroMesa('#mesas_normales .tarjeta-mesa');
+    const botonAgregarMesas = document.getElementById('btn-agregar-mesas');
+
+    const nuevaMesaNormalHTML = `
+        <div class="tarjeta-mesa" id="mesa-mesas-${numMesaNormal}">
+            <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-mesas-${numMesaNormal}')">✕</button>
+            <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesaNormal}</span></h2>
+            <img src="imagenes/mesa_centarse.png" alt="Mesa ${numMesaNormal}" class="mesa-foto">
+            <div class="mesa-acciones">
+              <div class="time-container container-mesas${numMesaNormal}">
+                <div class="time-display time-display-mesas${numMesaNormal}" aria-live="polite">00:00:00</div>
+                <button class="time-btn mesas${numMesaNormal}" type="button">Tiempo ▾</button>
+                <div class="time-menu time-menu-mesas${numMesaNormal}" aria-hidden="true">
+                  <button class="time-option">30 min</button>
+                  <button class="time-option">1 hora</button>
+                  <button class="time-option">2 horas</button>
+                  <button class="time-option stop-option">Detener</button>
+                </div>
+              </div>
+              <button class="factura-btn" data-mesa="${numMesaNormal}" data-tipo="Mesa Normal">Factura</button>
+            </div>
+        </div>
+    `;
+    
+    botonAgregarMesas.insertAdjacentHTML('beforebegin', nuevaMesaNormalHTML);
+    const mesaRecienCreada = document.getElementById(`mesa-mesas-${numMesaNormal}`);
+    
+    gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
+    gsap.to(mesaRecienCreada, {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        onComplete: () => {
+            if (typeof inicializarEventoMesa === 'function') {
+                inicializarEventoMesa(numMesaNormal);
+            }
+            console.log(`Mesa ${numMesaNormal} agregada`);
+        }
+    });
+}
+
+function eliminarMesa(idMesa) {
+    const mesa = document.getElementById(idMesa);
+    if (!mesa) return;
+
+    if (mesa.querySelector('.menu-confirmacion-accion')) return;
+
+    // Aseguramos que la mesa tenga posición relativa para que el menú se clave encima
+    mesa.style.position = 'relative';
+
+    const menuConfirm = document.createElement('div');
+    menuConfirm.className = 'menu-confirmacion-accion';
+    
+    // APLICAMOS ESTILOS DIRECTOS DE CAPA OSCURA Y CENTRADO EN FLEXBOX
+    Object.assign(menuConfirm.style, {
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 'inherit', // Hereda el redondeado de la tarjeta de la mesa
+        zIndex: '10',
+        padding: '20px',
+        boxSizing: 'border-box'
+    });
+    
+    // Estructura interna con estilos de centrado para el subcontenedor
+    menuConfirm.innerHTML = `
+        <div class="menu-vista-principal" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%;">
+            <p style="margin: 0 0 8px 0; font-weight: bold; text-align: center; color: #fff; font-size: 1.1rem;">¿Qué deseas hacer?</p>
+            <button class="btn-acc-desactivar" style="width: 85%;">${mesa.classList.contains('mesa-desactivada') ? 'Reactivar' : 'Desactivar'}</button>
+            <button class="btn-acc-eliminar" style="width: 85%;">Eliminar</button>
+            <button class="btn-acc-cancelar" style="width: 85%;">Cancelar</button>
+        </div>
+        <div class="menu-vista-motivos" style="display: none; opacity: 0; transform: scale(0.9); flex-direction: column; align-items: center; gap: 12px; width: 100%;">
+            <p style="margin: 0 0 8px 0; font-weight: bold; text-align: center; color: #fff; font-size: 1.1rem;">¿Motivo de la desactivación?</p>
+            <button class="btn-motivo-mantenimiento" style="width: 85%;">🔧 Mantenimiento</button>
+            <button class="btn-motivo-danada" style="width: 85%;">❌ Fuera de servicio</button>
+            <button class="btn-motivo-cancelar" style="width: 85%;">Cancelar</button>
+        </div>
+    `;
+
+    mesa.appendChild(menuConfirm);
+
+    // Animación de entrada
+    gsap.fromTo(menuConfirm, 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.2, ease: "power2.out" }
+    );
+    
+    // Animación  contenido interno
+    gsap.fromTo(menuConfirm.querySelector('.menu-vista-principal'),
+        { scale: 0.9 },
+        { scale: 1, duration: 0.2, ease: "power2.out" }
+    );
+
+    const cerrarMenuAnimado = () => {
+        gsap.to(menuConfirm, {
+            opacity: 0, duration: 0.2, 
+            onComplete: () => menuConfirm.remove()
+        });
+    };
+
+    const desactivarConMotivo = (claseMotivo) => {
+    mesa.classList.add('mesa-desactivada', claseMotivo);
+    
+    // 1. Determinar el texto y el color según el motivo
+    const esMantenimiento = claseMotivo === 'motivo-mantenimiento';
+    const textoIndicador = esMantenimiento ? 'MANTENIMIENTO' :'FUERA DE SERVICIO';
+    const colorIndicador = esMantenimiento ? 'rgb(245, 158, 11)' : ' rgb(155 0 0)'; // Ámbar o Rojo
+    const fondoIndicador = esMantenimiento ? 'rgb(159 125 68 / 73%)' : 'rgb(239 68 68 / 74%)';
+
+    // 2. Crear la etiqueta visual
+    const cartelEstado = document.createElement('div');
+    cartelEstado.className = 'indicador-estado-mesa';
+    cartelEstado.innerText = textoIndicador;
+    
+    // Estilos para que quede flotando en el centro o arriba de la mesa
+    Object.assign(cartelEstado.style, {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)', // Lo centra perfectamente en la mesa
+        backgroundColor: fondoIndicador,
+        color: colorIndicador,
+        border: `1px solid ${colorIndicador}`,
+        padding: '14px 0px',
+        borderRadius: '8px',
+        fontWeight: 'bold',
+        fontSize: '0.9rem',
+        letterSpacing: '1px',
+        zIndex: '5',
+        pointerEvents: 'none', // Para que no interfiera con los clics si necesitas reactivarla
+        boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+    });
+    
+
+    //  posicionar el cartel
+    mesa.style.position = 'relative';
+    
+    // Insertar el cartel en la mesa
+    mesa.appendChild(cartelEstado);
+    
+    // Animacion palabra 
+    gsap.fromTo(cartelEstado, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" });
+
+    // Deshabilitacion de botonesw factura tiempo
+    mesa.querySelectorAll('.mesa-acciones button').forEach(b => b.disabled = true);
+    
+    mesa.dataset.motivoDesactivacion = esMantenimiento ? 'mantenimiento' : 'danada';
+    
+    cerrarMenuAnimado();
+};
+    
+    menuConfirm.querySelector('.btn-acc-cancelar').onclick = (e) => {
+        e.stopPropagation();
+        cerrarMenuAnimado();
+    };
+
+    menuConfirm.querySelector('.btn-acc-desactivar').onclick = (e) => {
+        e.stopPropagation();
+        
+        // CASO A: Si la mesa ya estaba desactivada, la reactivamos directamente
+if (mesa.classList.contains('mesa-desactivada')) {
+    mesa.classList.remove('mesa-desactivada', 'motivo-mantenimiento', 'motivo-danada');
+    delete mesa.dataset.motivoDesactivacion;
+    mesa.style.pointerEvents = 'auto';
+    mesa.querySelectorAll('.mesa-acciones button').forEach(b => b.disabled = false);
+    
+    // --- NUEVO: Eliminar el cartel de texto si existe ---
+    const cartelExistente = mesa.querySelector('.indicador-estado-mesa');
+    if (cartelExistente) {
+        cartelExistente.remove();
+    }
+    
+    cerrarMenuAnimado();
+    return;
+}
+
+        const vistaPrincipal = menuConfirm.querySelector('.menu-vista-principal');
+        const vistaMotivos = menuConfirm.querySelector('.menu-vista-motivos');
+        
+        gsap.to(vistaPrincipal, {
+            opacity: 0, scale: 0.9, duration: 0.15, 
+            onComplete: () => {
+                vistaPrincipal.style.display = 'none';
+                
+                // Forzamos el display flex para mantener el centrado de la segunda vista
+                vistaMotivos.style.display = 'flex'; 
+                
+                gsap.to(vistaMotivos, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" });
+            }
+        });
+    };
+
+
+    menuConfirm.querySelector('.btn-motivo-mantenimiento').onclick = (ev) => {
+        ev.stopPropagation();
+        desactivarConMotivo('motivo-mantenimiento');
+    };
+
+    menuConfirm.querySelector('.btn-motivo-danada').onclick = (ev) => {
+        ev.stopPropagation();
+        desactivarConMotivo('motivo-danada');
+    };
+
+    menuConfirm.querySelector('.btn-motivo-cancelar').onclick = (ev) => {
+        ev.stopPropagation();
+        cerrarMenuAnimado();
+    };
+
+    // --- BOTÓN ELIMINARRRR ---
+    menuConfirm.querySelector('.btn-acc-eliminar').onclick = (e) => {
+        e.stopPropagation();
+        menuConfirm.remove(); 
+        mesa.style.pointerEvents = 'none';
+        
+        const tl = gsap.timeline({ onComplete: () => mesa.remove() });
+        tl.to(mesa, { backgroundColor: "rgba(0,0,0,0.75)", duration: 0.3, ease: "power2.out" })
+          .to(mesa.querySelector('.btn-eliminar-mesa'), { scale: 1.3, rotation: 90, duration: 0.2, ease: "back.out(2)" }, 0)
+          .to(mesa, { scale: 0, opacity: 0, y: 50, duration: 0.4, ease: "back.in(1.7)" }, 0.2);
+    };
+}
+
+
+// Funciones de filtrado
+function ocultarTodo() {
+    document.getElementById('contenedor-mesas-billar').style.display = 'none';
+    document.getElementById('bolirana-unica').style.display = 'none';
+    document.getElementById('mesas_normales').style.display = 'none';
+    document.querySelectorAll('.menu-juegos .opcion').forEach(btn => btn.classList.remove('activa'));
+}
+
+function mostrarBolirana(event) {
+    ocultarTodo();
+    document.getElementById('bolirana-unica').style.display = 'block';
+    if(event) event.target.classList.add('activa');
+}
+
+function mostrarMesas(event) {
+    ocultarTodo();
+    document.getElementById('mesas_normales').style.display = 'block';
+    if(event) event.target.classList.add('activa');
+}
+
+function mostrarMesasDeTrago(event) {
+    ocultarTodo();
+    document.getElementById('contenedor-mesas-billar').style.display = 'block'; 
+    if(event) event.target.classList.add('activa');
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+    const boton = document.querySelector(".boton-accesibilidad");
+    const panel = document.getElementById("panel");
+    if (!boton || !panel) return;
+    boton.onclick = function() {
+        panel.style.display = panel.style.display === "block" ? "none" : "block";
+    };
+    window.addEventListener("click", function(e) {
+        if (e.target === panel) {
+            panel.style.display = "none";
+        }
+    });
+});
+</script>
+  <script src="js/mesas.js"></script>
+  <script src="js/personalizacion.js"></script> 
+  <script src="js/memoriaPersonalizacion.js"></script>
+  <script src="js/global.js"></script>
+</body> 
+</html>

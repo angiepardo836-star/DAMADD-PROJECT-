@@ -1,0 +1,208 @@
+/* VARIABLES GLOBALES */
+:root {
+    --color-principal: green;
+    --sombra-texto: green; /* color actual */
+    --fondo-degradado: #092004; /* color actual */
+    --cartas-mesas:#0750199d;
+    --menu-juegos: linear-gradient(135deg, #074105, #0d8209);
+}
+:root {
+    --fuente-global: Arial;
+    --color-global: white;
+    --tamano-global: 20px;
+}
+
+/* ESTILO GLOBAL QUE USAN TODAS LAS PÁGINAS */
+body {
+    font-family: var(--fuente-global);
+    color: var(--color-global);
+    font-size: var(--tamano-global);
+}
+/* VARIABLES SOLO PARA UI (NO FONDO) desde aqui si hay problemas */ 
+/* ============================= */
+/* TEMAS SOLO CUANDO SE ACTIVAN */
+/* ============================= */
+
+/* ROJO */
+.tema-rojo header,
+.tema-rojo nav,
+.tema-rojo footer {
+    background: linear-gradient(98deg, #990000,#180303) !important;
+}
+
+/* MORADO */
+.tema-morado header,
+.tema-morado nav,
+.tema-morado footer {
+    background: linear-gradient(98deg, #572b96, #0c021e)!important;
+}
+
+/* AZUL */
+.tema-azul header,
+.tema-azul nav,
+.tema-azul footer {
+    background: linear-gradient(98deg, #3159c9, #010511) !important;
+}
+
+/* BOTONES OPCIONAL */
+body:not(.mesas-page).tema-rojo button {
+    background: linear-gradient(98deg, #990000,#5a1414);
+    color: white;
+}
+
+body:not(.mesas-page).tema-morado button {
+    background: linear-gradient(98deg, #572b96, #1f084a);
+    color: white;
+}
+
+body:not(.mesas-page).tema-azul button {
+    background: linear-gradient(98deg, #3159c9, #021349);
+    color: white;
+}
+.boton-accesibilidad {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.panel-accesibilidad {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+}
+h1, h2, h3  {
+    text-shadow: 2px 6px 10px var(--sombra-texto);
+}
+/* 🔴 ROJO */
+.tema-rojo {
+    --color-principal: rgb(209, 18, 18);
+    --sombra-texto: rgb(154, 4, 4);
+    --fondo-degradado: #420505;
+    --cartas-mesas:#6108089d;
+    --menu-juegos: linear-gradient(135deg, #450303, #820919);
+    --mesa-titulo: rgba(184, 4, 4, 0.288);
+    
+}
+
+/* 🟣 MORADO */
+.tema-morado {
+    --color-principal: rgb(181, 24, 224);
+    --sombra-texto: purple;
+    --fondo-degradado: #210542;
+    --cartas-mesas:#4005639d;
+    --menu-juegos: linear-gradient(135deg, #3d0345, #5a0982);
+    --mesa-titulo: rgba(142, 4, 184, 0.288);
+}
+
+/* 🔵 AZUL */
+.tema-azul {
+    --color-principal: rgb(63, 96, 226);
+    --sombra-texto: rgb(9, 9, 97);
+    --fondo-degradado: #051342;
+    --cartas-mesas:#081c5ec5;
+    --menu-juegos: linear-gradient(135deg, #021349, #3159c9);
+    --mesa-titulo: rgba(7, 64, 102, 0.527);
+}
+
+/* LÍNEA Y ACCENTOS DEL MENÚ */
+.menu-header {
+    border-bottom: 2px solid var(--color-principal);
+}
+
+.menu-opciones a,
+.menu-opciones a:hover {
+    color: white;
+}
+
+.menu-opciones a:hover {
+    background: var(--color-principal);
+}
+
+.tema-rojo .submenu {
+    background: linear-gradient(98deg, #990000, #180303);
+}
+
+.tema-morado .submenu {
+    background: linear-gradient(98deg, #572b96, #0c021e);
+}
+
+.tema-azul .submenu {
+    background: linear-gradient(98deg, #3159c9, #021349);
+}
+
+.titulo_funcion {
+    text-shadow: 2px 6px 10px var(--sombra-texto);
+}
+.mesas-card,
+.mesas-card2,
+.mesas-card3 {
+    box-shadow: 0 4px 10px var(--sombra-texto);
+}
+/* 🔥 FONDO DEL LOGIN SEGÚN TEMA */
+
+.tema-morado .mesa-usuario {
+    background: linear-gradient(180deg, #572b96, #1f084a);
+}
+
+.tema-rojo .mesa-usuario {
+    background: linear-gradient(180deg, #990000,#5a1414);
+}
+
+.tema-azul .mesa-usuario {
+    background: linear-gradient(180deg, #3159c9, #021349);
+}
+
+/* 🔥 FACTURA EN MESAS */
+.mesas-page.tema-rojo .modal-header {
+    background: linear-gradient(98deg, #990000, #5a1414);
+}
+
+.mesas-page.tema-rojo .btn-print,
+.mesas-page.tema-rojo .modal-header h2 {
+    color: #fff;
+}
+
+.mesas-page.tema-rojo .btn-print {
+    background: #990000;
+}
+
+.mesas-page.tema-morado .modal-header {
+    background: linear-gradient(98deg, #572b96, #1f084a);
+}
+
+.mesas-page.tema-morado .btn-print,
+.mesas-page.tema-morado .modal-header h2 {
+    color: #fff;
+}
+
+.mesas-page.tema-morado .btn-print {
+    background: #572b96;
+}
+
+.mesas-page.tema-azul .modal-header {
+    background: linear-gradient(98deg, #3159c9, #021349);
+}
+
+.mesas-page.tema-azul .btn-print,
+.mesas-page.tema-azul .modal-header h2 {
+    color: #fff;
+}
+
+.mesas-page.tema-azul .btn-print {
+    background: #3159c9;
+}
+
+.mesas-page .invoice-details strong,
+.mesas-page .modal-body h3 {
+    color: var(--color-principal);
+}

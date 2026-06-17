@@ -1,0 +1,357 @@
+<!DOCTYPE html> <!-- Declara documento como HTML5 -->
+<html lang="es"> <!-- Establece idioma español -->
+<head> <!-- Metadatos y recursos -->
+    <meta charset="UTF-8"> <!-- Codificación UTF-8 para caracteres especiales -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajusta el zoom y tamaño en móviles -->
+    <title>Inicio </title> <!-- Título de la pestaña -->
+    <link rel="stylesheet" href="estilos/inicio.css"> <!-- Hoja de estilos principal -->
+    <link rel="stylesheet" href="estilos/variables.css"> 
+    <link rel="stylesheet" href="estilos/global.css">
+</head>
+<body> <!-- Contenido visible de la página -->
+    <input type="checkbox" id="btn-menu" hidden> <!-- Control oculto para abrir/cerrar menú -->
+    
+    <header class="header-mesas"> <!-- Cabecera con logo y control de menú -->
+        <div class="container"> <!-- Fila para centrar elementos -->
+            <div class="btn-menu"> <!-- Área del botón del menú -->
+                <label for="btn-menu" class="icon-menu">☰</label> <!-- Icono que abre el menú -->
+            </div> <!-- Fin botón menú -->
+        </div> <!-- Fin contenedor -->
+        <div class="logo"> <!-- Caja del logo -->
+           <div class="logo"> <h2>𝙄𝙉𝙄<span>𝘾</span>𝙄𝙊</h2>
+             <!-- Botón de cuenta -->
+        <a href="#" id="boton-perfil" class="cuenta-btn">
+            <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
+            <span id="nombre-display" class="nombre">Cargando...</span>
+        </a>
+        </div> <!-- Fin logo -->
+    </header> <!-- Fin cabecera -->
+
+    <nav class="menu-lateral"> <!-- Menú lateral deslizable -->
+        <div class="menu-header"> <!-- Encabezado del menú lateral -->
+            <h3>Menú</h3> <!-- Título del menú -->
+            <label for="btn-menu" class="close-menu">✕</label> <!-- Botón para cerrar menú -->
+        </div> <!-- Fin menu header -->
+        <div class="menu-opciones"> <!-- Contenedor de opciones -->
+          <ul> <!-- Lista principal del menú -->
+            <li><a href="inicio.html">Inicio</a></li> <!-- Enlace a la página de inicio -->
+            <li><a href="mesas.html">Mesas</a></li> <!-- Enlace a gestión de mesas -->
+            <li> <!-- Grupo de Inventario -->
+              <a>Inventario</a> <!-- Título visible del grupo -->
+              <ul class="submenu"> <!-- Submenu con opciones -->
+                <li><a href="proveedores.html">Proveedores</a></li> <!-- Enlace proveedores -->
+                <li><a href="productos.html">Productos</a></li> <!-- Enlace productos -->
+              </ul> <!-- Fin submenu inventario -->
+            </li> <!-- Fin grupo inventario -->
+            <li> <!-- Grupo de Configuración -->
+              <a>Configuración</a> <!-- Título del grupo configuración -->
+              <ul class="submenu"> <!-- Submenu configuración -->
+                <li><a href="cuenta.html">Cuenta</a></li> <!-- Enlace a cuenta -->
+                <li><a href="personalizacion.html">Personalización</a></li> <!-- Enlace personalización -->
+              </ul> <!-- Fin submenu configuración -->
+            </li> <!-- Fin grupo configuración -->
+            <li><a href="Inicio_sesion.html">Salir</a></li> <!-- Enlace para cerrar sesión -->
+          </ul> <!-- Fin lista principal -->
+        </div> <!-- Fin menu-opciones -->
+    </nav> <!-- Fin nav -->
+
+    <div class="capa"></div> <!-- Capa que oscurece cuando el menú está abierto -->
+
+    <section class="carousel" aria-label="Promociones"> <!-- Carrusel de promociones -->
+      <div class="carousel-track"> <!-- Pista que se desplaza horizontalmente -->
+        <div class="carousel-slide"> <!-- Diapositiva 1 -->
+          <img src="imagenes/carrusel1.png" alt="Promoción 1"> <!-- Imagen promo 1 -->
+        </div> <!-- Fin slide 1 -->
+        <div class="carousel-slide"> <!-- Diapositiva 2 -->
+          <img src="imagenes/promocional.jpg" alt="Promoción 2"> <!-- Imagen promo 2 -->
+        </div> <!-- Fin slide 2 -->
+        <div class="carousel-slide"> <!-- Diapositiva 3 -->
+          <img src="imagenes/carrusel2.png" alt="Promoción 3"> <!-- Imagen promo 3 -->
+        </div> <!-- Fin slide 3 -->
+         <div class="carousel-slide"> <!-- Diapositiva 4 -->
+          <img src="imagenes/carrusel3.png" alt="Promoción 4"> <!-- Imagen promo 4 -->
+        </div> <!-- Fin slide 4 -->
+         <div class="carousel-slide"> <!-- Diapositiva 5 -->
+          <img src="imagenes/carrusel4.jpg" alt="Promoción 5"> <!-- Imagen promo 5 -->
+        </div> <!-- Fin slide 5 -->
+      </div> <!-- Fin carousel-track -->
+
+      <button class="carousel-btn prev" aria-label="Anterior">‹</button> <!-- Botón anterior del carrusel -->
+      <button class="carousel-btn next" aria-label="Siguiente">›</button> <!-- Botón siguiente del carrusel -->
+
+      <div class="carousel-indicators" aria-hidden="false"></div> <!-- Contenedor para los puntos indicadores -->
+
+      <div class="carousel-text text_1"> <!-- Texto superpuesto al carrusel -->
+        <h1 class="card-titulo">
+          <img src="imagenes/bola-amarilla.png" class="icono-titulo1"> <!-- Imagen de la bola amarilla -->
+          SOFTWARE DAMADD
+          <img src="imagenes/bola-morada.png" class="icono-titulo2"> <!-- Imagen de la bola morada -->
+        </h1> <!-- Título principal visible -->
+        <h3 class="sub">AUTOMATIZA TU NEGOCIO</h3> <!-- Subtítulo llamativo -->
+        <h3>LA MEJOR OPCIÓN</h3> <!-- Mensaje secundario breve -->
+      </div> <!-- Fin carousel-text -->
+    </section> <!-- Fin section carrusel -->
+
+  <h1 class="titulo_funcion">FUNCIONES DEL SOFTWARE DAMADD </h1> <!-- Encabezado principal de funciones -->
+
+<section id="mesas" class="mesas-section"> <!-- Sección para la gestión de mesas -->
+  <div class="mesas-card"> <!-- Tarjeta que describe la función mesas -->
+    <h2>Gestión de Mesas</h2> <!-- Título de la tarjeta -->
+    <p class="mesas-desc">La gestión de mesas permite organizar el estado y la disponibilidad de cada mesa, optimizar tiempos de servicio y asignar órdenes rápidamente.</p> <!-- Descripción corta -->
+    <div class="card-actions"> <!-- Área de acciones o imagen -->
+      <img src="imagenes/mesa.png" alt="mesa" class="img-mesas"> <!-- Icono representativo -->
+    </div> <!-- Fin card-actions -->
+  </div> <!-- Fin mesas-card -->
+</section> <!-- Fin sección mesas -->
+
+<section id="mesas2" class="mesas-section2"> <!-- Sección para inventario -->
+  <div class="mesas-card2"> <!-- Tarjeta de inventario -->
+    <h2>Inventario</h2> <!-- Título inventario -->
+    <p class="mesas-desc2">Este apartado permite mantener el orden y control de los proveedores, productos y consumibles, asegurando un registro actualizado y preciso del billar.</p> <!-- Descripción inventario -->
+    <div class="card-actions2"> <!-- Área imagen/acción -->
+      <img src="imagenes/inventario.png" alt="mesa"> <!-- Icono inventario -->
+    </div> <!-- Fin card-actions2 -->
+  </div> <!-- Fin mesas-card2 -->
+</section> <!-- Fin sección inventario -->
+
+<section id="mesas3" class="mesas-section3"> <!-- Sección para configuración -->
+  <div class="mesas-card3"> <!-- Tarjeta de configuración -->
+    <h2>Configuración</h2> <!-- Título configuración -->
+    <p class="mesas-desc3">Personaliza y ajusta los parametros como cuenta, el tipo de letra y los colores del sistema según las necesidades del negocio.</p> <!-- Descripción configuración -->
+    <div class="card-actions3"> <!-- Área con imagen -->
+      <img src="imagenes/configuracion.png" alt="mesa"> <!-- Icono configuración -->
+    </div> <!-- Fin card-actions3 -->
+  </div> <!-- Fin mesas-card3 -->
+</section> <!-- Fin sección configuración -->
+
+<div id="modal-perfil" class="p-modal-overlay">
+  <div class="p-modal-card">
+    <div class="p-modal-header">
+      <span id="cerrar-modal" class="p-close-btn">&times;</span>
+      <div class="p-avatar-container">
+        <i class="fas fa-user-circle avatar-icon"></i>
+        <span id="perfil-badge-rol" class="p-badge-rol">Mi Perfil</span>
+      </div>
+    </div>
+          
+    <div class="p-form-row triple-row">
+      <div class="p-info-group">
+        <label>Tipo de documento</label>
+        <input type="text" id="perfil-tipo-doc" readonly class="p-input-readonly">
+      </div>
+      <div class="p-info-group double-width">
+        <label>Número de documento</label>
+        <input type="text" id="perfil-documento" readonly class="p-input-readonly">
+      </div>
+    </div>
+
+    <div class="p-form-row">
+      <div class="p-info-group">
+        <label>Nombre(s)</label>
+        <input type="text" id="perfil-nombre" class="p-input-editable" placeholder="Nombres" maxlength="100">
+      </div>
+      <div class="p-info-group">
+        <label>Apellido(s)</label>
+        <input type="text" id="perfil-apellido" class="p-input-editable" placeholder="Apellidos" maxlength="100">
+      </div>
+    </div>
+
+    <div class="p-form-row">
+      <div class="p-info-group">
+        <label>Usuario</label>
+        <input type="text" id="perfil-usuario" class="p-input-readonly" placeholder="Usuario para iniciar sesión" maxlength="30">
+      </div>
+      <div class="p-info-group">
+        <label>Teléfono</label>
+        <input type="tel" id="perfil-telefono" class="p-input-editable" placeholder="Número celular o fijo" minlength="10" maxlength="10">
+      </div>
+    </div>
+
+    <div class="p-form-row">
+      <div class="p-info-group full-width">
+        <label>Correo</label>
+        <input type="email" id="perfil-correo" class="p-input-editable" placeholder="nombre@dominio.com" maxlength="100">
+      </div>
+    </div>
+
+    <div class="p-form-row">
+      <div class="p-info-group full-width">
+        <label>Contraseña actual</label>
+        <input type="password" id="pass-actual" class="p-input-editable" placeholder="Ingresa tu contraseña actual" minlength="8" maxlength="30" pattern="(?=.[!@#$%^&.]).{8,}" title="Debe tener al menos 8 caracteres y 1 carácter especial">
+      </div>
+    </div>
+          
+    <div class="p-security-box">
+              
+      <div id="seccion-password" style="display: none; margin-top: 20px;">
+        <div class="p-form-row">
+          <div class="p-info-group">
+            <label>Nueva contraseña </label>
+            <div class="p-input-container">
+              <input type="password" id="pass-nueva" minlength="8" maxlength="30" pattern="(?=.[!@#$%^&.]).{8,}" title="Debe tener al menos 8 caracteres y 1 carácter especial" placeholder="Mín. 8 caracteres y 1 especial">
+              <i class="fas fa-eye p-toggle-password" onclick="toggleVisibility('pass-nueva', this)"></i>
+            </div>
+          </div>
+          <div class="p-info-group">
+            <label>Confirmar contraseña</label>
+            <div class="p-input-container">
+              <input class="p-input-editable" type="password" id="pass-confirmar" minlength="8" maxlength="30" pattern="(?=.[!@#$%^&.]).{8,}" title="Debe tener al menos 8 caracteres y 1 carácter especial" placeholder="Mín. 8 caracteres y 1 especial" autocomplete="new-password">
+              <i class="fas fa-eye p-toggle-password" onclick="toggleVisibility('pass-confirmar', this)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-modal-footer">
+      <button id="btn-cambiar-pass" class="p-btn-secundario">
+        <i class="fas fa-lock"></i> Cambiar contraseña
+      </button>
+      <button id="btn-guardar-perfil" class="p-btn-primario">
+        <i class="fas fa-save"></i> Guardar Cambios
+      </button>
+    </div>
+  </div>
+  <div id="toast" style="position:fixed;top:2rem;left:50%;transform:translateX(-50%) translateY(-100px);background:#04780a;color:white;padding:10px;width:30%;border-radius:10px;font-size:18px;box-shadow:#000 0px 0px 10px;opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:300;min-width:30px;text-align:center;"></div>
+
+</div>
+
+
+<footer class="footer-main"> <!-- Pie de página principal -->
+    <div class="footer-content"> <!-- Contenido del footer dividido en secciones -->
+      <div class="footer-section"> <!-- Marca y logo -->
+        <img src="imagenes/logo.png" alt="Logo de DAMADD" class="footer-logo"> <!-- Logo de la marca -->
+        <p class="footer-brand">DAMADD — La mejor opción</p> <!-- Lema de la empresa -->
+      </div> <!-- Fin sección marca -->
+      <div class="footer-section"> <!-- Redes sociales -->
+        <h3>Redes Sociales</h3> <!-- Título redes -->
+        <div class="social-icons"> <!-- Iconos sociales -->
+          <a href="#" title="Facebook" class="social-link"> <!-- Link Facebook -->
+            <img src="imagenes/facebook.png" alt="facebook"> <!-- Icono Facebook -->
+          </a> <!-- Fin link Facebook -->
+          <a href="#" title="Instagram" class="social-link"> <!-- Link Instagram -->
+            <img src="imagenes/instagram.png" alt="instagram"> <!-- Icono Instagram -->
+          </a> <!-- Fin link Instagram -->
+          <a href="#" title="WhatsApp" class="social-link"> <!-- Link WhatsApp -->
+            <img src="imagenes/whatsapp.png" alt="whatsapp"> <!-- Icono WhatsApp -->
+          </a> <!-- Fin link WhatsApp -->
+          <a href="#" title="TikTok" class="social-link"> <!-- Link TikTok -->
+            <img src="imagenes/tik-tok.png" alt="tik-tok"> <!-- Icono TikTok -->
+          </a> <!-- Fin link TikTok -->
+        </div> <!-- Fin social-icons -->
+      </div> <!-- Fin sección redes -->
+      <div class="footer-section"> <!-- Contacto -->
+        <h3>Contacto</h3> <!-- Título contacto -->
+        <p>Email: DAMADD@gmail.com</p> <!-- Correo de contacto -->
+        <p>Teléfono: +57 (3) 2245 18377</p> <!-- Teléfono de contacto -->
+      </div> <!-- Fin sección contacto -->
+    </div> <!-- Fin footer-content -->
+    <div class="footer-bottom"> <!-- Línea inferior del footer -->
+      <p>&copy; 2025 DAMADD. Todos los derechos reservados a DAMADD.</p> <!-- Aviso de derechos -->
+    </div> <!-- Fin footer-bottom -->
+  </footer> <!-- Fin footer -->
+<!-- Script para controlar el carrusel -->
+ <!-- BOTÓN FLOTANTE -->
+<div class="boton-accesibilidad">🎨</div>
+
+<div class="panel-accesibilidad" id="panel">
+    <button onclick="cambiarTema('rojo')">Rojo</button>
+    <button onclick="cambiarTema('morado')">Morado</button>
+    <button onclick="cambiarTema('azul')">Azul</button>
+    <button onclick="restablecerTema()">Restablecer</button>
+</div>
+<!-- Botón flotante de música -->
+<button id="musicBtn" onclick="toggleMusicPanel()"
+        style="position:fixed; bottom:90px; right:20px; width:55px; height:55px; 
+               border-radius:50%; background:#8a2be2; color:white; border:none; 
+               font-size:24px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.4); 
+               z-index:9999;">
+  🎵
+</button>
+
+<!-- Panel oculto -->
+<div id="musicPanel" style="display:none; position:fixed; bottom:160px; right:20px; 
+     width:320px; background:#1a1a1a; border:2px solid #8a2be2; border-radius:12px; 
+     padding:15px; z-index:9999; color:white;">
+  
+  <h4 style="margin:0 0 10px 0; color:#8a2be2;">🎵 Reproducir canción</h4>
+  <input type="text" id="songInput" placeholder="Nombre de la canción..."
+         style="width:100%; padding:8px; border-radius:6px; border:none; margin-bottom:10px;
+                background:#2a2a2a; color:white;">
+  <button onclick="searchSong()" 
+          style="width:100%; padding:8px; background:#8a2be2; color:white; 
+                 border:none; border-radius:6px; cursor:pointer;">
+    Reproducir
+  </button>
+  <div id="player" style="margin-top:12px;"></div>
+</div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// 1. CONTROL DE APARICIÓN DE LOS PANELES (Asegura que el HTML exista)
+document.addEventListener("DOMContentLoaded", function () {
+    const botonAccesibilidad = document.querySelector(".boton-accesibilidad");
+    const panelAccesibilidad = document.getElementById("panel");
+
+    if (botonAccesibilidad && panelAccesibilidad) {
+        botonAccesibilidad.onclick = function () {
+            panelAccesibilidad.style.display = panelAccesibilidad.style.display === "block" ? "none" : "block";
+        };
+    }
+});
+
+// 2. CONTROL DEL PANEL DE MÚSICA
+function toggleMusicPanel() {
+    const panel = document.getElementById('musicPanel');
+    if (panel) {
+        panel.style.display = panel.style.display === 'none' || panel.style.display === '' ? 'block' : 'none';
+    }
+}
+
+// 3. INTEGRACIÓN CON LA API DE YOUTUBE (Carga global segura)
+let player;
+function onYouTubeIframeAPIReady() {
+    // Verificamos si el div 'player' ya existe en el DOM antes de montarlo
+    if (document.getElementById('player')) {
+        player = new YT.Player('player', {
+            height: '180', 
+            width: '100%',
+            playerVars: { 'autoplay': 1, 'controls': 1, 'rel': 0 }
+        });
+    }
+}
+
+// 4. BÚSQUEDA Y REPRODUCCIÓN ASÍNCRONA
+async function searchSong() {
+    const input = document.getElementById('songInput');
+    if (!input) return;
+    
+    const query = input.value.trim();
+    if (!query) return alert('Por favor, escribe el nombre de una canción');
+
+    try {
+        const res = await fetch('/search-song?q=' + encodeURIComponent(query));
+        const data = await res.json();
+
+        if (data.videoId) {
+            if (player && typeof player.loadVideoById === 'function') {
+                player.loadVideoById(data.videoId);
+                input.value = ''; // Limpia el buscador
+            } else {
+                alert('El reproductor de YouTube no se ha inicializado correctamente. Intenta recargar la página.');
+            }
+        } else {
+            alert('No se encontró esa canción en el servidor.');
+        }
+    } catch (error) {
+        console.error("Error en la petición de música:", error);
+        alert('Hubo un problema al conectar con el servidor de música.');
+    }
+}
+</script>
+<script src="js/inicio.js"></script>
+<script src="js/personalizacion.js"></script>
+<script src="js/memoriaPersonalizacion.js"></script>
+<script src="js/global.js"></script>
+
+</body> 
+</html> 

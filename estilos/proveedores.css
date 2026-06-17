@@ -1,0 +1,935 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.icono-img {
+    width: 23px;
+    height: 23px;
+    object-fit: contain;
+}
+
+.cuenta-btn {
+    position: absolute; /* Lo fija en la pantalla */
+    top: 25px;       /* Distancia desde arriba */
+    right: 30px;      /* Distancia desde la derecha */
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    background: linear-gradient(98deg, #146d02, #084101);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 25px;
+    transition: background 0.3s ease;
+    z-index: 1000; /* Para que quede encima de todo */
+}
+
+.cuenta-btn:hover {
+    background: linear-gradient(98deg, #178003, #052700);
+}
+
+.icono {
+    font-size: 20px;
+}
+
+.nombre {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.fondo2 img{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.header-mesas {
+    background: linear-gradient(98deg, #146d02, #000000);
+    box-shadow: 0 10px 6px rgb(0, 0, 0);
+    height: 110px;
+    padding: 10px;
+    color: white;
+    position: relative;
+    z-index: 100;
+}
+
+.icon-menu {
+    font-size: 28px;
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    width: 45px;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.icon-menu:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Menú lateral */
+.menu-lateral {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(98deg, #046208, #000000db);
+    transition: left 0.3s ease;
+    z-index: 200;
+    overflow-y: auto;
+}
+
+/* Mostrar menú cuando se marca el checkbox */
+#btn-menu:checked ~ .menu-lateral {
+    left: 0;
+}
+
+#btn-menu:checked ~ .capa {
+    display: block;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid #04780a;
+}
+
+.close-menu {
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    color: #ffffff;
+}
+
+.close-menu:hover {
+    transform: scale(1.2);
+}
+
+.menu-opciones {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.menu-opciones li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-opciones a {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s ease, padding-left 0.3s ease;
+}
+
+.menu-opciones a:hover {
+    background: #04780a;
+    padding-left: 30px;
+}
+
+.submenu{
+    display:none;
+    list-style: none;
+    padding-left:20px;
+    background: linear-gradient(98deg, #046208, #000000db); /* Igual que .menu-lateral */
+    color: #ffffff;
+}
+
+.menu-opciones ul li:hover .submenu {
+    display: block;
+}
+
+/* Capa oscura de fondo */
+.capa {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 150;
+    cursor: pointer;
+}
+
+#btn-menu:checked ~ .capa {
+    display: block;
+}
+
+.contenido-principal {
+    margin-left: 0;
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+}
+.logo img{
+    transform: translate(100px,-75px);
+    width: 400px;
+    height: auto;
+  
+
+    
+}
+/* ...existing code... */
+
+/* Banner promocional: ancho completo, altura reducida y texto centrado sobre la imagen */
+.banner-promocional{
+    width: 100%;
+    height: 900px;         /* altura no muy grande */
+    max-height: 500px;
+    overflow: hidden;
+    position: relative;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+.banner-promocional img{
+    width: 100%;
+    height: 100%;
+    filter: blur(5px) brightness(0.5);
+    object-fit: cover;     /* recorta la imagen para llenar el banner */
+    display: block;
+}
+
+/* capa de texto centrada sobre la imagen */
+
+
+.text_1 {
+    text-align: center;
+    position: absolute;
+    inset: 0;              
+    align-items: center;
+    margin-top: 40px;
+    font-size: 25px;
+    color: #ffffff;
+    text-shadow: #0c5200 3px 5px 5px;
+
+}
+
+.titulo_funcion {
+    font-size: 40px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: -110px;
+    text-shadow: #158002 3px 7px 7px;
+    margin-bottom: 20px;
+}
+.mesas h1 {
+    display: flex;
+    justify-content: left;
+    color: #ffffff;
+    margin-left: 150px;
+    margin-top: 60px;
+    
+}
+
+.parrafo1 {
+    font-size: 20px;
+    text-align: center;
+    max-width: 300px;
+    color: #ffffff;
+    text-shadow: #0c5200 2px 4px 4px;
+    margin-top: 25px;
+    transform: translate(140px,0);
+}
+
+/* Sección: Gestión de Mesas (card) */
+.mesas-section {
+    display: flex;
+    justify-content: left;
+    padding: 40px 20px;
+    margin-top: 20px;
+    margin-left: 100px;
+}
+
+.mesas-card {
+    max-width: 450px;
+    width: calc(100% - 40px);
+    border: 5px solid rgba(6,120,10,0.9);
+    border-radius: 19px;
+    padding: 28px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    color: #ffffff;
+
+}
+
+.mesas-card h2 {
+    font-size: 26px;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 2px 7px 7px rgba(4, 93, 11, 0.869);
+}
+
+.mesas-desc {
+    font-size: 20px;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 18px;
+}
+/* Sección: inventario (card) */
+.mesas-section2 {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    margin-top: -607px;
+    margin-right: 5px;
+}
+
+.mesas-card2 {
+    max-width: 450px;
+    width: calc(100% - 40px);
+    border: 5px solid rgba(6,120,10,0.9);
+    border-radius: 19px;
+    padding: 28px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    color: #ffffff;
+
+}
+
+.mesas-card2 h2 {
+    font-size: 26px;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 2px 7px 7px rgba(4, 93, 11, 0.869);
+}
+
+.mesas-desc2 {
+    font-size: 20px;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 18px;
+}
+.card-actions2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: -50px;
+}
+
+.card-actions2 img {
+    width: 450px;
+    height: 350px;
+    display: block;
+    object-fit: contain;
+    margin-top: -65px;
+}
+
+/* Sección: configuracion (card) */
+.mesas-section3 {
+    display: flex;
+    justify-content: right;
+    padding: 40px 20px;
+    margin-top: -610px;
+    margin-right: 100px;
+}
+
+.mesas-card3 {
+    max-width: 450px;
+    width: calc(100% - 40px);
+    border: 5px solid rgba(6,120,10,0.9);
+    border-radius: 19px;
+    padding: 28px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    color: #ffffff;
+
+}
+
+.mesas-card3 h2 {
+    font-size: 26px;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 2px 7px 7px rgba(4, 93, 11, 0.869);
+}
+
+.mesas-desc3 {
+    font-size: 20px;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 18px;
+}
+.card-actions3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: -50px;
+}
+
+.card-actions3 img {
+    width: 400px;
+    height: 300px;
+    display: block;
+    object-fit: contain;
+    margin-top: -5px;
+}
+/* agregar propducto*/
+#addProductModal {
+  display: none; 
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+}
+.add-product-dialog {
+  background: linear-gradient(98deg, #ffffff, #6b6b6b);
+  padding: 18px;
+  border-radius: 8px;
+  width: 420px;
+  max-width: 92%;
+  color: #000000;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.add-product-dialog h3 { 
+  margin: 0 0 8px 0; 
+
+}
+.add-product-dialog label { 
+  display:block; 
+  margin-bottom:4px; 
+  color:#333; 
+}
+
+input:focus {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #ccc;
+}
+
+.add-product-dialog input[type="text"],
+.add-product-dialog input[type="number"],
+.add-product-dialog select{
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+  border:1px solid #ccc;
+  border-radius:4px;
+}
+.add-product-actions{
+  display:flex;
+  gap:8px; 
+  justify-content:flex-end;
+}
+   
+.add-product-actions button{ padding:8px 12px;
+  border-radius:4px; 
+  border: none; 
+  cursor:pointer;
+ }
+.add-product-actions button:first-child{ 
+  background:transparent; 
+  color:#333;
+  border:1px solid #ccc; 
+}
+.add-product-actions button:last-child{ 
+  background:#1c6c2c; 
+  color:#fff;
+}
+
+
+.search-container .btn-search{
+  padding:8px 12px;
+  border-radius:6px;
+  border:none;
+  background:linear-gradient(135deg,#006811,#323232);
+  color:#fff;
+  cursor:pointer;
+}
+
+#modalEdit .modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Crea dos columnas de inputs */
+    gap: 10px;
+    padding: 20px;
+}
+
+#modalEdit input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* footer de la pagina */
+footer.footer-main {
+  background: linear-gradient(135deg, #0e5001, #030403);
+  color: #ffffff;
+  padding: 65px 20px 20px;
+  margin-top: auto;
+  box-shadow: 0 -8px 24px rgb(0, 0, 0);
+}
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+  padding-bottom: 30px;
+  border-bottom: 4px solid rgb(0, 198, 33);
+}
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+}
+.footer-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+.footer-section p {
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.72);
+}
+.footer-logo {
+  height: 54px;
+  margin-bottom: 12px;
+  opacity: 0.94;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.footer-logo:hover { transform: scale(1.06); opacity: 1; }
+.footer-brand {
+  font-size: 16px;
+  font-style: italic;
+  color: #707070;
+  margin: 0;
+}
+.social-icons {
+  display: flex;
+  gap: 16px;
+}
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgb(5, 160, 25);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+.social-link:hover {
+  background: linear-gradient(135deg, #000000, #04611e);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(255, 253, 253, 0.932);
+}
+.social-link img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: brightness(0.95) invert(1);
+  transition: filter 0.2s ease;
+}
+.social-link:hover img { filter: brightness(1) invert(1); }
+.footer-bottom {
+  text-align: center;
+  padding-top: 10px;
+  font-size: 17px;
+  color: rgba(255,255,255,0.54);
+}
+.footer-bottom p {
+  font-size: 20px;
+  margin: 0;
+}
+.tabla-contenedor {
+  margin: 65px auto;
+  margin-left: 160px;
+  
+}
+
+table {
+  width: 90%;
+  align-items: center;
+  border-collapse: collapse;
+  text-align: center;
+  background: #000000;
+  color: #ffffff;
+}
+
+thead th {
+  background: #005203;
+  text-align: center;
+  padding: 12px;
+  color: #ffffff;
+  border-bottom: 2px solid #000000;
+  font-weight: bold;
+}
+
+td, th {
+  padding: 10px;
+  border: 3px solid #2e2e2e86;
+}
+
+
+.btn-accion {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+mark {
+  background: rgb(255, 255, 255);
+  padding: 0;
+}
+  
+  .btn-accion-editar{
+    background: linear-gradient(135deg, #006811, #323232);
+    margin: 10px;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    width: 60px;
+    height: 30px;
+    
+  }
+   .btn-accion-eliminar{
+    background: linear-gradient(135deg, #e91616, #5d5d5d81);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    width: 60px;
+    height: 30px;
+    
+  }
+
+  /* Botón de búsqueda (icono) */
+  .btn-buscar {
+    cursor: pointer;
+    font-size: 40px;
+    transform: translate(135px,50px);
+    background: rgba(255, 255, 255, 0);
+    border-radius: 8px;
+    color: white;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-right: 10px;
+    user-select: none;
+  }
+  
+  .btn-buscar:hover {
+    background: rgba(6, 166, 11, 0.147);
+    transform: translate(135px,50px) scale(1.1);
+  }
+
+  /* Contenedor de búsqueda (oculto por defecto) */
+  .search-container {
+    display: none;
+    transition: all 0.3s ease;
+  }
+
+  /* Mostrar contenedor cuando checkbox está marcado */
+  #toggle-buscador:checked ~ .search-container {
+    display: inline-flex;
+    gap: 8px;
+    animation: slideIn 0.3s ease;
+  }
+
+  /* Buscador */
+  #buscador {
+    background: linear-gradient(135deg, #ffffff, #4c4c4c);
+    border-radius: 20px;
+    transform: translate(150px,40px);
+    color: rgb(0, 0, 0);
+    border: none;
+    width: 300px;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  /* Botón de búsqueda (ejecutar) */
+  .btn-search {
+    font-size: 14px;
+    background: linear-gradient(135deg, #006811, #323232);
+    transform: translate(180px,40px);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-search:hover {
+    background: linear-gradient(135deg, #00a015, #1a1a1a);
+    transform: translate(180px,40px) scale(1.05);
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin : 0;
+  }
+
+
+  
+  @keyframes slideIn {
+    from { opacity: 0; width: 0; }
+    to { opacity: 1; width: auto; }
+  }
+
+@media (max-width: 900px) {
+
+  .header-mesas {
+    height: auto;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cuenta-btn {
+    position: relative;
+    top: auto;
+    right: auto;
+    padding: 10px 14px;
+  }
+
+  .logo img {
+    transform: none;
+    width: 220px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .banner-promocional { max-height: 300px; }
+  .titulo_funcion     { font-size: 26px; margin-top: -70px; }
+  .text_1             { font-size: 17px; }
+  .parrafo1           { transform: none; font-size: 15px; margin: 10px auto; }
+
+  .mesas-section,
+  .mesas-section2,
+  .mesas-section3 {
+    justify-content: center;
+    margin-top: 20px !important;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 20px 10px;
+  }
+
+  .tabla-contenedor {
+    margin: 30px 10px;
+    overflow-x: auto;
+  }
+  table { width: 100%; min-width: 600px; }
+
+  /* Buscador — resetear transforms */
+  .btn-buscar {
+    transform: none;
+    font-size: 30px;
+    margin-right: 5px;
+    display: inline-block;
+  }
+  #buscador {
+    transform: none;
+    width: 180px;
+  }
+  .btn-search {
+    transform: none;
+  }
+  #toggle-buscador:checked ~ .search-container {
+    display: inline-flex;
+  }
+}
+
+
+/* ── Móvil (≤ 600px) ──────────────────────────────────────── */
+@media (max-width: 600px) {
+
+  /* ── HEADER: icono | título centrado | botón cuenta ── */
+  .header-mesas {
+    height: auto;
+    min-height: 60px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  /* Icono hamburguesa — se queda a la izquierda */
+  .icon-menu {
+    font-size: 22px;
+    width: 38px;
+    flex-shrink: 0;
+  }
+
+  /* Logo — centrado entre hamburguesa y botón */
+  .logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  .logo img {
+    margin-left: -10px;
+    transform: none;
+    width: 140px;
+    height: auto;
+    display: block;
+  }
+
+  /* Botón cuenta — posición relativa, no absolute */
+  .cuenta-btn {
+    position: relative;
+    top: auto;
+    right: auto;
+    padding: 7px 10px;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .nombre   { font-size: 12px; }
+  .icono    { font-size: 16px; }
+  .icono-img{ width: 18px; height: 18px; }
+
+  /* ── BANNER ── */
+  .banner-promocional { max-height: 180px; }
+  .titulo_funcion     { font-size: 18px; margin-top: -50px; margin-bottom: 8px; }
+  .text_1             { font-size: 13px; margin-top: 15px; }
+  .parrafo1 {
+    transform: none;
+    font-size: 13px;
+    max-width: 90%;
+    margin: 8px auto;
+  }
+
+  /* ── CARDS ── */
+  .mesas-section,
+  .mesas-section2,
+  .mesas-section3 {
+    justify-content: center;
+    margin-top: 20px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 12px 8px;
+  }
+  .mesas-card,
+  .mesas-card2,
+  .mesas-card3 {
+    max-width: 100%;
+    width: 100%;
+    padding: 16px 12px;
+  }
+  .card-actions2 img,
+  .card-actions3 img { width: 100%; height: auto; margin-top: 0; }
+
+  /* ── BUSCADOR — sin transforms para que no vuele fuera ── */
+  .btn-buscar {
+    transform: none !important;
+    font-size: 26px;
+    margin-right: 4px;
+    background: transparent;
+    border-radius: 6px;
+  }
+  #buscador {
+    transform: none !important;
+    width: 150px;
+    font-size: 13px;
+    padding: 8px;
+    border-radius: 16px;
+  }
+  .btn-search {
+    transform: none !important;
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+  #toggle-buscador:checked ~ .search-container {
+    display: inline-flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  /* ── TABLA — scroll horizontal correcto ── */
+  .tabla-contenedor {
+    margin: 20px 0;
+    padding: 0 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  table {
+    width: 100%;
+    min-width: 520px;
+    font-size: 12px;
+  }
+  td, th   { padding: 6px 5px; font-size: 11px; }
+  thead th { font-size: 11px;  padding: 8px 5px; }
+
+  .btn-accion-editar,
+  .btn-accion-eliminar { width: 52px; height: 26px; font-size: 11px; }
+
+  /* ── TÍTULO MESAS ── */
+  .mesas h1 {
+    margin-left: 12px;
+    margin-top: 25px;
+    font-size: 20px;
+  }
+
+  /* ── MODAL EDITAR — una columna ── */
+  #modalEdit .modal-body {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  /* ── MENÚ LATERAL ── */
+  .menu-lateral { width: 210px; }
+
+  /* ── FOOTER — centrado ── */
+  footer.footer-main {
+    padding: 40px 15px 15px;
+  }
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .footer-section {
+    min-width: unset;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-section h3 { text-align: center; }
+  .footer-section p  { text-align: center; }
+  .social-icons {
+    justify-content: center;
+  }
+  .footer-bottom p {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  /* ── CONTENIDO PRINCIPAL ── */
+  .contenido-principal { padding: 12px 8px; }
+}

@@ -1,0 +1,1371 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(200deg, #000000, var(--fondo-degradado))!important;
+
+}
+
+.header-mesas {
+    background: linear-gradient(98deg, #146d02, #000000);
+    border-bottom: var(--color-principal) 5px solid;
+    height: 110px;
+    padding: 10px;
+    color: white;
+    position: relative;
+    z-index: 100;
+}
+/* Contenedor que alinea pedidos y cuenta a la derecha en una sola fila */
+.header-right {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espacio de separación entre las cervezas y el botón verde */
+    z-index: 1100;
+}
+
+/* El div de las cervezas */
+/* ==========================================================
+   🎯 BOTÓN DE PEDIDOS INTEGRADO NATURALMENTE
+   ========================================================== */
+#btn-pedidos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;                  /* Espacio entre botellas y texto */
+    padding: 10px 20px;         /* Ajustado para igualar el alto de tus otros botones */
+    background: rgba(147, 51, 234, 0.15); /* Base morada traslúcida */
+    border: 2px solid #a855f7;  /* Borde neón morado de tu paleta */
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    
+    /* 🌟 EL ARREGLO: Eliminamos el margin-left auto para que no se dispare a la derecha */
+    margin: 0; 
+}
+
+/* Imagen de las botellas */
+#btn-pedidos img {
+    width: 32px;                /* Ajustado al tamaño de tu última captura */
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.5));
+    transition: transform 0.25s ease;
+}
+
+/* Texto "Pedidos" al lado de las botellas */
+#btn-pedidos::after {
+    content: "Pedidos";
+    color: #f3e8ff;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================
+   ✨ EFECTOS HOVER COHERENTES
+   ========================================================== */
+#btn-pedidos:hover {
+    background: rgba(168, 85, 247, 0.25);
+    border-color: #c084fc;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    transform: translateY(-2px); /* Un sutil levante igual al de tus otros botones */
+}
+
+#btn-pedidos:hover img {
+    transform: scale(1.08) rotate(-3deg); /* Dinamismo ligero en las botellas */
+}
+
+#btn-pedidos:active {
+    transform: translateY(0);
+}
+
+/* Tu botón verde de perfil */
+.cuenta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    background: linear-gradient(98deg, #146d02, #084101);
+    border: 2px solid var(--verde-acento, #2ecc2e);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Evita que "Cargando..." se rompa en dos renglones */
+}
+
+.cuenta-btn:hover {
+    background: linear-gradient(98deg, #1a8c1a, #0c280c);
+    box-shadow: 0 0 12px rgba(46, 204, 46, 0.5);
+}
+
+.cuenta-btn .icono-img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+.icon-menu {
+    font-size: 28px;
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    width: 45px;
+    margin-left: 20px;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.icon-menu:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Menú lateral */
+.menu-lateral {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(98deg, #046208, #000000db);
+    color: white;
+    transition: left 0.3s ease;
+    z-index: 200;
+    overflow-y: auto;
+}
+
+/* Mostrar menú cuando se marca el checkbox */
+#btn-menu:checked ~ .menu-lateral {
+    left: 0;
+}
+
+#btn-menu:checked ~ .capa {
+    display: block;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid #04780a;
+}
+
+.menu-header h3 {
+    font-size: 22px;
+}
+
+.close-menu {
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.close-menu:hover {
+    transform: scale(1.2);
+}
+
+.menu-opciones {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.menu-opciones li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-opciones a {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s ease, padding-left 0.3s ease;
+    font-size: 16px;
+}
+
+.menu-opciones a:hover {
+    background: #04780a;
+    padding-left: 30px;
+}
+
+.submenu{
+    display:none;
+    list-style: none;
+    padding-left:20px;
+    background: linear-gradient(98deg, #046208, #000000db); /* Igual que .menu-lateral */
+    color: #ffffff;
+}
+
+.menu-opciones ul li:hover .submenu {
+    display: block;
+}
+
+/* Capa oscura de fondo */
+.capa {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 150;
+    cursor: pointer;
+}
+
+#btn-menu:checked ~ .capa {
+    display: block;
+}
+
+.contenido-principal {
+    margin-left: 0;
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+}
+.logo h2{
+    font-size: 60px;
+    font-weight: 700;
+    color: #e6ffea;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-align: center;
+   
+    transform: translate(0px,-50px);
+    text-shadow: 0 4px 11px rgba(255, 255, 255, 0.692);
+    
+}
+.logo span{
+    color: var(--color-principal);
+    text-shadow: 0 4px 11px var(--color-principal);
+    
+}
+.pedidos{
+    display: flex;
+    float: right ;
+    transform: translate(0px,-170px);
+    
+}
+.pedidos img{
+    width: 90px;
+    height: 90px;
+    margin-top: 40px;
+    margin-right: 60px;
+    object-fit: contain;
+}
+.pedidos:hover{
+    background: linear-gradient(98deg, #3769284b, #006108);
+    border-radius: 10%;
+    transition: 0.2s;
+    transform: translate(0px,-170px);
+}
+/* ...existing code... */
+
+/* Banner promocional: ancho completo, altura reducida y texto centrado sobre la imagen */
+.banner-promocional{
+    width: 100%;
+    height: 900px;         /* altura no muy grande */
+    max-height: 500px;
+    overflow: hidden;
+    position: relative;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+.banner-promocional img{
+    width: 100%;
+    height: 100%;
+    filter: blur(5px) brightness(0.5);
+    object-fit: cover;     /* recorta la imagen para llenar el banner */
+    display: block;
+}
+
+/* capa de texto centrada sobre la imagen */
+
+/* footer de la pagina */
+footer.footer-main {
+  background: linear-gradient(135deg, #0e5001, #030403);
+  color: #ffffff;
+  padding: 65px 20px 20px;
+  margin-top: 770px;
+  box-shadow: 0 -8px 24px rgb(0, 0, 0);
+}
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+  padding-bottom: 30px;
+  border-bottom: 4px solid var(--color-principal);
+}
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+}
+.footer-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+.footer-section p {
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.72);
+}
+.footer-logo {
+  height: 54px;
+  margin-bottom: 12px;
+  opacity: 0.94;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.footer-logo:hover { transform: scale(1.06); opacity: 1; }
+.footer-brand {
+  font-size: 16px;
+  font-style: italic;
+  color: #707070;
+  margin: 0;
+}
+.social-icons {
+  display: flex;
+  gap: 16px;
+}
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-principal);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+.social-link:hover {
+  background: var(--color-principal);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(255, 253, 253, 0.932);
+}
+.social-link img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: brightness(0.95) invert(1);
+  transition: filter 0.2s ease;
+}
+.social-link:hover img { filter: brightness(1) invert(1); }
+.footer-bottom {
+  text-align: center;
+  padding-top: 10px;
+  font-size: 17px;
+  color: rgba(255,255,255,0.54);
+}
+.footer-bottom p {
+  font-size: 20px;
+  margin: 0;
+}
+/* MENU DE MESAS */
+.menu-juegos {
+    background: var(--menu-juegos); /* Ángulo más natural y colores más vivos */
+    padding: 24px;
+    border-radius: 16px; /* Bordes un poco más suaves */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Reducido un poco para que no quede tan disperso */
+    margin-bottom: 35px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Sombra suave para dar profundidad */
+}
+
+.opcion {
+    color: #ffffff;
+    font-size: 16px; /* 18px con 'lighter' puede verse muy delgado, 16px con 'medium' es más legible */
+    font-weight: 500; 
+    letter-spacing: 0.5px; /* Un toque de separación entre letras se ve muy pro */
+    padding: 12px 24px; /* Más aire a los lados para que parezca un botón real */
+    background: rgba(113, 10, 161, 0.4); /* Cambiado a formato RGBA estándar, un poco más translúcido */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Un borde sutil que define el botón */
+    border-radius: 10px;
+    cursor: pointer;
+    backdrop-filter: blur(4px); /* Efecto cristal esmerilado muy moderno */
+    transition: all 0.3s ease; /* Transición suave para cuando pases el mouse */
+}
+
+/* EFECTO HOVER: Esto es clave para que se sienta interactivo y profesional */
+.opcion:hover {
+    background: rgba(113, 10, 161, 0.8);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px); /* El botón sube sutilmente al pasar el mouse */
+    box-shadow: 0 4px 12px rgba(113, 10, 161, 0.3); /* Brillo morado al interactuar */
+}
+
+/* EFECTO CLICK */
+.opcion:active {
+    transform: translateY(0); /* Baja al hacer click */
+}
+.menu-juegos .opcion:active {
+    background: rgba(113, 10, 161, 0.9);
+    box-shadow: 0 2px 8px rgba(113, 10, 161, 0.5);
+}
+
+
+/* ==========================================================
+   📦 CONTROL DE CUADRÍCULA HORIZONTAL Y BOTONES INFERIORES
+   ========================================================== */
+
+/* Contenedor principal de toda la zona de juego */
+.mesas-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 140px 40px 40px 40px; /* Margen superior para evitar que el header pise las mesas */
+    max-width: 1600px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Forzamos a que las filas contengan 4 elementos alineados de forma horizontal */
+.mesa-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 mesas exactamente por fila */
+    gap: 30px;
+    width: 100%;
+}
+
+/* Caja contenedora para CADA MESA (Mesa + Botones Abajo) */
+.tarjeta-mesa {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente la mesa y los botones */
+    justify-content: flex-start;
+    position: relative;
+    background-color: var(--cartas-mesas);
+    border-radius: 15px;
+    padding: 40px;
+    margin-bottom: 0;
+    margin-top: 40px;
+    box-shadow: 0 4px 12px var(--color-principal);
+    margin: 15px;
+}
+
+/* La imagen de la mesa de billar */
+.mesa-foto {
+    width: 100%;
+    max-width: 280px; /* Ajusta el tamaño de la mesa de forma balanceada */
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 15px; /* Separación exacta entre la mesa y sus botones */
+}
+
+/* Fila interna que posiciona los botones justo debajo de su respectiva mesa */
+.mesa-acciones {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* ==========================================================
+   🎨 RESPETANDO TUS ESTILOS PROPIOS (Clases nativas de tus botones)
+   ========================================================== */
+
+/* Unificamos las propiedades físicas para que tus botones no usen posiciones fijas */
+.time-btn, .factura-btn {
+    width: 110px;
+    height: 42px;
+    font-size: 15px;
+    text-align: center;
+    background-color: #000000;
+    border: 2px solid var(--color-principal, #146d02);
+    box-shadow: 0 4px 12px rgba(252, 252, 252, 0.3);
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-block;
+    position: relative;
+    transform: none !important; /* Eliminamos los translate fijos antiguos que rompían la posición */
+}
+
+.time-btn:hover, .factura-btn:hover {
+    background-color: var(--color-principal, #146d02);
+    transform: scale(1.05) !important;
+}
+
+/* Contenedor relativo del tiempo */
+.time-container {
+    position: relative;
+}
+
+/* ==========================================================
+   ⏱️ POSICIONAMIENTO DE CRONÓMETROS Y MENÚS DESPLEGABLES
+   ========================================================== */
+
+/* El display de tiempo flotará exactamente encima de su correspondiente botón */
+/* ==========================================================
+   ⏱️ REPARACIÓN EXACTA DEL MENÚ DE TIEMPO (SIN DAÑAR NADA)
+   ========================================================== */
+
+/* Asegura que el botón y su menú hijo se alineen perfectamente */
+/* ==========================================
+   ESTILO NEÓN PREMIUM SOLO PARA EL MENÚ
+   ========================================== */
+
+.time-menu {
+    position: absolute;
+    /* Ajustes para que flote centrado y perfecto sobre tu botón actual */
+    bottom: 50px; 
+    left: 108%;
+    transform: translateX(-50%);
+    
+    /* FONDO Y BORDES: Violeta profundo para mimetizarse con tu interfaz */
+    background: #0d0415; /* Negro/morado muy oscuro en vez de negro plano */
+    border: 2px solid #a200ff; /* El morado neón exacto de tus tarjetas */
+    border-radius: 8px; /* Bordes redondeados suaves */
+    
+    /* EFECTO NEÓN: Resplandor morado para que resalte sobre el fondo oscuro */
+    box-shadow: 0 0 25px rgba(162, 0, 255, 0.4), 
+                0 10px 20px rgba(0, 0, 0, 0.6);
+    
+    /* DIMENSIONES: Ancho ideal para que "Detener cronómetro" salga en una sola línea */
+    min-width: 175px; 
+    width:250px;
+    padding: 16px 0;
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
+    animation: suavizarEntrada 0.2s ease-out; /* Animación de aparición */
+}
+
+/* Estilo de los textos y opciones dentro del menú */
+.time-menu .time-option,
+.time-menu button {
+    display: block;
+    width: 100%;
+    padding: 10px 18px; /* Espaciado interno para que no se vea amontonado */
+    background: transparent;
+    border: none;
+    color: #e2cbff; /* Blanco con un ligero tinte lavanda muy elegante */
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Efecto Hover: Cuando pasas el mouse por encima de una opción */
+.time-menu .time-option:hover,
+.time-menu button:hover {
+    background: rgba(162, 0, 255, 0.25); /* Fondo morado translúcido */
+    color: #ffffff; /* Texto blanco brillante */
+    padding-left: 22px; /* Desplazamiento dinámico hacia la derecha */
+}
+
+/* Opción de detener cronómetro destacada en tono rojo/rosa neón */
+.time-menu .time-option.stop-option,
+.time-menu .stop-option {
+    color:var(--color-principal, #146d02)!important; /* Rojo purpúreo para que resalte sin desentonar */
+    border-top: 1px solid rgba(162, 0, 255, 0.2); /* Línea divisoria morada muy sutil */
+    margin-top: 4px;
+    padding-top: 12px;
+    font-weight: 600;
+}
+
+/* Hover para la opción de detener */
+.time-menu .time-option.stop-option:hover,
+.time-menu .stop-option:hover {
+    background: rgba(255, 85, 118, 0.15) !important;
+    color: var(--color-principal, #146d02) !important;
+}
+
+/* Animación sutil de desvanecimiento hacia arriba */
+@keyframes suavizarEntrada {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* ==========================================================
+   🛠️ DETALLES FINALES (Header estables y Footer)
+   ========================================================== */
+
+.header-mesas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+footer.footer-main {
+    margin-top: 60px; /* Flujo natural hacia abajo sin sobreponerse */
+}
+
+/* Adaptabilidad para pantallas de Tablets o Laptops pequeñas */
+@media (max-width: 1024px) {
+    .mesa-row {
+        grid-template-columns: repeat(2, 1fr); /* Pasa a 2 por fila si la pantalla reduce */
+    }
+}
+
+@media (max-width: 600px) {
+    .mesa-row {
+        grid-template-columns: 1fr; /* 1 sola mesa por fila en smartphones */
+    }
+    .mesas-grid {
+        padding: 130px 15px 20px 15px;
+    }
+}
+
+
+/* Estilos para selector de tiempo */
+.mesas-grid{ display:block; margin-top: 10px; }
+.mesa-row{ display:absolute; gap:15px; align-items:center; flex-wrap:wrap; margin-bottom: 18px; }
+.time-container{ position: relative; display: inline-block; }
+.time-btn{ cursor: pointer; }
+
+.time-option:hover{ background: #f2f2f2; border-radius: 6px; }
+.factura-btn{ margin-left: 6px; }
+
+/* display del cronómetro (flotante, no afecta layout) */
+.time-display{
+    position: absolute; /* JS ubicará el elemento encima del botón */
+    top: auto;
+    transform: translate(80px,-130px);
+    left: auto;
+    min-height: 22px;
+    line-height: 22px;
+    padding: 2px 8px;
+    text-align: center;
+    color: #e6ffea;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    background: rgba(0,0,0,0.45);
+    border-radius: 8px;
+    display: none;
+    z-index: 500;
+}
+.time-display.visible{ display: block; }
+.time-display.running{ color: #00ff6a; }
+
+
+
+/* ==========================================================
+   📦 CONTENEDOR PRINCIPAL DEL MODAL (CONGELADO Y CENTRADO)
+   ========================================================== */
+.modal {
+    position: fixed !important; 
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(10, 5, 22, 0.85) !important; /* Fondo exterior oscuro */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000 !important;
+    backdrop-filter: blur(5px);
+}
+
+.modal.visible { 
+    display: flex !important; 
+}
+
+.modal-content {
+    background: #150e28 !important; /* Fondo oscuro lila profundo */
+    border: 1px solid rgba(168, 85, 247, 0.2) !important; /* Borde sutil neón */
+    border-radius: 16px !important; 
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+    width: 90% !important;
+    max-width: 480px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    animation: modalSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(18px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ==========================================================
+   🔮 ── HEADER (TEMA OSCURO PREMIUM) ──
+   ========================================================== */
+.modal-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 18px 24px !important;
+    background: linear-gradient(135deg, #241d5a, #16113a) !important; /* Gradiente oscuro */
+    color: #fff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 0 !important;
+}
+
+.modal-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.modal-header-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+    background: rgba(168, 85, 247, 0.15) !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+    color: #c084fc !important;
+}
+
+.modal-header-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.modal-header-label {
+    margin: 0 !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: rgba(168, 85, 247, 0.6) !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+}
+
+.modal-header h2 {
+    margin: 0 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.01em !important;
+}
+
+.modal-close {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    font-size: 18px !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    cursor: pointer !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+}
+
+.modal-close:hover { 
+    background: rgba(239, 68, 68, 0.2) !important; 
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    color: #fca5a5 !important;
+    transform: scale(1.05);
+}
+
+/* ==========================================================
+   📊 ── BARRA DE METADATOS (FECHA / HORA / TIEMPO) ──
+   ========================================================== */
+.invoice-meta {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1px !important;
+    background: #1e1538 !important; /* Separadores oscuros */
+    border-bottom: 1px solid #1e1538 !important;
+}
+
+.invoice-meta-item {
+    background: #1b1233 !important; /* Bloques oscuros integrados */
+    padding: 12px 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+.invoice-meta-item span {
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #a855f7 !important; /* Detalles lila */
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 2px !important;
+}
+
+.invoice-meta-item strong {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #e2e8f0 !important; /* Texto claro legible */
+}
+
+/* ==========================================================
+   📝 ── CUERPO GENERAL DEL MODAL ──
+   ========================================================== */
+.modal-body {
+    padding: 24px !important;
+    color: #cbd5e1 !important;
+    background: #150e28 !important;
+}
+
+/* Título de productos pedidos */
+.invoice-details h3 {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #c084fc !important; /* Nítido y sin sombras borrosas */
+    margin: 0 0 14px 0 !important;
+    text-shadow: none !important; /* Evita que se vea desenfocado */
+}
+
+/* ==========================================================
+   🛒 ── TABLA DE PRODUCTOS EN MODO OSCURO ──
+   ========================================================== */
+.invoice-table-wrap {
+    border: 1px solid rgba(168, 85, 247, 0.15) !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    margin-bottom: 20px !important;
+}
+
+.invoice-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 13px !important;
+}
+
+.invoice-table thead tr {
+    background: #1b1233 !important;
+}
+
+.invoice-table thead th {
+    padding: 10px 14px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    text-align: left !important;
+}
+
+.invoice-table thead th:last-child { 
+    text-align: right !important; 
+}
+
+.invoice-table tbody td {
+    padding: 12px 14px !important;
+    border-top: 1px solid rgba(168, 85, 247, 0.1) !important;
+    color: #e2e8f0 !important;
+    background: #150e28 !important;
+}
+
+.invoice-table tbody td:last-child { 
+    text-align: right !important; 
+    font-weight: 600 !important;
+    color: #c084fc !important;
+}
+
+/* Aviso cuando no hay productos pedidos */
+.invoice-empty {
+    text-align: center !important;
+    padding: 32px 16px !important;
+    color: #94a3b8 !important;
+    font-size: 13px !important;
+    background: #150e28 !important;
+}
+
+/* Icono del estado vacío */
+.invoice-empty i {
+    display: block !important;
+    font-size: 32px !important;
+    color: rgba(168, 85, 247, 0.25) !important;
+    margin: 0 auto 10px auto !important;
+    line-height: 1 !important;
+}
+
+.invoice-empty span {
+    display: block !important;
+    font-weight: 500 !important;
+}
+
+/* ==========================================================
+   💸 ── TOTALES SECCIÓN INTERIOR ──
+   ========================================================== */
+.invoice-totals {
+    border-top: 1px solid rgba(168, 85, 247, 0.15) !important;
+    padding-top: 14px !important;
+}
+
+.invoice-totals p {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin: 0 0 8px !important;
+    font-size: 13px !important;
+    color: #94a3b8 !important;
+}
+
+.invoice-totals p strong { 
+    color: #e2e8f0 !important; 
+    font-weight: 600 !important; 
+}
+
+/* Fila del costo definitivo total */
+.invoice-total-final {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-top: 14px !important;
+    margin-top: 10px !important;
+    border-top: 2px dashed rgba(168, 85, 247, 0.3) !important; /* Estilo ticket digital */
+}
+
+.invoice-total-final span:first-child {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+}
+
+.invoice-total-final span:last-child {
+    font-size: 19px !important; 
+    font-weight: 800 !important;
+    color: #a855f7 !important; /* Total en lila brillante */
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* ==========================================================
+   🏁 ── BOTONES DE ACCIÓN (PIE DEL MODAL OSCURO) ──
+   ========================================================== */
+.modal-footer {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 16px 24px !important;
+    background: #110a21 !important; /* 🌟 Forzado a Oscuro Profundo */
+    border-top: 1px solid rgba(168, 85, 247, 0.15) !important;
+}
+
+/* Botón Cerrar */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #cbd5e1 !important;
+    padding: 10px 20px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Botón Aceptar / Imprimir */
+.btn-primary {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #3C3489 !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    color: #ffffff !important;
+    padding: 10px 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 15px rgba(60, 52, 137, 0.4) !important;
+}
+
+.btn-primary:hover {
+    background: #493fa3 !important;
+    border-color: #a855f7 !important;
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+/* ── Footer con botones ── */
+.invoice-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 14px 24px;
+  border-top: 1px solid #ebebeb;
+  background: #f8f8f8;
+}
+.btn-print, .btn-close-modal {
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-print {
+  background: #3C3489;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-print:hover { background: #2e2870; }
+.btn-close-modal {
+  background: transparent;
+  color: #444;
+  border: 1px solid #d0d0d0;
+}
+.btn-close-modal:hover { background: #ebebeb; }
+
+/* ── Móvil ── */
+@media (max-width: 700px) {
+  .mesa-row { justify-content: center; }
+  .logo img { transform: translate(60px, -75px); width: 220px; }
+  .invoice-meta { grid-template-columns: repeat(2, 1fr); }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --verde-oscuro: #0a1f0a;
+  --verde-acento: #2ecc2e;
+  --verde-borde: #1e6b1e;
+  --texto-menu: #b8d8b8;
+  --ancho-menu: 260px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--verde-oscuro);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#btn-menu { display: none; }
+
+
+/* ── CAPA OSCURA UNIFICADA (Por encima del header) ── */
+.overlay, .capa {
+    position: fixed; 
+    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(3px);
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity .35s ease;
+    z-index: 2000 !important; /* Salta por encima del header que tiene 1000 */
+    display: none;
+    cursor: pointer;
+}
+
+/* Forzar activación con cualquiera de tus dos selectores por ID */
+#btn-menu:checked ~ .overlay,
+#btn-menu:checked ~ .capa { 
+    opacity: 1 !important; 
+    pointer-events: all !important; 
+    display: block !important;
+}
+
+
+/* ── MENÚ LATERAL (La capa más alta de la pantalla) ── */
+nav.menu-lateral, .menu-lateral {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: var(--ancho-menu, 260px);
+    height: 100vh;
+    background: linear-gradient(180deg, #0c280c 0%, #081a08 60%, #050f05 100%) !important;
+    border-right: 1px solid var(--verde-borde, #1e6b1e);
+    box-shadow: 4px 0 30px rgba(0,0,0,.7);
+    transform: translateX(-100%);
+    transition: transform .38s cubic-bezier(.4,0,.2,1);
+    z-index: 2500 !important; /* El nivel supremo, nada lo puede pisar */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Animación de entrada cuando el checkbox se activa */
+#btn-menu:checked ~ nav.menu-lateral,
+#btn-menu:checked ~ .menu-lateral { 
+    transform: translateX(0) !important;
+    left: 0 !important;
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid rgba(46,204,46,.18);
+  background: linear-gradient(135deg, rgba(46,204,46,.08) 0%, transparent 100%);
+}
+
+.menu-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: linear-gradient(135deg, #2ecc2e, #1a8c1a);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 12px rgba(46,204,46,.4);
+}
+.logo-icon svg { width: 20px; height: 20px; fill: white; }
+
+.menu-header h3 {
+  font-size: 1.2rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--verde-acento);
+  text-shadow: 0 0 10px rgba(46,204,46,.5);
+}
+
+.close-menu {
+  width: 32px; height: 32px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(46,204,46,.2);
+  color: var(--texto-menu);
+  font-size: 1rem; cursor: pointer;
+  transition: all .2s;
+}
+.close-menu:hover {
+  background: rgba(46,204,46,.12);
+  border-color: var(--verde-acento);
+  color: var(--verde-acento);
+}
+
+
+.menu-opciones {
+  flex: 1; overflow-y: auto; padding: 12px 0;
+}
+.menu-opciones::-webkit-scrollbar { width: 4px; }
+.menu-opciones::-webkit-scrollbar-thumb { background: rgba(46,204,46,.25); border-radius: 2px; }
+
+.menu-section-label {
+  font-size: .65rem; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: rgba(46,204,46,.45);
+  padding: 14px 20px 6px;
+}
+
+ul { list-style: none; }
+
+
+li > a,
+label.sub-toggle {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 13px;
+  padding: 12px 20px;
+  color: var(--texto-menu);
+  text-decoration: none;
+  font-size: .92rem; font-weight: 500;
+  letter-spacing: .03em;
+  border-left: 3px solid transparent;
+  transition: all .22s ease;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+li > a:hover,
+label.sub-toggle:hover {
+  color: var(--verde-acento);
+  background: linear-gradient(90deg, rgba(46,204,46,.1) 0%, transparent 100%);
+  border-left-color: var(--verde-acento);
+  text-shadow: 0 0 8px rgba(46,204,46,.4);
+}
+
+
+.nav-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: flex !important; align-items: center; justify-content: center;
+  border-radius: 8px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(46,204,46,.15);
+  transition: all .22s;
+}
+li > a:hover .nav-icon,
+label.sub-toggle:hover .nav-icon {
+  background: rgba(46,204,46,.14);
+  border-color: rgba(46,204,46,.4);
+  box-shadow: 0 0 10px rgba(46,204,46,.2);
+}
+.nav-icon svg {
+  width: 17px; height: 17px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  display: block;
+}
+
+.nav-label { flex: 1; }
+
+
+.nav-badge {
+  font-size: .65rem; font-weight: 700;
+  padding: 2px 7px; border-radius: 10px;
+  background: rgba(46,204,46,.18);
+  color: var(--verde-acento);
+  border: 1px solid rgba(46,204,46,.3);
+  flex-shrink: 0;
+}
+
+
+.nav-arrow {
+  width: 16px; height: 16px; flex-shrink: 0;
+  stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform .25s;
+  display: block;
+}
+
+
+.has-sub > input[type="checkbox"] { display: none; }
+
+.submenu {
+  max-height: 0; overflow: hidden;
+  transition: max-height .32s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,.2);
+}
+.has-sub > input:checked ~ .submenu { max-height: 200px; }
+.has-sub > input:checked ~ label .nav-arrow { transform: rotate(180deg); }
+.has-sub > input:checked ~ label {
+  color: var(--verde-acento);
+  border-left-color: var(--verde-acento);
+}
+
+.submenu li > a {
+  padding: 9px 20px 9px 56px;
+  font-size: .85rem;
+  color: rgba(184,216,184,.75);
+  gap: 8px;
+}
+.submenu li > a::before {
+  content: '';
+  width: 6px; height: 6px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(46,204,46,.35);
+  transition: background .2s;
+}
+.submenu li > a:hover::before { background: var(--verde-acento); }
+
+
+.divider {
+  height: 1px; margin: 8px 20px;
+  background: linear-gradient(90deg, transparent, rgba(46,204,46,.15), transparent);
+}
+
+
+.item-salir > a { color: rgba(255,110,110,.75); }
+.item-salir > a:hover {
+  color: #ff6b6b;
+  background: linear-gradient(90deg, rgba(255,80,80,.08), transparent);
+  border-left-color: #ff6b6b;
+  text-shadow: 0 0 8px rgba(255,80,80,.3);
+}
+.item-salir > a:hover .nav-icon {
+  background: rgba(255,80,80,.1);
+  border-color: rgba(255,80,80,.3);
+}
+
+
+.menu-footer {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(46,204,46,.1);
+  display: flex; flex-direction: row; align-items: center; gap: 8px;
+}
+.menu-version { font-size: .68rem; color: rgba(46,204,46,.35); letter-spacing: .1em; }
+.status-dot {
+  width: 6px; height: 6px; flex-shrink: 0;
+  border-radius: 50%; background: var(--verde-acento);
+  box-shadow: 0 0 6px var(--verde-acento);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── BOTÓN FLOTANTE HAMBURGUESA ── */
+.hamburger {
+    position: fixed; 
+    top: 14px; 
+    left: 14px; 
+    z-index: 1050 !important; /* Ligeramente por encima del header fijo (1000) */
+    width: 44px; 
+    height: 44px; 
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0f3d0f, #082008);
+    border: 1px solid var(--verde-borde);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.5), 0 0 12px rgba(46,204,46,.1);
+    transition: all .2s;
+}
+.hamburger:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.5), 0 0 18px rgba(46,204,46,.25);
+  border-color: var(--verde-acento);
+}
+.hamburger svg {
+  width: 20px; height: 20px;
+  stroke: var(--verde-acento); fill: none;
+  stroke-width: 2; stroke-linecap: round;
+}
+
+.page-demo {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 20% 30%, rgba(15,61,15,.4) 0%, transparent 60%), var(--verde-oscuro);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.demo-card { text-align: center; max-width: 400px; }
+.demo-title { font-size: 2.5rem; font-weight: 700; color: var(--verde-acento); letter-spacing: .1em; text-shadow: 0 0 20px rgba(46,204,46,.4); }
+.demo-sub { color: var(--texto-menu); font-size: .9rem; margin-top: 8px; opacity: .7; }
+.demo-arrow { color: rgba(46,204,46,.5); font-size: .85rem; margin-top: 24px; animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:.5} 50%{opacity:1} }

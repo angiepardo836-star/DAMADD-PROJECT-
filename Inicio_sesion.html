@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<!-- Página en idioma español -->
+<head>
+    <!-- Metadatos de la página -->
+    <meta charset="UTF-8">
+    <!-- Uso de UTF-8 para caracteres especiales -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ajusta el zoom y tamaño en móviles -->
+    <title>DAMADD billar</title>
+    <!-- Texto que aparece en la pestaña del navegador -->
+    <link rel="stylesheet" href="estilos/inicio_sesion.css">
+    <link rel="stylesheet" href="estilos/variables.css">
+    <!-- Carga estilos específicos de la pantalla de inicio de sesión -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- 🎨 BOTÓN -->
+<button class="boton-accesibilidad">🎨</button>
+
+<!-- 🎨 PANEL -->
+<div id="panel" class="panel-accesibilidad">
+    <button onclick="cambiarTema('rojo')">Rojo</button>
+    <button onclick="cambiarTema('morado')">Morado</button>
+    <button onclick="cambiarTema('azul')">Azul</button>
+    <button onclick="restablecerTema()">Restablecer</button>
+</div>
+    <!-- Contenido visible de la página -->
+    <div class="fondo">
+        <!-- caja para la imagen de fondo -->
+        <img src="imagenes/fondo_morado.png" alt="fondo" class="fondo-img">
+        <!-- imagen decorativa que sirve de fondo -->
+    
+        <div class="contenedor-principal">
+            <div class="mesa-usuario">
+                <form id="login-form">
+                    <label for="usuario">Usuario <span>*</span></label>
+                    <input class="input-usuario" type="text" id="usuario" placeholder="Usuario" maxlength="30" required>
+                    <br><br>
+
+                    <div class="input-wrapper">
+                        <label for="contrasena">Contraseña <span>*</span></label>
+                        <input class="input-contrasena" type="password" id="contrasena" placeholder="Contraseña" maxlength="30" required>
+                        <span class="toggle-password">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </span>
+                    </div>
+                    <br><br>
+
+                    <div id="error-message" role="alert" aria-live="assertive"></div>
+                    <button type="submit">Iniciar sesión</button>
+                    <p style="cursor: pointer; color: #ffffff; margin-top: -20px; text-align: center; font-size: 14px;">
+                        <a id="abrir-registro" style="text-decoration: none; font-weight: bold;">¿No tienes cuenta? <span style="text-decoration: underline;">Registrar una cuenta</span></a>
+                    </p> 
+                    <div id="contenedor-olvido" style="cursor: pointer; color: #ffffff; margin-top: -5px; text-align: center; font-size: 14px;"><a href="olvido_contraseña.html" style="text-decoration: underline; color: #ffffff; font-weight: bold;">¿Olvidaste tu contraseña?</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para registro -->
+    <div id="modal-registro">
+        <div>
+            <div class="modal-header">
+                <h2>Crear Cuenta</h2>
+                <button id="cerrar-modal">&times;</button>
+            </div>
+            <form id="registro-form">
+                <div class="columna-izquierda">
+                
+                    <label for="tipo-documento">Tipo de documento <span>*</span></label>
+                    <select id="tipo-documento" name="tipo_documento" required>
+                        <option value="CC">Cédula de Ciudadanía</option>
+                        <option value="CE">Cédula de Extranjería</option> 
+                        <option value="PA">Pasaporte</option>
+                        <option value="PPT">Permiso por Protección Temporal</option> <!--  -->
+                    </select>
+
+                    <label for="numero-documento">Número de documento <span>*</span></label>
+                    <input type="text" id="numero-documento" name="numero_documento" placeholder="Número de documento" maxlength="15" required> 
+
+                    <label for="nombre">Nombre <span>*</span></label>
+                    <input type="text" id="nombre" name="nombre_usuario" placeholder="Nombre" maxlength="100" required> 
+                    
+                    <label for="apellido">Apellido <span>*</span></label>
+                    <input type="text" id="apellido" name="apellido_usuario" placeholder="Apellido" maxlength="100" required> 
+
+                    <label for="usuario-registro">Usuario <span>*</span></label>
+                    <input type="text" id="usuario-registro" name="usuario_usuario" placeholder="Usuario para iniciar sesión"  maxlength="30" required>
+                </div>
+
+                <div class="columna-derecha">
+                    <label for="telefono">Teléfono <span>*</span></label>
+                    <input type="tel" id="telefono" name="telefono_usuario" placeholder="Número celular o fijo" minlength="10" maxlength="10" required> 
+
+                    <label for="gmail">Correo <span>*</span></label>
+                    <input type="email" id="gmail" name="correo_usuario" placeholder="nombre@dominio.com" maxlength="100" required> 
+                    
+                    <label for="password">Contraseña <span>*</span></label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="contraseña_usuario" minlength="8" maxlength="30" pattern="(?=.*[!@#$%^&*.]).{8,}" title="Debe tener al menos 8 caracteres y 1 carácter especial" placeholder="Mín. 8 caracteres y 1 especial" required>
+                        <span class="toggle-passwordd">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </span>
+                    </div>
+    
+                    <label for="confirmar-contrasena">Confirmar contraseña <span>*</span></label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmar-contrasena" name="confirmar_contraseña_usuario" minlength="8" maxlength="30" pattern="(?=.*[!@#$%^&*.]).{8,}" title="Debe tener al menos 8 caracteres y 1 carácter especial" placeholder="Mín. 8 caracteres y 1 especial" required>
+                        <span class="toggle-passwordd">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </span>
+                    </div>
+
+                    <div id="contenedor-admin-key">
+                        <label for="admin-key">Clave de autorización <span>*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
+                            <span class="toggle-passwordd">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit">Registrar cuenta</button>
+            </form>
+        </div>
+        <div id="toast" style="position:fixed;top:2rem;left:50%;transform:translateX(-50%) translateY(-100px);background:#04780a;color:white;padding:10px;width:30%;border-radius:10px;font-size:18px;box-shadow:#000 0px 0px 10px;opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:300;min-width:30px;text-align:center;"></div>
+    </div>
+    <div id="toast1" style="position:fixed;top:2rem;left:50%;transform:translateX(-50%) translateY(-100px);background:#04780a;color:white;padding:10px;width:30%;border-radius:10px;font-size:18px;box-shadow:#000 0px 0px 10px;opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:300;min-width:30px;text-align:center;"></div>
+    <script>
+window.addEventListener("DOMContentLoaded", () => {
+
+    const boton = document.querySelector(".boton-accesibilidad");
+    const panel = document.getElementById("panel");
+
+    boton.onclick = () => {
+        panel.style.display = panel.style.display === "block" ? "none" : "block";
+    };
+
+});
+</script>
+    <script src="js/inicio_sesion.js"></script>
+    <script src="js/personalizacion.js"></script>
+    <script src="js/memoriaPersonalizacion.js"></script>
+    
+</body>
+</html>
