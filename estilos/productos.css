@@ -939,6 +939,7 @@ footer.footer-main {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
+    background: linear-gradient(200deg, #000000, var(--fondo-degradado))!important;
   }
   
   @keyframes slideIn {
