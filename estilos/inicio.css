@@ -52,104 +52,315 @@ body {
     text-shadow: 0 4px 11px var(--color-principal);
     
 }
-/* Menú lateral */
-.menu-lateral {
-    position: fixed;
-    left: -250px;
-    top: 0;
-    width: 250px;
-    height: 100vh;
-    background: linear-gradient(98deg, #046208, #000000db);
-    transition: left 0.3s ease;
-    z-index: 200;
-    overflow-y: auto;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --verde-oscuro: #0a1f0a;
+  --verde-acento: #2ecc2e;
+  --verde-borde: #1e6b1e;
+  --texto-menu: #b8d8b8;
+  --ancho-menu: 260px;
 }
 
-/* Mostrar menú cuando se marca el checkbox */
-#btn-menu:checked ~ .menu-lateral {
-    left: 0;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--verde-oscuro);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-#btn-menu:checked ~ .capa {
-    display: block;
-}
+#btn-menu { display: none; }
 
-.menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.2);
-    border-bottom: 2px solid #04780a;
-}
 
-.close-menu {
-    font-size: 24px;
-    color: #ffffff;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.close-menu:hover {
-    transform: scale(1.2);
-}
-
-.menu-opciones {
-    list-style: none;
-    padding: 20px 0;
-}
-
-.menu-opciones li {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.menu-opciones a {
-    display: block;
-    padding: 15px 20px;
-    text-decoration: none;
-    transition: background 0.3s ease, padding-left 0.3s ease;
-    color:#ffffff 
-}
-
-.menu-opciones a:hover {
-    background: #04780a;
-    padding-left: 30px;
-}
-
-.submenu{
-    display:none;
-    list-style: none;
-    padding-left:20px;
-    background: linear-gradient(98deg, #046208, #000000db); /* Igual que .menu-lateral */
-    color: #ffffff;
-}
-
-.menu-opciones ul li:hover .submenu {
-    display: block;
-}
-/* Capa oscura de fondo */
-.capa {
-    display: none;
-    position: fixed;
+/* ── CAPA OSCURA UNIFICADA (Por encima del header) ── */
+.overlay, .capa {
+    position: fixed; 
+    inset: 0;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 150;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(3px);
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity .35s ease;
+    z-index: 2000 !important; /* Salta por encima del header que tiene 1000 */
+    display: none;
     cursor: pointer;
 }
 
-#btn-menu:checked ~ .capa {
-    display: block;
+/* Forzar activación con cualquiera de tus dos selectores por ID */
+#btn-menu:checked ~ .overlay,
+#btn-menu:checked ~ .capa { 
+    opacity: 1 !important; 
+    pointer-events: all !important; 
+    display: block !important;
 }
 
-.contenido-principal {
-    margin-left: 0;
-    padding: 30px;
-    transition: margin-left 0.3s ease;
-} 
 
+/* ── MENÚ LATERAL (La capa más alta de la pantalla) ── */
+nav.menu-lateral, .menu-lateral {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: var(--ancho-menu, 260px);
+    height: 100vh;
+    background: linear-gradient(180deg, #0c280c 0%, #081a08 60%, #050f05 100%) !important;
+    border-right: 1px solid var(--verde-borde, #1e6b1e);
+    box-shadow: 4px 0 30px rgba(0,0,0,.7);
+    transform: translateX(-100%);
+    transition: transform .38s cubic-bezier(.4,0,.2,1);
+    z-index: 2500 !important; /* El nivel supremo, nada lo puede pisar */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Animación de entrada cuando el checkbox se activa */
+#btn-menu:checked ~ nav.menu-lateral,
+#btn-menu:checked ~ .menu-lateral { 
+    transform: translateX(0) !important;
+    left: 0 !important;
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid rgba(46,204,46,.18);
+  background: linear-gradient(135deg, rgba(46,204,46,.08) 0%, transparent 100%);
+}
+
+.menu-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: linear-gradient(135deg, #2ecc2e, #1a8c1a);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 12px rgba(46,204,46,.4);
+}
+.logo-icon svg { width: 20px; height: 20px; fill: white; }
+
+.menu-header h3 {
+  font-size: 1.2rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--verde-acento);
+  text-shadow: 0 0 10px rgba(46,204,46,.5);
+}
+
+.close-menu {
+  width: 32px; height: 32px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(46,204,46,.2);
+  color: var(--texto-menu);
+  font-size: 1rem; cursor: pointer;
+  transition: all .2s;
+}
+.close-menu:hover {
+  background: rgba(46,204,46,.12);
+  border-color: var(--verde-acento);
+  color: var(--verde-acento);
+}
+
+
+.menu-opciones {
+  flex: 1; overflow-y: auto; padding: 12px 0;
+}
+.menu-opciones::-webkit-scrollbar { width: 4px; }
+.menu-opciones::-webkit-scrollbar-thumb { background: rgba(46,204,46,.25); border-radius: 2px; }
+
+.menu-section-label {
+  font-size: .65rem; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: rgba(46,204,46,.45);
+  padding: 14px 20px 6px;
+}
+
+ul { list-style: none; }
+
+
+li > a,
+label.sub-toggle {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 13px;
+  padding: 12px 20px;
+  color: var(--texto-menu);
+  text-decoration: none;
+  font-size: .92rem; font-weight: 500;
+  letter-spacing: .03em;
+  border-left: 3px solid transparent;
+  transition: all .22s ease;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+li > a:hover,
+label.sub-toggle:hover {
+  color: var(--verde-acento);
+  background: linear-gradient(90deg, rgba(46,204,46,.1) 0%, transparent 100%);
+  border-left-color: var(--verde-acento);
+  text-shadow: 0 0 8px rgba(46,204,46,.4);
+}
+
+
+.nav-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: flex !important; align-items: center; justify-content: center;
+  border-radius: 8px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(46,204,46,.15);
+  transition: all .22s;
+}
+li > a:hover .nav-icon,
+label.sub-toggle:hover .nav-icon {
+  background: rgba(46,204,46,.14);
+  border-color: rgba(46,204,46,.4);
+  box-shadow: 0 0 10px rgba(46,204,46,.2);
+}
+.nav-icon svg {
+  width: 17px; height: 17px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  display: block;
+}
+
+.nav-label { flex: 1; }
+
+
+.nav-badge {
+  font-size: .65rem; font-weight: 700;
+  padding: 2px 7px; border-radius: 10px;
+  background: rgba(46,204,46,.18);
+  color: var(--verde-acento);
+  border: 1px solid rgba(46,204,46,.3);
+  flex-shrink: 0;
+}
+
+
+.nav-arrow {
+  width: 16px; height: 16px; flex-shrink: 0;
+  stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform .25s;
+  display: block;
+}
+
+
+.has-sub > input[type="checkbox"] { display: none; }
+
+.submenu {
+  max-height: 0; overflow: hidden;
+  transition: max-height .32s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,.2);
+}
+.has-sub > input:checked ~ .submenu { max-height: 200px; }
+.has-sub > input:checked ~ label .nav-arrow { transform: rotate(180deg); }
+.has-sub > input:checked ~ label {
+  color: var(--verde-acento);
+  border-left-color: var(--verde-acento);
+}
+
+.submenu li > a {
+  padding: 9px 20px 9px 56px;
+  font-size: .85rem;
+  color: rgba(184,216,184,.75);
+  gap: 8px;
+}
+.submenu li > a::before {
+  content: '';
+  width: 6px; height: 6px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(46,204,46,.35);
+  transition: background .2s;
+}
+.submenu li > a:hover::before { background: var(--verde-acento); }
+
+
+.divider {
+  height: 1px; margin: 8px 20px;
+  background: linear-gradient(90deg, transparent, rgba(46,204,46,.15), transparent);
+}
+
+
+.item-salir > a { color: rgba(255,110,110,.75); }
+.item-salir > a:hover {
+  color: #ff6b6b;
+  background: linear-gradient(90deg, rgba(255,80,80,.08), transparent);
+  border-left-color: #ff6b6b;
+  text-shadow: 0 0 8px rgba(255,80,80,.3);
+}
+.item-salir > a:hover .nav-icon {
+  background: rgba(255,80,80,.1);
+  border-color: rgba(255,80,80,.3);
+}
+
+
+.menu-footer {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(46,204,46,.1);
+  display: flex; flex-direction: row; align-items: center; gap: 8px;
+}
+.menu-version { font-size: .68rem; color: rgba(46,204,46,.35); letter-spacing: .1em; }
+.status-dot {
+  width: 6px; height: 6px; flex-shrink: 0;
+  border-radius: 50%; background: var(--verde-acento);
+  box-shadow: 0 0 6px var(--verde-acento);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── BOTÓN FLOTANTE HAMBURGUESA ── */
+.hamburger {
+    position: fixed; 
+    top: 14px; 
+    left: 14px; 
+    z-index: 1050 !important; /* Ligeramente por encima del header fijo (1000) */
+    width: 44px; 
+    height: 44px; 
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0f3d0f, #082008);
+    border: 1px solid var(--verde-borde);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,.5), 0 0 12px rgba(46,204,46,.1);
+    transition: all .2s;
+}
+.hamburger:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.5), 0 0 18px rgba(46,204,46,.25);
+  border-color: var(--verde-acento);
+}
+.hamburger svg {
+  width: 20px; height: 20px;
+  stroke: var(--verde-acento); fill: none;
+  stroke-width: 2; stroke-linecap: round;
+}
+
+.page-demo {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 20% 30%, rgba(15,61,15,.4) 0%, transparent 60%), var(--verde-oscuro);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.demo-card { text-align: center; max-width: 400px; }
+.demo-title { font-size: 2.5rem; font-weight: 700; color: var(--verde-acento); letter-spacing: .1em; text-shadow: 0 0 20px rgba(46,204,46,.4); }
+.demo-sub { color: var(--texto-menu); font-size: .9rem; margin-top: 8px; opacity: .7; }
+.demo-arrow { color: rgba(46,204,46,.5); font-size: .85rem; margin-top: 24px; animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:.5} 50%{opacity:1} }
 
 /* Banner promocional: ancho completo, altura reducida y texto centrado sobre la imagen */
 .banner-promocional{
