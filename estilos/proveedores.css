@@ -4,6 +4,23 @@
     box-sizing: border-box;
 }
 
+.logo h2{
+    font-size: 60px;
+    font-weight: 700;
+    color: #e6ffea;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-align: center;
+   
+    transform: translate(0px,-50px);
+    text-shadow: 0 4px 11px rgba(255, 255, 255, 0.692);
+    
+}
+.logo span{
+    color: var(--color-principal);
+    text-shadow: 0 4px 11px var(--color-principal);
+    
+}
+
 .icono-img {
     width: 23px;
     height: 23px;
@@ -51,7 +68,7 @@
 
 .header-mesas {
     background: linear-gradient(98deg, #146d02, #000000);
-    box-shadow: 0 10px 6px rgb(0, 0, 0);
+    border-bottom: var(--color-principal) 5px solid;
     height: 110px;
     padding: 10px;
     color: white;
@@ -173,14 +190,7 @@
     padding: 30px;
     transition: margin-left 0.3s ease;
 }
-.logo img{
-    transform: translate(100px,-75px);
-    width: 400px;
-    height: auto;
-  
 
-    
-}
 /* ...existing code... */
 
 /* Banner promocional: ancho completo, altura reducida y texto centrado sobre la imagen */
