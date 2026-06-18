@@ -52,6 +52,7 @@ body {
     text-shadow: 0 4px 11px var(--color-principal);
     
 }
+/* Menú lateral */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -361,6 +362,7 @@ label.sub-toggle:hover .nav-icon {
 .demo-sub { color: var(--texto-menu); font-size: .9rem; margin-top: 8px; opacity: .7; }
 .demo-arrow { color: rgba(46,204,46,.5); font-size: .85rem; margin-top: 24px; animation: blink 1.5s infinite; }
 @keyframes blink { 0%,100%{opacity:.5} 50%{opacity:1} }
+
 
 /* Banner promocional: ancho completo, altura reducida y texto centrado sobre la imagen */
 .banner-promocional{
