@@ -564,67 +564,250 @@ footer.footer-main {
   font-size: 20px;
   margin: 0;
 }
+/* ── CONTENEDOR DE TABLA ──────────────────────────────────── */
 .tabla-contenedor {
   margin: 65px auto;
   margin-left: 160px;
-  
+  background: #0a0a0a;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #1a3d1a;
 }
 
+/* ── TABLA BASE ───────────────────────────────────────────── */
 table {
   width: 90%;
-  align-items: center;
   border-collapse: collapse;
   text-align: center;
-  background: #000000;
-  color: #ffffff;
+  background: #080f08;
+  color: #d4e8d4;
+  font-size: 13px;
 }
 
+/* ── ENCABEZADO ───────────────────────────────────────────── */
 thead th {
   background: #005203;
   text-align: center;
-  padding: 12px;
+  padding: 13px 12px;
   color: #ffffff;
-  border-bottom: 2px solid #000000;
-  font-weight: bold;
+  border-bottom: 3px solid #00c621;
+  border-right: 1px solid #006804;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
 }
 
+thead th:first-child {
+  border-left: 3px solid #00c621;
+}
+
+thead th:last-child {
+  border-right: none;
+}
+
+/* ── CELDAS ───────────────────────────────────────────────── */
 td, th {
-  padding: 10px;
-  border: 3px solid #2e2e2e86;
+  padding: 11px 12px;
+  border-bottom: 1px solid #1a2e1a;
+  border-right: 1px solid #111e11;
 }
 
+tbody tr:nth-child(even) {
+  background: #060d06;
+}
 
+tbody tr:hover {
+  background: #0d1f0d;
+  transition: background 0.15s ease;
+}
+
+/* ── BADGE TIPO DOCUMENTO ─────────────────────────────────── */
+.badge-tipo {
+  background: #0d3d0d;
+  color: #4ade80;
+  border: 1px solid rgba(22, 163, 74, 0.4);
+  border-radius: 5px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* ── NÚMERO DE DOCUMENTO ──────────────────────────────────── */
+.badge-doc {
+  color: #86efac;
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ── CORREO ───────────────────────────────────────────────── */
+.correo-cell {
+  color: #7dd3fc;
+  font-size: 12px;
+}
+
+/* ── ESTADO ACTIVO / INACTIVO ─────────────────────────────── */
+.estado-activo {
+  background: #052e16;
+  color: #4ade80;
+  border: 1px solid rgba(22, 163, 74, 0.4);
+  border-radius: 20px;
+  padding: 3px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.estado-activo::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.estado-inactivo {
+  background: #2d0a0a;
+  color: #f87171;
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  border-radius: 20px;
+  padding: 3px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.estado-inactivo::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+/* ── BOTONES DE ACCIÓN ────────────────────────────────────── */
 .btn-accion {
-  padding: 6px 12px;
-  border-radius: 10px;
+  padding: 6px 10px;
+  border-radius: 7px;
   border: none;
   cursor: pointer;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
 }
 
-mark {
-  background: rgb(255, 255, 255);
-  padding: 0;
+.btn-accion:hover {
+  opacity: 0.8;
 }
-  
-  .btn-accion-editar{
-    background: linear-gradient(135deg, #006811, #323232);
-    margin: 10px;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    width: 60px;
-    height: 30px;
-    
+
+.btn-accion-editar {
+  background: #0d3d0d;
+  color: #4ade80;
+  border: 1px solid rgba(22, 163, 74, 0.4);
+  margin: 3px;
+  border-radius: 7px;
+  width: 32px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.btn-accion-editar:hover {
+  background: #145214;
+}
+
+.btn-accion-eliminar {
+  background: #2d0a0a;
+  color: #f87171;
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  margin: 3px;
+  border-radius: 7px;
+  width: 32px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.btn-accion-eliminar:hover {
+  background: #4a1010;
+}
+
+.btn-accion-comprar {
+  background: #0a1a3d;
+  color: #60a5fa;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  margin: 3px;
+  border-radius: 7px;
+  width: 32px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.btn-accion-comprar:hover {
+  background: #142050;
+}
+
+/* ── RESPONSIVE MÓVIL ─────────────────────────────────────── */
+@media (max-width: 600px) {
+  .tabla-contenedor {
+    margin: 20px 0;
+    padding: 0 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    box-sizing: border-box;
   }
-   .btn-accion-eliminar{
-    background: linear-gradient(135deg, #e91616, #5d5d5d81);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    width: 60px;
-    height: 30px;
-    
+
+  table {
+    width: 100%;
+    min-width: 520px;
+    font-size: 11px;
   }
+
+  td, th {
+    padding: 7px 6px;
+    font-size: 11px;
+  }
+
+  thead th {
+    font-size: 10px;
+    padding: 9px 6px;
+  }
+
+  .btn-accion-editar,
+  .btn-accion-eliminar,
+  .btn-accion-comprar {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+    margin: 2px;
+  }
+}
 
   /* Botón de búsqueda (icono) */
   .btn-buscar {
@@ -695,6 +878,7 @@ mark {
     flex-direction: column;
     min-height: 100vh;
     margin : 0;
+    background: linear-gradient(200deg, #000000, var(--fondo-degradado))!important;
   }
 
 
