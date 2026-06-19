@@ -297,8 +297,14 @@ label.sub-toggle:hover {
 
 
 .nav-icon {
-  width: 36px; height: 36px; flex-shrink: 0;
-  display: flex !important; align-items: center; justify-content: center;
+  width: 36px  !important; 
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  flex-shrink: 0 ;
+  display: flex !important;
+  align-items: center; 
+  justify-content: center;
   border-radius: 8px;
   background: rgba(255,255,255,.05);
   border: 1px solid rgba(46,204,46,.15);
@@ -311,7 +317,10 @@ label.sub-toggle:hover .nav-icon {
   box-shadow: 0 0 10px rgba(46,204,46,.2);
 }
 .nav-icon svg {
-  width: 17px; height: 17px;
+  width: 17px !important;
+   height: 17px !important;
+  max-width: 17px !important;
+  max-height: 17px !important;
   stroke: currentColor; fill: none;
   stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
   display: block;
