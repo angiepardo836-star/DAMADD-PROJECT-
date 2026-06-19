@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cuenta — DAMADD</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos/cuenta.css">
+  <link rel="stylesheet" href="estilos/variables.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -36,59 +38,9 @@
       overflow-x: hidden;
     }
  
-    
-    .header-mesas {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center;
-      background: var(--bg-mid);
-      border-bottom: 1.5px solid var(--green-border);
-      padding: 0 1.5rem; height: 62px;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.5);
-    }
-    .container { display: flex; align-items: center; }
-    .icon-menu {
-      font-size: 1.5rem; cursor: pointer; color: var(--green);
-      padding: 6px 10px; border-radius: 8px;
-      transition: background .2s; user-select: none;
-    }
-    .icon-menu:hover { background: var(--green-glow); }
-    .logo { margin-left: auto; }
-    .logo img { height: 38px; object-fit: contain; }
+  
  
-    /* ===== MENU LATERAL ===== */
-    #btn-menu { display: none; }
-    .menu-lateral {
-      position: fixed; top: 0; left: -280px;
-      width: 280px; height: 100vh; z-index: 200;
-      background: var(--bg-card);
-      border-right: 1.5px solid var(--green-border);
-      transition: left .35s cubic-bezier(.4,0,.2,1);
-      box-shadow: 4px 0 30px rgba(0,0,0,0.6);
-    }
-    #btn-menu:checked ~ .menu-lateral { left: 0; }
-    #btn-menu:checked ~ .capa { display: block; }
-    .menu-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 1.4rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .menu-header h3 { font-family: 'Nunito',sans-serif; color: var(--green); font-size: 1.1rem; }
-    .close-menu { cursor: pointer; font-size: 1.3rem; color: var(--text-muted); padding: 4px 8px; }
-    .close-menu:hover { color: var(--green); }
-    .menu-opciones ul { list-style: none; padding: .8rem 0; }
-    .menu-opciones ul li a {
-      display: block; padding: .65rem 1.5rem;
-      color: var(--text-main); text-decoration: none;
-      font-size: .95rem; font-weight: 500;
-      transition: background .2s, color .2s, padding-left .2s;
-    }
-    .menu-opciones ul li a:hover { background: var(--green-glow); color: var(--green); padding-left: 2rem; }
-    .submenu { padding-left: 1rem !important; }
-    .capa {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.6); z-index: 199;
-      backdrop-filter: blur(3px);
-    }
+    
  
   
     .boton-accesibilidad {
@@ -334,23 +286,7 @@
       box-shadow: 0 0 0 1px rgba(34,197,94,0.08), var(--shadow);
       animation: slideUp .28s ease;
     }
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.4rem;
-      padding-bottom: .8rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .modal-header h2 {
-      font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600;
-      color: var(--white);
-      display: flex; align-items: center; gap: .45rem;
-    }
-    .modal-header h2::before { content: '👤'; font-size: .9rem; }
-    .cerrar-modal {
-      background: none; border: none; color: var(--text-muted);
-      font-size: 1.4rem; cursor: pointer; line-height: 1; transition: color .2s;
-    }
-    .cerrar-modal:hover { color: var(--green); }
+
     .modal-botones { display: flex; gap: .8rem; margin-top: 1.4rem; }
     .btn-guardar, .btn-cancelar {
       flex: 1; padding: .78rem; border: none; border-radius: 10px;
@@ -413,24 +349,25 @@
 </head>
 <body>
  
-<button class="boton-accesibilidad" id="btnAcces" aria-label="Abrir opciones de accesibilidad">🎨</button>
-<div class="panel-accesibilidad" id="panel">
-  <button onclick="cambiarTema('rojo')">Rojo</button>
-  <button onclick="cambiarTema('morado')">Morado</button>
-  <button onclick="cambiarTema('azul')">Azul</button>
-  <button onclick="restablecerTema()">Restablecer</button>
-</div>
- 
-<input type="checkbox" id="btn-menu" hidden>
- 
-<header class="header-mesas"> <!-- Cabecera con logo y control de menú -->
+    <!-- 🎨 Botón de accesibilidad -->
+    <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
+    <div id="panel" class="panel-accesibilidad">
+        <button onclick="cambiarTema('rojo')">Rojo</button>
+        <button onclick="cambiarTema('morado')">Morado</button>
+        <button onclick="cambiarTema('azul')">Azul</button>
+        <button onclick="restablecerTema()">Restablecer</button>
+    </div>
+
+    <input type="checkbox" id="btn-menu" hidden> <!-- Control oculto para el menú lateral -->
+    
+      <header class="header-mesas"> <!-- Cabecera con logo y control de menú -->
         <div class="container"> <!-- Fila para centrar elementos -->
             <div class="btn-menu"> <!-- Área del botón del menú -->
                 <label for="btn-menu" class="icon-menu">☰</label> <!-- Icono que abre el menú -->
             </div> <!-- Fin botón menú -->
         </div> <!-- Fin contenedor -->
         <div class="logo"> <!-- Caja del logo -->
-           <div class="logo"> <h2>CONFI<span>GURA</span>CION</h2> </div>
+           <div class="logo"><h2>𝘾𝙐𝙀𝙉<span>𝙏</span>𝘼</h2></div>
              <!-- Botón de cuenta -->
         <a href="#" id="boton-perfil" class="cuenta-btn">
             <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
@@ -438,7 +375,6 @@
         </a>
         </div> <!-- Fin logo -->
     </header> <!-- Fin cabecera -->
-
  
 <label class="overlay" for="btn-menu"></label>
 
