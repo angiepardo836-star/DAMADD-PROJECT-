@@ -604,123 +604,88 @@
   inset: 0;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.5);
   z-index: 500;
 }
 .add-product-dialog {
-  background: linear-gradient(160deg, #1a1a1a, #0a0a0a);
-  border: 2px solid #1ed760;
-  box-shadow: 0 0 0 1px rgba(30, 215, 96, 0.15) inset, 0 12px 40px rgba(0,0,0,0.6);
-  border-radius: 22px;
-  padding: 30px;
-  width: 460px;
+  background: linear-gradient(98deg, #ffffff, #6b6b6b);
+  padding: 18px;
+  border-radius: 8px;
+  width: 420px;
   max-width: 92%;
-  color: #f5f0e1;
-  max-height: 90vh;
-  overflow-y: auto;
+  color: #000000;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
 .add-product-dialog h3 { 
-  margin: 0 0 22px 0;
-  color: #ffffff;
-  font-size: 26px;
-  font-weight: 700;
-  text-align: center;
-  border-bottom: none;
-  padding-bottom: 0;
+  margin: 0 0 8px 0; 
+
 }
 .add-product-dialog label { 
-  display: block;
-  margin-bottom: 6px;
-  color: #9a9a9a;
-  font-size: 13px;
-  font-weight: 500;
+  display:block; 
+  margin-bottom:4px; 
+  color:#333; 
 }
+
+  input:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
 .add-product-dialog input[type="text"],
 .add-product-dialog input[type="number"],
-.add-product-dialog select {
+.add-product-dialog select{
   width:100%;
-  padding:14px 16px;
-  margin-bottom:18px;
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:14px;
-  background: #141414;
-  color: #f5f0e1;
-  font-size: 15px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding:8px;
+  margin-bottom:8px;
+  border:1px solid #ccc;
+  border-radius:4px;
 }
-
-input:focus {
-  outline: none;
-  box-shadow: none;
-  border: 1px solid #ccc;
-}
-
-/* Foco específico del modal (más específico, no afecta otros formularios) */
-.add-product-dialog input[type="text"]:focus,
-.add-product-dialog input[type="number"]:focus,
-.add-product-dialog select:focus {
-  outline: none;
-  border: 1px solid #1ed760;
-  box-shadow: 0 0 0 3px rgba(30, 215, 96, 0.15);
-}
-
 .add-product-actions{
   display:flex;
-  gap:10px; 
+  gap:8px; 
   justify-content:flex-end;
-  margin-top: 6px;
 }
    
-.add-product-actions button{
-  padding:13px 20px;
-  border-radius:14px;
-  border: none;
+.add-product-actions button{ padding:8px 12px;
+  border-radius:4px; 
+  border: none; 
   cursor:pointer;
-  font-size: 15px;
-  font-weight: 600;
-  transition: background 0.2s ease, transform 0.15s ease;
  }
 .add-product-actions button:first-child{ 
   background:transparent; 
-  color:#ffffff;
-  border:1px solid rgba(255,255,255,0.2); 
+  color:#333;
+  border:1px solid #ccc; 
 }
-.add-product-actions button:first-child:hover{
-  background: rgba(255,255,255,0.06);
-}
-.add-product-actions button:last-child{
-  flex: 1;
-  background:#1ed760;
-  color:#0a0a0a;
-}
-.add-product-actions button:last-child:hover{
-  background:#19b850;
-  transform: translateY(-1px);
-}
-
-
-.search-container .btn-search{
-  padding:8px 12px;
-  border-radius:6px;
-  border:none;
-  background:linear-gradient(135deg,#006811,#323232);
+.add-product-actions button:last-child{ 
+  background:#1c6c2c; 
   color:#fff;
-  cursor:pointer;
 }
 
-#modalEdit .modal-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Crea dos columnas de inputs */
-    gap: 10px;
-    padding: 20px;
-}
 
-#modalEdit input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+  .search-container .btn-search{
+    padding:8px 12px;
+    border-radius:6px;
+    border:none;
+    background:linear-gradient(135deg,#006811,#323232);
+    color:#fff;
+    cursor:pointer;
+  }
+
+  #modalEdit .modal-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Crea dos columnas de inputs */
+      gap: 10px;
+      padding: 20px;
+  }
+
+  #modalEdit input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+
   /* footer de la pagina */
   footer.footer-main {
     background: linear-gradient(135deg, #0e5001, #030403);

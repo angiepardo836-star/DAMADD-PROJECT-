@@ -40,7 +40,54 @@
  
   
  
+<<<<<<< HEAD
+    /* ===== MENU LATERAL ===== */
+    #btn-menu { display: none; }
+    .menu-lateral {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100vh;
+      z-index: 2500;
+      background: linear-gradient(180deg, #0c280c 0%, #081a08 60%, #050f05 100%);
+      border-right: 1px solid rgba(34,197,94,0.55);
+      box-shadow: 4px 0 30px rgba(0,0,0,.7);
+      transform: translateX(-100%);
+      transition: transform .38s cubic-bezier(.4,0,.2,1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #btn-menu:checked ~ .menu-lateral { transform: translateX(0); left: 0; }
+    #btn-menu:checked ~ .overlay,
+    #btn-menu:checked ~ .capa { display: block; }
+    .menu-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 1.4rem;
+      border-bottom: 1px solid rgba(46,204,46,.18);
+      background: linear-gradient(135deg, rgba(46,204,46,.08) 0%, transparent 100%);
+    }
+    .menu-header h3 { font-family: 'Nunito',sans-serif; color: var(--green); font-size: 1.1rem; }
+    .close-menu { cursor: pointer; font-size: 1.3rem; color: var(--text-muted); padding: 4px 8px; }
+    .close-menu:hover { color: var(--green); }
+    .menu-opciones ul { list-style: none; padding: .8rem 0; }
+    .menu-opciones ul li a {
+      display: block; padding: .65rem 1.5rem;
+      color: var(--text-main); text-decoration: none;
+      font-size: .95rem; font-weight: 500;
+      transition: background .2s, color .2s, padding-left .2s;
+    }
+    .menu-opciones ul li a:hover { background: var(--green-glow); color: var(--green); padding-left: 2rem; }
+    .submenu { padding-left: 1rem !important; }
+    .overlay, .capa {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.65); z-index: 199;
+      backdrop-filter: blur(3px);
+    }
+=======
     
+>>>>>>> 3961b39fe0f6e6d6ef26b23628a4eca16072c98a
  
   
     .boton-accesibilidad {

@@ -90,6 +90,48 @@
     overflow-y: auto;
 }
 
+<<<<<<< HEAD
+
+.marca {
+    display: flex;
+    justify-content: center;
+    margin-top: -400px;
+    z-index: 1;
+  
+}
+.marca img{
+    width: 600px;
+    height: auto;
+}
+.header-mesas {
+    background: linear-gradient(98deg, #146d02, #000000);
+    box-shadow: 0 10px 6px rgb(0, 0, 0);
+    height: 110px;
+    padding: 10px;
+    color: white;
+    position: relative;
+    z-index: 100;
+}
+
+.icon-menu {
+    font-size: 28px;
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    width: 45px;
+    text-align: center;
+    transition: background 0.3s ease;
+} 
+
+.icon-menu:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+
+=======
+>>>>>>> 3961b39fe0f6e6d6ef26b23628a4eca16072c98a
 /* Menú lateral */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -119,7 +161,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.65) !important;
+    background: rgba(155, 33, 33, 0.65) !important;
     backdrop-filter: blur(3px);
     opacity: 0; 
     pointer-events: none;
