@@ -9,33 +9,38 @@ async function obtenerProveedores() {
     try {
         const respuesta = await fetch('/obtener-proveedores');
         const proveedores = await respuesta.json();
-
+ 
         const tbody = document.getElementById('cuerpoTabla');
         if (!tbody) return;
-
+ 
         tbody.innerHTML = "";
-
+ 
         proveedores.forEach(p => {
             const tr = document.createElement('tr');
             tr.setAttribute('data-id', p.documento);
             tr.innerHTML = `
-                <td>${p.tipo_documento}</td>
-                <td>${p.documento}</td>
+                <td><span class="badge-tipo">${p.tipo_documento}</span></td>
+                <td><span class="badge-doc">${p.documento}</span></td>
                 <td>${p.nombre}</td>
                 <td>${p.apellido}</td>
                 <td>${p.telefono}</td>
                 <td>${p.ciudad}</td>
                 <td>${p.direccion}</td>
-                <td>${p.correo}</td>
-                <td>${p.estado}</td>
+                <td class="correo-cell">${p.correo}</td>
                 <td>
-                    <button class="btn-accion-editar" onclick="editarFila(this)">Editar</button>
-                    <button class="btn-accion-eliminar" onclick="eliminarProveedor(${p.documento})">Eliminar</button>
-                    <button class="btn-accion-comprar" onclick="realizarCompra(${p.documento}, '${p.nombre}')" style="background-color:#28a745;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;margin-left:5px;">Comprar</button>
+                    <span class="${p.estado === 'Activo' ? 'estado-activo' : 'estado-inactivo'}">
+                        ${p.estado}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn-accion-editar"  onclick="editarFila(this)">✏️</button>
+                    <button class="btn-accion-eliminar" onclick="eliminarProveedor(${p.documento})">🗑️</button>
+                    <button class="btn-accion-comprar"  onclick="realizarCompra(${p.documento}, '${p.nombre}')">🛒</button>
                 </td>
             `;
             tbody.appendChild(tr);
         });
+ 
     } catch (error) {
         console.error("Error al obtener proveedores:", error);
     }
