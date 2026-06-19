@@ -12,14 +12,6 @@
 </head> <!-- Fin head -->
 
 <body> <!-- Contenido visible -->
-        <!-- 🎨 Botón de accesibilidad -->
-    <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
-    <div id="panel" class="panel-accesibilidad">
-        <button onclick="cambiarTema('rojo')">Rojo</button>
-        <button onclick="cambiarTema('morado')">Morado</button>
-        <button onclick="cambiarTema('azul')">Azul</button>
-        <button onclick="restablecerTema()">Restablecer</button>
-    </div>
  
     <input type="checkbox" id="btn-menu" hidden> <!-- Control oculto para el menú lateral -->
     
@@ -272,7 +264,6 @@
     <!-- Script: búsqueda y edición en la tabla -->
     <script src="js/proveedores.js"></script>
     <script src="js/memoriaPersonalizacion.js"></script>
-    <script src="js/personalizacion.js"></script>
     <script src="js/global.js"></script>
 
     </div> <!-- Fin contenido principal -->
@@ -312,20 +303,6 @@
         <p>&copy; 2026 DAMADD. Todos los derechos reservados a DAMADD.</p> <!-- Derechos -->
         </div> 
     </footer> <!-- Fin footer -->
-    <script>
-window.addEventListener("DOMContentLoaded", function() {
-    const boton = document.querySelector(".boton-accesibilidad");
-    const panel = document.getElementById("panel");
-    if (!boton || !panel) return;
-    boton.onclick = function() {
-        panel.style.display = panel.style.display === "block" ? "none" : "block";
-    };
-    window.addEventListener("click", function(e) {
-        if (e.target === panel) {
-            panel.style.display = "none";
-        }
-    });
-});
-</script>
+    
 </body>
 </html>
