@@ -423,17 +423,22 @@
  
 <input type="checkbox" id="btn-menu" hidden>
  
+<header class="header-mesas"> <!-- Cabecera con logo y control de menú -->
+        <div class="container"> <!-- Fila para centrar elementos -->
+            <div class="btn-menu"> <!-- Área del botón del menú -->
+                <label for="btn-menu" class="icon-menu">☰</label> <!-- Icono que abre el menú -->
+            </div> <!-- Fin botón menú -->
+        </div> <!-- Fin contenedor -->
+        <div class="logo"> <!-- Caja del logo -->
+           <div class="logo"> <h2>CONFI<span>GURA</span>CION</h2> </div>
+             <!-- Botón de cuenta -->
+        <a href="#" id="boton-perfil" class="cuenta-btn">
+            <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
+            <span id="nombre-display" class="nombre">Cargando...</span>
+        </a>
+        </div> <!-- Fin logo -->
+    </header> <!-- Fin cabecera -->
 
-<header class="header-mesas">
-  <div class="container">
-    <div class="btn-menu">
-      <label for="btn-menu" class="icon-menu">☰</label>
-    </div>
-  </div>
-  <div class="logo">
-    <img src="imagenes/Logo_configuracion.png" alt="logo">
-  </div>
-</header>
  
 <label class="overlay" for="btn-menu"></label>
 
