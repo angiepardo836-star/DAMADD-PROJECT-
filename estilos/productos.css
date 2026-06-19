@@ -59,7 +59,7 @@
 
 .header-mesas {
     background: linear-gradient(98deg, #146d02, #000000);
-    box-shadow: 0 10px 6px rgb(0, 0, 0);
+    border-bottom: var(--color-principal) 5px solid;
     height: 110px;
     padding: 10px;
     color: white;
