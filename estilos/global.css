@@ -231,10 +231,6 @@ input::-ms-clear {
     margin: 0;
 }
 
-@keyframes pFadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
 .icono-img {
     width: 23px;
     height: 23px;
@@ -278,4 +274,10 @@ input::-ms-clear {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; /* Pone "..." si el nombre es muy largo */
+}
+
+@media (max-width: 800px) {
+    .cuenta-btn {
+        width: 15px;
+    }
 }
