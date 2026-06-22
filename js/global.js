@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    const togglers = document.querySelectorAll(".toggle-password, .toggle-passwordd, .toggle-passwordd-sub");
+
+    const eyeOpen = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    const eyeClosed = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+    togglers.forEach(btn => {
+        btn.addEventListener("click", function() {
+            const input = this.parentElement.querySelector("input");
+            
+            if (input.type === "password") {
+                input.type = "text";
+                this.innerHTML = eyeClosed; // Cambia a icono tachado
+            } else {
+                input.type = "password";
+                this.innerHTML = eyeOpen; // Vuelve al ojo normal
+            }
+        });
+    });
+
     const inputsAValidar = [
         document.getElementById('perfil-nombre'),
         document.getElementById('perfil-apellido')
@@ -311,11 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputsContrasenas = [
         document.getElementById('pass-nueva'),
-        document.getElementById('pass-confirmar'),
-        document.getElementById('pass-actual')
     ];
 
-
+    const passwordRequisitos = document.getElementById('password-requisitos');
     const validarContraseña = (value, inputElement) => {
         if (!inputElement) return;
 
@@ -323,10 +340,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (value === "") {
             inputElement.style.borderColor = '';
+            passwordRequisitos.style.display = 'none';
         } else if (estructuraContrasena.test(value)) { 
             inputElement.style.borderColor = '';
+            passwordRequisitos.style.display = 'none';
         } else {
             inputElement.style.borderColor = 'red';
+            if (document.activeElement.id === 'pass-nueva') {
+                passwordRequisitos.style.display = 'block';
+            } 
         }
     };
 
@@ -341,6 +363,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+
+    const passEl = document.getElementById('pass-nueva');
+
+    passEl && passEl.addEventListener('input', () => {
+        const v = passEl.value;
+        let score = 0;
+        if (v.length >= 6)  score++;
+        if (v.length >= 10) score++;
+        if (/[!@#$%^&*.]/.test(v)) score++;
+        if (/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
+        const colors = ['red','#e67e22','#f1c40f','#1eb304'];
+        const labels = ['Muy débil','Débil','Buena','Fuerte'];
+        [1,2,3,4].forEach(i => {
+        document.getElementById('s'+i).style.background = i <= score ? colors[score-1] : '#2e2e2e';
+        });
+        document.getElementById('strength-label').textContent = v.length ? (labels[score-1]||'') : '';
+    });
 
     let toastTimer;
     function showAlert(msg) {
@@ -360,35 +400,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
+    let toastTimer1;
+    function showAlert1(msg) {
+        const t = document.getElementById('toast1');
+        if (!t) return;
+
+        t.textContent = msg;
+        
+        t.style.transform = 'translateX(-50%) translateY(0)';
+        t.style.opacity = '1';
+
+        clearTimeout(toastTimer);
+        
+        toastTimer = setTimeout(() => { 
+            t.style.transform = 'translateX(-50%) translateY(-100px)'; 
+            t.style.opacity = '0'; 
+        }, 4000);
+    }
+
 (function() {
-    const nombreReal = sessionStorage.getItem('usuarioNombre');
+    const nombre = sessionStorage.getItem('usuarioNombre');
     const rol = sessionStorage.getItem('usuarioRol');
 
-    if (!nombreReal || !rol) {
+    if (!nombre || !rol) {
         window.location.href = 'Inicio_sesion.html'; 
         return;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         document.body.style.visibility = 'visible';
-        
         const nombreDisplay = document.getElementById('nombre-display');
-        if (nombreDisplay) {
-            nombreDisplay.textContent = nombreReal;
-        }
+        if (nombreDisplay) nombreDisplay.textContent = nombre;
 
         const botonPerfil = document.getElementById('boton-perfil');
         if (botonPerfil) {
             botonPerfil.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (rol === 'Empleado') {
-                    abrirModalPerfil(); 
-                } else {
-                    window.location.href = 'cuenta.html';
-                }
+                if (rol === 'Empleado') abrirModalPerfil(); 
+                else window.location.href = 'cuenta.html';
             });
         }
-        
         inicializarEventosPerfil();
     });
 })();
@@ -404,8 +455,6 @@ async function abrirModalPerfil() {
         if (!respuesta.ok) throw new Error("Error al obtener datos del servidor.");
         
         const datos = await respuesta.json();
-
-        document.getElementById('perfil-badge-rol').textContent = datos.rol || 'Empleado';
         document.getElementById('perfil-tipo-doc').value       = datos.tipo_documento || '';
         document.getElementById('perfil-documento').value      = datos.documento || '';
         document.getElementById('perfil-nombre').value         = datos.nombre || '';
@@ -414,63 +463,115 @@ async function abrirModalPerfil() {
         document.getElementById('perfil-telefono').value       = datos.telefono || '';
         document.getElementById('perfil-correo').value         = datos.correo || '';
 
+        // Limpia los inputs de contraseñas 
+        document.getElementById('pass-nueva').value = '';
+        document.getElementById('pass-confirmar').value = '';
+        document.getElementById('perfil-telefono').style.borderColor = ''; 
+        document.getElementById('perfil-correo').style.borderColor = ''; 
+        document.getElementById('pass-nueva').style.borderColor = ''; 
+        document.getElementById('pass-confirmar').style.borderColor = ''; 
+        document.getElementById('password-requisitos').style.display = 'none';
+        
         modal.style.display = 'flex';
-
     } catch (error) {
-        console.error("Error al conectar con el servidor:", error);
+        console.error("Error en el servidor:", error);
         showAlert("No se pudieron cargar los datos de tu perfil.");
     }
 }
 
 function inicializarEventosPerfil() {
     const modal = document.getElementById('modal-perfil');
-    const btnCambiarPass = document.getElementById('btn-cambiar-pass');
-    const seccionPassword = document.getElementById('seccion-password');
+    const subModal = document.getElementById('sub-modal-confirmar');
 
-    document.getElementById('cerrar-modal').addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
+    // modal principal
+    document.getElementById('cerrar-modal').addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
+    // sub-modal
+    document.getElementById('cerrar-sub-modal').addEventListener('click', () => { subModal.style.display = 'none'; });
+
+    document.getElementById('btn-guardar-perfil').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (!document.getElementById('perfil-nombre').value || !document.getElementById('perfil-apellido').value || !document.getElementById('perfil-telefono').value || !document.getElementById('perfil-correo').value) {
+            showAlert("Los campos obligatorios no pueden quedar vacíos.");
+            return;
         }
-    });
 
-    const passActual = document.getElementById('pass-actual');
-    if (btnCambiarPass) {
-        btnCambiarPass.addEventListener('click', () => {
-            if (passActual.value === "" ) {
-                showAlert("Por favor, ingresa tu contraseña actual para habilitar el cambio.");
+        const telefono = document.getElementById('perfil-telefono').value.trim();
+
+        if (telefono.length !== 10) {
+            showAlert("El número de teléfono debe tener 10 dígitos.");
+            return;
+        } 
+
+        if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/.test(document.getElementById('perfil-correo').value)) {
+            showAlert("El correo electrónico no es válido.");
+            return;
+        }
+
+        const passNueva = document.getElementById('pass-nueva').value;
+        const passConfirmar = document.getElementById('pass-confirmar').value;
+
+        if (passNueva !== "" || passConfirmar !== "") {
+            const estructuraContrasena = /^(?=.*[._%+@#$?!&*-])[a-zA-Z0-9._%+-@#$?!&*]{8,30}$/;
+            if (!estructuraContrasena.test(passNueva)) {
+                showAlert("La nueva contraseña no cumple con los requisitos mínimos de seguridad.");
                 return;
             }
-            seccionPassword.style.display = 'block';
-            btnCambiarPass.innerText = "Guardar nueva contraseña";
-        });
-    }
+            if (passNueva !== passConfirmar) {
+                showAlert("La nueva contraseña y su confirmación no coinciden.");
+                return;
+            }
+        }
 
-    document.getElementById('btn-guardar-perfil').addEventListener('click', guardarCambiosPerfil);
+        document.getElementById('pass-actual-confirmar').value = "";
+        subModal.style.display = 'flex';
+    });
+
+    document.getElementById('btn-verificar-final').addEventListener('click', ejecutarGuardadoConVerificacion);
 }
 
-async function guardarCambiosPerfil() {
+async function ejecutarGuardadoConVerificacion() {
     const documento = sessionStorage.getItem('usuarioId');
+    const passActual = document.getElementById('pass-actual-confirmar').value;
+    const passNueva = document.getElementById('pass-nueva').value;
 
-    const datosParaEnviar = {
-        tipo_documento: document.getElementById('perfil-tipo-doc').value,
-        nombre:         document.getElementById('perfil-nombre').value.trim(),
-        apellido:       document.getElementById('perfil-apellido').value.trim(),
-        usuario:        document.getElementById('perfil-usuario').value.trim(),
-        telefono:       document.getElementById('perfil-telefono').value.trim(),
-        correo:         document.getElementById('perfil-correo').value.trim(),
-        contrasena:     "" 
-    };
-
-    if (!datosParaEnviar.nombre || !datosParaEnviar.apellido || !datosParaEnviar.usuario || !datosParaEnviar.correo) {
-        showAlert("Los campos obligatorios de tu cuenta no pueden quedar vacíos.");
+    if (!passActual) {
+        showAlert1("Debes escribir tu contraseña actual para confirmar.");
         return;
     }
 
     try {
+        // Verifica la contraseña actual 
+        const resVerificar = await fetch('/verificar-password-admin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ documento: documento, password_ingresada: passActual })
+        });
+
+        const dataVerificar = await resVerificar.json();
+
+        if (!dataVerificar.success) {
+            showAlert1("La contraseña actual ingresada es incorrecta.");
+            return;
+        }
+
+        // actualiza el perfil
+        const datosParaEnviar = {
+            nombre:    document.getElementById('perfil-nombre').value.trim(),
+            apellido:  document.getElementById('perfil-apellido').value.trim(),
+            usuario:   document.getElementById('perfil-usuario').value.trim(),
+            telefono:  document.getElementById('perfil-telefono').value.trim(),
+            correo:    document.getElementById('perfil-correo').value.trim(),
+            contrasena: passNueva 
+        };
+
+        if (!datosParaEnviar.nombre || !datosParaEnviar.apellido || !datosParaEnviar.usuario || !datosParaEnviar.correo || !datosParaEnviar.telefono) {
+            showAlert1("Los campos obligatorios no pueden quedar vacíos.");
+            return;
+        }
+
         const respuesta = await fetch(`/editar-usuario/${documento}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -480,88 +581,23 @@ async function guardarCambiosPerfil() {
         const resultado = await respuesta.json();
 
         if (resultado.success) {
-            showAlert("Cambios de perfil guardados correctamente.");
+            showAlert1("Cambios guardados correctamente.");
             sessionStorage.setItem('usuarioNombre', datosParaEnviar.nombre);
             
             setTimeout(() => {
+                document.getElementById('sub-modal-confirmar').style.display = 'none';
                 document.getElementById('modal-perfil').style.display = 'none';
                 location.reload();
             }, 1500);
         } else {
-            showAlert(resultado.message || "Hubo un error al guardar los cambios.");
+            showAlert1(resultado.message || "Hubo un error al guardar los cambios.");
         }
+
     } catch (error) {
-        console.error("Error en la petición:", error);
-        showAlert("No se pudo conectar con el servidor.");
+        console.error("Error en el proceso de guardado:", error);
+        showAlert1("Error en el servidor.");
     }
 }
 
-async function confirmarNuevaContrasena() {
-    const documento = sessionStorage.getItem('usuarioId');
-    const passActual = document.getElementById('pass-actual').value;
-    const passNueva = document.getElementById('pass-nueva').value;
 
-    if (!passActual || !passNueva) {
-        showAlert("Por favor, completa ambos campos de contraseña.");
-        return;
-    }
 
-    const estructuraContrasena = /^(?=.*[._%+@#$?!&*-])[a-zA-Z0-9._%+-@#$?!&*]{8,30}$/;
-    
-    if (!estructuraContrasena.test(passNueva)) {
-        showAlert("La nueva contraseña debe tener entre 8 y 30 caracteres e incluir al menos un símbolo especial (ej: . _ % + @ # $ ? ! & * -).");
-        return;
-    }
-
-    try {
-        const resVerificar = await fetch('/verificar-password-admin', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_usuario: documento, password_ingresada: passActual })
-        });
-
-        const dataVerificar = await resVerificar.json();
-
-        if (!dataVerificar.success) {
-            showAlert("La contraseña actual ingresada es incorrecta.");
-            return;
-        }
-
-        const datosEdicion = {
-            tipo_documento: document.getElementById('perfil-tipo-doc').value,
-            nombre:         document.getElementById('perfil-nombre').value.trim(),
-            apellido:       document.getElementById('perfil-apellido').value.trim(),
-            usuario:        document.getElementById('perfil-usuario').value.trim(),
-            telefono:       document.getElementById('perfil-telefono').value.trim(),
-            correo:         document.getElementById('perfil-correo').value.trim(),
-            contrasena:     passNueva 
-        };
-
-        const resGuardar = await fetch(`/editar-usuario/${documento}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datosEdicion)
-        });
-
-        if (resGuardar.ok) {
-            showAlert("Contraseña modificada con éxito. La interfaz se actualizará.");
-            setTimeout(() => location.reload(), 1500);
-        } else {
-            showAlert("No se pudo procesar la actualización de la clave.");
-        }
-    } catch (error) {
-        console.error("Error en cambio de clave:", error);
-        showAlert("Error de conexión durante la validación de seguridad.");
-    }
-}
-
-function toggleVisibility(idInput, icono) {
-    const input = document.getElementById(idInput);
-    if (input.type === "password") {
-        input.type = "text";
-        icono.classList.replace('fa-eye', 'fa-eye-slash');
-    } else {
-        input.type = "password";
-        icono.classList.replace('fa-eye-slash', 'fa-eye');
-    }
-}
