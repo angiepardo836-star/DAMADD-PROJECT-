@@ -143,12 +143,11 @@ app.put('/editar-proveedor/:id', (req, res) => {
 
     const sql = `
         UPDATE proveedor 
-        SET nombre_proveedor=?, certificacion_proveedor=?, telefono_proveedor=?, 
-            ciudad_proveedor=?, direccion_proveedor=?, correo_proveedor=?, producto_proveedor=? 
-        WHERE id_proveedor=?
+        SET tipo_documento=?, documento=?, nombre=?, apellido=?, telefono=?, ciudad=?, direccion=?, estado=?, correo=?
+        WHERE documento=?
     `;
 
-    db.query(sql, [nombre, documento, telefono, ciudad, direccion, estado, correo, id], (err) => {
+    db.query(sql, [tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo, id], (err) => {
         if (err) {
             console.error(err);
             return res.status(500).send("Error");
