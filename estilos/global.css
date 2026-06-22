@@ -182,7 +182,7 @@ input::-ms-clear {
 .toggle-passwordd-sub {
     position: absolute;
     right: 5%;
-    top: 30%;
+    top: 25%;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -251,11 +251,14 @@ input::-ms-clear {
     gap: 10px;
     text-decoration: none;
     background: linear-gradient(98deg, #146d02, #084101);
+    border: 2px solid var(--verde-acento, #2ecc2e);
     color: white;
-    padding: 15px 20px;
+    padding: 12px 22px;
     border-radius: 25px;
-    transition: background 0.3s ease;
-    z-index: 1000; /* Para que quede encima de todo */
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .cuenta-btn:hover {
@@ -263,7 +266,9 @@ input::-ms-clear {
 }
 
 .icono {
-    font-size: 20px;
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
 }
 
 .nombre {
