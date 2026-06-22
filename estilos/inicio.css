@@ -575,7 +575,13 @@ label.sub-toggle:hover .nav-icon {
     text-align: center;
     margin-bottom: 25px;
 }
+.stats{background:#120029;padding:20px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-bottom:1px solid var(--color-principal);}
+.stat{text-align:center;}
+.stat-num{font-size:24px;font-weight:800;background:linear-gradient(90deg,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-size:11px;color:#9ca3af;margin-top:2px;}
 
+/* SECTION TITLE */
+.sec-title{text-align:center;padding:24px 16px 16px;font-size:16px;font-weight:700;letter-spacing:2px;color:#e9d5ff;}
 /* ==========================================================================
    CONTENEDORES DE IMÁGENES (ESTANDARIZACIÓN PARA EVITAR DESBORDES)
    ========================================================================== */

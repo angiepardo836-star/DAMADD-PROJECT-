@@ -132,6 +132,8 @@
 
       <div class="carousel-indicators" aria-hidden="false"></div> <!-- Contenedor para los puntos indicadores -->
 
+      
+
       <div class="carousel-text text_1"> <!-- Texto superpuesto al carrusel -->
         <h1 class="card-titulo">
           <img src="imagenes/bola-amarilla.png" class="icono-titulo1"> <!-- Imagen de la bola amarilla -->
@@ -142,6 +144,13 @@
         <h3>LA MEJOR OPCIÓN</h3> <!-- Mensaje secundario breve -->
       </div> <!-- Fin carousel-text -->
     </section> <!-- Fin section carrusel -->
+
+    <!-- ESTADÍSTICAS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="s1">0</div><div class="stat-label">Mesas gestionadas</div></div>
+  <div class="stat"><div class="stat-num" id="s2">0</div><div class="stat-label">Horas registradas</div></div>
+  <div class="stat"><div class="stat-num" id="s3">0</div><div class="stat-label">Negocios activos</div></div>
+</div>
 
 <h1 class="titulo_funcion">FUNCIONES DEL SOFTWARE DAMADD</h1>
 
@@ -503,6 +512,40 @@ async function searchSong() {
         console.error("Error en la petición de música:", error);
         alert('Hubo un problema al conectar con el servidor de música.');
     }
+}
+let cur = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+
+function goSlide(n){
+  slides[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur = (n + slides.length) % slides.length;
+  slides[cur].classList.add('active');
+  dots[cur].classList.add('active');
+}
+function changeSlide(d){ goSlide(cur + d); }
+setInterval(()=>changeSlide(1), 4000);
+
+function animCount(id, target, suffix){
+  let v=0; const step=Math.ceil(target/40);
+  const t=setInterval(()=>{
+    v=Math.min(v+step,target);
+    document.getElementById(id).textContent=v.toLocaleString()+(suffix||'');
+    if(v>=target) clearInterval(t);
+  },40);
+}
+setTimeout(()=>{
+  animCount('s1',200,'+');
+  animCount('s2',10000,'+');
+  animCount('s3',50,'+');
+},300);
+
+function toggleFaq(el){
+  const ans=el.nextElementSibling;
+  const icon=el.querySelector('.faq-icon');
+  ans.classList.toggle('show');
+  icon.classList.toggle('open');
 }
 </script>
 <script src="js/inicio.js"></script>
