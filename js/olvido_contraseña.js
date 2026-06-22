@@ -86,10 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
     const inputsContrasenas = [
-        document.getElementById('login-pass-confirm'),
         document.getElementById('login-pass'),
     ];
-
+    const passwordRequisitos = document.getElementById('password-requisitos');
 
     const validarContraseña = (value, inputElement) => {
         if (!inputElement) return;
@@ -98,11 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (value === "") {
             inputElement.style.borderColor = '';
+            passwordRequisitos.style.display = 'none';
         } else if (estructuraContrasena.test(value)) { 
             inputElement.style.borderColor = '';
+            passwordRequisitos.style.display = 'none';
         } else {
             inputElement.style.borderColor = 'red';
+            if (document.activeElement.id === 'login-pass') {
+                passwordRequisitos.style.top = '129%';
+                passwordRequisitos.style.display = 'block';
+            }
         }
+
     };
 
     inputsContrasenas.forEach(input => {
@@ -419,5 +425,23 @@ document.addEventListener('DOMContentLoaded', () => {
         btnGuardar.disabled = false;
     }
   });
+
+    const passEl = document.getElementById('login-pass');
+
+    passEl && passEl.addEventListener('input', () => {
+        const v = passEl.value;
+        let score = 0;
+        if (v.length >= 6)  score++;
+        if (v.length >= 10) score++;
+        if (/[!@#$%^&*.]/.test(v)) score++;
+        if (/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
+        const colors = ['red','#e67e22','#f1c40f','#1eb304'];
+        const labels = ['Muy débil','Débil','Buena','Fuerte'];
+        [1,2,3,4].forEach(i => {
+        document.getElementById('s'+i).style.background = i <= score ? colors[score-1] : '#2e2e2e';
+        });
+        document.getElementById('strength-label').textContent = v.length ? (labels[score-1]||'') : '';
+    });
+
 
 });

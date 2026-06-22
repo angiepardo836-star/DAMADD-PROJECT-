@@ -17,6 +17,49 @@
 </head>
 
 <body>
+    <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="ic-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+        </symbol>
+        <symbol id="ic-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/>
+            <line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>
+        </symbol>
+        <symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </symbol>
+        <symbol id="ic-at" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/>
+        </symbol>
+        <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.26 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.17 1.28h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+        </symbol>
+        <symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+        </symbol>
+        <symbol id="ic-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </symbol>
+        <symbol id="ic-check-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <polyline points="9 16 11 18 15 14"/>
+        </symbol>
+        <symbol id="ic-badge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+        </symbol>
+        <symbol id="ic-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+        </symbol>
+        <symbol id="ic-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+            <line x1="1" y1="1" x2="23" y2="23"/>
+        </symbol>
+    </svg>
+
     <!-- 🎨 BOTÓN -->
 <button class="boton-accesibilidad">🎨</button>
 
@@ -49,7 +92,6 @@
                     </div>
                     <br><br>
 
-                    <div id="error-message" role="alert" aria-live="assertive"></div>
                     <button type="submit">Iniciar sesión</button>
                     <p style="cursor: pointer; color: #ffffff; margin-top: -20px; text-align: center; font-size: 14px;">
                         <a id="abrir-registro" style="text-decoration: none; font-weight: bold;">¿No tienes cuenta? <span style="text-decoration: underline;">Registrar una cuenta</span></a>
@@ -64,50 +106,85 @@
     <div id="modal-registro">
         <div>
             <div class="modal-header">
-                <h2>Crear Cuenta</h2>
-                <button id="cerrar-modal">&times;</button>
+                <h2>Crear <span>Cuenta</span></h2>
+                <button id="cerrar-modal" class="p-close-btn">&times;</button>
             </div>
             <form id="registro-form">
                 <div class="columna-izquierda">
                 
                     <label for="tipo-documento">Tipo de documento <span>*</span></label>
-                    <select id="tipo-documento" name="tipo_documento" required>
-                        <option value="CC">Cédula de Ciudadanía</option>
-                        <option value="CE">Cédula de Extranjería</option> 
-                        <option value="PA">Pasaporte</option>
-                        <option value="PPT">Permiso por Protección Temporal</option> <!--  -->
-                    </select>
+                    <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-doc"/></svg>
+                        <select id="tipo-documento" name="tipo_documento" required>
+                            <option value="CC">Cédula de Ciudadanía</option>
+                            <option value="CE">Cédula de Extranjería</option> 
+                            <option value="PA">Pasaporte</option>
+                            <option value="PPT">Permiso por Protección Temporal</option> <!--  -->
+                        </select>
+                    </div>
 
                     <label for="numero-documento">Número de documento <span>*</span></label>
-                    <input type="text" id="numero-documento" name="numero_documento" placeholder="Número de documento" maxlength="15" required> 
+                    <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-hash"/></svg>
+                        <input type="text" id="numero-documento" name="numero_documento" placeholder="Número de documento" maxlength="15" required>
+                    </div> 
 
-                    <label for="nombre">Nombre <span>*</span></label>
-                    <input type="text" id="nombre" name="nombre_usuario" placeholder="Nombre" maxlength="100" required> 
+                    <label for="nombre">Nombre(s) <span>*</span></label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-user"/></svg>
+                        <input type="text" id="nombre" name="nombre_usuario" placeholder="Nombre" maxlength="100" required>
+                    </div>
                     
-                    <label for="apellido">Apellido <span>*</span></label>
-                    <input type="text" id="apellido" name="apellido_usuario" placeholder="Apellido" maxlength="100" required> 
+                    <label for="apellido">Apellido(s) <span>*</span></label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-user"/></svg>
+                        <input type="text" id="apellido" name="apellido_usuario" placeholder="Apellido" maxlength="100" required> 
+                    </div>
 
                     <label for="usuario-registro">Usuario <span>*</span></label>
-                    <input type="text" id="usuario-registro" name="usuario_usuario" placeholder="Usuario para iniciar sesión"  maxlength="30" required>
+                    <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-at"/></svg>
+                        <input type="text" id="usuario-registro" name="usuario_usuario" placeholder="Usuario para iniciar sesión"  maxlength="30" required>
+                    </div>
+                    
                 </div>
 
                 <div class="columna-derecha">
                     <label for="telefono">Teléfono <span>*</span></label>
-                    <input type="tel" id="telefono" name="telefono_usuario" placeholder="Número celular o fijo" minlength="10" maxlength="10" required> 
+                    <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-phone"/></svg>
+                        <input type="tel" id="telefono" name="telefono_usuario" placeholder="Número celular o fijo" minlength="10" maxlength="10" required> 
+                    </div>
 
                     <label for="gmail">Correo <span>*</span></label>
-                    <input type="email" id="gmail" name="correo_usuario" placeholder="nombre@dominio.com" maxlength="100" required> 
+                    <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-mail"/></svg>
+                        <input type="email" id="gmail" name="correo_usuario" placeholder="nombre@dominio.com" maxlength="100" required> 
+                    </div>
+
                     
                     <label for="password">Contraseña <span>*</span></label>
                     <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-lock"/></svg>
                         <input type="password" id="password" name="contraseña_usuario" minlength="8" maxlength="30" pattern="(?=.*[!@#$%^&*.]).{8,}" title="Debe tener al menos 8 caracteres y 1 carácter especial" placeholder="Mín. 8 caracteres y 1 especial" required>
                         <span class="toggle-passwordd">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </span>
+                        <div id="password-requisitos" class="password-requisitos" style="display: none;"> 
+                            <p>Mín. 8 caracteres y 1 especial</p>
+                        </div>
                     </div>
+                    <div class="strength-bar">
+                        <div class="strength-seg" id="s1"></div>
+                        <div class="strength-seg" id="s2"></div>
+                        <div class="strength-seg" id="s3"></div>
+                        <div class="strength-seg" id="s4"></div>
+                    </div>
+                    <p class="strength-label" id="strength-label"></p>
     
-                    <label for="confirmar-contrasena">Confirmar contraseña <span>*</span></label>
+                    <label for="confirmar-contrasena" style="margin-top:16.5px;">Confirmar contraseña <span>*</span></label>
                     <div class="input-wrapper">
+                        <svg class="input-icon"><use href="#ic-check-lock"/></svg>
                         <input type="password" id="confirmar-contrasena" name="confirmar_contraseña_usuario" minlength="8" maxlength="30" pattern="(?=.*[!@#$%^&*.]).{8,}" title="Debe tener al menos 8 caracteres y 1 carácter especial" placeholder="Mín. 8 caracteres y 1 especial" required>
                         <span class="toggle-passwordd">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -117,6 +194,7 @@
                     <div id="contenedor-admin-key">
                         <label for="admin-key">Clave de autorización <span>*</span></label>
                         <div class="input-wrapper">
+                            <svg class="input-icon"><use href="#ic-lock"/></svg>
                             <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
                             <span class="toggle-passwordd">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -124,7 +202,8 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit">Registrar cuenta</button>
+                <div class="linea"></div>
+                <button type="submit" class="p-btn-primario">Registrar cuenta</button>
             </form>
         </div>
         <div id="toast" style="position:fixed;top:2rem;left:50%;transform:translateX(-50%) translateY(-100px);background:#04780a;color:white;padding:10px;width:30%;border-radius:10px;font-size:18px;box-shadow:#000 0px 0px 10px;opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:300;min-width:30px;text-align:center;"></div>

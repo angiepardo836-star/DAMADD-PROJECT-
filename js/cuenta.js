@@ -42,17 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('sin-cuentas').style.display = 'none';
 
-            usuarios.forEach(user => {
+            usuarios.forEach(u => {
+                const usuario      = u.usuario || u.usuario_usuario || '—';
+                const nombre       = u.nombre || u.nombre_usuario || '—';
+                const apellido     = u.apellido || u.apellido_usuario || '—';
+                const correo       = u.correo || u.correo_usuario || '—';
+                const cargo        = u.cargo || u.cargo_usuario || '—';
+                const id_usuario   = u.documento || u.id_usuario || '—';
+
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${user.usuario_usuario}</td>
-                    <td>${user.nombre_usuario}</td>
-                    <td>${user.apellido_usuario}</td>
-                    <td>${user.correo_usuario}</td>
-                    <td><span class="badge-${user.cargo_usuario}">${user.cargo_usuario}</span></td>
+                    <td>${u.usuario || u.usuario_usuario || '—'}</td>
+                    <td>${u.nombre || u.nombre_usuario || ''}</td>
+                    <td>${u.apellido || u.apellido_usuario || ''}</td>
+                    <td>${u.correo || u.correo_usuario || ''}</td>
+                    <td><span class="badge-${u.cargo || u.cargo_usuario}">${u.cargo || u.cargo_usuario}</span></td>
                     <td>
-                        <button class="btn-edit" onclick="prepararEdicion(${user.id_usuario})">Editar</button>
-                        <button class="btn-delete" onclick="eliminarUsuario(${user.id_usuario})">Eliminar</button>
+                        <button class="btn-edit" onclick="prepararEdicion(${u.id_usuario})">Editar</button>
+                        <button class="btn-delete" onclick="eliminarUsuario(${u.id_usuario})">Eliminar</button>
                     </td>
                 `;
                 tablaCuentas.appendChild(tr);
@@ -108,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const verif = await fetch('/verificar-password-admin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id_usuario: id, password_ingresada })
+                body: JSON.stringify({documento: id, contrasena: password_ingresada })
             });
 
             const resultado = await verif.json();
@@ -116,16 +123,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (resultado.success) {
                 const res = await fetch('/obtener-usuarios');
                 const usuarios = await res.json();
-                const user = usuarios.find(u => u.id_usuario === id);
+                const u = usuarios.find(u => u.id_usuario === id);
 
-                if (user) {
-                    document.getElementById('editar-usuario-original').value = user.id_usuario;
-                    document.getElementById('editar-nombre').value = user.nombre_usuario;
-                    document.getElementById('editar-apellido').value = user.apellido_usuario;
-                    document.getElementById('editar-usuario').value = user.usuario_usuario;
-                    document.getElementById('editar-correo').value = user.correo_usuario;
-                    document.getElementById('editar-rol').value = user.cargo_usuario;
-                    
+                if (u) {
+                    document.getElementById('editar-usuario-original').value = u.documento || u.id_usuario;
+                    document.getElementById('editar-nombre').value = u.nombre_usuario || u.nombre || '';
+                    document.getElementById('editar-apellido').value = u.apellido_usuario || u.apellido || '';
+                    document.getElementById('editar-usuario').value = u.usuario_usuario || u.usuario || '';
+                    document.getElementById('editar-correo').value = u.correo_usuario || u.correo || '';
+                    document.getElementById('editar-rol').value = u.cargo_usuario || u.cargo || '';
+
                     modalEditar.style.display = 'flex';
                 }
             } else {
@@ -189,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CERRAR MODAL ---
     const cerrar = () => {
-        modalEditar.style.display = 'none';
+        modalEditar.classList.remove('open');
         formEditar.reset();
     };
 
