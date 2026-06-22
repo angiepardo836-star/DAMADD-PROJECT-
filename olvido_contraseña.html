@@ -78,8 +78,18 @@
                             <span class="toggle-passwordd">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                             </span>
+                            <div id="password-requisitos" class="password-requisitos" style="display: none;"> 
+                                <p>Mín. 8 caracteres y 1 especial</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="strength-bar">
+                        <div class="strength-seg" id="s1"></div>
+                        <div class="strength-seg" id="s2"></div>
+                        <div class="strength-seg" id="s3"></div>
+                        <div class="strength-seg" id="s4"></div>
+                    </div>
+                    <p class="strength-label" id="strength-label"></p>
 
                     <div class="form-group" style="margin-bottom: 12px;">
                         <label for="login-pass-confirm" style="font-size: 14; margin-bottom: 5px;">Confirmar contraseña <span>*</span></label>

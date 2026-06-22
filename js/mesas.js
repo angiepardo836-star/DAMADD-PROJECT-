@@ -245,75 +245,183 @@
         if (e.key === 'Escape') closeAll(null); 
       });
 
-      // Funcionalidad de Factura e Invoices (Modales)
+      // Funcionalidad de Factura e modales
       const invoiceModal = document.getElementById('invoice-modal'); 
       const productsModal = document.getElementById('products-modal'); 
       const btnPedidos = document.getElementById('btn-pedidos'); 
 
-      function renderProductsList(mesaNum){ 
+      // Variable temporal para guardar el producto seleccionado antes de confirmar mesa/cantidad
+      let productoSeleccionadoTemporal = null;
+
+      // Evento para el buscador en tiempo real
+      document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('search-product');
+        if (searchInput) {
+          searchInput.addEventListener('input', () => {
+            renderProductsList(searchInput.value.trim());
+          });
+        }
+      });
+
+      /**
+       * Renderiza los productos en formato cuadrícula (Grid) con imágenes y buscador
+       */
+      function renderProductsList(filtro = ''){ 
         const productsList = document.getElementById('products-list');
         if(!productsList) return;
         productsList.innerHTML = '';
         
-        productosDisponibles.forEach((producto, idx) => {
+        // Filtrar productos por nombre o marca
+        const productosFiltrados = productosDisponibles.filter(p => 
+          p.nombre.toLowerCase().includes(filtro.toLowerCase()) || 
+          p.marca.toLowerCase().includes(filtro.toLowerCase())
+        );
+
+        if (productosFiltrados.length === 0) {
+          productsList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999; padding: 20px;">No se encontraron productos.</p>';
+          return;
+        }
+
+        productosFiltrados.forEach((producto) => {
           if (producto.cantidad <= 0) return;
 
-          const productDiv = document.createElement('div');
-          productDiv.style.cssText = 'padding: 10px; margin: 5px; border: 1px solid #ddd; border-radius: 5px; display: flex; justify-content: space-between; align-items: center;';
-          productDiv.innerHTML = `
-            <span>${producto.nombre} (${producto.marca}- ${producto.cantidad}) - COP$${producto.precio.toLocaleString('es-CO')}</span>
-            <button onclick="window.agregarProductoAMesa(${mesaNum}, ${idx});" style="padding: 5px 10px; background: #146d02; color: white; border: none; border-radius: 4px; cursor: pointer;">Agregar</button>
+          // Si tu backend no envía p.imagen, usamos una por defecto según su nombre o una genérica limpia
+          const urlImagen = producto.imagen || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&auto=format&fit=crop&q=60'; 
+
+          const card = document.createElement('div');
+          card.style.cssText = 'background: white; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;';
+          
+          // Efecto hover simple con JS
+          card.onmouseenter = () => card.style.transform = 'scale(1.02)';
+          card.onmouseleave = () => card.style.transform = 'none';
+
+          card.innerHTML = `
+            <div style="position: relative; width: 100%; pt: 75%; height: 140px; background: #f9f9f9;">
+              <img src="${urlImagen}" alt="${producto.nombre}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
+              <div>
+                <strong style="font-size: 15px; color: #333; display: block; margin-bottom: 2px;">${producto.nombre}</strong>
+                <span style="font-size: 12px; color: #888; display: block;">Marca: ${producto.marca}</span>
+                <span style="font-size: 12px; color: #fff; background: #666; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">Stock: ${producto.cantidad}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
+                <span style="font-size: 16px; font-weight: bold; color: #146d02;">COP$ ${producto.precio.toLocaleString('es-CO')}</span>
+                <button onclick="window.abrirConfirmacionAgregar(${producto.id});" 
+                        style="width: 100%; padding: 8px; background: #146d02; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;">
+                  Agregar
+                </button>
+              </div>
+            </div>
           `;
-          productsList.appendChild(productDiv);
+          productsList.appendChild(card);
         });
       }
 
-      window.agregarProductoAMesa = function(mesaNum, productoIdx){ 
-        const producto = productosDisponibles[productoIdx];
-        if (!producto) return alert('Producto inválido');
-        
-        const cantidadStr = prompt(`Cantidad a agregar de "${producto.nombre}":`, '1');
-        if (cantidadStr === null) return; 
-        const cantidad = parseInt(cantidadStr, 10);
-        if (isNaN(cantidad) || cantidad <= 0) return alert('Cantidad inválida');
-        if (cantidad > producto.cantidad) {
-          return alert(`Solo hay ${producto.cantidad} en stock`);
+    
+      window.abrirConfirmacionAgregar = function(productoId) {
+        const producto = productosDisponibles.find(p => p.id === productoId);
+        if (!producto) return;
+
+        productoSeleccionadoTemporal = producto;
+
+        // Inyectar datos al modal de confirmación
+        document.getElementById('confirm-product-title').textContent = `Añadir "${producto.nombre}"`;
+        document.getElementById('confirm-product-stock').textContent = `Disponibles en inventario: ${producto.cantidad}`;
+        document.getElementById('confirm-input-cantidad').value = 1; // reset a 1
+        document.getElementById('confirm-input-cantidad').max = producto.cantidad;
+        document.getElementById('confirm-error-msg').style.display = 'none';
+
+        // Mostrar modal secundario
+        const confirmModal = document.getElementById('confirm-add-modal');
+        confirmModal.classList.add('visible');
+        confirmModal.setAttribute('aria-hidden', 'false');
+      };
+
+
+      function cerrarConfirmacion() {
+        const confirmModal = document.getElementById('confirm-add-modal');
+        confirmModal.classList.remove('visible');
+        confirmModal.setAttribute('aria-hidden', 'true');
+        productoSeleccionadoTemporal = null;
+      }
+
+     
+      window.procesarAgregarProducto = function() {
+        if (!productoSeleccionadoTemporal) return;
+
+        const errorEl = document.getElementById('confirm-error-msg');
+        const mesaNum = parseInt(document.getElementById('confirm-select-mesa').value, 10);
+        const cantidad = parseInt(document.getElementById('confirm-input-cantidad').value, 10);
+
+       
+        if (isNaN(cantidad) || cantidad <= 0) {
+          errorEl.textContent = 'Ingresa una cantidad válida.';
+          errorEl.style.display = 'block';
+          return;
+        }
+        if (cantidad > productoSeleccionadoTemporal.cantidad) {
+          errorEl.textContent = `No hay suficiente stock (${productoSeleccionadoTemporal.cantidad} máx).`;
+          errorEl.style.display = 'block';
+          return;
         }
 
         asegurarMesaInicializada(mesaNum);
         const productos = mesasProductos.get(mesaNum) || [];
-        const existente = productos.find(p => p.nombre === producto.nombre && p.precio === producto.precio && p.marca === producto.marca);
+        const existente = productos.find(p => p.nombre === productoSeleccionadoTemporal.nombre && p.precio === productoSeleccionadoTemporal.precio && p.marca === productoSeleccionadoTemporal.marca);
+        
         if (existente){
           existente.cantidad = (existente.cantidad || 1) + cantidad;
         } else {
-          productos.push({ nombre: producto.nombre, marca: producto.marca, precio: producto.precio, cantidad: cantidad });
+          productos.push({ 
+            nombre: productoSeleccionadoTemporal.nombre, 
+            marca: productoSeleccionadoTemporal.marca, 
+            precio: productoSeleccionadoTemporal.precio, 
+            cantidad: cantidad 
+          });
         }
         mesasProductos.set(mesaNum, productos);
 
+        // Envío al Servidor
         fetch('/descontar-producto', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: producto.id, cantidad })
+          body: JSON.stringify({ id: productoSeleccionadoTemporal.id, cantidad })
         }).then(resp => {
           if (!resp.ok) return resp.text().then(t => Promise.reject(t));
-          producto.cantidad -= cantidad;
-          renderProductsList(mesaNum);
-          alert(`"${producto.nombre}" x${cantidad} agregado a mesa ${mesaNum}`);
+          
+          // Modificar stock local del producto original
+          productoSeleccionadoTemporal.cantidad -= cantidad;
+          
+          // Cerrar modal de confirmación y refrescar cuadrícula trasera
+          cerrarConfirmacion();
+          renderProductsList(document.getElementById('search-product').value.trim());
         }).catch(err => {
-          alert('No se pudo descontar stock: ' + err);
+          errorEl.textContent = 'Error de conexión con el servidor.';
+          errorEl.style.display = 'block';
+          console.error(err);
         });
       };
 
-      function showProductsModal(mesaNum){ 
-        document.getElementById('products-mesa-num').textContent = mesaNum;
+      // Modificamos la función que abre el catálogo desde el botón global de Pedidos
+      function showProductsModal(mesaNumPredeterminada = null){ 
+        // Si vienes desde una mesa en concreto, pre-seleccionamos la mesa en el sub-modal
+        if (mesaNumPredeterminada) {
+          document.getElementById('confirm-select-mesa').value = mesaNumPredeterminada;
+        }
+
+        // Limpiar el buscador al abrir
+        const searchInput = document.getElementById('search-product');
+        if(searchInput) searchInput.value = '';
+
         if(productosDisponibles.length === 0){
           cargarProductosDisponibles().then(() => {
-            renderProductsList(mesaNum);
+            renderProductsList();
             productsModal.classList.add('visible');
             productsModal.setAttribute('aria-hidden', 'false');
           });
         } else {
-          renderProductsList(mesaNum);
+          renderProductsList();
           productsModal.classList.add('visible');
           productsModal.setAttribute('aria-hidden', 'false');
         }
@@ -326,15 +434,7 @@
 
       if(btnPedidos) {
         btnPedidos.addEventListener('click', () => {
-          let mesaSeleccionada = prompt('Ingresa el número de mesa:', '1');
-          if (mesaSeleccionada) {
-            const mesaNum = parseInt(mesaSeleccionada, 10);
-            if (!isNaN(mesaNum) && mesaNum > 0) {
-              showProductsModal(mesaNum);
-            } else {
-              alert('Por favor ingresa un número de mesa válido.');
-            }
-          }
+          showProductsModal(); // Abre directamente el menú visual
         });
       }
 

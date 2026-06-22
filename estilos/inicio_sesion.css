@@ -47,10 +47,46 @@ body {
 .mesa-usuario label[for="usuario"],
 .mesa-usuario label[for="contrasena"]
  {
-    font-family:Arial, Helvetica, sans-serif;
     font-size: 20px;
     color: rgb(255, 255, 255);
     text-shadow: #000000 3px 5px 5px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute; 
+    width: 16px; height: 16px;
+    color: #888888;
+    pointer-events: none; flex-shrink: 0;
+    transition: color 0.2s;
+    left: 8px; 
+    top: 12px;
+}
+
+.input-wrapper:focus-within .input-icon { color: #1eb304; }
+.input-wrapper:focus-within .toggle-passwordd { color: #1eb304; }
+
+.strength-bar { display: flex; gap: 4px; margin-top: -14px; }
+
+.strength-seg {
+    flex: 1; height: 4px; border-radius: 99px;
+    background: #2e2e2e; transition: background .3s;
+}
+
+.strength-label { font-size: .72rem; color: #888888; margin-top: .2rem; min-height: 1em; margin-bottom: 0px;}
+
+.strength-seg p {
+    margin: 0;
 }
 
 .input-usuario {
@@ -101,21 +137,10 @@ body {
     cursor: pointer;
 }
 
-button:hover{
+.mesa-usuario button:hover{
     background: linear-gradient(180deg, #019808, #000000);
     transition: 0.3s;
     transform:translate(100px,-50px) scale(1.1);
-}
-
-.input-wrapper {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.input-wrapper input {
-    width: 100%;
 }
 
 .toggle-password {
@@ -125,7 +150,7 @@ button:hover{
     cursor: pointer;
     display: flex;
     align-items: center;
-    color: #666; 
+    color: #574e4ebb; 
     transition: color 0.2s ease;
     z-index: 10;
     user-select: none;
@@ -134,39 +159,21 @@ button:hover{
 .toggle-passwordd {
     position: absolute;
     right: 12px;
-    top: 16%;
+    top: 18%;
     cursor: pointer;
     display: flex;
     align-items: center;
-    color: #666;
+    color: #888888;
     transition: color 0.2s ease;
+    background: #252525;
     z-index: 10;
     user-select: none;
-    background-color: #ffffff;
 }
 
 /* Ocultar el ojo nativo que pone Edge/Chrome por defecto */
 input::-ms-reveal,
 input::-ms-clear {
     display: none;
-}
-
-.registrar-cuenta{
-    width: 300px;
-    margin:  20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0, 0, 0.1);
-}
-#registrar-cuenta:checked ~ .registrar-cuenta {
-    display: block;
-}
-
-label [for= "registrar-cuenta"] {
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 /* Estilos para el modal de registro */
@@ -186,14 +193,18 @@ label [for= "registrar-cuenta"] {
 }
 
 #modal-registro > div {
-    background: linear-gradient(180deg, #087000ec, #000000da);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: #1e1e1e;
+    color: #e0e0e0;
+    padding: 60px;    
     width: 90%;
     max-width: 700px;
     padding-top: 30px;
     padding-bottom: 30px;
+    border-radius: 15px;
+    border: 1px solid #1eb304; 
+    box-shadow: 0 25px 50px rgba(9, 104, 9, 0.6), 0 0 15px rgba(20, 109, 2, 0.2); 
+    animation: pFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
 }
 
 #modal-registro .modal-header {
@@ -202,6 +213,19 @@ label [for= "registrar-cuenta"] {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1eb304;
+}
+
+.modal-header span {
+    color:#1eb304;
+}
+
+.linea {
+    grid-column: span 2;
+    padding-bottom: 0px;
+    margin-top: 10px;
+    border-bottom: 1px solid #1eb304;
 }
 
 #modal-registro h2 {
@@ -211,6 +235,86 @@ label [for= "registrar-cuenta"] {
     text-align: center;
 }
 
+#registro-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 12px;
+}
+
+#registro-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+#registro-form input {
+    width: 100%;
+    padding: .72rem 1rem .72rem 2.5rem;
+    padding-left: 30px;
+    margin-bottom: 20px;
+    border: 1.5px solid #2e2e2e;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #252525;
+    color: #fff;
+}
+
+#registro-form input:focus {
+    outline: none;
+    border-color: #1eb304;
+    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
+}
+
+#registro-form select {
+    width: 100%;
+    padding: .72rem 1rem .72rem 2.5rem;
+    padding-left: 25px;
+    margin-bottom: 20px;
+    border: 1.5px solid #2e2e2e;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #252525;
+    color: #e8e8e8;
+}
+
+#registro-form select:focus {
+    outline: none;
+    border-color: #1eb304;
+    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
+}
+
+#registro-form button {
+    width: 100%;
+    grid-column: span 2; /* Hace que el botón ocupe ambas columnas */
+    justify-self: center; /* Centra horizontalmente */
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+#registro-form button:hover {
+    background: linear-gradient(180deg, #019808, #000000);
+    transform: translateY(-2px);
+    filter: brightness(1.2);
+}
+
+.p-btn-primario {
+    background: linear-gradient(135deg, #1eb304 0%, #084101 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+
 #cerrar-modal {
     position: absolute;
     right: 0;
@@ -218,144 +322,36 @@ label [for= "registrar-cuenta"] {
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #ffffff;
 }
 
 #cerrar-modal:hover {
-    color: #b2ff9d;
     transform: translate(0px,0px);
     scale: (1,2);
 }
 
-#registro-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-}
-
-#registro-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #ffffff;
-    font-size: 18px;
-}
-
-#registro-form input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-#registro-form input:focus {
-    outline: none;
-    border-color: #04780a;
-    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
-}
-
-#registro-form select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-#registro-form select:focus {
-    outline: none;
-    border-color: #04780a;
-    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
-}
-
-#registro-form button {
-    width: 30%;
-    padding: 10px;
-    background: linear-gradient(180deg, #04780a, #1a2c18e8);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
+.p-close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 25px;
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-    grid-column: span 2; /* Hace que el botón ocupe ambas columnas */
-    justify-self: center; /* Centra horizontalmente */
+    color: #555;
+    transition: color 0.3s;
 }
 
-#registro-form button:hover {
-    background: linear-gradient(180deg, #019808, #000000);
-    transform: translate(0px,-4px);
+.p-close-btn:hover { color: #1eb304; }
+
+.password-requisitos {
+    position: absolute;
+    font-size: .72rem; 
+    color: #888888; 
+    margin-top: .2rem; 
+    min-height: 1em;
+    right : 0%;
 }
 
-/* Modal recuperar contraseña */
-#modal-recuperar {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
-
-#modal-recuperar.activo {
-    display: flex;
-}
-
-#modal-recuperar > div {
-    background: linear-gradient(98deg, #8a8a8a, #d0d0d0);
-    padding: 30px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-}
-
-#recuperar-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-    font-size: 14px;
-}
-
-#recuperar-form input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-#recuperar-form input:focus {
-    outline: none;
-    border-color: #04780a;
-    box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
-}
-
-#recuperar-form button {
-    width: 100%;
-    padding: 10px;
-    background: linear-gradient(180deg, #04780a, #000000d0);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-}
-
-#recuperar-form button:hover {
-    background: linear-gradient(180deg, #019808, #000000);
-    transform: translate(0px,-4px);
+.password-requisitos p {
+    margin: 0;
 }
 
 @media (max-width: 1400px) {
