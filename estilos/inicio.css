@@ -525,156 +525,89 @@ label.sub-toggle:hover .nav-icon {
     transform: translate(140px,0);
 }
 
-/* Sección: Gestión de Mesas (card) */
-.mesas-section {
-    display: inline-block;
-    vertical-align: top;
-    width: 29%;
-    padding: 40px 10px;
-    margin-left: 150px;
+.contenedor-funciones {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    align-items: stretch;    /* Fuerza a todas las tarjetas a tener la misma altura */
+    gap: 30px;               /* Separación limpia y exacta entre tarjetas */
+    max-width: 1200px;       /* Ancho máximo de la sección */
+    margin: 40px auto;       /* Centra todo el bloque en la pantalla sin romper márgenes */
+    padding: 0 20px;
 }
 
-.mesas-card {
-    max-width: 450px;
-    width: calc(100% - 40px);
-    border: 5px solid var(--color-principal);
+/* Base común para las tres secciones (Eliminamos inline-block y márgenes manuales) */
+.mesas-section, .mesas-section2, .mesas-section3 {
+    flex: 1;                 /* Hace que las 3 tarjetas midan exactamente lo mismo de ancho */
+    min-width: 280px;        /* Evita que se colapsen en pantallas pequeñas */
+    max-width: 380px;        /* Controla el ancho máximo individual */
+    display: flex;
+}
+
+/* Base común para las tarjetas internas */
+.mesas-card, .mesas-card2, .mesas-card3 {
+    width: 100%;
+    border: 3px solid var(--color-principal, #2ecc2e); /* Ajustado a 3px para mayor sutileza */
     border-radius: 19px;
-    padding: 28px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.4); /* Fondo oscuro semi-transparente como en tu imagen */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 15px rgba(46,204,46,0.2);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Envía el texto arriba y la imagen abajo */
+    align-items: center;
 }
 
-.mesas-card h2 {
-    margin: 0 0 10px 0;
+/* Títulos y textos internos */
+.mesas-card h2, .mesas-card2 h2, .mesas-card3 h2 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 15px;
     text-align: center;
-    text-shadow: 2px 7px 7px var(--sombra-texto);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
-.mesas-desc {
-    line-height: 1.5;
+.mesas-desc, .mesas-desc2, .mesas-desc3 {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #b8d8b8;
     text-align: center;
-    margin-bottom: 18px;
-}
-/* Sección: inventario (card) */
-.mesas-section2 {
-    display: inline-block;
-    vertical-align: top;
-    width: 29%;
-    padding: 40px 10px;
-    margin: 0;
+    margin-bottom: 25px;
 }
 
-.mesas-card2 {
-    max-width: 450px;
-    width: calc(100% - 40px);
-    border: 5px solid var(--color-principal);
-    border-radius: 19px;
-    padding: 28px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-
-}
-
-.mesas-card2 h2 {
-    margin: 0 0 10px 0;
-    text-align: center;
-    text-shadow: 2px 7px 7px var(--sombra-texto);
-}
-
-.mesas-desc2 {
-    line-height: 1.5;
-    text-align: center;
-    margin-bottom: 18px;
-}
-.card-actions2 {
+/* ==========================================================================
+   CONTENEDORES DE IMÁGENES (ESTANDARIZACIÓN PARA EVITAR DESBORDES)
+   ========================================================================== */
+.card-actions, .card-actions2, .card-actions3 {
+    width: 100%;
+    height: 160px;          /* Altura fija e idéntica para los tres contenedores de iconos */
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: -50px;
+    margin-top: auto;       /* Empuja la imagen siempre al fondo de la tarjeta */
 }
 
-.card-actions2 img {
-    width: 450px;
-    height: 350px;
+/* Control estricto del tamaño de las imágenes */
+.card-actions img, .card-actions2 img, .card-actions3 img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;    /* Escala la imagen sin deformarla ni salirse de la tarjeta */
     display: block;
-    object-fit: contain;
-    margin-top: -65px;
 }
 
-/* Sección: configuracion (card) */
-.mesas-section3 {
-    display: inline-block;
-    vertical-align: top;
-    width: 29%;
-    padding: 40px 10px;
-    margin: 0;
-}
-
-.mesas-card3 {
-    max-width: 450px;
-    width: calc(100% - 40px);
-    border: 5px solid var(--color-principal);
-    border-radius: 19px;
-    padding: 28px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-}
-
-.mesas-card3 h2 {
-    margin: 0 0 10px 0;
-    text-align: center;
-    text-shadow: 2px 7px 7px var(--sombra-texto);
-}
-.icono-img {
-    width: 23px;
-    height: 23px;
-    object-fit: contain;
-}
-
-.cuenta-btn {
-    position: absolute; /* Lo fija en la pantalla */
-    top: 25px;       /* Distancia desde arriba */
-    right: 30px;      /* Distancia desde la derecha */
-
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    background: linear-gradient(98deg, #146d02, #084101);
-    color: white;
-    padding: 15px 20px;
-    border-radius: 25px;
-    transition: background 0.3s ease;
-    z-index: 1000; /* Para que quede encima de todo */
-}
-
-.cuenta-btn:hover {
-    background: linear-gradient(98deg, #178003, #052700);
-}
-
-.icono {
-    font-size: 20px;
-}
-
-.nombre {
-    font-size: 17px;
-    font-weight: bold;
-}
-.mesas-desc3 {
-    line-height: 1.5;
-    text-align: center;
-    margin-bottom: 18px;
-}
-.card-actions3 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: -50px;
-}
-
-.card-actions3 img {
-    width: 390px;
-    height: 290px;
-    display: block;
-    object-fit: contain;
-    margin-top: -5px;
+/* ==========================================================================
+   RESPONSIVE DESIGN (PARA CELULARES Y TABLETS)
+   ========================================================================== */
+@media (max-width: 950px) {
+    .contenedor-funciones {
+        flex-direction: column; /* Las tarjetas se apilan una debajo de la otra */
+        align-items: center;
+    }
+    .mesas-section, .mesas-section2, .mesas-section3 {
+        max-width: 450px;       /* En móviles toman un ancho más cómodo */
+        width: 100%;
+    }
 }
 /* footer de la pagina */
 footer.footer-main {
