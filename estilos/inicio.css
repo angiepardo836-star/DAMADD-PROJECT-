@@ -583,7 +583,7 @@ label.sub-toggle:hover .nav-icon {
 .stat-label{font-size:11px;color:#9ca3af;margin-top:2px;}
 
 /* como funciona*/
-.how{background:#120029;padding:24px 16px;}
+.how{background:#120029;padding:60px 160px;}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
 .step{text-align:center;padding:12px 8px;}
 .step-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#c026d3);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;margin:0 auto 8px;}
@@ -593,7 +593,7 @@ label.sub-toggle:hover .nav-icon {
 
 
 /* CTA BANNER */
-.cta-banner{margin:0 16px 24px;background:linear-gradient(135deg,#4c1d95,#86198f);border-radius:16px;padding:24px 20px;text-align:center;}
+.cta-banner{margin:10px 200px 100px;background:linear-gradient(135deg,#4c1d95,#86198f);border-radius:16px;padding:24px 20px;text-align:center;}
 .cta-banner h3{font-size:17px;font-weight:800;margin-bottom:6px;}
 .cta-banner p{font-size:12px;color:#f0abfc;margin-bottom:14px;}
 .cta-wa{background:#25d366;border:none;color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
