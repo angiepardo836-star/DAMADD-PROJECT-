@@ -366,7 +366,7 @@ app.post('/guardar-usuario', async (req, res) => {
     const { tipo_documento, documento, nombre, apellido, usuario, telefono, correo, contrasena, admin_key } = req.body;
 
         if (correo === process.env.CORREO_SOPORTE) {
-            return res.status(400).json({ success: false, message: "Este correo está reservado exclusivamente para soporte técnico del sistema." });
+            return res.status(400).json({ success: false, message: "El correo electrónico ya está registrado." });
         }
 
         const sqlCheck = `
@@ -382,16 +382,16 @@ app.post('/guardar-usuario', async (req, res) => {
             const registrado = usuariosExistentes[0];
             
             if (registrado.documento.toString() === documento.toString()) {
-                return res.status(400).json({ success: false, message: "El número de documento ya está registrado" });
+                return res.status(400).json({ success: false, message: "El número de documento ya está registrado." });
             }
             if (registrado.usuario === usuario) {
-                return res.status(400).json({ success: false, message: "El nombre de usuario ya está en uso" });
+                return res.status(400).json({ success: false, message: "El nombre de usuario ya está en uso." });
             }
             if (registrado.telefono === telefono) {
-                return res.status(400).json({ success: false, message: "El número de teléfono ya está registrado" });
+                return res.status(400).json({ success: false, message: "El número de teléfono ya está registrado." });
             }
             if (registrado.correo === correo) {
-                return res.status(400).json({ success: false, message: "El correo electrónico ya está registrado" });
+                return res.status(400).json({ success: false, message: "El correo electrónico ya está registrado." });
             }
         }
 
@@ -436,7 +436,7 @@ app.post('/guardar-usuario', async (req, res) => {
 
     } catch (error) {
         console.error("Error en registro:", error);
-        return res.status(500).json({ success: false, message: "Error del servidor" });
+        return res.status(500).json({ success: false, message: "Error en el servidor" });
     }
 });
 
@@ -495,16 +495,10 @@ app.post('/login', async (req, res) => {
 
 // configuración nodemailer
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // true para el puerto 465 (SSL)
+    service: 'gmail', 
     auth: {
         user: process.env.EMAIL_USER,  
         pass: process.env.EMAIL_PASS 
-    },
-    tls: {
-        // Ahora sí o sí va a ignorar el certificado autofirmado
-        rejectUnauthorized: false
     }
 });
 
@@ -730,51 +724,68 @@ app.get('/obtener-usuarios', async (req, res) => {
 
 // ELIMINAR USUARIO
 app.delete('/eliminar-usuario/:id', (req, res) => {
-    db.query("DELETE FROM usuario WHERE id_usuario = ?", [req.params.id], (err) => {
+    db.query("DELETE FROM usuario WHERE documento = ?", [req.params.id], (err) => {
         if (err) return res.status(500).json({ success: false });
         res.json({ success: true });
     });
 });
 
-// VERIFICAR CONTRASEÑA ANTES DE EDITAR (NUEVO)
-app.post('/verificar-password-admin', (req, res) => {
-    const { id_usuario, password_ingresada } = req.body;
+// VERIFICAR CONTRASEÑA ANTES DE EDITAR
+app.post('/verificar-password-admin', async (req, res) => {
+    const { documento, password_ingresada } = req.body;
     
-    db.query("SELECT contraseña_usuario FROM usuario WHERE id_usuario = ?", [id_usuario], async (err, results) => {
-        if (err || results.length === 0) return res.status(500).json({ success: false });
+    if (!documento || !password_ingresada) {
+        return res.status(400).json({ success: false, message: "Datos incompletos." });
+    }
+
+    const sql = "SELECT contrasena FROM usuario WHERE documento = ?";
+    try {
+        const [results] = await db.promise().query(sql, [documento]);
+        if (results.length === 0) {
+            return res.json({ success: false, message: "Usuario no encontrado." });
+        }
         
-        const valid = await bcrypt.compare(password_ingresada, results[0].contraseña_usuario);
-        res.json({ success: valid });
-    });
+        // Comparación del hash seguro de Bcrypt
+        const valid = await bcrypt.compare(password_ingresada, results[0].contrasena);
+        return res.json({ success: valid });
+    } catch (err) {
+        console.error("Error en verificar-password:", err);
+        return res.status(500).json({ success: false, message: "Error en el servidor." });
+    }
 });
 
 // EDITAR USUARIO
 app.put('/editar-usuario/:id', async (req, res) => {
-    const { nombre_usuario, apellido_usuario, usuario_usuario, correo_usuario, contraseña_usuario, cargo_usuario } = req.body;
-    const id = req.params.id;
+    const { nombre, apellido, usuario, telefono, correo, contrasena } = req.body;
+    const id = req.params.id; 
 
     try {
         let sql;
         let params;
 
-        // Si el usuario escribió una nueva contraseña en el modal de edición, la encriptamos y la guardamos
-        if (contraseña_usuario && contraseña_usuario.trim() !== "") {
+        // Si el usuario cambia la contraseña
+        if (contrasena && contrasena.trim() !== "") {
             const salt = await bcrypt.genSalt(10);
-            const passwordEncriptada = await bcrypt.hash(contraseña_usuario, salt);
-            sql = `UPDATE usuario SET nombre_usuario=?, apellido_usuario=?, usuario_usuario=?, correo_usuario=?, contraseña_usuario=?, cargo_usuario=? WHERE id_usuario=?`;
-            params = [nombre_usuario, apellido_usuario, usuario_usuario, correo_usuario, passwordEncriptada, cargo_usuario, id];
+            const passwordEncriptada = await bcrypt.hash(contrasena, salt);
+            
+            sql = `UPDATE usuario SET nombre=?, apellido=?, usuario=?, telefono=?, correo=?, contrasena=?, fecha_modificacion=NOW(), usuario_modifica=? WHERE documento=?`;
+            params = [nombre, apellido, usuario, telefono, correo, passwordEncriptada, usuario, id];
         } else {
-            // Si dejó la contraseña vacía, actualizamos todo MENOS la contraseña
-            sql = `UPDATE usuario SET nombre_usuario=?, apellido_usuario=?, usuario_usuario=?, correo_usuario=?, cargo_usuario=? WHERE id_usuario=?`;
-            params = [nombre_usuario, apellido_usuario, usuario_usuario, correo_usuario, cargo_usuario, id];
+            // Si el usuario dejó vacíos los inputs de contraseña
+            sql = `UPDATE usuario SET nombre=?, apellido=?, usuario=?, telefono=?, correo=?, fecha_modificacion=NOW(), usuario_modifica=? WHERE documento=?`;
+            params = [nombre, apellido, usuario, telefono, correo, usuario, id];
         }
 
-        db.query(sql, params, (err) => {
-            if (err) return res.status(500).json({ success: false });
-            res.json({ success: true });
-        });
+        const [result] = await db.promise().query(sql, params);
+        
+        if (result.affectedRows > 0) {
+            return res.json({ success: true });
+        } else {
+            return res.status(404).json({ success: false, message: "No se encontró el registro para actualizar." });
+        }
     } catch (error) {
-        res.status(500).json({ success: false });
+        console.error("Error al actualizar usuario:", error);
+        return res.status(500).json({ success: false, message: "Error en el servidor." });
     }
 });
 
