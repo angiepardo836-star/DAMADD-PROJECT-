@@ -470,6 +470,11 @@ async function abrirModalPerfil() {
         document.getElementById('perfil-correo').style.borderColor = ''; 
         document.getElementById('pass-nueva').style.borderColor = ''; 
         document.getElementById('pass-confirmar').style.borderColor = ''; 
+        document.getElementById('s1').style.background = '#2e2e2e'; 
+        document.getElementById('s2').style.background = '#2e2e2e'; 
+        document.getElementById('s3').style.background = '#2e2e2e'; 
+        document.getElementById('s4').style.background = '#2e2e2e'; 
+        document.getElementById('strength-label').textContent = '';
         document.getElementById('password-requisitos').style.display = 'none';
         
         modal.style.display = 'flex';
