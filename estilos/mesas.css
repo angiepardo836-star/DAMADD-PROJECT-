@@ -109,11 +109,6 @@ body {
     box-shadow: 0 0 12px rgba(46, 204, 46, 0.5);
 }
 
-.cuenta-btn .icono-img {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-}
 .icon-menu {
     font-size: 28px;
     cursor: pointer;
