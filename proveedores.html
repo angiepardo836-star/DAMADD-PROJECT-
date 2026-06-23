@@ -133,75 +133,42 @@
     <!--  agregar producto  -->
     <div id="addProductModal" style="display: none;"> 
         <div class="add-product-dialog"> 
-            <h3>Agregar <span style="color: #1ed760;">Proveedor</span></h3>
+            <h3>Agregar proveedor</h3>
             
-            <div class="pr-form-row">
-                <div class="pr-info-group">
-                    <label>Tipo Documento *</label>
-                    <select id="new_tipo_documento" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="CC">Cédula de Ciudadanía</option>
-                    <option value="CE">Cédula de Extranjería</option>
-                    <option value="Pasaporte">Pasaporte</option>
-                    <option value="Certificado">Certificado</option>
-                    <option value="NIT">NIT</option></select>
-                </div>
-                <div class="pr-info-group double-width">
-                    <label>Documento *</label>
-                    <input id="new_documento" type="text" minlength="10" maxlength="10" required placeholder="Digite el número de identificacion">
-                </div>
-            </div>
+            <label>Tipo Documento *</label>
+            <select id="new_tipo_documento" required>
+            <option value="">Seleccione una opción</option>
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="CE">Cédula de Extranjería</option>
+            <option value="Pasaporte">Pasaporte</option>
+            <option value="Certificado">Certificado</option>
+            <option value="NIT">NIT</option></select>
 
-
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                        <label>Nombre *</label>
-                        <input id="new_nombre" type="text" maxlength="20" required placeholder="Nombre">
-                        </div>
-                        <div class="pr-info-group double-width">
-                        <label>Apellido </label>
-                        <input id="new_apellido" type="text" maxlength="100" required placeholder="Apellido">
-                        </div>
-                    </div>
-
-
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                        <label>Teléfono *</label>
-                        <input id="new_telefono" type="text" maxlength="10" minlength="10" required placeholder="Teléfono celular o fijo">
-                        </div>
-                        <div class="pr-info-group double-width">
-                        <label>Ciudad *</label>
-                        <input id="new_ciudad" type="text" maxlength="100" required placeholder="Ciudad">
-                        </div>
-                    </div>
-
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                    <label>Dirección *</label>
-                    <input id="new_direccion" type="text" maxlength="200" required placeholder="Dirección">
-                    </div>
-                    <div class="pr-info-group double-width">
-                    <label>Estado *</label>
-                    <select id="new_estado" required>
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option></select>
-                    </div>
-                </div>
-
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                   <label>Correo *</label>
-                  <input id="new_correo" type="text" maxlength="100" required placeholder="Correo electrónico">
-                    </div>
-                </div>
-
+            <label>Documento *</label>
+            <input id="new_documento" type="text" minlength="10" maxlength="10" required placeholder="Digite el número de identificacion">
+            <label>Nombre *</label>
+            <input id="new_nombre" type="text" maxlength="20" required placeholder="Nombre">
+            
+            <label>Apellido </label>
+            <input id="new_apellido" type="text" maxlength="100" required placeholder="Apellido">
+            <label>Teléfono *</label>
+            <input id="new_telefono" type="text" maxlength="10" minlength="10" required placeholder="Teléfono celular o fijo">
+            <label>Ciudad *</label>
+            <input id="new_ciudad" type="text" maxlength="100" required placeholder="Ciudad">
+            <label>Dirección *</label>
+            <input id="new_direccion" type="text" maxlength="200" required placeholder="Dirección">
+            <label>Correo *</label>
+            <input id="new_correo" type="text" maxlength="100" required placeholder="Correo electrónico">
+            <label>Estado *</label>
+            <select id="new_estado" required>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option></select>
             
 
             
         <div class="add-product-actions">
             <button type="button" onclick="closeAddModal()">Cancelar</button>
-            <button type="button" onclick="saveNew()">Agregar Proveedor</button> 
+            <button type="button" onclick="saveNew()">Agregar</button> 
         </div>
         </div>
     </div>
@@ -219,8 +186,8 @@
                 <th>Teléfono</th> <!-- Teléfono contacto -->
                 <th>Ciudad</th> <!-- Ciudad -->
                 <th>Dirección</th> <!-- Dirección -->
-                <th>Estado</th> <!-- Estado -->
                 <th>Correo</th> <!-- Correo electrónico -->
+                <th>Estado</th> <!-- Estado -->
                 <th>Acciones</th> <!-- Acciones: editar/eliminar -->
             </tr>
         </thead>
