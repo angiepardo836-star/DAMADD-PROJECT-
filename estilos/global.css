@@ -70,6 +70,10 @@ body { visibility: hidden; background-color: #000; }
     opacity: 0.9;
 }
 
+.modal-header span {
+    color:#1eb304;
+}
+
 .p-info-group input {
     padding: 12px;
     border: 1.5px solid #2e2e2e;
@@ -227,4 +231,46 @@ input::-ms-clear {
     margin: 0;
 }
 
+@keyframes pFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+.icono-img {
+    width: 23px;
+    height: 23px;
+    object-fit: contain;
+}
 
+.cuenta-btn {
+    position: absolute; /* Lo fija en la pantalla */
+    top: 25px;       /* Distancia desde arriba */
+    right: 30px;      /* Distancia desde la derecha */
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    background: linear-gradient(98deg, #146d02, #084101);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 25px;
+    transition: background 0.3s ease;
+    z-index: 1000; /* Para que quede encima de todo */
+}
+
+.cuenta-btn:hover {
+    background: linear-gradient(98deg, #178003, #052700);
+}
+
+.icono {
+    font-size: 20px;
+}
+
+.nombre {
+    font-size: 17px;
+    font-weight: bold;
+    max-width: 150px; /* Evita que nombres largos deformen el botón */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Pone "..." si el nombre es muy largo */
+}
