@@ -257,61 +257,126 @@
     .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 8px 28px var(--green-glow); }
     .btn-primary:active { transform: translateY(0); }
  
-    
+
     .card-administrar {
-      background: var(--bg-card);
-      border: 1.5px solid var(--green-border);
-      border-radius: 16px;
-      padding: 2rem 1.8rem;
-      width: 100%; max-width: 1000px;
-      box-shadow: var(--shadow);
+      width: 100% !important; max-width: 1100px !important;
       animation: slideUp .38s cubic-bezier(.4,0,.2,1);
-      overflow-x: auto;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
     }
     .card-administrar h1 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.3rem; font-weight: 700;
-      margin-bottom: 1.4rem; color: var(--white);
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 1.3rem !important; font-weight: 700 !important;
+      margin-bottom: 1.4rem !important; color: #ffffff !important;
+      text-align: center !important;
     }
-    .card-administrar h1 span { color: var(--green); }
- 
-    .tabla-cuentas { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    .card-administrar h1 span { color: var(--green) !important; }
+
+  
+    .tabla-cuentas-wrapper {
+      background: #0a0a0a !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      border: 1px solid #1a3d1a !important;
+      overflow-x: auto !important;
+    }
+
+    .tabla-cuentas {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      text-align: center !important;
+      background: #080f08 !important;
+      color: #d4e8d4 !important;
+      font-size: 13px !important;
+    }
+
+
     .tabla-cuentas thead tr {
-      background: var(--bg-input);
-      border-bottom: 2px solid var(--green);
+      background: #005203 !important;
+      border-bottom: 3px solid #00c621 !important;
     }
-    .tabla-cuentas th {
-      padding: .75rem 1rem; text-align: left;
-      color: var(--green); font-weight: 700; font-size: .76rem;
-      text-transform: uppercase; letter-spacing: .5px;
+    .tabla-cuentas thead th {
+      background: #005203 !important;
+      text-align: center !important;
+      padding: 13px 12px !important;
+      color: #ffffff !important;
+      border-bottom: 3px solid #00c621 !important;
+      border-right: 1px solid #006804 !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.6px !important;
+      white-space: nowrap !important;
     }
+    .tabla-cuentas thead th:first-child { border-left: 3px solid #00c621 !important; }
+    .tabla-cuentas thead th:last-child  { border-right: none !important; }
+
+
     .tabla-cuentas td {
-      padding: .7rem 1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-main);
+      padding: 11px 12px !important;
+      border-bottom: 1px solid #1a2e1a !important;
+      border-right: 1px solid #111e11 !important;
+      color: #d4e8d4 !important;
     }
-    .tabla-cuentas tbody tr { transition: background .2s; }
-    .tabla-cuentas tbody tr:hover { background: rgba(34,197,94,.05); }
- 
-    .badge-empleado, .badge-gerente {
-      display: inline-block; padding: .22rem .7rem;
-      border-radius: 99px; font-size: .74rem; font-weight: 700;
+    .tabla-cuentas tbody tr:nth-child(even) { background: #060d06 !important; }
+    .tabla-cuentas tbody tr:hover {
+      background: #0d1f0d !important;
+      transition: background 0.15s ease !important;
     }
-    .badge-empleado { background: rgba(59,130,246,.15); color: #60a5fa; border: 1px solid #3b82f6; }
-    .badge-gerente  { background: rgba(34,197,94,.15); color: var(--green); border: 1px solid var(--green); }
- 
-    .btn-edit, .btn-delete {
-      padding: .32rem .75rem; border-radius: 7px;
-      border: none; cursor: pointer; font-size: .8rem; font-weight: 600;
-      transition: background .2s, transform .12s; margin-right: 4px;
+
+    .badge-empleado {
+      background: #0a1a3d !important;
+      color: #60a5fa !important;
+      border: 1px solid rgba(37,99,235,0.4) !important;
+      border-radius: 20px !important;
+      padding: 3px 11px !important;
+      font-size: 11px !important; font-weight: 600 !important;
+      display: inline-block !important;
     }
-    .btn-edit   { background: rgba(34,197,94,.12); color: var(--green); border: 1px solid var(--green); }
-    .btn-delete { background: rgba(239,68,68,.1);  color: #f87171; border: 1px solid #ef4444; }
-    .btn-edit:hover   { background: var(--green); color: #000; transform: scale(1.04); }
-    .btn-delete:hover { background: #ef4444; color: #fff; transform: scale(1.04); }
- 
-    .mensaje-vacio { text-align: center; padding: 2rem; color: var(--text-muted); }
- 
+    .badge-gerente {
+      background: #052e16 !important;
+      color: #4ade80 !important;
+      border: 1px solid rgba(22,163,74,0.4) !important;
+      border-radius: 20px !important;
+      padding: 3px 11px !important;
+      font-size: 11px !important; font-weight: 600 !important;
+      display: inline-block !important;
+    }
+
+    /* Botones de acción */
+    .btn-edit {
+      background: #0d3d0d !important;
+      color: #4ade80 !important;
+      border: 1px solid rgba(22,163,74,0.4) !important;
+      margin: 3px !important;
+      border-radius: 7px !important;
+      width: 32px !important; height: 30px !important;
+      cursor: pointer !important; font-size: 15px !important;
+      display: inline-flex !important; align-items: center !important; justify-content: center !important;
+      transition: background 0.15s ease !important;
+    }
+    .btn-edit:hover { background: #145214 !important; }
+
+    .btn-delete {
+      background: #2d0a0a !important;
+      color: #f87171 !important;
+      border: 1px solid rgba(220,38,38,0.4) !important;
+      margin: 3px !important;
+      border-radius: 7px !important;
+      width: 32px !important; height: 30px !important;
+      cursor: pointer !important; font-size: 15px !important;
+      display: inline-flex !important; align-items: center !important; justify-content: center !important;
+      transition: background 0.15s ease !important;
+    }
+    .btn-delete:hover { background: #4a1010 !important; }
+
+    .mensaje-vacio {
+      text-align: center !important; padding: 2rem !important;
+      color: #888 !important; font-size: 15px !important;
+      background: #080f08 !important;
+    }
 
     .modal {
       display: none; position: fixed; inset: 0; z-index: 500;
