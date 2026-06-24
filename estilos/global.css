@@ -275,9 +275,3 @@ input::-ms-clear {
     overflow: hidden;
     text-overflow: ellipsis; /* Pone "..." si el nombre es muy largo */
 }
-
-@media (max-width: 800px) {
-    .cuenta-btn {
-        width: 15px;
-    }
-}
