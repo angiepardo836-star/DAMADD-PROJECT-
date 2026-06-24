@@ -1,3 +1,21 @@
+let toastTimer3;
+    function showAlert3(msg) {
+        const t = document.getElementById('toast3');
+        if (!t) return;
+
+        t.textContent = msg;
+        
+        t.style.transform = 'translateX(-50%) translateY(0)';
+        t.style.opacity = '1';
+
+        clearTimeout(toastTimer3);
+        
+        toastTimer3 = setTimeout(() => { 
+            t.style.transform = 'translateX(-50%) translateY(-100px)'; 
+            t.style.opacity = '0'; 
+        }, 4000);
+    }
+
 // Ejecuta la carga de datos en cuanto abre la página
 document.addEventListener('DOMContentLoaded', () => {
     obtenerProveedores();
@@ -61,17 +79,17 @@ async function saveNew() {
 
 
     if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
-        alert("Todos los campos son obligatorios. Por favor, completa el formulario.");
+        showAlert3("Todos los campos son obligatorios. Por favor, completa el formulario.");
         return;
     }
 
     if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
-        alert("El correo debe tener formato válido: algo@gmail.com");
+        showAlert3("El correo debe tener formato válido: algo@gmail.com");
         return;
     }
 
     if (!/^[36][0-9]{9}$/.test(telefono)) {
-        alert("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
+        showAlert3("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
         return;
     }
 
@@ -85,19 +103,23 @@ async function saveNew() {
         });
 
         if (response.ok) {
-            alert("Proveedor agregado correctamente.");
+            showAlert3("Proveedor agregado correctamente.");
             closeAddModal();
             location.reload();
         } else {
             const msg = await response.text();
-            alert("Error: " + msg);
+            showAlert3("Error: " + msg);
         }
     } catch (error) {
         console.error("Error al agregar proveedor:", error);
-        alert("Error: " + error.message);
+        showAlert3("Error: " + error.message);
     }
 }
+    function cerrarModal() {
+        closeAddModal();
+        limpiarFormularioRegistro();}
 
+        
 //  ELIMINAR
 async function eliminarProveedor(id) {
     if (!confirm("¿Estás seguro de que deseas eliminar este proveedor?")) return;
@@ -106,11 +128,12 @@ async function eliminarProveedor(id) {
         const response = await fetch(`/eliminar-proveedor/${id}`, { method: 'DELETE' });
 
         if (response.ok) {
-            alert("Proveedor eliminado correctamente.");
+            showAlert3("Proveedor eliminado correctamente.");
             obtenerProveedores();
         }
     } catch (error) {
         console.error("Error al eliminar:", error);
+        showAlert3("Error: " + error.message);
     }
 }
 
@@ -217,27 +240,27 @@ async function guardarEdicion(btn) {
 
     
     if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
-        alert("Todos los campos son obligatorios.");
+        showAlert3("Todos los campos son obligatorios.");
         return;
     }
 
     if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(nombre)) {
-        alert("El nombre solo debe contener letras y tener máximo 3 palabras.");
+        showAlert3("El nombre solo debe contener letras y tener máximo 3 palabras.");
         return;
     }
 
     if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(apellido)) {
-        alert("El apellido solo debe contener letras y tener máximo 3 palabras.");
+        showAlert3("El apellido solo debe contener letras y tener máximo 3 palabras.");
         return;
     }
 
     if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
-        alert("El correo debe tener formato válido: algo@gmail.com");
+        showAlert3("El correo debe tener formato válido: algo@gmail.com");
         return;
     }
 
     if (!/^[36][0-9]{9}$/.test(telefono)) {
-        alert("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
+        showAlert3("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
         return;
     }
    
@@ -252,13 +275,14 @@ async function guardarEdicion(btn) {
         });
 
         if (response.ok) {
-            alert("Proveedor actualizado correctamente.");
+            showAlert3("Proveedor actualizado correctamente.");
             obtenerProveedores();
         } else {
-            alert("Error al actualizar proveedor.");
+            showAlert3("Error al actualizar proveedor.");
         }
     } catch (error) {
         console.error("Error al actualizar:", error);
+        showAlert3("Error al actualizar proveedor.");
     }
 }
 
@@ -316,12 +340,12 @@ async function realizarCompra(idProv, nombreProv) {
     const pago   = prompt("Método de pago (Ejemplo: Efectivo, Transferencia, Crédito):", "Efectivo");
 
     if (!idProd || !cant || !precio || !pago) {
-        alert("Operación cancelada: Faltan datos.");
+        showAlert3("Operación cancelada: Faltan datos.");
         return;
     }
 
     if (isNaN(parseInt(idProd)) || isNaN(parseInt(cant)) || isNaN(parseFloat(precio))) {
-        alert("Por favor ingresa números válidos para ID de producto, cantidad y precio.");
+        showAlert3("Por favor ingresa números válidos para ID de producto, cantidad y precio.");
         return;
     }
 
@@ -337,7 +361,7 @@ async function realizarCompra(idProv, nombreProv) {
     };
 
     if (isNaN(datos.cantidad_producto_compra) || isNaN(datos.precio_unitario) || isNaN(datos.id_producto)) {
-        alert("Error: alguno de los campos numéricos no es válido.");
+        showAlert3("Error: alguno de los campos numéricos no es válido.");
         return;
     }
 
@@ -349,10 +373,10 @@ async function realizarCompra(idProv, nombreProv) {
         });
 
         if (res.ok) {
-            alert("¡Compra registrada con éxito!");
+            showAlert3("¡Compra registrada con éxito!");
         } else {
             const mensajeError = await res.text();
-            alert("Error: " + mensajeError);
+            showAlert3("Error: " + mensajeError);
         }
     } catch (error) {
         console.error("Error:", error);
@@ -403,16 +427,67 @@ function agregarValidacionNombreApellido(input) {
         this.setSelectionRange(resultado.length, resultado.length);
     });
 }
-
+ 
 // Teléfono 
 function agregarValidacionTelefono(input) {
+    if (!input) return;
+
+    // Función interna para validar el borde (10 dígitos exactos)
+    const validarBordeTelefono = (value) => {
+        const estructuraTelefono = /^[0-9]{10}$/;
+        if (value === "" || estructuraTelefono.test(value)) { 
+            input.style.borderColor = '';
+        } else {
+            input.style.borderColor = 'red';
+        }
+    };
+
     input.addEventListener('keydown', function (event) {
         const tecla = event.key;
-        const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+        const valorActual = this.value;
+        const teclasPermitidas = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'];
+        
         if (teclasPermitidas.includes(tecla) || event.ctrlKey || event.metaKey) return;
+        
+        // Bloquear espacios explicitamente
+        if (tecla === ' ') { event.preventDefault(); return; }
+        
+        // Solo números
         if (!/^[0-9]$/.test(tecla)) { event.preventDefault(); return; }
-        if (this.value.length === 0 && tecla !== '3' && tecla !== '6') { event.preventDefault(); return; }
-        if (this.value.length >= 10) { event.preventDefault(); return; }
+        
+        // Tiene que empezar por 3 o por 6
+        if (valorActual.length === 0 && tecla !== '3' && tecla !== '6') { event.preventDefault(); return; }
+        
+        // Si empieza por 6, el siguiente DEBE ser 0
+        if (valorActual.length === 1 && valorActual === '6' && tecla !== '0') { event.preventDefault(); return; }
+        
+        // Máximo 10 caracteres
+        if (valorActual.length >= 10) { event.preventDefault(); return; }
+    });
+
+    input.addEventListener('input', function () {
+        const posicionCursor = this.selectionStart;
+        let textoLimpio = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+
+        if (textoLimpio.length > 0) {
+            const primerDigito = textoLimpio.charAt(0);
+            // Si no empieza por 3 o 6, vacía el input
+            if (primerDigito !== '3' && primerDigito !== '6') {
+                textoLimpio = '';
+            } 
+            // Si empieza por 6 pero el segundo no es 0
+            else if (primerDigito === '6' && textoLimpio.length > 1 && textoLimpio.charAt(1) !== '0') {
+                textoLimpio = '6';
+            }
+        }
+
+        if (this.value !== textoLimpio) {
+            this.value = textoLimpio;
+            // Ajustar cursor tras la corrección manual
+            this.setSelectionRange(posicionCursor - 1, posicionCursor - 1);
+        }
+
+        validarBordeTelefono(this.value);
     });
 
     input.addEventListener('paste', function (event) {
@@ -420,14 +495,34 @@ function agregarValidacionTelefono(input) {
         const clipboard = event.clipboardData || window.clipboardData;
         let texto = clipboard ? clipboard.getData('text') : '';
         let limpio = texto.replace(/[^0-9]/g, '');
+        
         const start = this.selectionStart, end = this.selectionEnd;
         let unido = this.value.substring(0, start) + limpio + this.value.substring(end);
-        if (unido.length > 0 && unido[0] !== '3' && unido[0] !== '6') return;
-        let resultado = unido.substring(0, 10);
-        this.value = resultado;
-        this.setSelectionRange(resultado.length, resultado.length);
+        
+        // Limitar a 10 dígitos max antes de evaluar
+        if (unido.length > 10) {
+            unido = unido.slice(0, 10);
+        }
+
+        // Aplicar filtros de negocio al texto pegado resultante
+        if (unido.length > 0) {
+            const primerDigito = unido.charAt(0);
+            if (primerDigito !== '3' && primerDigito !== '6') return; 
+            
+            if (primerDigito === '6' && unido.length > 1 && unido.charAt(1) !== '0') {
+                unido = '6';
+            }
+        }
+
+        const caracteresAgregados = unido.length - (this.value.length - (end - start));
+        this.value = unido;
+        
+        // Posicionar cursor de forma inteligente
+        this.setSelectionRange(start + caracteresAgregados, start + caracteresAgregados);
+        
+        validarBordeTelefono(this.value);
     });
-}
+}  
 
 // Ciudad 
 function agregarValidacionCiudad(input) {
@@ -532,36 +627,113 @@ function agregarValidacionCorreo(input) {
 //   FORMULARIO DE AGREGAR
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Documento 
-    const inputDocumento = document.getElementById('new_documento');
-    if (inputDocumento) {
-        inputDocumento.addEventListener('keydown', function (event) {
-            const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+
+   // Documento
+    function agregarValidacionDocumento(inputDoc, selectTipo) {
+        if (!inputDoc) return;
+
+        // Obtener las reglas dinámicas según el tipo de documento seleccionado
+        function obtenerReglasDocumento() {
+            const tipo = selectTipo ? selectTipo.value : 'CC';
+            switch (tipo) {
+                case 'CC':  return { regex: /^\d{9,10}$/, minLength: 9, maxLength: 10, soloNumeros: true };
+                case 'CE':  return { regex: /^\d{6,15}$/, minLength: 6, maxLength: 15, soloNumeros: true };
+                case 'PPT': return { regex: /^\d{6,8}$/, minLength: 6, maxLength: 8, soloNumeros: true };
+                case 'PA':  return { regex: /^[a-zA-Z0-9]{6,15}$/, minLength: 6, maxLength: 15, soloNumeros: false };
+                case 'NIT': return { regex: /^\d{9,11}$/, minLength: 9, maxLength: 11, soloNumeros: true }; // <-- Caso NIT Agregado
+                default:    return { regex: /^\d{9,10}$/, minLength: 9, maxLength: 10, soloNumeros: true };
+            }
+        }
+
+        // Función interna para validar el borde rojo basándose en la regex del tipo de doc
+        function validarDoc(value) {
+            const reglas = obtenerReglasDocumento();
+            if (value === "") {
+                inputDoc.style.borderColor = '';
+            } else if (reglas.regex.test(value)) { 
+                inputDoc.style.borderColor = ''; 
+            } else {
+                inputDoc.style.borderColor = 'red'; 
+            }
+        }
+
+        // Si cambia el tipo de documento, se limpia el input y el borde
+        if (selectTipo) {
+            selectTipo.addEventListener('change', () => {
+                inputDoc.value = '';
+                inputDoc.style.borderColor = '';
+            });
+        }
+
+        inputDoc.addEventListener('keydown', function (event) {
+            const reglas = obtenerReglasDocumento();
+            const teclasPermitidas = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'];
+            
             if (event.ctrlKey || event.metaKey || teclasPermitidas.includes(event.key)) return;
+            
             if (event.key === ' ') { event.preventDefault(); return; }
-            if (!/^[0-9]$/.test(event.key)) { event.preventDefault(); }
+
+            // Validar si solo admite números o alfanumérico (Pasaporte)
+            if (reglas.soloNumeros && !/^[0-9]$/.test(event.key)) {
+                event.preventDefault();
+                return;
+            }
+            if (!reglas.soloNumeros && !/^[a-zA-Z0-9]$/.test(event.key)) {
+                event.preventDefault();
+                return;
+            }
+
+            // Controlar el máximo de caracteres permitido dinámicamente
+            if (this.value.length >= reglas.maxLength && this.selectionStart === this.selectionEnd) {
+                event.preventDefault();
+                return;
+            }
+        });
+
+        inputDoc.addEventListener('input', function () {
+            const reglas = obtenerReglasDocumento();
+
+            // Recortar si excede el tamaño máximo configurado
+            if (this.value.length > reglas.maxLength) {
+                this.value = this.value.slice(0, reglas.maxLength);
+            }
+
             validarDoc(this.value);
         });
 
-        inputDocumento.addEventListener('paste', function (event) {
+        inputDoc.addEventListener('paste', function (event) {
             event.preventDefault();
+            const reglas = obtenerReglasDocumento();
             const clipboard = event.clipboardData || window.clipboardData;
-            let texto = clipboard ? clipboard.getData('text') : '';
-            let soloNum = texto.replace(/[^0-9]/g, '');
-            if (!soloNum) return;
+            const texto = clipboard ? clipboard.getData('text').trim() : '';
+            
+            // Filtrar el texto pegado dependiendo de si es solo números o alfanumérico
+            const textoFiltrado = reglas.soloNumeros ? texto.replace(/[^0-9]/g, '') : texto.replace(/[^a-zA-Z0-9]/g, '');
+            if (!textoFiltrado) return;
+
             const ini = this.selectionStart, fin = this.selectionEnd;
-            let unido = this.value.substring(0, ini) + soloNum + this.value.substring(fin);
-            if (unido.length > 10) unido = unido.slice(0, 10);
+            let unido = this.value.substring(0, ini) + textoFiltrado + this.value.substring(fin);
+
+            if (unido.length > reglas.maxLength) {
+                unido = unido.slice(0, reglas.maxLength);
+            }
+
             const agregados = unido.length - (this.value.length - (fin - ini));
             this.value = unido;
+            
+            // Colocar el cursor de forma inteligente en la posición correcta tras pegar
             const pos = ini + Math.max(0, agregados);
             this.setSelectionRange(pos, pos);
+            
             validarDoc(this.value);
         });
+    }
 
-        function validarDoc(value) {
-            inputDocumento.style.borderColor = value === '' ? '' : /^[0-9]{10}$/.test(value) ? '' : 'red';
-        }
+    const inputDocumento = document.getElementById('new_documento');
+    const selectTipoDoc = document.getElementById('new_tipo_documento'); 
+
+    if (inputDocumento) {
+        agregarValidacionDocumento(inputDocumento, selectTipoDoc);
     }
 
     // Nombre y Apellido 

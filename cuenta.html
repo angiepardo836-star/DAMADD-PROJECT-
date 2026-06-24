@@ -40,20 +40,14 @@
     /* ===== MENU LATERAL ===== */
     #btn-menu { display: none; }
     .menu-lateral {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 260px;
-      height: 100vh;
-      z-index: 2500;
+      position: fixed; top: 0; left: 0;
+      width: 260px; height: 100vh; z-index: 2500;
       background: linear-gradient(180deg, #0c280c 0%, #081a08 60%, #050f05 100%);
       border-right: 1px solid rgba(34,197,94,0.55);
       box-shadow: 4px 0 30px rgba(0,0,0,.7);
       transform: translateX(-100%);
       transition: transform .38s cubic-bezier(.4,0,.2,1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      display: flex; flex-direction: column; overflow: hidden;
     }
     #btn-menu:checked ~ .menu-lateral { transform: translateX(0); left: 0; }
     #btn-menu:checked ~ .overlay,
@@ -81,8 +75,7 @@
       background: rgba(0,0,0,.65); z-index: 199;
       backdrop-filter: blur(3px);
     }
- 
-  
+
     .boton-accesibilidad {
       position: fixed; top: 70px; right: 18px; z-index: 300;
       background: var(--green); border: none; border-radius: 50%;
@@ -105,22 +98,18 @@
       transition: background .2s, border-color .2s;
     }
     .panel-accesibilidad button:hover { background: var(--green); color: var(--bg); border-color: var(--green); }
- 
-  
+
     .page-main {
       position: relative; z-index: 1;
       min-height: calc(100vh - 62px);
       display: flex; flex-direction: column; align-items: center;
-      padding: 2.4rem 1rem 3rem;
-      backdrop-filter: blur(0px);
+      padding: 2.4rem 2rem 3rem;
     }
- 
 
     .pestanas-cuenta {
       display: flex; gap: 0;
       margin-bottom: 2rem;
-      border-radius: 10px;
-      overflow: hidden;
+      border-radius: 10px; overflow: hidden;
       box-shadow: 0 4px 18px rgba(0,0,0,0.5);
       flex-shrink: 0;
     }
@@ -141,16 +130,15 @@
       box-shadow: inset 0 0 0 1px var(--green-dark);
     }
     .pestaña-btn:hover:not(.activo) { color: var(--green); border-color: var(--green-border); }
- 
-  
+
     .contenido-area { width: 100%; display: flex; justify-content: center; }
     .pestaña-contenido { display: none; width: 100%; }
-    .pestaña-contenido.activo { display: flex; justify-content: center; }
+    .pestaña-contenido.activo { display: flex; justify-content: center; width: 100%; }
+    #administrar.pestaña-contenido.activo { max-width: 1400px; margin: 0 auto; }
     .card {
       background: var(--bg-card);
       border: 1.5px solid var(--green-border);
-      border-radius: 16px;
-      padding: 2rem 2.2rem;
+      border-radius: 16px; padding: 2rem 2.2rem;
       width: 100%; max-width: 640px;
       box-shadow: 0 0 0 1px rgba(34,197,94,0.08), var(--shadow);
       animation: slideUp .38s cubic-bezier(.4,0,.2,1);
@@ -166,43 +154,32 @@
       text-align: center; letter-spacing: .4px;
     }
     .card h1 span { color: var(--green); }
- 
+
     .field-group { margin-bottom: .85rem; }
     .field-row {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: .85rem; margin-bottom: .85rem;
     }
     .field-row .field-group { margin-bottom: 0; }
- 
     label {
       display: block;
       font-size: .78rem; font-weight: 500; color: var(--text-label);
       margin-bottom: .3rem; letter-spacing: .2px;
     }
- 
-    .input-wrap {
-      position: relative; display: flex; align-items: center;
-    }
+    .input-wrap { position: relative; display: flex; align-items: center; }
     .input-icon {
       position: absolute; left: 13px;
-      width: 16px; height: 16px;
-      color: var(--text-muted);
-      pointer-events: none; flex-shrink: 0;
-      transition: color .2s;
+      width: 16px; height: 16px; color: var(--text-muted);
+      pointer-events: none; flex-shrink: 0; transition: color .2s;
     }
     .input-wrap:focus-within .input-icon { color: var(--green); }
- 
     .input-wrap input,
     .input-wrap select {
-      width: 100%;
-      padding: .72rem 1rem .72rem 2.5rem;
-      background: var(--bg-input);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-main);
+      width: 100%; padding: .72rem 1rem .72rem 2.5rem;
+      background: var(--bg-input); border: 1.5px solid var(--border);
+      border-radius: 10px; color: var(--text-main);
       font-family: 'Poppins', sans-serif; font-size: .875rem;
-      outline: none;
-      transition: border-color .25s, box-shadow .25s;
+      outline: none; transition: border-color .25s, box-shadow .25s;
       -webkit-appearance: none;
     }
     .input-wrap input::placeholder { color: var(--text-muted); opacity: .7; }
@@ -211,30 +188,23 @@
       border-color: var(--green);
       box-shadow: 0 0 0 3px var(--green-glow);
     }
-    /* inputs sin icono de prefijo (modo imagen) */
     .input-wrap.no-icon input,
-    .input-wrap.no-icon select {
-      padding-left: 1rem;
-    }
- 
+    .input-wrap.no-icon select { padding-left: 1rem; }
     .input-wrap select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%23888888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 12px center;
       padding-right: 2.2rem; cursor: pointer;
     }
     .input-wrap select option { background: var(--bg-card); }
- 
     .eye-btn {
       position: absolute; right: 11px;
       background: none; border: none; cursor: pointer;
       color: var(--text-muted); padding: 4px;
-      display: flex; align-items: center;
-      transition: color .2s;
+      display: flex; align-items: center; transition: color .2s;
     }
     .eye-btn:hover { color: var(--green); }
     .eye-btn svg { width: 17px; height: 17px; }
     .input-wrap input.has-eye { padding-right: 2.4rem; }
- 
     .strength-bar { display: flex; gap: 4px; margin-top: .38rem; }
     .strength-seg {
       flex: 1; height: 4px; border-radius: 99px;
@@ -242,77 +212,136 @@
     }
     .strength-label { font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1em; }
     .match-label    { font-size: .72rem; margin-top: .22rem; min-height: 1em; }
- 
-   
     .btn-primary {
       width: 100%; padding: .82rem;
       background: var(--green); color: #000;
       border: none; border-radius: 10px;
       font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem;
-      cursor: pointer; margin-top: 1.3rem;
-      letter-spacing: .3px;
+      cursor: pointer; margin-top: 1.3rem; letter-spacing: .3px;
       transition: background .22s, transform .15s, box-shadow .22s;
       box-shadow: 0 4px 20px var(--green-glow);
     }
     .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 8px 28px var(--green-glow); }
     .btn-primary:active { transform: translateY(0); }
- 
-    
+
     .card-administrar {
-      background: var(--bg-card);
-      border: 1.5px solid var(--green-border);
-      border-radius: 16px;
-      padding: 2rem 1.8rem;
-      width: 100%; max-width: 1000px;
-      box-shadow: var(--shadow);
+      width: 100% !important; max-width: 1400px !important;
       animation: slideUp .38s cubic-bezier(.4,0,.2,1);
-      overflow-x: auto;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 1rem !important;
     }
     .card-administrar h1 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.3rem; font-weight: 700;
-      margin-bottom: 1.4rem; color: var(--white);
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 1.3rem !important; font-weight: 700 !important;
+      margin-bottom: 1.4rem !important; color: #ffffff !important;
+      text-align: center !important;
     }
-    .card-administrar h1 span { color: var(--green); }
- 
-    .tabla-cuentas { width: 100%; border-collapse: collapse; font-size: .88rem; }
-    .tabla-cuentas thead tr {
-      background: var(--bg-input);
-      border-bottom: 2px solid var(--green);
+    .card-administrar h1 span { color: var(--green) !important; }
+    .tabla-cuentas-wrapper {
+      background: #0a0a0a !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      border: 1px solid #1a3d1a !important;
+      overflow-x: auto !important;
     }
-    .tabla-cuentas th {
-      padding: .75rem 1rem; text-align: left;
-      color: var(--green); font-weight: 700; font-size: .76rem;
-      text-transform: uppercase; letter-spacing: .5px;
-    }
-    .tabla-cuentas td {
-      padding: .7rem 1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-main);
-    }
-    .tabla-cuentas tbody tr { transition: background .2s; }
-    .tabla-cuentas tbody tr:hover { background: rgba(34,197,94,.05); }
- 
-    .badge-empleado, .badge-gerente {
-      display: inline-block; padding: .22rem .7rem;
-      border-radius: 99px; font-size: .74rem; font-weight: 700;
-    }
-    .badge-empleado { background: rgba(59,130,246,.15); color: #60a5fa; border: 1px solid #3b82f6; }
-    .badge-gerente  { background: rgba(34,197,94,.15); color: var(--green); border: 1px solid var(--green); }
- 
-    .btn-edit, .btn-delete {
-      padding: .32rem .75rem; border-radius: 7px;
-      border: none; cursor: pointer; font-size: .8rem; font-weight: 600;
-      transition: background .2s, transform .12s; margin-right: 4px;
-    }
-    .btn-edit   { background: rgba(34,197,94,.12); color: var(--green); border: 1px solid var(--green); }
-    .btn-delete { background: rgba(239,68,68,.1);  color: #f87171; border: 1px solid #ef4444; }
-    .btn-edit:hover   { background: var(--green); color: #000; transform: scale(1.04); }
-    .btn-delete:hover { background: #ef4444; color: #fff; transform: scale(1.04); }
- 
-    .mensaje-vacio { text-align: center; padding: 2rem; color: var(--text-muted); }
- 
 
+    .tabla-cuentas {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      text-align: center !important;
+      background: #080f08 !important;
+      color: #d4e8d4 !important;
+      font-size: 13px !important;
+    }
+
+    .tabla-cuentas thead tr {
+      background: #005203 !important;
+      border-bottom: 3px solid #00c621 !important;
+    }
+    .tabla-cuentas thead th {
+      background: #005203 !important;
+      text-align: center !important;
+      padding: 13px 12px !important;
+      color: #ffffff !important;
+      border-bottom: 3px solid #00c621 !important;
+      border-right: 1px solid #006804 !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.6px !important;
+      white-space: nowrap !important;
+    }
+    .tabla-cuentas thead th:first-child { border-left: 3px solid #00c621 !important; }
+    .tabla-cuentas thead th:last-child  { border-right: none !important; }
+
+    .tabla-cuentas td {
+      padding: 11px 12px !important;
+      border-bottom: 1px solid #1a2e1a !important;
+      border-right: 1px solid #111e11 !important;
+      color: #d4e8d4 !important;
+    }
+    .tabla-cuentas tbody tr:nth-child(even) { background: #060d06 !important; }
+    .tabla-cuentas tbody tr:hover {
+      background: #0d1f0d !important;
+      transition: background 0.15s ease !important;
+    }
+
+    .badge-empleado {
+      background: #0a1a3d !important;
+      color: #60a5fa !important;
+      border: 1px solid rgba(37,99,235,0.4) !important;
+      border-radius: 20px !important;
+      padding: 3px 11px !important;
+      font-size: 11px !important; font-weight: 600 !important;
+      display: inline-block !important;
+    }
+    .badge-gerente {
+      background: #052e16 !important;
+      color: #4ade80 !important;
+      border: 1px solid rgba(22,163,74,0.4) !important;
+      border-radius: 20px !important;
+      padding: 3px 11px !important;
+      font-size: 11px !important; font-weight: 600 !important;
+      display: inline-block !important;
+    }
+
+    .btn-edit {
+      background: #0d3d0d !important;
+      color: #4ade80 !important;
+      border: 1px solid rgba(22,163,74,0.4) !important;
+      margin: 3px !important;
+      border-radius: 7px !important;
+      width: 32px !important; height: 30px !important;
+      cursor: pointer !important; font-size: 15px !important;
+      display: inline-flex !important; align-items: center !important; justify-content: center !important;
+      transition: background 0.15s ease !important;
+      padding: 0 !important;
+    }
+    .btn-edit:hover { background: #145214 !important; opacity: 0.8 !important; }
+
+    .btn-delete {
+      background: #2d0a0a !important;
+      color: #f87171 !important;
+      border: 1px solid rgba(220,38,38,0.4) !important;
+      margin: 3px !important;
+      border-radius: 7px !important;
+      width: 32px !important; height: 30px !important;
+      cursor: pointer !important; font-size: 15px !important;
+      display: inline-flex !important; align-items: center !important; justify-content: center !important;
+      transition: background 0.15s ease !important;
+      padding: 0 !important;
+    }
+    .btn-delete:hover { background: #4a1010 !important; opacity: 0.8 !important; }
+
+    .mensaje-vacio {
+      text-align: center !important; padding: 2rem !important;
+      color: #888 !important; font-size: 15px !important;
+      background: #080f08 !important;
+    }
+
+    /* ===== MODAL EDITAR ===== */
     .modal {
       display: none; position: fixed; inset: 0; z-index: 500;
       background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
@@ -320,12 +349,25 @@
     }
     .modal.open { display: flex; }
     .modal-contenido {
-      background: var(--bg-card); border: 1.5px solid var(--green-border);
-      border-radius: 16px; padding: 2rem;
+      background: #1a1a1a;
+      border: 1px solid #1ed760;
+      border-radius: 15px; padding: 2rem;
       width: 100%; max-width: 640px;
-      box-shadow: 0 0 0 1px rgba(34,197,94,0.08), var(--shadow);
+      box-shadow: 0 25px 50px rgba(9,104,9,0.6), 0 0 15px rgba(20,109,2,0.2);
       animation: slideUp .28s ease;
     }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.4rem;
+      border-bottom: 2px solid #1ed760;
+      padding-bottom: 1rem;
+    }
+    .modal-header h2 { color: #ffffff; margin: 0; font-size: 1.2rem; }
+    .cerrar-modal {
+      background: none; border: none; color: white;
+      font-size: 1.6rem; cursor: pointer; transition: color .2s;
+    }
+    .cerrar-modal:hover { color: #1ed760; }
 
     .modal-botones { display: flex; gap: .8rem; margin-top: 1.4rem; }
     .btn-guardar, .btn-cancelar {
@@ -333,38 +375,38 @@
       font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem;
       cursor: pointer; transition: background .2s, transform .12s;
     }
-    .btn-guardar { background: var(--green); color: #000; box-shadow: 0 4px 14px var(--green-glow); }
-    .btn-guardar:hover { background: var(--green-dark); transform: translateY(-1px); }
-    .btn-cancelar { background: var(--bg-input); color: var(--text-muted); border: 1px solid var(--border); }
-    .btn-cancelar:hover { background: var(--border); color: var(--text-main); }
- 
+    .btn-guardar {
+      background: #1ed760; color: #0a0a0a;
+    }
+    .btn-guardar:hover { background: #19b850; transform: translateY(-1px); }
+    .btn-cancelar {
+      background: transparent; color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-cancelar:hover { background: rgba(255,255,255,0.06); }
+
     @media (max-width: 520px) {
       .field-row { grid-template-columns: 1fr; }
-      .card, .card-administrar { padding: 1.5rem 1rem; }
+      .card { padding: 1.5rem 1rem; }
       .pestaña-btn { padding: .65rem 1.2rem; font-size: .83rem; }
+      .tabla-cuentas { font-size: 11px; }
+      .tabla-cuentas td, .tabla-cuentas thead th { padding: 7px 6px; }
     }
- 
-    
+
     footer.footer-main {
       background: linear-gradient(135deg, #0e5001, #030403);
-      color: #ffffff;
-      padding: 10px 20px 20px;
-      margin-top: 10px;
-      box-shadow: 0 -8px 24px rgb(0, 0, 0);
+      color: #ffffff; padding: 10px 20px 20px;
+      margin-top: 10px; box-shadow: 0 -8px 24px rgb(0,0,0);
     }
     .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-      justify-content: space-between;
-      padding-bottom: 30px;
-      border-bottom: 4px solid rgb(0, 198, 33);
+      max-width: 1200px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; gap: 40px;
+      justify-content: space-between; padding-bottom: 30px;
+      border-bottom: 4px solid rgb(0,198,33);
     }
     .footer-section { flex: 1; min-width: 20px; }
     .footer-section h3 { margin: 0 0 16px 0; font-size: 18px; color: #ffffff; letter-spacing: 0.5px; }
-    .footer-section p { margin: 8px 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.72); }
+    .footer-section p  { margin: 8px 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.72); }
     .footer-logo { height: 54px; margin-bottom: 12px; opacity: 0.94; transition: transform 0.2s ease, opacity 0.2s ease; }
     .footer-logo:hover { transform: scale(1.06); opacity: 1; }
     .footer-brand { font-size: 16px; font-style: italic; color: #707070; margin: 0; }
@@ -372,14 +414,14 @@
     .social-link {
       display: inline-flex; align-items: center; justify-content: center;
       width: 40px; height: 40px; border-radius: 50%;
-      background: rgb(5, 160, 25);
+      background: rgb(5,160,25);
       transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
       text-decoration: none;
     }
     .social-link:hover {
       background: linear-gradient(135deg, #000000, #04611e);
       transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(255, 253, 253, 0.932);
+      box-shadow: 0 8px 20px rgba(255,253,253,0.932);
     }
     .social-link img { width: 20px; height: 20px; object-fit: contain; filter: brightness(0.95) invert(1); transition: filter 0.2s ease; }
     .social-link:hover img { filter: brightness(1) invert(1); }
@@ -388,8 +430,7 @@
   </style>
 </head>
 <body>
- 
-    <!-- 🎨 Botón de accesibilidad -->
+
     <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
     <div id="panel" class="panel-accesibilidad">
         <button onclick="cambiarTema('rojo')">Rojo</button>
@@ -398,24 +439,23 @@
         <button onclick="restablecerTema()">Restablecer</button>
     </div>
 
-    <input type="checkbox" id="btn-menu" hidden> <!-- Control oculto para el menú lateral -->
+    <input type="checkbox" id="btn-menu" hidden>
     
-      <header class="header-mesas"> <!-- Cabecera con logo y control de menú -->
-        <div class="container"> <!-- Fila para centrar elementos -->
-            <div class="btn-menu"> <!-- Área del botón del menú -->
-                <label for="btn-menu" class="icon-menu">☰</label> <!-- Icono que abre el menú -->
-            </div> <!-- Fin botón menú -->
-        </div> <!-- Fin contenedor -->
-        <div class="logo"> <!-- Caja del logo -->
+      <header class="header-mesas">
+        <div class="container">
+            <div class="btn-menu">
+                <label for="btn-menu" class="icon-menu">☰</label>
+            </div>
+        </div>
+        <div class="logo">
            <div class="logo"><h2>𝘾𝙐𝙀𝙉<span>𝙏</span>𝘼</h2></div>
-             <!-- Botón de cuenta -->
         <a href="#" id="boton-perfil" class="cuenta-btn">
             <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
             <span id="nombre-display" class="nombre">Cargando...</span>
         </a>
-        </div> <!-- Fin logo -->
-    </header> <!-- Fin cabecera -->
- 
+        </div>
+    </header>
+
 <label class="overlay" for="btn-menu"></label>
 
     <nav class="menu-lateral">
@@ -432,7 +472,6 @@
         </div>
         <label for="btn-menu" class="close-menu" aria-label="Cerrar menú">✕</label>
       </div>
-
       <div class="menu-opciones">
         <div class="menu-section-label">Principal</div>
         <ul>
@@ -462,19 +501,11 @@
               <svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
             </label>
             <ul class="submenu">
-              <li>
-                <a href="proveedores.html">
-                  <span class="nav-label">Proveedores</span>
-                </a>
-              </li>
-              <li>
-                <a href="productos.html">
-                  <span class="nav-label">Productos</span>
-                </a>
-              </li>
+              <li><a href="proveedores.html"><span class="nav-label">Proveedores</span></a></li>
+              <li><a href="productos.html"><span class="nav-label">Productos</span></a></li>
             </ul>
           </li>
-            </ul>
+        </ul>
         <div class="divider"></div>
         <div class="menu-section-label">Sistema</div>
         <ul>
@@ -488,15 +519,13 @@
           </li>
         </ul>
       </div>
-
       <div class="menu-footer">
         <div class="status-dot"></div>
         <span class="menu-version">DAMADD v2.0 · </span>
       </div>
     </nav>
 
-    <div class="capa"></div> <!-- Capa que oscurece cuando el menú está abierto -->
- 
+    <div class="capa"></div>
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
   <symbol id="ic-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -540,24 +569,21 @@
     <line x1="1" y1="1" x2="23" y2="23"/>
   </symbol>
 </svg>
- 
+
 <main class="page-main">
- 
 
   <div class="pestanas-cuenta">
     <button class="pestaña-btn activo" data-pestaña="crear">Crear Cuenta</button>
     <button class="pestaña-btn" data-pestaña="administrar">Administrar Cuentas</button>
   </div>
- 
+
   <div class="contenido-area">
- 
-  
+
+    <!-- PESTAÑA CREAR -->
     <div id="crear" class="pestaña-contenido activo">
       <div class="card">
         <h1>Crear <span>Cuenta</span></h1>
- 
         <form id="formulario-crear-cuenta" autocomplete="off">
- 
           <div class="field-row">
             <div class="field-group">
               <label>Tipo de Documento</label>
@@ -580,7 +606,6 @@
               </div>
             </div>
           </div>
- 
           <div class="field-row">
             <div class="field-wrap">
               <label>Nombre</label>
@@ -597,7 +622,6 @@
               </div>
             </div>
           </div>
- 
           <div class="field-wrap">
             <label>Usuario</label>
             <div class="input-wrap">
@@ -605,7 +629,6 @@
               <input type="text" id="usuario" name="usuario_usuario" placeholder="Nombre de usuario único" required>
             </div>
           </div>
- 
           <div class="field-row">
             <div class="field-wrap">
               <label>Teléfono</label>
@@ -622,7 +645,6 @@
               </div>
             </div>
           </div>
- 
           <div class="field-group">
             <label>Contraseña</label>
             <div class="input-wrap">
@@ -640,7 +662,6 @@
             </div>
             <p class="strength-label" id="strength-label"></p>
           </div>
- 
           <div class="field-group">
             <label>Confirmar Contraseña</label>
             <div class="input-wrap">
@@ -652,7 +673,6 @@
             </div>
             <p class="match-label" id="match-label"></p>
           </div>
- 
           <div class="field-group">
             <label>Rol</label>
             <div class="input-wrap">
@@ -664,17 +684,16 @@
               </select>
             </div>
           </div>
- 
           <button type="submit" class="btn-primary">Agregar Cuenta</button>
         </form>
       </div>
     </div>
- 
-   
+
+    <!-- PESTAÑA ADMINISTRAR -->
     <div id="administrar" class="pestaña-contenido">
       <div class="card-administrar">
         <h1>Administrar <span>Cuentas</span></h1>
-        <div id="lista-cuentas-container">
+        <div class="tabla-cuentas-wrapper">
           <table class="tabla-cuentas">
             <thead>
               <tr>
@@ -695,20 +714,19 @@
         </div>
       </div>
     </div>
- 
+
   </div>
 </main>
- 
 
+<!-- MODAL EDITAR -->
 <div id="modal-editar" class="modal">
   <div class="modal-contenido">
     <div class="modal-header">
-      <h2>Mi Perfil</h2>
+      <h2>Editar <span style="color:#1ed760;">Cuenta</span></h2>
       <button class="cerrar-modal">&times;</button>
     </div>
     <form id="formulario-editar-cuenta">
       <input type="hidden" id="editar-usuario-original">
- 
       <div class="field-row">
         <div class="field-group">
           <label>Nombre</label>
@@ -725,7 +743,6 @@
           </div>
         </div>
       </div>
- 
       <div class="field-group" style="margin-top:.6rem">
         <label>Usuario</label>
         <div class="input-wrap">
@@ -733,7 +750,6 @@
           <input type="text" id="editar-usuario" required>
         </div>
       </div>
- 
       <div class="field-row" style="margin-top:.6rem">
         <div class="field-group">
           <label>Teléfono</label>
@@ -750,7 +766,6 @@
           </div>
         </div>
       </div>
- 
       <div class="field-group" style="margin-top:.6rem">
         <label>Contraseña</label>
         <div class="input-wrap">
@@ -761,7 +776,6 @@
           </button>
         </div>
       </div>
- 
       <div class="field-group" style="margin-top:.6rem">
         <label>Rol</label>
         <div class="input-wrap">
@@ -772,7 +786,6 @@
           </select>
         </div>
       </div>
- 
       <div class="modal-botones">
         <button type="submit" class="btn-guardar">Guardar Cambios</button>
         <button type="button" class="btn-cancelar">Cancelar</button>
@@ -780,7 +793,6 @@
     </form>
   </div>
 </div>
- 
 
 <footer class="footer-main">
   <div class="footer-content">
@@ -807,10 +819,9 @@
     <p>&copy; 2025 DAMADD. Todos los derechos reservados a DAMADD.</p>
   </div>
 </footer>
- 
+
 <script src="js/memoriaPersonalizacion.js"></script>
 <script>
-
 function cambiarTema(c) {
   const m = {
     rojo:   { color: '#e74c3c', dark: '#c0392b' },
@@ -912,7 +923,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const botones    = document.querySelectorAll('.pestaña-btn');
   const contenidos = document.querySelectorAll('.pestaña-contenido');
- 
   botones.forEach(btn => {
     btn.addEventListener('click', () => {
       const obj = btn.getAttribute('data-pestaña');
@@ -924,13 +934,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (obj === 'administrar') cargarUsuarios();
     });
   });
- 
+
   const tablaCuerpo = document.getElementById('tabla-cuentas-body');
   const sinCuentas  = document.getElementById('sin-cuentas');
   const modalEditar = document.getElementById('modal-editar');
   const formEditar  = document.getElementById('formulario-editar-cuenta');
   const formCrear   = document.getElementById('formulario-crear-cuenta');
- 
+
   async function cargarUsuarios() {
     try {
       const res      = await fetch('/obtener-usuarios');
@@ -951,8 +961,12 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${u.telefono || '—'}</td>
           <td><span class="badge-${u.cargo}">${u.cargo}</span></td>
           <td>
-            <button class="btn-edit"   onclick="prepararEdicion(${u.documento})">Editar</button>
-            <button class="btn-delete" onclick="eliminarUsuario(${u.documento})">Eliminar</button>
+            <button class="btn-edit"   onclick="prepararEdicion(${u.documento})" title="Editar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="btn-delete" onclick="eliminarUsuario(${u.documento})" title="Eliminar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            </button>
           </td>`;
         tablaCuerpo.appendChild(tr);
       });
@@ -961,7 +975,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mostrarAlerta('Error al conectar con el servidor', 'error');
     }
   }
- 
+
   formCrear?.addEventListener('submit', async e => {
     e.preventDefault();
     const pass = document.getElementById('contrasena').value;
@@ -980,15 +994,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     try {
       const res  = await fetch('/guardar-usuario', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(datos)
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
       });
       const json = await res.json();
       if (res.ok && json.success) {
         mostrarAlerta('¡Cuenta creada con éxito!', 'ok');
         formCrear.reset();
-        [1,2,3,4].forEach(i => document.getElementById('s'+i).style.background = 'var(--navy-border)');
+        [1,2,3,4].forEach(i => document.getElementById('s'+i).style.background = 'var(--border)');
         document.getElementById('strength-label').textContent = '';
         document.getElementById('match-label').textContent    = '';
         document.querySelector('[data-pestaña="administrar"]')?.click();
@@ -1000,15 +1013,14 @@ document.addEventListener('DOMContentLoaded', () => {
       mostrarAlerta('Error de conexión con el servidor', 'error');
     }
   });
- 
+
   window.prepararEdicion = async documento => {
     const pwd = prompt('Ingrese la contraseña ACTUAL de este usuario para permitir cambios:');
     if (pwd === null) return;
     try {
       const verif = await fetch('/verificar-password-admin', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ documento, contrasena: pwd })
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ documento, contrasena: pwd })
       });
       const r = await verif.json();
       if (!r.success) { mostrarAlerta('Contraseña incorrecta. Sin permiso para editar.', 'error'); return; }
@@ -1024,7 +1036,7 @@ document.addEventListener('DOMContentLoaded', () => {
       modalEditar.classList.add('open');
     } catch (err) { console.error(err); mostrarAlerta('Error de conexión', 'error'); }
   };
- 
+
   formEditar?.addEventListener('submit', async e => {
     e.preventDefault();
     const documento = document.getElementById('editar-usuario-original').value;
@@ -1040,9 +1052,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nuevaPass) datos.contrasena = nuevaPass;
     try {
       const res  = await fetch(`/editar-usuario/${documento}`, {
-        method:  'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(datos)
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
       });
       const json = await res.json();
       if (res.ok && json.success) {
@@ -1054,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (err) { console.error(err); mostrarAlerta('Error de conexión', 'error'); }
   });
- 
+
   window.eliminarUsuario = async documento => {
     if (!confirm('¿Estás seguro de eliminar esta cuenta? Esta acción no se puede deshacer.')) return;
     try {
@@ -1068,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (err) { mostrarAlerta('Error de conexión', 'error'); }
   };
- 
+
   function mostrarAlerta(mensaje, tipo = 'ok') {
     const alerta = document.createElement('div');
     alerta.textContent = mensaje;
@@ -1081,43 +1092,42 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(alerta);
     setTimeout(() => alerta.remove(), 3000);
   }
- 
+
   function cerrarModal() {
     modalEditar.classList.remove('open');
     formEditar.reset();
   }
- 
+
   document.querySelector('.cerrar-modal')?.addEventListener('click', cerrarModal);
   document.querySelector('.btn-cancelar')?.addEventListener('click', cerrarModal);
   modalEditar?.addEventListener('click', e => { if (e.target === modalEditar) cerrarModal(); });
- 
- 
+
   const nombre = document.getElementById("nombre");
   nombre?.addEventListener("input", function () {
     let v = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, "")
                       .replace(/\s+/g, " ").trimStart().substring(0, 70);
     this.value = v.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
   });
- 
+
   const apellido = document.getElementById("apellido");
   apellido?.addEventListener("input", function () {
     let v = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, "")
                       .replace(/\s+/g, " ").trimStart().substring(0, 70);
     this.value = v.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
   });
- 
+
   const docEl = document.getElementById("num_doc");
   docEl?.addEventListener("input", function () {
     this.value = this.value.replace(/\D/g, "").slice(0, 15);
   });
- 
+
   const telEl = document.getElementById("telefono");
   telEl?.addEventListener("input", function () {
     let v = this.value.replace(/\D/g, "").slice(0, 15);
     if (v.length > 0 && v[0] !== "3" && v[0] !== "6") v = "";
     this.value = v;
   });
- 
+
   formCrear?.addEventListener("submit", function(e) {
     const tel = document.getElementById("telefono").value;
     if (!/^[36][0-9]{6,14}$/.test(tel)) {
@@ -1125,7 +1135,6 @@ document.addEventListener('DOMContentLoaded', () => {
       mostrarAlerta("El teléfono debe iniciar por 3 o 6 y tener máximo 15 dígitos.", 'error');
     }
   }, true);
- 
 });
 </script>
 </body>

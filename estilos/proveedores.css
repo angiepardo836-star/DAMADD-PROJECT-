@@ -1435,4 +1435,54 @@ input:focus {
     padding: 12px 12px 12px 38px;
     margin-bottom: 0;
 }
+/* ESTILOS DE LA BOLITA DE BILLAR */
+.btn-cerrar-bola {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid rgb(30, 215, 96);
+  border-radius: 50%;
+  box-shadow: 0 0 rgb(30, 215, 96); 
+
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Línea 1 de la X */
+.btn-cerrar-bola::before,
+.btn-cerrar-bola::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+}
+
+/* Diagonal */
+.btn-cerrar-bola::before {
+  transform: rotate(45deg);
+}
+
+/* Diagonal contraria */
+.btn-cerrar-bola::after {
+  transform: rotate(-45deg);
+}
+
+/*EFECTO ANIMADO (Al pasar el cursor) */
+.btn-cerrar-bola:hover {
+    transform: scale(1.12); /* Se agranda un poquito simulando que flota */
+    box-shadow: 0 0 18px rgba(31, 203, 99, 0.7); /* El brillo verde se intensifica */
+}
+
+/* Cuando se hace clic o se selecciona */
+.add-product-dialog input:focus,
+.add-product-dialog select:focus {
+  border-color: rgb(30, 215, 96) /* verde */
+}
 

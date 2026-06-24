@@ -339,6 +339,9 @@
     <div id="addProductModal" style="display: none;"> 
     <div class="add-product-dialog"> 
         <h3>Agregar <span style="color: #1ed760;">Proveedor</span></h3>
+        <button type="button" class="btn-cerrar-bola img" onclick="cerrarModal()">
+          X
+        </button>
         
 
         <div class="pr-form-row">
@@ -348,9 +351,9 @@
                     <option value="">Seleccione una opción</option>
                     <option value="CC">Cédula de Ciudadanía</option>
                     <option value="CE">Cédula de Extranjería</option>
-                    <option value="Pasaporte">Pasaporte</option>
-                    <option value="Certificado">Certificado</option>
-                    <option value="NIT">NIT</option>
+                    <option value="PA">Pasaporte</option>
+                    <option value="PPT">Permiso por Protección Temporal</option>
+                    <option value="NIT">Número de Identificación Tributaria</option>
                 </select>
             </div>
             <div class="pr-info-group">
@@ -431,6 +434,8 @@
             <button type="button" onclick="closeAddModal()">Cancelar</button>
             <button type="button" onclick="saveNew()">Agregar Proveedor</button> 
         </div>
+        <div id="toast3" style="position:fixed;top:2rem;left:50%;transform:translateX(-50%) translateY(-100px);background:#04780a;color:white;padding:10px;width:30%;border-radius:10px;font-size:18px;box-shadow:#000 0px 0px 10px;opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:300;min-width:30px;text-align:center;"></div>
+
     </div>
 </div>
     
