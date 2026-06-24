@@ -14,7 +14,7 @@
 
 <body> <!-- Contenido visible -->
 
-    <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+      <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
         <symbol id="ic-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
         </symbol>
@@ -55,7 +55,17 @@
             <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
             <line x1="1" y1="1" x2="23" y2="23"/>
         </symbol>
+        <symbol id="ic-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </symbol>
+          <symbol id="ic-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+          </symbol>
     </svg>
+
+
 
 <div id="modal-perfil" class="p-modal-overlay">
   <div class="p-modal-card">
@@ -326,82 +336,106 @@
         <button type="button" class="btn-search" onclick="openAddModal()">Agregar proveedor</button> <!-- Botón ahora abre modal para agregar producto -->
     </div> <!-- Fin search-container -->
     <!--  agregar producto  -->
+    
     <div id="addProductModal" style="display: none;"> 
-        <div class="add-product-dialog"> 
-            <h3>Agregar <span style="color: #1ed760;">Proveedor</span></h3>
-            
-            <div class="pr-form-row">
-                <div class="pr-info-group">
-                    <label>Tipo Documento *</label>
-                    <select id="new_tipo_documento" required>
+    <div class="add-product-dialog"> 
+        <h3>Agregar <span style="color: #1ed760;">Proveedor</span></h3>
+        
+
+        <div class="pr-form-row">
+            <div class="pr-info-group">
+                <label>Tipo Documento *</label>
+                <select id="new_tipo_documento" required>
                     <option value="">Seleccione una opción</option>
                     <option value="CC">Cédula de Ciudadanía</option>
                     <option value="CE">Cédula de Extranjería</option>
                     <option value="Pasaporte">Pasaporte</option>
                     <option value="Certificado">Certificado</option>
-                    <option value="NIT">NIT</option></select>
-                </div>
-                <div class="pr-info-group double-width">
-                    <label>Documento *</label>
+                    <option value="NIT">NIT</option>
+                </select>
+            </div>
+            <div class="pr-info-group">
+                <label>Documento *</label>
+                <div class="input-wrap">
+                    <svg class="input-icon"><use href="#ic-hash"/></svg>
                     <input id="new_documento" type="text" minlength="10" maxlength="10" required placeholder="Digite el número de identificacion">
                 </div>
             </div>
+        </div>
 
 
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                        <label>Nombre *</label>
-                        <input id="new_nombre" type="text" maxlength="20" required placeholder="Nombre">
-                        </div>
-                        <div class="pr-info-group double-width">
-                        <label>Apellido </label>
-                        <input id="new_apellido" type="text" maxlength="100" required placeholder="Apellido">
-                        </div>
-                    </div>
+        <div class="pr-form-row">
+            <div class="pr-info-group">
+                <label>Nombre *</label>
+                <div class="input-wrap">
+                    <svg class="input-icon"><use href="#ic-user"/></svg>
+                    <input id="new_nombre" type="text" maxlength="20" required placeholder="Nombre">
+                </div>
+            </div>
+            <div class="pr-info-group">
+                <label>Apellido</label>
+                <div class="input-wrap">
+                    <svg class="input-icon"><use href="#ic-user"/></svg>
+                    <input id="new_apellido" type="text" maxlength="100" required placeholder="Apellido">
+                </div>
+            </div>
+        </div>
 
 
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                        <label>Teléfono *</label>
-                        <input id="new_telefono" type="text" maxlength="10" minlength="10" required placeholder="Teléfono celular o fijo">
-                        </div>
-                        <div class="pr-info-group double-width">
-                        <label>Ciudad *</label>
-                        <input id="new_ciudad" type="text" maxlength="100" required placeholder="Ciudad">
-                        </div>
-                    </div>
+        <div class="pr-form-row">
+            <div class="pr-info-group">
+                <label>Teléfono *</label>
+                <div class="input-wrap">
+                    <svg class="input-icon"><use href="#ic-phone"/></svg>
+                    <input id="new_telefono" type="text" maxlength="10" minlength="10" required placeholder="Teléfono celular o fijo">
+                </div>
+            </div>
+            <div class="pr-info-group">
+                <label>Ciudad *</label>
+                <div class="input-wrap">
+                    <svg class="input-icon"><use href="#ic-map"/></svg>
+                    <input id="new_ciudad" type="text" maxlength="100" required placeholder="Ciudad">
+                </div>
+            </div>
+        </div>
 
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                    <label>Dirección *</label>
+
+        <div class="pr-form-row">
+            <div class="pr-info-group">
+                <label>Dirección *</label>
+                <div class="input-wrap">
+                    <svg class="input-icon"><use href="#ic-home"/></svg>
                     <input id="new_direccion" type="text" maxlength="200" required placeholder="Dirección">
-                    </div>
-                    <div class="pr-info-group double-width">
-                    <label>Estado *</label>
-                    <select id="new_estado" required>
+                </div>
+            </div>
+            <div class="pr-info-group">
+                <label>Estado *</label>
+                <select id="new_estado" required>
                     <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option></select>
-                    </div>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="pr-form-row">
+            <div class="pr-info-group" style="flex: 1;">
+                <label>Correo *</label>
+                <div class="input-wrap">
+                    <svg class="input-icon"><use href="#ic-mail"/></svg>
+                    <input id="new_correo" type="text" maxlength="100" required placeholder="Correo electrónico">
                 </div>
+            </div>
+        </div>
 
-                <div class="pr-form-row">
-                    <div class="pr-info-group">
-                   <label>Correo *</label>
-                  <input id="new_correo" type="text" maxlength="100" required placeholder="Correo electrónico">
-                    </div>
-                </div>
-
-            
-
-            
         <div class="add-product-actions">
             <button type="button" onclick="closeAddModal()">Cancelar</button>
             <button type="button" onclick="saveNew()">Agregar Proveedor</button> 
         </div>
-        </div>
     </div>
+</div>
     
-    </div> <!-- Fin fondo2 -->
+    </div> 
     <div class="barra-superior"></div> <!-- Separador visual -->
     <div class="tabla-contenedor"> <!-- Contenedor de la tabla de proveedores -->
     <table id="tablaProveedores"> <!-- Tabla con id para filtrar -->

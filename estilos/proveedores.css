@@ -1430,3 +1430,9 @@ input:focus {
   width: 100%;
   padding: .72rem 1rem .72rem 2.5rem; /* espacio izquierdo para el icono */
 }
+.pr-info-group .input-wrap input,
+.pr-info-group .input-wrap select {
+    padding: 12px 12px 12px 38px;
+    margin-bottom: 0;
+}
+
