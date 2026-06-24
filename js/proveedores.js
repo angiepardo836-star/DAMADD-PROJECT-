@@ -26,12 +26,13 @@ async function obtenerProveedores() {
                 <td>${p.telefono}</td>
                 <td>${p.ciudad}</td>
                 <td>${p.direccion}</td>
-                <td class="correo-cell">${p.correo}</td>
                 <td>
                     <span class="${p.estado === 'Activo' ? 'estado-activo' : 'estado-inactivo'}">
                         ${p.estado}
                     </span>
                 </td>
+                <td class="correo-cell">${p.correo}</td>
+
                 <td>
                     <button class="btn-accion-editar"  onclick="editarFila(this)">✏️</button>
                     <button class="btn-accion-eliminar" onclick="eliminarProveedor(${p.documento})">🗑️</button>
@@ -55,10 +56,11 @@ async function saveNew() {
     const telefono       = document.getElementById('new_telefono').value.trim();
     const ciudad         = document.getElementById('new_ciudad').value.trim();
     const direccion      = document.getElementById('new_direccion').value.trim();
-    const correo         = document.getElementById('new_correo').value.trim();
     const estado         = document.getElementById('new_estado').value.trim();
+    const correo         = document.getElementById('new_correo').value.trim();
 
-    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !correo || !estado) {
+
+    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
         alert("Todos los campos son obligatorios. Por favor, completa el formulario.");
         return;
     }
@@ -73,7 +75,7 @@ async function saveNew() {
         return;
     }
 
-    const datos = { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, correo, estado };
+    const datos = { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo };
 
     try {
         const response = await fetch('/guardar-proveedor', {
@@ -209,11 +211,12 @@ async function guardarEdicion(btn) {
     const telefono       = celdas[4].querySelector("input").value.trim();
     const ciudad         = celdas[5].querySelector("input").value.trim();
     const direccion      = celdas[6].querySelector("input").value.trim();
-    const correo         = celdas[7].querySelector("input").value.trim();
     const estado         = celdas[8].querySelector("select").value.trim();
+    const correo         = celdas[7].querySelector("input").value.trim();
+
 
     
-    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !correo || !estado) {
+    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
         alert("Todos los campos son obligatorios.");
         return;
     }
@@ -239,7 +242,7 @@ async function guardarEdicion(btn) {
     }
    
 
-    const datos = { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, correo, estado };
+    const datos = { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo };
 
     try {
         const response = await fetch(`/editar-proveedor/${documento}`, {

@@ -45,11 +45,11 @@ app.get('/', (req, res) => {
 // GUARDAR PROVEEDOR
 app.post('/guardar-proveedor', (req, res) => {
     console.log('Datos proveedor recibidos:', req.body);
-    const { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, correo, estado } = req.body;
+    const { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo } = req.body;
 
     const sql = `
         INSERT INTO proveedor
-        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, correo, estado)
+        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado , correo)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -61,8 +61,8 @@ app.post('/guardar-proveedor', (req, res) => {
         telefono,
         ciudad,
         direccion,
-        correo,
-        estado
+        estado,
+        correo
     ], (err) => {
 
         if (err) {
@@ -103,15 +103,15 @@ app.delete('/eliminar-proveedor/:id', (req, res) => {
 // RUTA PARA EDITAR PROVEEDOR
 app.put('/editar-proveedor/:id', (req, res) => {
     const id = req.params.id;
-    const { tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, correo, estado } = req.body;
+    const { tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, estado, correo } = req.body;
     
     const sql = `
         UPDATE proveedor 
-        SET tipo_documento=?, documento=?, nombre=?, apellido=?,  telefono=?, ciudad=?, direccion=?, correo=?, estado=?
+        SET tipo_documento=?, documento=?, nombre=?, apellido=?,  telefono=?, ciudad=?, direccion=?, estado=?, correo=?
         WHERE documento =?
     `;
 
-    db.query(sql, [tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, correo, estado], (err) => {
+    db.query(sql, [tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, estado, correo, id], (err) => {
         if (err) {
             console.error(err);
             return res.status(500).send("Error");
@@ -139,16 +139,15 @@ app.delete('/eliminar-proveedor/:id', (req, res) => {
 // RUTA PARA EDITAR PROVEEDOR
 app.put('/editar-proveedor/:id', (req, res) => {
     const id = req.params.id;
-    const { nombre, documento, telefono, ciudad, direccion, correo, producto } = req.body;
-    
+    const { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo } = req.body;
+
     const sql = `
         UPDATE proveedor 
-        SET nombre_proveedor=?, certificacion_proveedor=?, telefono_proveedor=?, 
-            ciudad_proveedor=?, direccion_proveedor=?, correo_proveedor=?, producto_proveedor=? 
-        WHERE id_proveedor=?
+        SET tipo_documento=?, documento=?, nombre=?, apellido=?, telefono=?, ciudad=?, direccion=?, estado=?, correo=?
+        WHERE documento=?
     `;
 
-    db.query(sql, [nombre, documento, telefono, ciudad, direccion, correo, producto, id], (err) => {
+    db.query(sql, [tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo, id], (err) => {
         if (err) {
             console.error(err);
             return res.status(500).send("Error");
