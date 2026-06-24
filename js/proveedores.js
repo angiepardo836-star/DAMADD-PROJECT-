@@ -3,24 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     obtenerProveedores();
 });
 
-let toastTimer;
-    function showAlert(msg) {
-        const t = document.getElementById('toast');
-        if (!t) return;
-
-        t.textContent = msg;
-        
-        t.style.transform = 'translateX(-50%) translateY(0)';
-        t.style.opacity = '1';
-
-        clearTimeout(toastTimer);
-        
-        toastTimer = setTimeout(() => { 
-            t.style.transform = 'translateX(-50%) translateY(-100px)'; 
-            t.style.opacity = '0'; 
-        }, 4000);
-    }
-
 
 //  LEER (MOSTRAR DATOS)
 async function obtenerProveedores() {
@@ -79,17 +61,17 @@ async function saveNew() {
 
 
     if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
-        showAlert("Todos los campos son obligatorios. Por favor, completa el formulario.");
+        alert("Todos los campos son obligatorios. Por favor, completa el formulario.");
         return;
     }
 
     if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
-        showAlert("El correo debe tener formato válido: algo@gmail.com");
+        alert("El correo debe tener formato válido: algo@gmail.com");
         return;
     }
 
     if (!/^[36][0-9]{9}$/.test(telefono)) {
-        showAlert("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
+        alert("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
         return;
     }
 
@@ -103,16 +85,16 @@ async function saveNew() {
         });
 
         if (response.ok) {
-            showAlert("Proveedor agregado correctamente.");
+            alert("Proveedor agregado correctamente.");
             closeAddModal();
             location.reload();
         } else {
             const msg = await response.text();
-            showAlert("Error: " + msg);
+            alert("Error: " + msg);
         }
     } catch (error) {
         console.error("Error al agregar proveedor:", error);
-        showAlert("Error: " + error.message);
+        alert("Error: " + error.message);
     }
 }
 
@@ -124,7 +106,7 @@ async function eliminarProveedor(id) {
         const response = await fetch(`/eliminar-proveedor/${id}`, { method: 'DELETE' });
 
         if (response.ok) {
-            showAlert("Proveedor eliminado correctamente.");
+            alert("Proveedor eliminado correctamente.");
             obtenerProveedores();
         }
     } catch (error) {
@@ -235,27 +217,27 @@ async function guardarEdicion(btn) {
 
     
     if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
-        showAlert("Todos los campos son obligatorios.");
+        alert("Todos los campos son obligatorios.");
         return;
     }
 
     if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(nombre)) {
-        showAlert("El nombre solo debe contener letras y tener máximo 3 palabras.");
+        alert("El nombre solo debe contener letras y tener máximo 3 palabras.");
         return;
     }
 
     if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(apellido)) {
-        showAlert("El apellido solo debe contener letras y tener máximo 3 palabras.");
+        alert("El apellido solo debe contener letras y tener máximo 3 palabras.");
         return;
     }
 
     if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
-        showAlert("El correo debe tener formato válido: algo@gmail.com");
+        alert("El correo debe tener formato válido: algo@gmail.com");
         return;
     }
 
     if (!/^[36][0-9]{9}$/.test(telefono)) {
-        showAlert("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
+        alert("El teléfono debe tener 10 dígitos y empezar con 3 o 6.");
         return;
     }
    
@@ -270,10 +252,10 @@ async function guardarEdicion(btn) {
         });
 
         if (response.ok) {
-            showAlert("Proveedor actualizado correctamente.");
+            alert("Proveedor actualizado correctamente.");
             obtenerProveedores();
         } else {
-            showAlert("Error al actualizar proveedor.");
+            alert("Error al actualizar proveedor.");
         }
     } catch (error) {
         console.error("Error al actualizar:", error);
@@ -334,12 +316,12 @@ async function realizarCompra(idProv, nombreProv) {
     const pago   = prompt("Método de pago (Ejemplo: Efectivo, Transferencia, Crédito):", "Efectivo");
 
     if (!idProd || !cant || !precio || !pago) {
-        showAlert("Operación cancelada: Faltan datos.");
+        alert("Operación cancelada: Faltan datos.");
         return;
     }
 
     if (isNaN(parseInt(idProd)) || isNaN(parseInt(cant)) || isNaN(parseFloat(precio))) {
-        showAlert("Por favor ingresa números válidos para ID de producto, cantidad y precio.");
+        alert("Por favor ingresa números válidos para ID de producto, cantidad y precio.");
         return;
     }
 
@@ -355,7 +337,7 @@ async function realizarCompra(idProv, nombreProv) {
     };
 
     if (isNaN(datos.cantidad_producto_compra) || isNaN(datos.precio_unitario) || isNaN(datos.id_producto)) {
-        showAlert("Error: alguno de los campos numéricos no es válido.");
+        alert("Error: alguno de los campos numéricos no es válido.");
         return;
     }
 
@@ -367,10 +349,10 @@ async function realizarCompra(idProv, nombreProv) {
         });
 
         if (res.ok) {
-            showAlert("¡Compra registrada con éxito!");
+            alert("¡Compra registrada con éxito!");
         } else {
             const mensajeError = await res.text();
-            showAlert("Error: " + mensajeError);
+            alert("Error: " + mensajeError);
         }
     } catch (error) {
         console.error("Error:", error);
