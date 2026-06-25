@@ -90,7 +90,6 @@
     overflow-y: auto;
 }
 
-<<<<<<< HEAD
 
 .marca {
     display: flex;
@@ -130,8 +129,6 @@
 }
 
 
-=======
->>>>>>> 3961b39fe0f6e6d6ef26b23628a4eca16072c98a
 /* Menú lateral */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
