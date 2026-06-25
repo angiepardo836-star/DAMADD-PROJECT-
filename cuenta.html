@@ -594,7 +594,7 @@
                   <option value="CC">Cédula (CC)</option>
                   <option value="CE">Cédula Extranjería (CE)</option>
                   <option value="PP">Pasaporte (PP)</option>
-                  <option value="PPT">Permiso por Protección Temporal (PPT)</option>
+                  <option value="RC">Permiso por Protección Temporal (PPT)</option>
                 </select>
               </div>
             </div>
@@ -602,27 +602,27 @@
               <label>Número de Documento</label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-hash"/></svg>
-                <input type="text" id="num_doc" name="numero_documento" placeholder="Ej: 1023456789" required inputmode="numeric">
+                <input type="text" id="num_doc" name="numero_documento" placeholder="Ej: 1023456789" required inputmode="numeric" pattern="[0-9]{5,15}" maxlength="10">
               </div>
             </div>
           </div>
           <div class="field-row">
-            <div class="field-group">
+            <div class="field-wrap">
               <label>Nombre</label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-user"/></svg>
-                <input type="text" id="nombre" name="nombre_usuario" placeholder="Ej: María José" required>
+                <input type="text" id="nombre" name="nombre_usuario" placeholder="Ej: María José" required maxlength="25">
               </div>
             </div>
-            <div class="field-group">
+            <div class="field-wrap">
               <label>Apellido</label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-user"/></svg>
-                <input type="text" id="apellido" name="apellido_usuario" placeholder="Ej: Gómez Cortes" required>
+                <input type="text" id="apellido" name="apellido_usuario" placeholder="Ej: Gómez Cortes" required maxlength="25">
               </div>
             </div>
           </div>
-          <div class="field-group">
+          <div class="field-wrap">
             <label>Usuario</label>
             <div class="input-wrap">
               <svg class="input-icon"><use href="#ic-at"/></svg>
@@ -630,18 +630,18 @@
             </div>
           </div>
           <div class="field-row">
-            <div class="field-group">
+            <div class="field-wrap">
               <label>Teléfono</label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-phone"/></svg>
-                <input type="tel" id="telefono" name="telefono_usuario" placeholder="Ej: 3001234567" required inputmode="tel">
+                <input type="tel" id="telefono" name="telefono_usuario" placeholder="Ej: 3001234567" required inputmode="tel" maxlength="15" pattern="[36][0-9]{6,14}">
               </div>
             </div>
-            <div class="field-group">
+            <div class="field-wrap">
               <label>Correo</label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-mail"/></svg>
-                <input type="email" id="correo" name="correo_usuario" placeholder="correo@gmail.com" required>
+                <input type="email" id="correo" name="correo_usuario" placeholder="correo@ejemplo.com" required>
               </div>
             </div>
           </div>
@@ -821,241 +821,7 @@
 </footer>
 
 <script src="js/memoriaPersonalizacion.js"></script>
-<script src="js/validaciones.js"></script>
-<script src="js/cuenta.js"></script>
 <script>
-
-function agregarValidacionNombreApellido(input) {
-  input.addEventListener('keydown', function (event) {
-    const tecla = event.key;
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-    if (teclasPermitidas.includes(tecla) || event.ctrlKey || event.metaKey) return;
-
-    if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]$/.test(tecla)) { event.preventDefault(); return; }
-
-    const palabras      = this.value.split(' ');
-    const palabraActual = palabras[palabras.length - 1];
-    if (tecla !== ' ' && palabraActual.length >= 25) { event.preventDefault(); return; }
-
-    if (tecla === ' ') {
-      if (this.value.length === 0 || this.value.endsWith(' ')) { event.preventDefault(); return; }
-      if ((this.value.match(/ /g) || []).length >= 2) { event.preventDefault(); return; }
-    }
-  });
-
-  input.addEventListener('input', function () {
-    const pos    = this.selectionStart;
-    const partes = this.value.split(' ').map(p =>
-      p.length === 0 ? '' : p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()
-    );
-    const nuevo = partes.join(' ');
-    if (this.value !== nuevo) { this.value = nuevo; this.setSelectionRange(pos, pos); }
-  });
-
-  input.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const clipboard = event.clipboardData || window.clipboardData;
-    let texto  = clipboard ? clipboard.getData('text') : '';
-    let limpio = texto.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ ]/g, '');
-    const start = this.selectionStart, end = this.selectionEnd;
-    let unido   = this.value.substring(0, start) + limpio + this.value.substring(end);
-    let palabras = unido.split(' ').filter(p => p.trim() !== '').slice(0, 3)
-      .map(p => { let c = p.substring(0, 25); return c.charAt(0).toUpperCase() + c.slice(1).toLowerCase(); });
-    let resultado = palabras.join(' ');
-    if (unido.endsWith(' ') && palabras.length < 3) resultado += ' ';
-    this.value = resultado;
-    this.setSelectionRange(resultado.length, resultado.length);
-  });
-}
-
-
-function agregarValidacionTelefono(input) {
-  if (!input) return;
-
-  const validarBordeTelefono = (value) => {
-    const estructuraTelefono = /^[0-9]{10}$/;
-    if (value === "" || estructuraTelefono.test(value)) {
-      input.style.borderColor = '';
-    } else {
-      input.style.borderColor = 'red';
-    }
-  };
-
-  input.addEventListener('keydown', function (event) {
-    const tecla        = event.key;
-    const valorActual  = this.value;
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-
-    if (teclasPermitidas.includes(tecla) || event.ctrlKey || event.metaKey) return;
-    if (tecla === ' ') { event.preventDefault(); return; }
-    if (!/^[0-9]$/.test(tecla)) { event.preventDefault(); return; }
-    if (valorActual.length === 0 && tecla !== '3' && tecla !== '6') { event.preventDefault(); return; }
-    if (valorActual.length === 1 && valorActual === '6' && tecla !== '0') { event.preventDefault(); return; }
-    if (valorActual.length >= 10) { event.preventDefault(); return; }
-  });
-
-  input.addEventListener('input', function () {
-    const posicionCursor = this.selectionStart;
-    let textoLimpio = this.value.replace(/[^0-9]/g, '').slice(0, 10);
-
-    if (textoLimpio.length > 0) {
-      const primerDigito = textoLimpio.charAt(0);
-      if (primerDigito !== '3' && primerDigito !== '6') {
-        textoLimpio = '';
-      } else if (primerDigito === '6' && textoLimpio.length > 1 && textoLimpio.charAt(1) !== '0') {
-        textoLimpio = '6';
-      }
-    }
-
-    if (this.value !== textoLimpio) {
-      this.value = textoLimpio;
-      this.setSelectionRange(posicionCursor - 1, posicionCursor - 1);
-    }
-    validarBordeTelefono(this.value);
-  });
-
-  input.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const clipboard = event.clipboardData || window.clipboardData;
-    let texto  = clipboard ? clipboard.getData('text') : '';
-    let limpio = texto.replace(/[^0-9]/g, '');
-
-    const start = this.selectionStart, end = this.selectionEnd;
-    let unido = this.value.substring(0, start) + limpio + this.value.substring(end);
-    if (unido.length > 10) unido = unido.slice(0, 10);
-
-    if (unido.length > 0) {
-      const primerDigito = unido.charAt(0);
-      if (primerDigito !== '3' && primerDigito !== '6') return;
-      if (primerDigito === '6' && unido.length > 1 && unido.charAt(1) !== '0') {
-        unido = '6';
-      }
-    }
-
-    const caracteresAgregados = unido.length - (this.value.length - (end - start));
-    this.value = unido;
-    this.setSelectionRange(start + caracteresAgregados, start + caracteresAgregados);
-    validarBordeTelefono(this.value);
-  });
-}
-
-
-function agregarValidacionCorreo(input) {
-  if (!input) return;
-
-  input.addEventListener('keydown', function (event) {
-    const tecla = event.key;
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-    if (teclasPermitidas.includes(tecla) || event.ctrlKey || event.metaKey) return;
-    if (!/^[a-zA-Z0-9@._\-+]$/.test(tecla)) { event.preventDefault(); return; }
-    if (this.value.length >= 50) { event.preventDefault(); return; }
-  });
-
-  input.addEventListener('blur', function () {
-    const valor = this.value.trim();
-    if (valor === '') return;
-    if (!/^[^\s@]+@gmail\.com$/.test(valor)) {
-      this.setCustomValidity('Por favor ingresa un correo válido con @gmail.com');
-      this.reportValidity();
-    } else {
-      this.setCustomValidity('');
-    }
-  });
-
-  input.addEventListener('input', function () {
-    this.setCustomValidity('');
-  });
-
-  input.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const clipboard = event.clipboardData || window.clipboardData;
-    let texto  = clipboard ? clipboard.getData('text') : '';
-    let limpio = texto.replace(/[^a-zA-Z0-9@._\-+]/g, '');
-    const start = this.selectionStart, end = this.selectionEnd;
-    let unido    = this.value.substring(0, start) + limpio + this.value.substring(end);
-    let resultado = unido.substring(0, 50);
-    this.value = resultado;
-    this.setSelectionRange(resultado.length, resultado.length);
-  });
-}
-
-
-function agregarValidacionDocumento(inputDoc, selectTipo) {
-  if (!inputDoc) return;
-
-  function obtenerReglasDocumento() {
-    const tipo = selectTipo ? selectTipo.value : 'CC';
-    switch (tipo) {
-      case 'CC':  return { regex: /^\d{9,10}$/,      minLength: 9,  maxLength: 10, soloNumeros: true  };
-      case 'CE':  return { regex: /^\d{6,15}$/,      minLength: 6,  maxLength: 15, soloNumeros: true  };
-      case 'PPT': return { regex: /^\d{6,8}$/,       minLength: 6,  maxLength: 8,  soloNumeros: true  };
-      case 'PP':  return { regex: /^[a-zA-Z0-9]{6,15}$/, minLength: 6, maxLength: 15, soloNumeros: false };
-      case 'NIT': return { regex: /^\d{9,11}$/,      minLength: 9,  maxLength: 11, soloNumeros: true  };
-      default:    return { regex: /^\d{9,10}$/,      minLength: 9,  maxLength: 10, soloNumeros: true  };
-    }
-  }
-
-  function validarDoc(value) {
-    const reglas = obtenerReglasDocumento();
-    if (value === '') {
-      inputDoc.style.borderColor = '';
-    } else if (reglas.regex.test(value)) {
-      inputDoc.style.borderColor = '';
-    } else {
-      inputDoc.style.borderColor = 'red';
-    }
-  }
-
-  if (selectTipo) {
-    selectTipo.addEventListener('change', () => {
-      inputDoc.value = '';
-      inputDoc.style.borderColor = '';
-    });
-  }
-
-  inputDoc.addEventListener('keydown', function (event) {
-    const reglas = obtenerReglasDocumento();
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-    if (event.ctrlKey || event.metaKey || teclasPermitidas.includes(event.key)) return;
-    if (event.key === ' ') { event.preventDefault(); return; }
-    if (reglas.soloNumeros && !/^[0-9]$/.test(event.key)) { event.preventDefault(); return; }
-    if (!reglas.soloNumeros && !/^[a-zA-Z0-9]$/.test(event.key)) { event.preventDefault(); return; }
-    if (this.value.length >= reglas.maxLength && this.selectionStart === this.selectionEnd) {
-      event.preventDefault(); return;
-    }
-  });
-
-  inputDoc.addEventListener('input', function () {
-    const reglas = obtenerReglasDocumento();
-    if (this.value.length > reglas.maxLength) {
-      this.value = this.value.slice(0, reglas.maxLength);
-    }
-    validarDoc(this.value);
-  });
-
-  inputDoc.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const reglas    = obtenerReglasDocumento();
-    const clipboard = event.clipboardData || window.clipboardData;
-    const texto     = clipboard ? clipboard.getData('text').trim() : '';
-    const textoFiltrado = reglas.soloNumeros
-      ? texto.replace(/[^0-9]/g, '')
-      : texto.replace(/[^a-zA-Z0-9]/g, '');
-    if (!textoFiltrado) return;
-
-    const ini = this.selectionStart, fin = this.selectionEnd;
-    let unido = this.value.substring(0, ini) + textoFiltrado + this.value.substring(fin);
-    if (unido.length > reglas.maxLength) unido = unido.slice(0, reglas.maxLength);
-
-    const agregados = unido.length - (this.value.length - (fin - ini));
-    this.value = unido;
-    const pos = ini + Math.max(0, agregados);
-    this.setSelectionRange(pos, pos);
-    validarDoc(this.value);
-  });
-}
-
-
 function cambiarTema(c) {
   const m = {
     rojo:   { color: '#e74c3c', dark: '#c0392b' },
@@ -1077,7 +843,6 @@ function cambiarTema(c) {
     'radial-gradient(ellipse 55% 45% at 78% 72%,' + t.color + '11 0%,transparent 65%),' +
     'linear-gradient(155deg,#0b0b0b 0%,#070707 100%)';
 }
-
 function restablecerTema() {
   document.documentElement.style.setProperty('--green',        '#22c55e');
   document.documentElement.style.setProperty('--green-dark',   '#16a34a');
@@ -1095,9 +860,7 @@ function restablecerTema() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  /* ---- Accesibilidad ---- */
-  const btnAcces = document.querySelector('.boton-accesibilidad');
+  const btnAcces = document.getElementById('btnAcces');
   if (btnAcces) {
     btnAcces.onclick = function(e) {
       e.stopPropagation();
@@ -1106,13 +869,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   window.addEventListener('click', function(e) {
     const panel = document.getElementById('panel');
-    const btn   = document.querySelector('.boton-accesibilidad');
+    const btn   = document.getElementById('btnAcces');
     if (panel && btn && !panel.contains(e.target) && e.target !== btn) {
       panel.classList.remove('open');
     }
   });
 
-  /* ---- Mostrar/ocultar contraseña ---- */
   function makeEye(btnId, inputId) {
     const btn = document.getElementById(btnId);
     const inp = document.getElementById(inputId);
@@ -1127,7 +889,6 @@ document.addEventListener('DOMContentLoaded', () => {
   makeEye('eye-confirm', 'confirmar');
   makeEye('eye-edit',    'editar-contrasena');
 
-  /* ---- Fuerza de contraseña ---- */
   const passEl = document.getElementById('contrasena');
   const confEl = document.getElementById('confirmar');
 
@@ -1147,7 +908,6 @@ document.addEventListener('DOMContentLoaded', () => {
     checkMatch();
   });
   confEl && confEl.addEventListener('input', checkMatch);
-
   function checkMatch() {
     if (!passEl || !confEl) return;
     const lbl = document.getElementById('match-label');
@@ -1160,7 +920,6 @@ document.addEventListener('DOMContentLoaded', () => {
       lbl.style.color = '#e74c3c';
     }
   }
-
 
   const botones    = document.querySelectorAll('.pestaña-btn');
   const contenidos = document.querySelectorAll('.pestaña-contenido');
@@ -1175,39 +934,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (obj === 'administrar') cargarUsuarios();
     });
   });
-
- 
-  // Documento
-  const inputDocumento = document.getElementById('num_doc');
-  const selectTipoDoc  = document.getElementById('tipo_doc');
-  if (inputDocumento) agregarValidacionDocumento(inputDocumento, selectTipoDoc);
-
-  // Nombre y Apellido (formulario crear)
-  [document.getElementById('nombre'), document.getElementById('apellido')].forEach(inp => {
-    if (inp) agregarValidacionNombreApellido(inp);
-  });
-
-  // Teléfono (formulario crear)
-  const inputTelefono = document.getElementById('telefono');
-  if (inputTelefono) agregarValidacionTelefono(inputTelefono);
-
-  // Correo (formulario crear)
-  const inputCorreo = document.getElementById('correo');
-  if (inputCorreo) agregarValidacionCorreo(inputCorreo);
-
- 
-  // Nombre y Apellido (modal)
-  [document.getElementById('editar-nombre'), document.getElementById('editar-apellido')].forEach(inp => {
-    if (inp) agregarValidacionNombreApellido(inp);
-  });
-
-  // Teléfono (modal)
-  const editarTelefono = document.getElementById('editar-telefono');
-  if (editarTelefono) agregarValidacionTelefono(editarTelefono);
-
-  // Correo (modal)
-  const editarCorreo = document.getElementById('editar-correo');
-  if (editarCorreo) agregarValidacionCorreo(editarCorreo);
 
   const tablaCuerpo = document.getElementById('tabla-cuentas-body');
   const sinCuentas  = document.getElementById('sin-cuentas');
@@ -1250,26 +976,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-
   formCrear?.addEventListener('submit', async e => {
     e.preventDefault();
     const pass = document.getElementById('contrasena').value;
     const conf = document.getElementById('confirmar').value;
     if (pass !== conf) { mostrarAlerta('Las contraseñas no coinciden', 'error'); return; }
-
-    const tel = document.getElementById('telefono').value;
-    if (!/^[36][0-9]{9}$/.test(tel)) {
-      mostrarAlerta('El teléfono debe iniciar por 3 o 6 y tener exactamente 10 dígitos.', 'error');
-      return;
-    }
-
     const datos = {
       documento:      document.getElementById('num_doc').value.trim(),
       tipo_documento: document.getElementById('tipo_doc').value,
       nombre:         document.getElementById('nombre').value.trim(),
       apellido:       document.getElementById('apellido').value.trim(),
       usuario:        document.getElementById('usuario').value.trim(),
-      telefono:       tel,
+      telefono:       document.getElementById('telefono').value.trim(),
       correo:         document.getElementById('correo').value.trim(),
       contrasena:     pass,
       cargo:          document.getElementById('rol').value
@@ -1296,7 +1014,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
   window.prepararEdicion = async documento => {
     const pwd = prompt('Ingrese la contraseña ACTUAL de este usuario para permitir cambios:');
     if (pwd === null) return;
@@ -1320,22 +1037,14 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) { console.error(err); mostrarAlerta('Error de conexión', 'error'); }
   };
 
-
   formEditar?.addEventListener('submit', async e => {
     e.preventDefault();
     const documento = document.getElementById('editar-usuario-original').value;
-    const telEditar = document.getElementById('editar-telefono').value.trim();
-
-    if (telEditar && !/^[36][0-9]{9}$/.test(telEditar)) {
-      mostrarAlerta('El teléfono debe iniciar por 3 o 6 y tener exactamente 10 dígitos.', 'error');
-      return;
-    }
-
     const datos = {
       nombre:   document.getElementById('editar-nombre').value.trim(),
       apellido: document.getElementById('editar-apellido').value.trim(),
       usuario:  document.getElementById('editar-usuario').value.trim(),
-      telefono: telEditar,
+      telefono: document.getElementById('editar-telefono').value.trim(),
       correo:   document.getElementById('editar-correo').value.trim(),
       cargo:    document.getElementById('editar-rol').value
     };
@@ -1357,7 +1066,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) { console.error(err); mostrarAlerta('Error de conexión', 'error'); }
   });
 
-  
   window.eliminarUsuario = async documento => {
     if (!confirm('¿Estás seguro de eliminar esta cuenta? Esta acción no se puede deshacer.')) return;
     try {
@@ -1372,7 +1080,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) { mostrarAlerta('Error de conexión', 'error'); }
   };
 
-  
   function mostrarAlerta(mensaje, tipo = 'ok') {
     const alerta = document.createElement('div');
     alerta.textContent = mensaje;
@@ -1386,21 +1093,48 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => alerta.remove(), 3000);
   }
 
-
   function cerrarModal() {
     modalEditar.classList.remove('open');
     formEditar.reset();
-    // Limpiar bordes de validación del modal al cerrar
-    ['editar-telefono','editar-correo'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.borderColor = '';
-    });
   }
 
   document.querySelector('.cerrar-modal')?.addEventListener('click', cerrarModal);
   document.querySelector('.btn-cancelar')?.addEventListener('click', cerrarModal);
   modalEditar?.addEventListener('click', e => { if (e.target === modalEditar) cerrarModal(); });
 
+  const nombre = document.getElementById("nombre");
+  nombre?.addEventListener("input", function () {
+    let v = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, "")
+                      .replace(/\s+/g, " ").trimStart().substring(0, 70);
+    this.value = v.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+  });
+
+  const apellido = document.getElementById("apellido");
+  apellido?.addEventListener("input", function () {
+    let v = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, "")
+                      .replace(/\s+/g, " ").trimStart().substring(0, 70);
+    this.value = v.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+  });
+
+  const docEl = document.getElementById("num_doc");
+  docEl?.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").slice(0, 15);
+  });
+
+  const telEl = document.getElementById("telefono");
+  telEl?.addEventListener("input", function () {
+    let v = this.value.replace(/\D/g, "").slice(0, 15);
+    if (v.length > 0 && v[0] !== "3" && v[0] !== "6") v = "";
+    this.value = v;
+  });
+
+  formCrear?.addEventListener("submit", function(e) {
+    const tel = document.getElementById("telefono").value;
+    if (!/^[36][0-9]{6,14}$/.test(tel)) {
+      e.preventDefault();
+      mostrarAlerta("El teléfono debe iniciar por 3 o 6 y tener máximo 15 dígitos.", 'error');
+    }
+  }, true);
 });
 </script>
 </body>
