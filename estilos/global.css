@@ -231,12 +231,6 @@ input::-ms-clear {
     margin: 0;
 }
 
-.icono-img {
-    width: 23px;
-    height: 23px;
-    object-fit: contain;
-}
-
 .cuenta-btn {
     position: absolute; /* Lo fija en la pantalla */
     top: 25px;       /* Distancia desde arriba */
@@ -244,6 +238,7 @@ input::-ms-clear {
 
     display: inline-flex;
     align-items: center;
+    justify-content: center; /* Asegura centrado total */
     gap: 10px;
     text-decoration: none;
     background: linear-gradient(98deg, #146d02, #084101);
@@ -261,12 +256,6 @@ input::-ms-clear {
     background: linear-gradient(98deg, #178003, #052700);
 }
 
-.icono {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-}
-
 .nombre {
     font-size: 17px;
     font-weight: bold;
@@ -274,4 +263,30 @@ input::-ms-clear {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; /* Pone "..." si el nombre es muy largo */
+}
+
+.icono-img {
+    width: 23px;
+    height: 23px;
+    object-fit: contain;
+}
+
+@media (max-width: 800px) {
+    .cuenta-btn {
+        padding: 12px 16px;
+
+    }
+    .nombre {
+        max-width: 100px; 
+    }
+}
+
+@media (max-width: 500px) {
+    .cuenta-btn {
+        padding: 10px; 
+        gap: 0;     
+    }
+    .nombre {
+        display: none;
+    }
 }
