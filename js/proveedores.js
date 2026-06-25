@@ -144,6 +144,23 @@ function editarFila(btn) {
     const fila   = btn.parentNode.parentNode;
     const celdas = fila.getElementsByTagName("td");
 
+    // 1 — Documento 
+    const docActual = celdas[1].innerText.trim();
+    const inputDoc = document.createElement('input');
+    inputDoc.type = 'text';
+    inputDoc.value = docActual;
+    inputDoc.maxLength = 10;
+    inputDoc.style.cssText = 'width:100%;box-sizing:border-box;';
+    // Solo números
+    inputDoc.addEventListener('keydown', function(event) {
+        const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+        if (event.ctrlKey || event.metaKey || teclasPermitidas.includes(event.key)) return;
+        if (event.key === ' ') { event.preventDefault(); return; }
+        if (!/^[0-9]$/.test(event.key)) { event.preventDefault(); }
+        if (this.value.length >= 10) { event.preventDefault(); }
+    });
+    celdas[1].innerHTML = '';
+    celdas[1].appendChild(inputDoc);
 
 // Nombre
     const nombreInput = crearInputTexto(celdas[2].innerText.trim());

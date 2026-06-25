@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/inicio_sesion.html');
 });
 
-
+// GUARDAR PROVEEDOR
 // GUARDAR PROVEEDOR
 app.post('/guardar-proveedor', (req, res) => {
     console.log('Datos proveedor recibidos:', req.body);
@@ -49,7 +49,7 @@ app.post('/guardar-proveedor', (req, res) => {
 
     const sql = `
         INSERT INTO proveedor
-        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo)
+        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado , correo)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -210,52 +210,25 @@ app.post('/guardar-producto', async (req, res) => {
     console.log('Datos producto recibidos:', req.body);
 
     const {
-        tipo_producto,
-        nombre,
-        marca,
-        cantidad,
-        categoria,
-        presentacion,
-        fecha_vencimiento,
-        precio_unitario,
-        estado, 
-        descripcion
+        nombre_producto,
+        marca_producto,
+        cantidad_producto,
+        categoria_producto,
+        presentacion_producto,
+        fecha_vencimiento_producto,
+        precio_unitario_producto
     } = req.body;
 
-    // Definimos la consulta según el tipo de producto
-    let sqlCheck;
-    let valoresCheck;
-
-    if (tipo_producto === "Producto") {
-
-        // Para productos: nombre + marca + presentación
-        sqlCheck = `
-            SELECT id
-            FROM producto
-            WHERE nombre = ?
-            AND marca = ?
-            AND presentacion = ?
-        `;
-
-        valoresCheck = [nombre, marca, presentacion];
-
-    } else if (tipo_producto === "Material") {
-
-        // Para materiales: nombre + marca
-        sqlCheck = `
-            SELECT id
-            FROM producto
-            WHERE nombre = ?
-            AND marca = ?
-        `;
-
-        valoresCheck = [nombre, marca];
-
-    }
+    // Definimos la consulta para buscar duplicados
+    const sqlCheck = `
+        SELECT id_producto FROM producto 
+        WHERE marca_producto = ? 
+          AND categoria_producto = ? 
+          AND presentacion_producto = ?
+    `;
 
     // Ejecutamos la búsqueda
-    db.query(sqlCheck, valoresCheck, (err, results) => {
-
+    db.query(sqlCheck, [ marca_producto, categoria_producto, presentacion_producto], (err, results) => {
         if (err) {
             console.error("Error al buscar duplicados:", err);
             return res.status(500).send("Error en el servidor al verificar el producto.");
@@ -263,35 +236,28 @@ app.post('/guardar-producto', async (req, res) => {
 
         // Si encontramos resultados, significa que ya existe
         if (results.length > 0) {
-
-            if (tipo_producto === "Producto") {
-                return res.status(400).send("El producto ya existe en la base de datos.");
-            }
-
-            return res.status(400).send("El material ya existe en la base de datos.");
+            return res.status(400).send("El producto ya existe en la base de datos.");
         }
 
         // Si no existe, procedemos con el guardado normal
-
+        const total = cantidad_producto * precio_unitario_producto;
         const sqlInsert = `
             INSERT INTO producto 
-            (tipo_producto, nombre, marca, cantidad, categoria, 
-            presentacion, fecha_vencimiento, 
-            precio_unitario, estado, descripcion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (nombre_producto, marca_producto, cantidad_producto, categoria_producto, 
+            presentacion_producto, fecha_vencimiento_producto, 
+            precio_unitario_producto, precio_total_producto)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         db.query(sqlInsert, [
-            tipo_producto,
-            nombre,
-            marca,
-            cantidad,
-            categoria,
-            presentacion,
-            fecha_vencimiento,
-            precio_unitario,
-            estado, 
-            descripcion
+            nombre_producto,
+            marca_producto,
+            cantidad_producto,
+            categoria_producto,
+            presentacion_producto,
+            fecha_vencimiento_producto,
+            precio_unitario_producto,
+            total
         ], (errInsert) => {
             if (errInsert) {
                 console.error("Error al insertar:", errInsert);
@@ -322,8 +288,8 @@ app.post('/descontar-producto', (req, res) => {
         return res.status(400).send('Datos incompletos');
     }
     const sql = `UPDATE producto
-                 SET cantidad= cantidad - ?
-                 WHERE id = ? AND cantidad >= ?`;
+                 SET cantidad_producto = cantidad_producto - ?
+                 WHERE id_producto = ? AND cantidad_producto >= ?`;
     db.query(sql, [cantidad, id, cantidad], (err, result) => {
         if (err) {
             console.error('Error al descontar producto:', err);
@@ -340,7 +306,7 @@ app.post('/descontar-producto', (req, res) => {
 // RUTA PARA ELIMINAR PRODUCTO 
 app.delete('/eliminar-producto/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "DELETE FROM producto WHERE id = ?";
+    const sql = "DELETE FROM producto WHERE id_producto = ?";
     
     db.query(sql, [id], (err, result) => {
         if (err) {
@@ -359,33 +325,29 @@ app.delete('/eliminar-producto/:id', (req, res) => {
 app.put('/editar-producto/:id', (req, res) => {
     const id = req.params.id;
     const { 
-        tipo_producto,
-        nombre, 
-        marca, 
-        cantidad, 
-        categoria, 
-        presentacion, 
-        fecha_vencimiento, 
-        precio_unitario,
-        estado,
-        descripcion
+        nombre_producto, 
+        marca_producto, 
+        cantidad_producto, 
+        categoria_producto, 
+        presentacion_producto, 
+        fecha_vencimiento_producto, 
+        precio_unitario_producto, 
+        precio_total_producto 
     } = req.body;
     
     const sql = `
         UPDATE producto
-        SET tipo_producto =?, nombre =?, marca=?, cantidad=?, 
-            categoria=?, presentacion=?, fecha_vencimiento=?, 
-            precio_unitario=?, estado=?, descripcion=?
-        WHERE id=?
+        SET nombre_producto=?, marca_producto=?, cantidad_producto=?, 
+            categoria_producto=?, presentacion_producto=?, fecha_vencimiento_producto=?, 
+            precio_unitario_producto=?, precio_total_producto=? 
+        WHERE id_producto=?
     `;
 
     const valores = [
-        tipo_producto, nombre, marca, cantidad, 
-        categoria, presentacion, 
-        fecha_vencimiento, 
-        precio_unitario,
-        estado,
-        descripcion,
+        nombre_producto, marca_producto, cantidad_producto, 
+        categoria_producto, presentacion_producto, 
+        fecha_vencimiento_producto || null, 
+        precio_unitario_producto, precio_total_producto, 
         id
     ];
 
@@ -397,7 +359,6 @@ app.put('/editar-producto/:id', (req, res) => {
         res.send("Producto actualizado.");
     });
 });
-
 
 // REGISTRO DE USUARIOS 
 app.post('/guardar-usuario', async (req, res) => {
