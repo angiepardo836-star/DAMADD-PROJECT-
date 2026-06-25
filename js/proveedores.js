@@ -186,13 +186,15 @@ function editarFila(btn) {
 
     btn.textContent = "Guardar";
     btn.onclick = function () { guardarEdicion(this); };
-}
-// Correo
+
+    // Correo
 
     const correoInput = crearInputTexto(celdas[8].innerText.trim());
     agregarValidacionCorreo(correoInput);
     celdas[8].innerHTML = '';
     celdas[8].appendChild(correoInput);
+}
+
 
 // Input de texto reutilizable
 function crearInputTexto(valor) {
