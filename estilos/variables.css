@@ -189,6 +189,7 @@ h1, h2, h3  {
 .tema-morado .input-wrapper:focus-within .toggle-passwordd { color: var(--color-principal); }
 .tema-morado .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
 .tema-morado .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(66, 4, 179, 0.3);}
+.tema-morado .toast { background: var(--color-principal); }
 
 
 /* TEMA ROJO */
@@ -231,6 +232,7 @@ h1, h2, h3  {
 .tema-rojo .input-wrapper:focus-within .toggle-passwordd { color: var(--color-principal); }
 .tema-rojo .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
 .tema-rojo .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(179, 4, 4, 0.3);}
+.tema-rojo .toast { background: var(--color-principal); }
 
 
 /* TEMA AZUL */
@@ -273,6 +275,7 @@ h1, h2, h3  {
 .tema-azul .input-wrapper:focus-within .toggle-passwordd { color: var(--color-principal); }
 .tema-azul .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
 .tema-azul .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(4, 16, 179, 0.3);}
+.tema-azul .toast { background: var(--color-principal); }
 
 
 /* 🔥 FACTURA EN MESAS */
