@@ -49,6 +49,27 @@ body { visibility: hidden; background-color: #000; }
     border-bottom: 1px solid #1eb304;
 }
 
+.p-modal-header span {
+    text-shadow: none !important;
+}
+
+.p-modal-header h3 {
+    text-shadow: none !important;
+} 
+
+.p-avatar-container span {
+    color:#1eb304;
+    text-shadow: none !important;
+}
+
+.p-avatar-container h3 {
+    text-shadow: none !important;
+} 
+
+.titulo-color {
+    color:#1eb304;
+}
+
 .p-form-row {
     display: flex;
     gap: 20px;
@@ -100,7 +121,7 @@ body { visibility: hidden; background-color: #000; }
 }
 
 .p-btn-primario {
-    background: linear-gradient(135deg, #1eb304 0%, #084101 100%) !important;
+    background: linear-gradient(135deg, #1eb304 0%, #084101 100%);
     color: white !important;
     border: none !important;
     padding: 12px 25px;
@@ -167,7 +188,7 @@ input::-ms-clear {
 .sub-modal-card {
     max-width: 420px !important;
     padding: 25px !important;
-    box-shadow: 0 15px 40px rgba(9, 104, 9, 0.8), 0 0 20px rgba(30, 179, 4, 0.4) !important;
+    box-shadow: 0 15px 40px rgba(9, 104, 9, 0.8), 0 0 20px rgba(30, 179, 4, 0.4);
     animation: pFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
