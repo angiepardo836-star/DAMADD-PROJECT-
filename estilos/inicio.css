@@ -577,37 +577,182 @@ label.sub-toggle:hover .nav-icon {
     text-align: center;
     margin-bottom: 25px;
 }
-.stats{background:var(--fondo-degradado);padding:50px 120px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-bottom:1px solid var(--color-principal);}
-.stat{text-align:center;}
-.stat-num{font-size:24px;font-weight:800;background:linear-gradient(90deg,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-label{font-size:11px;color:#9ca3af;margin-top:2px;}
+/* ==========================================================================
+   ESTADÍSTICAS
+   ========================================================================== */
+.stats {
+    background: var(--fondo-degradado);
+    padding: 50px 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    border-bottom: 1px solid var(--color-principal);
+}
 
-/* como funciona*/
-.how{background:#120029;padding:60px 160px;}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
-.step{text-align:center;padding:12px 8px;}
-.step-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#c026d3);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;margin:0 auto 8px;}
-.step-name{font-size:12px;font-weight:600;color:#e9d5ff;margin-bottom:4px;}
-.step-desc{font-size:11px;color:#9ca3af;line-height:1.4;}
-.step-arrow{display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:20px;padding-top:20px;}
+.stat {
+    text-align: center;
+}
 
+.stat-num {
+    font-size: 24px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-/* CTA BANNER */
-.cta-banner{margin:10px 200px 100px;background:linear-gradient(135deg,#4c1d95,#86198f);border-radius:16px;padding:24px 20px;text-align:center;}
-.cta-banner h3{font-size:17px;font-weight:800;margin-bottom:6px;}
-.cta-banner p{font-size:12px;color:#f0abfc;margin-bottom:14px;}
-.cta-wa{background:#25d366;border:none;color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.stat-label {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
 
+/* ==========================================================================
+   CÓMO FUNCIONA
+   ========================================================================== */
+.how {
+    background: #120029;
+    padding: 60px 160px;
+}
 
-/* FAQ */
-.faq{padding:0 16px 24px;}
-.faq-item{background:var(--fondo-degradado);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}
-.faq-q{padding:12px 14px;font-size:13px;font-weight:600;color:#e9d5ff;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
-.faq-q:hover{background:rgba(124,58,237,0.1);}
-.faq-icon{transition:transform 0.2s;font-size:16px;color:#a855f7;}
-.faq-icon.open{transform:rotate(45deg);}
-.faq-a{display:none;padding:0 14px 12px;font-size:12px;color:#9ca3af;line-height:1.6;}
-.faq-a.show{display:block;}
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.step {
+    text-align: center;
+    padding: 12px 8px;
+}
+
+.step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #c026d3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 15px;
+    margin: 0 auto 8px;
+}
+
+.step-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #e9d5ff;
+    margin-bottom: 4px;
+}
+
+.step-desc {
+    font-size: 11px;
+    color: #9ca3af;
+    line-height: 1.4;
+}
+
+.step-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7c3aed;
+    font-size: 20px;
+    padding-top: 20px;
+}
+
+/* ==========================================================================
+   CTA BANNER
+   ========================================================================== */
+.cta-banner {
+    margin: 10px 200px 100px;
+    background: linear-gradient(135deg, #4c1d95, #86198f);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+}
+
+.cta-banner h3 {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.cta-banner p {
+    font-size: 12px;
+    color: #f0abfc;
+    margin-bottom: 14px;
+}
+
+.cta-wa {
+    background: #25d366;
+    border: none;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ==========================================================================
+   FAQ (CORREGIDO: Ya no se va de borde a borde)
+   ========================================================================== */
+.faq {
+    max-width: 900px;         /* Limita el ancho para que no se estire en pantallas grandes */
+    margin: 0 auto;           /* Centra el bloque de preguntas en la pantalla */
+    padding: 0 24px 60px;     /* Espaciado interno controlado */
+}
+
+.faq-item {
+    background: var(--fondo-degradado);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.faq-q {
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #e9d5ff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.faq-q:hover {
+    background: rgba(124, 58, 237, 0.1);
+}
+
+.faq-icon {
+    transition: transform 0.2s;
+    font-size: 16px;
+    color: #a855f7;
+}
+
+.faq-icon.open {
+    transform: rotate(45deg);
+}
+
+.faq-a {
+    display: none;
+    padding: 0 14px 12px;
+    font-size: 12px;
+    color: #9ca3af;
+    line-height: 1.6;
+}
+
+.faq-a.show {
+    display: block;
+}
+
 
 /* SECTION TITLE */
 .sec-title{text-align:center;padding:24px 16px 16px;font-size:16px;font-weight:700;letter-spacing:2px;color:#e9d5ff;}

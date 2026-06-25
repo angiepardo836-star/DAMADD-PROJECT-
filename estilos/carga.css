@@ -1,0 +1,81 @@
+:root {
+  --bg-dark: #0b0f19;
+  --billiard-green: #0d5c3a;
+  --neon-cyan: #00f2fe;
+  --neon-magenta: #ff007f;
+  --text-light: #f8fafc;
+}
+
+#loader {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: radial-gradient(circle at center, #16222f 0%, var(--bg-dark) 100%);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 9999; font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+.loader-box {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 3rem; border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  max-width: 400px; width: 90%;
+}
+
+.loader-title {
+  font-size: 3rem; color: var(--text-light); margin-bottom: 2.5rem;
+  text-transform: uppercase; letter-spacing: 4px; font-weight: 800;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px var(--neon-cyan);
+}
+
+.billiard-scene {
+  position: relative;
+  width: 280px;
+  height: 80px;
+  margin: 0 auto 2rem auto;
+  border-bottom: 4px solid var(--billiard-green);
+}
+
+/* El Taco: inicia más a la izquierda */
+.billiard-cue {
+  position: absolute;
+  left: 0px;
+  bottom: 24px;
+  width: 100px;
+  height: 5px;
+  background: linear-gradient(to right, #8b4513 0%, #cd853f 70%, #fff 70%, #fff 90%, var(--neon-cyan) 90%);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+}
+
+/* Bola Blanca: posicionada justo enfrente del taco */
+.cue-ball {
+  position: absolute;
+  bottom: 18px; 
+  left: 110px;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 35% 35%, #ffffff, #cbd5e1);
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+/* Bola Objetivo: colocada más hacia la derecha */
+.target-ball {
+  position: absolute;
+  bottom: 18px; 
+  left: 210px; /* 100px de distancia de la blanca */
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 35% 35%, #ff66b2, var(--neon-magenta));
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 12px var(--neon-magenta);
+}
+
+.loader-text {
+  color: #94a3b8; font-size: 0.95rem; letter-spacing: 2px;
+  margin-top: 1.5rem; font-weight: 300;
+}
