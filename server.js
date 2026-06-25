@@ -49,7 +49,7 @@ app.post('/guardar-proveedor', (req, res) => {
 
     const sql = `
         INSERT INTO proveedor
-        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado , correo)
+        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
