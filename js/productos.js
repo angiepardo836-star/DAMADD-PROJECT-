@@ -704,6 +704,10 @@ document.addEventListener('DOMContentLoaded', () => {
     inputFecha.min = hoy;
 
 }); 
+//CANTIDAD (Modal Agregar Producto)
+document.addEventListener('DOMContentLoaded', () => {
+    aplicarValidacionEntero(document.getElementById('new_cantidad'));
+});
 //DESCRIPCIÓN
 document.addEventListener('DOMContentLoaded', () => {
     const inputDescripcion = document.getElementById('new_descripcion');
