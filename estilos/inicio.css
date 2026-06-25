@@ -110,7 +110,7 @@ nav.menu-lateral, .menu-lateral {
     width: var(--ancho-menu, 260px);
     height: 100vh;
     background: linear-gradient(180deg, #0c280c 0%, #081a08 60%, #050f05 100%) !important;
-    border-right: 1px solid var(--verde-borde, #1e6b1e);
+    border-right: 1px solid var(--color-principal);
     box-shadow: 4px 0 30px rgba(0,0,0,.7);
     transform: translateX(-100%);
     transition: transform .38s cubic-bezier(.4,0,.2,1);
@@ -149,15 +149,15 @@ nav.menu-lateral, .menu-lateral {
   background: linear-gradient(135deg, #2ecc2e, #1a8c1a);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 12px rgba(46,204,46,.4);
+  box-shadow: var(--sombra-texto)
 }
 .logo-icon svg { width: 20px; height: 20px; fill: white; }
 
 .menu-header h3 {
   font-size: 1.2rem; font-weight: 700;
   letter-spacing: .12em; text-transform: uppercase;
-  color: var(--verde-acento);
-  text-shadow: 0 0 10px rgba(46,204,46,.5);
+  color: var(--color-principal);
+  text-shadow: var(--sombra-texto);
 }
 
 .close-menu {
@@ -165,15 +165,15 @@ nav.menu-lateral, .menu-lateral {
   display: flex; align-items: center; justify-content: center;
   border-radius: 6px;
   background: rgba(255,255,255,.04);
-  border: 1px solid rgba(46,204,46,.2);
-  color: var(--texto-menu);
+  border: 1px solid #9ca3af8c;
+  color: #9ca3af8c;
   font-size: 1rem; cursor: pointer;
   transition: all .2s;
 }
 .close-menu:hover {
   background: rgba(46,204,46,.12);
-  border-color: var(--verde-acento);
-  color: var(--verde-acento);
+  border-color: var(--color-principal);
+  color: var(--color-principal);
 }
 
 
@@ -185,7 +185,7 @@ nav.menu-lateral, .menu-lateral {
 
 .menu-section-label {
   font-size: .65rem; font-weight: 600; letter-spacing: .15em;
-  text-transform: uppercase; color: rgba(46,204,46,.45);
+  text-transform: uppercase; color: var(--color-principal);
   padding: 14px 20px 6px;
 }
 
@@ -247,7 +247,7 @@ label.sub-toggle:hover .nav-icon {
   font-size: .65rem; font-weight: 700;
   padding: 2px 7px; border-radius: 10px;
   background: rgba(46,204,46,.18);
-  color: var(--verde-acento);
+  color: var(--color-principal);
   border: 1px solid rgba(46,204,46,.3);
   flex-shrink: 0;
 }
@@ -298,16 +298,18 @@ label.sub-toggle:hover .nav-icon {
 }
 
 
-.item-salir > a { color: rgba(255,110,110,.75); }
+.item-salir > a { color: rgba(184,216,184,.75); }
 .item-salir > a:hover {
-  color: #ff6b6b;
+  color: var(--verde-acento);
   background: linear-gradient(90deg, rgba(255,80,80,.08), transparent);
-  border-left-color: #ff6b6b;
-  text-shadow: 0 0 8px rgba(255,80,80,.3);
+  border-left-color: var(--verde-acento);
+  text-shadow: var(--sombra-texto)
+    
+  
 }
 .item-salir > a:hover .nav-icon {
-  background: rgba(255,80,80,.1);
-  border-color: rgba(255,80,80,.3);
+  background: var(--verde-acento);
+  border-color: var(--color-principal);
 }
 
 
@@ -575,7 +577,7 @@ label.sub-toggle:hover .nav-icon {
 .mesas-desc, .mesas-desc2, .mesas-desc3 {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: #b8d8b8;
+    color: #d9dfd9;
     text-align: center;
     margin-bottom: 25px;
 }
@@ -598,7 +600,7 @@ label.sub-toggle:hover .nav-icon {
 .stat-num {
     font-size: 24px;
     font-weight: 800;
-    background: linear-gradient(90deg, #a855f7, #ec4899);
+    background: var(--color-principal);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -613,7 +615,7 @@ label.sub-toggle:hover .nav-icon {
    CÓMO FUNCIONA
    ========================================================================== */
 .how {
-    background: #120029;
+    background: var(--fondo-degradado);
     padding: 60px 160px;
 }
 
@@ -633,7 +635,7 @@ label.sub-toggle:hover .nav-icon {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #7c3aed, #c026d3);
+    background: linear-gradient(135deg,  #1eb304 0%, #084101 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -645,7 +647,7 @@ label.sub-toggle:hover .nav-icon {
 .step-name {
     font-size: 12px;
     font-weight: 600;
-    color: #e9d5ff;
+    color:#d9dfd9;
     margin-bottom: 4px;
 }
 
@@ -669,7 +671,7 @@ label.sub-toggle:hover .nav-icon {
    ========================================================================== */
 .cta-banner {
     margin: 10px 200px 100px;
-    background: linear-gradient(135deg, #4c1d95, #86198f);
+    background: linear-gradient(135deg,  #1eb304 0%, #084101 100%);
     border-radius: 16px;
     padding: 24px 20px;
     text-align: center;
@@ -683,7 +685,7 @@ label.sub-toggle:hover .nav-icon {
 
 .cta-banner p {
     font-size: 12px;
-    color: #f0abfc;
+    color: #d9dfd9;
     margin-bottom: 14px;
 }
 
@@ -721,7 +723,7 @@ label.sub-toggle:hover .nav-icon {
     padding: 12px 14px;
     font-size: 13px;
     font-weight: 600;
-    color: #e9d5ff;
+    color: #d9dfd9;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -736,7 +738,7 @@ label.sub-toggle:hover .nav-icon {
 .faq-icon {
     transition: transform 0.2s;
     font-size: 16px;
-    color: #a855f7;
+    color: var(--color-principal);
 }
 
 .faq-icon.open {
@@ -757,7 +759,7 @@ label.sub-toggle:hover .nav-icon {
 
 
 /* SECTION TITLE */
-.sec-title{text-align:center;padding:24px 16px 16px;font-size:16px;font-weight:700;letter-spacing:2px;color:#e9d5ff;}
+.sec-title{text-align:center;padding:24px 16px 16px;font-size:16px;font-weight:700;letter-spacing:2px;color:#d9dfd9;}
 /* ==========================================================================
    CONTENEDORES DE IMÁGENES (ESTANDARIZACIÓN PARA EVITAR DESBORDES)
    ========================================================================== */
