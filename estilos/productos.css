@@ -1567,3 +1567,11 @@ th:last-child,
 td:last-child{
     min-width: 180px;
 }
+input[type="date"] {
+    color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: brightness(0) invert(1);
+    cursor: pointer;
+}
