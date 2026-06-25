@@ -148,19 +148,132 @@ h1, h2, h3  {
 .mesas-card3 {
     box-shadow: 0 4px 10px var(--sombra-texto);
 }
-/* 🔥 FONDO DEL LOGIN SEGÚN TEMA */
 
+/* TEMA MORADO */
 .tema-morado .mesa-usuario {
     background: linear-gradient(180deg, #572b96, #1f084a);
 }
+.tema-morado .cuenta-btn {
+    background: linear-gradient(180deg, #572b96, #1f084a);
+    border: 2px solid var(--color-principal);
+}
+.tema-morado .cuenta-btn:hover {
+    background: linear-gradient(98deg, #572b96, #1f084a);
+}
+.tema-morado .p-modal-card {
+    border: 1px solid var(--color-principal);
+    box-shadow: 0 25px 50px rgba(66, 9, 104, 0.6), 0 0 15px rgba(66, 2, 109, 0.2); 
+}
+.tema-morado .p-avatar-container span {
+    color: var(--color-principal);
+}
+.tema-morado .titulo-color {
+    color: var(--color-principal);
+}
+.tema-morado .p-btn-primario {
+    background: linear-gradient(180deg, #572b96, #1f084a);
+}
+.tema-morado .p-close-btn:hover  {
+    color: var(--color-principal);
+}
+.tema-morado .p-modal-header {
+    border-bottom: 1px solid var(--color-principal);
+}
+.tema-morado .p-modal-footer {
+    border-top: 1px solid var(--color-principal);
+}
+.tema-morado .sub-modal-card {
+    box-shadow: 0 25px 50px rgba(66, 9, 104, 0.6), 0 0 15px rgba(66, 2, 109, 0.2); 
+}
+.tema-morado .input-wrapper:focus-within .input-icon { color: var(--color-principal); }
+.tema-morado .input-wrapper:focus-within .toggle-passwordd { color: var(--color-principal); }
+.tema-morado .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
+.tema-morado .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(66, 4, 179, 0.3);}
 
+
+/* TEMA ROJO */
 .tema-rojo .mesa-usuario {
     background: linear-gradient(180deg, #990000,#5a1414);
 }
+.tema-rojo .cuenta-btn {
+    background: linear-gradient(180deg, #990000,#5a1414);
+    border: 2px solid var(--color-principal);
+}
+.tema-rojo .cuenta-btn:hover {
+    background: linear-gradient(98deg, #af0303, #270000);
+}
+.tema-rojo .p-modal-card {
+    border: 1px solid var(--color-principal);
+    box-shadow: 0 25px 50px rgba(104, 9, 9, 0.6), 0 0 15px rgba(109, 2, 2, 0.2); 
+}
+.tema-rojo .p-avatar-container span {
+    color: var(--color-principal);
+}
+.tema-rojo .titulo-color {
+    color: var(--color-principal);
+}
+.tema-rojo .p-btn-primario {
+    background: linear-gradient(180deg, #990000,#5a1414);
+}
+.tema-rojo .p-close-btn:hover  {
+    color: var(--color-principal);
+}
+.tema-rojo .p-modal-header {
+    border-bottom: 1px solid var(--color-principal);
+}
+.tema-rojo .p-modal-footer {
+    border-top: 1px solid var(--color-principal);
+}
+.tema-rojo .sub-modal-card {
+    box-shadow: 0 25px 50px rgba(104, 9, 9, 0.6), 0 0 15px rgba(109, 2, 2, 0.2); 
+}
+.tema-rojo .input-wrapper:focus-within .input-icon { color: var(--color-principal); }
+.tema-rojo .input-wrapper:focus-within .toggle-passwordd { color: var(--color-principal); }
+.tema-rojo .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
+.tema-rojo .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(179, 4, 4, 0.3);}
 
+
+/* TEMA AZUL */
 .tema-azul .mesa-usuario {
     background: linear-gradient(180deg, #3159c9, #021349);
 }
+.tema-azul .cuenta-btn {
+    background: linear-gradient(180deg, #3159c9, #021349);
+    border: 2px solid var(--color-principal);
+}
+.tema-azul .cuenta-btn:hover {
+    background: linear-gradient(98deg, #3159c9, #021349);
+}
+.tema-azul .p-modal-card {
+    border: 1px solid var(--color-principal);
+    box-shadow: 0 25px 50px rgba(9, 23, 104, 0.6), 0 0 15px rgba(2, 18, 109, 0.2); 
+}
+.tema-azul .p-avatar-container span {
+    color: var(--color-principal);
+}
+.tema-azul .titulo-color {
+    color: var(--color-principal);
+}
+.tema-azul .p-btn-primario {
+    background: linear-gradient(180deg, #3159c9, #021349);
+}
+.tema-azul .p-close-btn:hover  {
+    color: var(--color-principal);
+}
+.tema-azul .p-modal-header {
+    border-bottom: 1px solid var(--color-principal);
+}
+.tema-azul .p-modal-footer {
+    border-top: 1px solid var(--color-principal);
+}
+.tema-azul .sub-modal-card {
+    box-shadow: 0 25px 50px rgba(9, 23, 104, 0.6), 0 0 15px rgba(2, 22, 109, 0.2); 
+}
+.tema-azul .input-wrapper:focus-within .input-icon { color: var(--color-principal); }
+.tema-azul .input-wrapper:focus-within .toggle-passwordd { color: var(--color-principal); }
+.tema-azul .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
+.tema-azul .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(4, 16, 179, 0.3);}
+
 
 /* 🔥 FACTURA EN MESAS */
 .mesas-page.tema-rojo .modal-header {
