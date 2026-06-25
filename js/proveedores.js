@@ -145,7 +145,6 @@ function editarFila(btn) {
     const celdas = fila.getElementsByTagName("td");
 
 
-
 // Nombre
     const nombreInput = crearInputTexto(celdas[2].innerText.trim());
     agregarValidacionNombreApellido(nombreInput);
@@ -176,15 +175,10 @@ function editarFila(btn) {
     celdas[6].innerHTML = '';
     celdas[6].appendChild(direccionInput);
 
-// Correo
 
-    const correoInput = crearInputTexto(celdas[7].innerText.trim());
-    agregarValidacionCorreo(correoInput);
-    celdas[7].innerHTML = '';
-    celdas[7].appendChild(correoInput);
-
-    const estadoActual = celdas[8].innerText.trim();
-    celdas[8].innerHTML = `
+// Estado
+    const estadoActual = celdas[7].innerText.trim();
+    celdas[7].innerHTML = `
         <select style="width:100%;box-sizing:border-box;">
             <option value="Activo"   ${estadoActual === 'Activo'   ? 'selected' : ''}>Activo</option>
             <option value="Inactivo" ${estadoActual === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
@@ -193,6 +187,12 @@ function editarFila(btn) {
     btn.textContent = "Guardar";
     btn.onclick = function () { guardarEdicion(this); };
 }
+// Correo
+
+    const correoInput = crearInputTexto(celdas[8].innerText.trim());
+    agregarValidacionCorreo(correoInput);
+    celdas[8].innerHTML = '';
+    celdas[8].appendChild(correoInput);
 
 // Input de texto reutilizable
 function crearInputTexto(valor) {
@@ -218,8 +218,8 @@ async function guardarEdicion(btn) {
     const telefono       = celdas[4].querySelector("input").value.trim();
     const ciudad         = celdas[5].querySelector("input").value.trim();
     const direccion      = celdas[6].querySelector("input").value.trim();
-    const estado         = celdas[8].querySelector("select").value.trim();
-    const correo         = celdas[7].querySelector("input").value.trim();
+    const estado         = celdas[7].querySelector("select").value.trim();
+    const correo         = celdas[8].querySelector("input").value.trim();
 
 
     
