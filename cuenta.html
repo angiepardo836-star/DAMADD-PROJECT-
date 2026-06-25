@@ -821,9 +821,9 @@
 </footer>
 
 <script src="js/memoriaPersonalizacion.js"></script>
-<script src="js/validaciones.js"></script>
-<script src="js/cuenta.js"></script>
 <script>
+
+
 
 function agregarValidacionNombreApellido(input) {
   input.addEventListener('keydown', function (event) {
@@ -1056,6 +1056,7 @@ function agregarValidacionDocumento(inputDoc, selectTipo) {
 }
 
 
+
 function cambiarTema(c) {
   const m = {
     rojo:   { color: '#e74c3c', dark: '#c0392b' },
@@ -1096,7 +1097,7 @@ function restablecerTema() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ---- Accesibilidad ---- */
+
   const btnAcces = document.querySelector('.boton-accesibilidad');
   if (btnAcces) {
     btnAcces.onclick = function(e) {
@@ -1127,7 +1128,7 @@ document.addEventListener('DOMContentLoaded', () => {
   makeEye('eye-confirm', 'confirmar');
   makeEye('eye-edit',    'editar-contrasena');
 
-  /* ---- Fuerza de contraseña ---- */
+ 
   const passEl = document.getElementById('contrasena');
   const confEl = document.getElementById('confirmar');
 
@@ -1176,8 +1177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
- 
-  // Documento
+
   const inputDocumento = document.getElementById('num_doc');
   const selectTipoDoc  = document.getElementById('tipo_doc');
   if (inputDocumento) agregarValidacionDocumento(inputDocumento, selectTipoDoc);
@@ -1195,8 +1195,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputCorreo = document.getElementById('correo');
   if (inputCorreo) agregarValidacionCorreo(inputCorreo);
 
- 
-  // Nombre y Apellido (modal)
+
+
   [document.getElementById('editar-nombre'), document.getElementById('editar-apellido')].forEach(inp => {
     if (inp) agregarValidacionNombreApellido(inp);
   });
@@ -1209,6 +1209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const editarCorreo = document.getElementById('editar-correo');
   if (editarCorreo) agregarValidacionCorreo(editarCorreo);
 
+  /* ---- Tabla de cuentas ---- */
   const tablaCuerpo = document.getElementById('tabla-cuentas-body');
   const sinCuentas  = document.getElementById('sin-cuentas');
   const modalEditar = document.getElementById('modal-editar');
@@ -1357,7 +1358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) { console.error(err); mostrarAlerta('Error de conexión', 'error'); }
   });
 
-  
+
   window.eliminarUsuario = async documento => {
     if (!confirm('¿Estás seguro de eliminar esta cuenta? Esta acción no se puede deshacer.')) return;
     try {
@@ -1372,7 +1373,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) { mostrarAlerta('Error de conexión', 'error'); }
   };
 
-  
+
   function mostrarAlerta(mensaje, tipo = 'ok') {
     const alerta = document.createElement('div');
     alerta.textContent = mensaje;
