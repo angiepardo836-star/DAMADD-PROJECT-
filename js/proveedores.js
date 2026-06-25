@@ -303,7 +303,7 @@ function filtrarTabla() {
                 coincide = true;
             }
         }
-        filas[i].style.display = coincide ? "" : "none";
+        filas[i].style.display = coincide ? " " : "none";
     }
 }
 

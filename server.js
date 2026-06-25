@@ -49,7 +49,7 @@ app.post('/guardar-proveedor', (req, res) => {
 
     const sql = `
         INSERT INTO proveedor
-        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado , correo)
+        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -205,7 +205,6 @@ app.post('/registrar-compra', (req, res) => {
     });
 });
 
-// GUARDAR PRODUCTO
 // GUARDAR PRODUCTO
 app.post('/guardar-producto', async (req, res) => {
     console.log('Datos producto recibidos:', req.body);

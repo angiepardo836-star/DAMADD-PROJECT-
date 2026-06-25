@@ -9,10 +9,24 @@
     <link rel="stylesheet" href="estilos/variables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" >
+    <link rel="stylesheet" href="estilos/carga.css">
 
 </head> <!-- Fin head -->
 
 <body> <!-- Contenido visible -->
+  <div id="loader">
+  <div class="loader-box">
+    <h1 class="loader-title">Damadd</h1>
+    
+    <div class="video-container">
+      <img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" alt="billar-animado" />
+    </div>
+    <p class="loader-text">Cargando contenido...</p>
+    <div class="barra-taco">
+      <div class="progreso" id="progreso"></div>
+    </div>
+  </div>
+</div>
 
       <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
         <symbol id="ic-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -520,6 +534,34 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  const app = document.getElementById('app');
+  
+  // Espera 2 seg o hasta que cargue tu JS pesado
+  setTimeout(() => {
+    loader.classList.add('hide');
+    
+    // Quita del DOM después de la animación
+    setTimeout(() => {
+      loader.style.display = 'none';
+      app.style.display = 'block';
+    }, 700);
+  }, 3500);
+});
+let progreso = document.getElementById('progreso');
+let porcentaje = 0;
+
+let intervalo = setInterval(() => {
+  porcentaje += Math.random() * 15; // avanza random
+  if (porcentaje >= 100) {
+    porcentaje = 100;
+    clearInterval(intervalo);
+    // aquí ocultas el loader
+    document.getElementById('loader').style.display = 'none';
+  }
+  progreso.style.width = porcentaje + '%';
+}, 300);
 </script>
 </body>
 </html>

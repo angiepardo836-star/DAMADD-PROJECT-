@@ -251,8 +251,8 @@ function editarFila(btn) {
     aplicarValidacionLetras(celdas[5].querySelector("input"));
 
     // Presentación
-    celdas[6].innerHTML = `<input type="text" value="${celdas[6].innerText}">`;
-    aplicarValidacionLetras(celdas[6].querySelector("input"));
+    const presActual = celdas[6].innerText.trim() === "N/A" ? "" : celdas[6].innerText.trim();
+    celdas[6].innerHTML = `<input type="text" value="${presActual}">`;
 
     // Fecha
     const fechaActual = celdas[7].innerText.trim() === "N/A" ? "" : celdas[7].innerText.trim();

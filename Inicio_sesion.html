@@ -14,9 +14,23 @@
     <link rel="stylesheet" href="estilos/variables.css">
     <!-- Carga estilos específicos de la pantalla de inicio de sesión -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="estilos/carga.css">
 </head>
 
 <body>
+    <div id="loader">
+  <div class="loader-box">
+    <h1 class="loader-title">Damadd</h1>
+    
+    <div class="video-container">
+      <img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" alt="billar-animado" />
+    </div>
+    <p class="loader-text">Cargando contenido...</p>
+    <div class="barra-taco">
+      <div class="progreso" id="progreso"></div>
+    </div>
+  </div>
+</div>
     <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
         <symbol id="ic-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
@@ -220,6 +234,34 @@ window.addEventListener("DOMContentLoaded", () => {
     };
 
 });
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  const app = document.getElementById('app');
+  
+  // Espera 2 seg o hasta que cargue tu JS pesado
+  setTimeout(() => {
+    loader.classList.add('hide');
+    
+    // Quita del DOM después de la animación
+    setTimeout(() => {
+      loader.style.display = 'none';
+      app.style.display = 'block';
+    }, 700);
+  }, 3500);
+});
+let progreso = document.getElementById('progreso');
+let porcentaje = 0;
+
+let intervalo = setInterval(() => {
+  porcentaje += Math.random() * 15; // avanza random
+  if (porcentaje >= 100) {
+    porcentaje = 100;
+    clearInterval(intervalo);
+    // aquí ocultas el loader
+    document.getElementById('loader').style.display = 'none';
+  }
+  progreso.style.width = porcentaje + '%';
+}, 300);
 </script>
     <script src="js/inicio_sesion.js"></script>
     <script src="js/personalizacion.js"></script>
