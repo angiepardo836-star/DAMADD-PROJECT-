@@ -210,25 +210,52 @@ app.post('/guardar-producto', async (req, res) => {
     console.log('Datos producto recibidos:', req.body);
 
     const {
-        nombre_producto,
-        marca_producto,
-        cantidad_producto,
-        categoria_producto,
-        presentacion_producto,
-        fecha_vencimiento_producto,
-        precio_unitario_producto
+        tipo_producto,
+        nombre,
+        marca,
+        cantidad,
+        categoria,
+        presentacion,
+        fecha_vencimiento,
+        precio_unitario,
+        estado, 
+        descripcion
     } = req.body;
 
-    // Definimos la consulta para buscar duplicados
-    const sqlCheck = `
-        SELECT id_producto FROM producto 
-        WHERE marca_producto = ? 
-          AND categoria_producto = ? 
-          AND presentacion_producto = ?
-    `;
+    // Definimos la consulta según el tipo de producto
+    let sqlCheck;
+    let valoresCheck;
+
+    if (tipo_producto === "Producto") {
+
+        // Para productos: nombre + marca + presentación
+        sqlCheck = `
+            SELECT id
+            FROM producto
+            WHERE nombre = ?
+            AND marca = ?
+            AND presentacion = ?
+        `;
+
+        valoresCheck = [nombre, marca, presentacion];
+
+    } else if (tipo_producto === "Material") {
+
+        // Para materiales: nombre + marca
+        sqlCheck = `
+            SELECT id
+            FROM producto
+            WHERE nombre = ?
+            AND marca = ?
+        `;
+
+        valoresCheck = [nombre, marca];
+
+    }
 
     // Ejecutamos la búsqueda
-    db.query(sqlCheck, [ marca_producto, categoria_producto, presentacion_producto], (err, results) => {
+    db.query(sqlCheck, valoresCheck, (err, results) => {
+
         if (err) {
             console.error("Error al buscar duplicados:", err);
             return res.status(500).send("Error en el servidor al verificar el producto.");
@@ -236,28 +263,35 @@ app.post('/guardar-producto', async (req, res) => {
 
         // Si encontramos resultados, significa que ya existe
         if (results.length > 0) {
-            return res.status(400).send("El producto ya existe en la base de datos.");
+
+            if (tipo_producto === "Producto") {
+                return res.status(400).send("El producto ya existe en la base de datos.");
+            }
+
+            return res.status(400).send("El material ya existe en la base de datos.");
         }
 
         // Si no existe, procedemos con el guardado normal
-        const total = cantidad_producto * precio_unitario_producto;
+
         const sqlInsert = `
             INSERT INTO producto 
-            (nombre_producto, marca_producto, cantidad_producto, categoria_producto, 
-            presentacion_producto, fecha_vencimiento_producto, 
-            precio_unitario_producto, precio_total_producto)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (tipo_producto, nombre, marca, cantidad, categoria, 
+            presentacion, fecha_vencimiento, 
+            precio_unitario, estado, descripcion)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         db.query(sqlInsert, [
-            nombre_producto,
-            marca_producto,
-            cantidad_producto,
-            categoria_producto,
-            presentacion_producto,
-            fecha_vencimiento_producto,
-            precio_unitario_producto,
-            total
+            tipo_producto,
+            nombre,
+            marca,
+            cantidad,
+            categoria,
+            presentacion,
+            fecha_vencimiento,
+            precio_unitario,
+            estado, 
+            descripcion
         ], (errInsert) => {
             if (errInsert) {
                 console.error("Error al insertar:", errInsert);
