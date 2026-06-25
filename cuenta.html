@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="estilos/cuenta.css">
   <link rel="stylesheet" href="estilos/variables.css">
+  <link rel="stylesheet" href="estilos/carga.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -430,6 +431,19 @@
   </style>
 </head>
 <body>
+  <div id="loader">
+  <div class="loader-box">
+    <h1 class="loader-title">Damadd</h1>
+    
+    <div class="video-container">
+      <img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" alt="billar-animado" />
+    </div>
+    <p class="loader-text">Cargando contenido...</p>
+    <div class="barra-taco">
+      <div class="progreso" id="progreso"></div>
+    </div>
+  </div>
+</div>
 
     <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
     <div id="panel" class="panel-accesibilidad">
@@ -1403,6 +1417,34 @@ document.addEventListener('DOMContentLoaded', () => {
   modalEditar?.addEventListener('click', e => { if (e.target === modalEditar) cerrarModal(); });
 
 });
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  const app = document.getElementById('app');
+  
+  // Espera 2 seg o hasta que cargue tu JS pesado
+  setTimeout(() => {
+    loader.classList.add('hide');
+    
+    // Quita del DOM después de la animación
+    setTimeout(() => {
+      loader.style.display = 'none';
+      app.style.display = 'block';
+    }, 700);
+  }, 3500);
+});
+let progreso = document.getElementById('progreso');
+let porcentaje = 0;
+
+let intervalo = setInterval(() => {
+  porcentaje += Math.random() * 15; // avanza random
+  if (porcentaje >= 100) {
+    porcentaje = 100;
+    clearInterval(intervalo);
+    // aquí ocultas el loader
+    document.getElementById('loader').style.display = 'none';
+  }
+  progreso.style.width = porcentaje + '%';
+}, 300);
 </script>
 </body>
 </html>
