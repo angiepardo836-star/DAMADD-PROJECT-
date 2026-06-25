@@ -190,6 +190,9 @@ h1, h2, h3  {
 .tema-morado .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
 .tema-morado .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(66, 4, 179, 0.3);}
 .tema-morado .toast { background: var(--color-principal); }
+.tema-morado .step-num {background: linear-gradient(135deg, #7c3aed, #c026d3);}
+.tema-morado .cta-banner {background: linear-gradient(135deg, #4c1d95, #86198f);}
+.tema-morado .logo-icon { background: linear-gradient(135deg, #c026d3, #86198f);}
 
 
 /* TEMA ROJO */
@@ -233,6 +236,9 @@ h1, h2, h3  {
 .tema-rojo .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
 .tema-rojo .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(179, 4, 4, 0.3);}
 .tema-rojo .toast { background: var(--color-principal); }
+.tema-rojo .step-num {background: linear-gradient(135deg, #3a0000, #af0303);}
+.tema-rojo .cta-banner {background: linear-gradient(135deg, #3a0000, #af0303);}
+.tema-rojo .logo-icon { background: linear-gradient(135deg, #e22b2b, #961a1a);}
 
 
 /* TEMA AZUL */
@@ -276,6 +282,9 @@ h1, h2, h3  {
 .tema-azul .input-wrapper:focus-within .toggle-passwordd-sub { color: var(--color-principal); }
 .tema-azul .p-info-group input:focus { border-color: var(--color-principal); box-shadow: 0 0 10px rgba(4, 16, 179, 0.3);}
 .tema-azul .toast { background: var(--color-principal); }
+.tema-azul .step-num {background: linear-gradient(135deg, #3159c9, #021349);}
+.tema-azul .cta-banner {background: linear-gradient(135deg, #3159c9, #021349);}
+.tema-azul .logo-icon { background: linear-gradient(135deg, #3159c9, #1a228c);}
 
 
 /* 🔥 FACTURA EN MESAS */
