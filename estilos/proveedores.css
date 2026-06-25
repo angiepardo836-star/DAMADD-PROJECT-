@@ -85,7 +85,6 @@
       background: rgba(255, 255, 255, 0.4);
   }
 
-  /* Menú lateral */
 
   /* Menú lateral */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -135,7 +134,7 @@
   }
 
 
-  /* ── MENÚ LATERAL (La capa más alta de la pantalla) ── */
+  /* MENÚ LATERAL (La capa más alta de la pantalla)  */
   nav.menu-lateral, .menu-lateral {
       position: fixed;
       top: 0; 
@@ -398,8 +397,6 @@
 .demo-arrow { color: rgba(46,204,46,.5); font-size: .85rem; margin-top: 24px; animation: blink 1.5s infinite; }
 @keyframes blink { 0%,100%{opacity:.5} 50%{opacity:1} }
 
-/* ...existing code... */
-
   /* Banner promocional: ancho completo, altura reducida y texto centrado sobre la imagen */
   .banner-promocional{
       width: 100%;
@@ -597,7 +594,7 @@
     object-fit: contain;
     margin-top: -5px;
 }
-/* agregar propducto*/
+/* agregar proveedor */
 #addProductModal {
   display: none; 
   position: fixed;
@@ -656,7 +653,6 @@ input:focus {
   border: 1px solid #ccc;
 }
 
-/* Foco específico del modal (más específico, no afecta otros formularios) */
 .add-product-dialog input[type="text"]:focus,
 .add-product-dialog input[type="number"]:focus,
 .add-product-dialog select:focus {
@@ -807,7 +803,7 @@ input:focus {
     font-size: 20px;
     margin: 0;
   }
-  /* ── CONTENEDOR DE TABLA ──────────────────────────────────── */
+  /*  CONTENEDOR DE TABLA */
   .tabla-contenedor {
     margin: 65px 150px 65px 160px;
     background: #0a0a0a;
@@ -816,7 +812,7 @@ input:focus {
     border: 1px solid #1a3d1a;
   }
 
-  /* ── TABLA BASE ───────────────────────────────────────────── */
+  /*  TABLA BASE  */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -826,7 +822,7 @@ input:focus {
     font-size: 13px;
   }
 
-  /* ── ENCABEZADO ───────────────────────────────────────────── */
+  /*  ENCABEZADO  */
   thead th {
     background: #005203;
     text-align: center;
@@ -849,7 +845,7 @@ input:focus {
     border-right: none;
   }
 
-  /* ── CELDAS ───────────────────────────────────────────────── */
+  /*  CELDAS  */
   td, th {
     padding: 11px 12px;
     border-bottom: 1px solid #1a2e1a;
@@ -865,7 +861,7 @@ input:focus {
     transition: background 0.15s ease;
   }
 
-  /* ── BADGE TIPO DOCUMENTO ─────────────────────────────────── */
+  /*  BADGE TIPO DOCUMENTO  */
   .badge-tipo {
     background: #0d3d0d;
     color: #4ade80;
@@ -877,7 +873,7 @@ input:focus {
     display: inline-block;
   }
 
-  /* ── NÚMERO DE DOCUMENTO ──────────────────────────────────── */
+  /*  NÚMERO DE DOCUMENTO  */
   .badge-doc {
     color: #86efac;
     font-family: monospace;
@@ -886,13 +882,13 @@ input:focus {
     letter-spacing: 0.3px;
   }
 
-  /* ── CORREO ───────────────────────────────────────────────── */
+  /*  CORREO  */
   .correo-cell {
     color: #7dd3fc;
     font-size: 12px;
   }
 
-  /* ── ESTADO ACTIVO / INACTIVO ─────────────────────────────── */
+  /*  ESTADO ACTIVO / INACTIVO  */
   .estado-activo {
     background: #052e16;
     color: #4ade80;
@@ -937,7 +933,7 @@ input:focus {
     background: #ef4444;
   }
 
-  /* ── BOTONES DE ACCIÓN ────────────────────────────────────── */
+  /*  BOTONES DE ACCIÓN  */
   .btn-accion {
     padding: 6px 10px;
     border-radius: 7px;
@@ -1014,7 +1010,7 @@ input:focus {
     background: #142050;
   }
 
-  /* ── RESPONSIVE MÓVIL ─────────────────────────────────────── */
+  /*  RESPONSIVE MÓVIL  */
   @media (max-width: 600px) {
     .tabla-contenedor {
       margin: 20px 0;
@@ -1195,10 +1191,10 @@ input:focus {
   }
 
 
-  /* ── Móvil (≤ 600px) ──────────────────────────────────────── */
+  /* Móvil (≤ 600px)  */
   @media (max-width: 600px) {
 
-    /* ── HEADER: icono | título centrado | botón cuenta ── */
+    /*  HEADER: icono | título centrado | botón cuenta */
     .header-mesas {
       height: auto;
       min-height: 60px;
@@ -1244,7 +1240,7 @@ input:focus {
     .icono    { font-size: 16px; }
     .icono-img{ width: 18px; height: 18px; }
 
-    /* ── BANNER ── */
+    /*  BANNER  */
     .banner-promocional { max-height: 180px; }
     .titulo_funcion     { font-size: 18px; margin-top: -50px; margin-bottom: 8px; }
     .text_1             { font-size: 13px; margin-top: 15px; }
@@ -1255,7 +1251,7 @@ input:focus {
       margin: 8px auto;
     }
 
-    /* ── CARDS ── */
+    /*  CARDS  */
     .mesas-section,
     .mesas-section2,
     .mesas-section3 {
@@ -1275,7 +1271,7 @@ input:focus {
     .card-actions2 img,
     .card-actions3 img { width: 100%; height: auto; margin-top: 0; }
 
-    /* ── BUSCADOR — sin transforms para que no vuele fuera ── */
+    /*  BUSCADOR — sin transforms para que no vuele fuera  */
     .btn-buscar {
       transform: none !important;
       font-size: 26px;
@@ -1303,7 +1299,7 @@ input:focus {
       margin-top: 8px;
     }
 
-    /* ── TABLA — scroll horizontal correcto ── */
+    /*  TABLA — scroll horizontal correcto  */
     .tabla-contenedor {
       margin: 20px 0;
       padding: 0 8px;
@@ -1323,23 +1319,23 @@ input:focus {
     .btn-accion-editar,
     .btn-accion-eliminar { width: 52px; height: 26px; font-size: 11px; }
 
-    /* ── TÍTULO MESAS ── */
+    /*  TÍTULO MESAS  */
     .mesas h1 {
       margin-left: 12px;
       margin-top: 25px;
       font-size: 20px;
     }
 
-    /* ── MODAL EDITAR — una columna ── */
+    /*  MODAL EDITAR  una columna  */
     #modalEdit .modal-body {
       grid-template-columns: 1fr;
       padding: 12px;
     }
 
-    /* ── MENÚ LATERAL ── */
+    /*  MENÚ LATERAL  */
     .menu-lateral { width: 210px; }
 
-    /* ── FOOTER — centrado ── */
+    /*  FOOTER — centrado  */
     footer.footer-main {
       padding: 40px 15px 15px;
     }
@@ -1366,7 +1362,7 @@ input:focus {
       text-align: center;
     }
 
-  /* ── CONTENIDO PRINCIPAL ── */
+  /*  CONTENIDO PRINCIPAL  */
   .contenido-principal { padding: 12px 8px; }
 }
 
@@ -1423,7 +1419,7 @@ input:focus {
   transition: color .2s;
 }
 .input-wrap:focus-within .input-icon {
-  color: var(--green); /* o el color principal de tu proyecto */
+  color: var(--green);
 }
 .input-wrap input,
 .input-wrap select {
