@@ -144,23 +144,6 @@ function editarFila(btn) {
     const fila   = btn.parentNode.parentNode;
     const celdas = fila.getElementsByTagName("td");
 
-    // 1 — Documento 
-    const docActual = celdas[1].innerText.trim();
-    const inputDoc = document.createElement('input');
-    inputDoc.type = 'text';
-    inputDoc.value = docActual;
-    inputDoc.maxLength = 10;
-    inputDoc.style.cssText = 'width:100%;box-sizing:border-box;';
-    // Solo números
-    inputDoc.addEventListener('keydown', function(event) {
-        const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-        if (event.ctrlKey || event.metaKey || teclasPermitidas.includes(event.key)) return;
-        if (event.key === ' ') { event.preventDefault(); return; }
-        if (!/^[0-9]$/.test(event.key)) { event.preventDefault(); }
-        if (this.value.length >= 10) { event.preventDefault(); }
-    });
-    celdas[1].innerHTML = '';
-    celdas[1].appendChild(inputDoc);
 
 // Nombre
     const nombreInput = crearInputTexto(celdas[2].innerText.trim());
@@ -192,15 +175,10 @@ function editarFila(btn) {
     celdas[6].innerHTML = '';
     celdas[6].appendChild(direccionInput);
 
-// Correo
 
-    const correoInput = crearInputTexto(celdas[7].innerText.trim());
-    agregarValidacionCorreo(correoInput);
-    celdas[7].innerHTML = '';
-    celdas[7].appendChild(correoInput);
-
-    const estadoActual = celdas[8].innerText.trim();
-    celdas[8].innerHTML = `
+// Estado
+    const estadoActual = celdas[7].innerText.trim();
+    celdas[7].innerHTML = `
         <select style="width:100%;box-sizing:border-box;">
             <option value="Activo"   ${estadoActual === 'Activo'   ? 'selected' : ''}>Activo</option>
             <option value="Inactivo" ${estadoActual === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
@@ -208,7 +186,15 @@ function editarFila(btn) {
 
     btn.textContent = "Guardar";
     btn.onclick = function () { guardarEdicion(this); };
+
+    // Correo
+
+    const correoInput = crearInputTexto(celdas[8].innerText.trim());
+    agregarValidacionCorreo(correoInput);
+    celdas[8].innerHTML = '';
+    celdas[8].appendChild(correoInput);
 }
+
 
 // Input de texto reutilizable
 function crearInputTexto(valor) {
@@ -228,14 +214,14 @@ async function guardarEdicion(btn) {
     const documentoOriginal = fila.getAttribute('data-id');
 
     const tipo_documento = celdas[0].querySelector("input").value.trim();
-    const documento      = celdas[1].innerText.trim();                    
+    const documento      = celdas[1].querySelector("input").value.trim();
     const nombre         = celdas[2].querySelector("input").value.trim();
     const apellido       = celdas[3].querySelector("input").value.trim();
     const telefono       = celdas[4].querySelector("input").value.trim();
     const ciudad         = celdas[5].querySelector("input").value.trim();
     const direccion      = celdas[6].querySelector("input").value.trim();
-    const estado         = celdas[8].querySelector("select").value.trim();
-    const correo         = celdas[7].querySelector("input").value.trim();
+    const estado         = celdas[7].querySelector("select").value.trim();
+    const correo         = celdas[8].querySelector("input").value.trim();
 
 
     
@@ -632,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function agregarValidacionDocumento(inputDoc, selectTipo) {
         if (!inputDoc) return;
 
-        // Obtener las reglas dinámicas según el tipo de documento seleccionado
+        // Reglas segun seleccione el tipo de documento
         function obtenerReglasDocumento() {
             const tipo = selectTipo ? selectTipo.value : 'CC';
             switch (tipo) {
@@ -640,12 +626,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'CE':  return { regex: /^\d{6,15}$/, minLength: 6, maxLength: 15, soloNumeros: true };
                 case 'PPT': return { regex: /^\d{6,8}$/, minLength: 6, maxLength: 8, soloNumeros: true };
                 case 'PA':  return { regex: /^[a-zA-Z0-9]{6,15}$/, minLength: 6, maxLength: 15, soloNumeros: false };
-                case 'NIT': return { regex: /^\d{9,11}$/, minLength: 9, maxLength: 11, soloNumeros: true }; // <-- Caso NIT Agregado
+                case 'NIT': return { regex: /^\d{9,11}$/, minLength: 9, maxLength: 11, soloNumeros: true };
                 default:    return { regex: /^\d{9,10}$/, minLength: 9, maxLength: 10, soloNumeros: true };
             }
         }
 
-        // Función interna para validar el borde rojo basándose en la regex del tipo de doc
+        // Borde rojo 
         function validarDoc(value) {
             const reglas = obtenerReglasDocumento();
             if (value === "") {
@@ -657,7 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Si cambia el tipo de documento, se limpia el input y el borde
+        // Si se cambia el tipo de documento, se limpia el input 
         if (selectTipo) {
             selectTipo.addEventListener('change', () => {
                 inputDoc.value = '';
@@ -673,7 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (event.key === ' ') { event.preventDefault(); return; }
 
-            // Validar si solo admite números o alfanumérico (Pasaporte)
+            // (Pasaporte) Valida si solo admite números o alfanumérico 
             if (reglas.soloNumeros && !/^[0-9]$/.test(event.key)) {
                 event.preventDefault();
                 return;
@@ -683,7 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Controlar el máximo de caracteres permitido dinámicamente
+            // Controla el máximo de caracteres permitido 
             if (this.value.length >= reglas.maxLength && this.selectionStart === this.selectionEnd) {
                 event.preventDefault();
                 return;
@@ -693,7 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputDoc.addEventListener('input', function () {
             const reglas = obtenerReglasDocumento();
 
-            // Recortar si excede el tamaño máximo configurado
+            // Recorta si excede el tamaño máximo configurado
             if (this.value.length > reglas.maxLength) {
                 this.value = this.value.slice(0, reglas.maxLength);
             }
@@ -707,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const clipboard = event.clipboardData || window.clipboardData;
             const texto = clipboard ? clipboard.getData('text').trim() : '';
             
-            // Filtrar el texto pegado dependiendo de si es solo números o alfanumérico
+            // Filtra el texto pegado dependiendo de si es solo números o alfanumérico
             const textoFiltrado = reglas.soloNumeros ? texto.replace(/[^0-9]/g, '') : texto.replace(/[^a-zA-Z0-9]/g, '');
             if (!textoFiltrado) return;
 
@@ -721,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const agregados = unido.length - (this.value.length - (fin - ini));
             this.value = unido;
             
-            // Colocar el cursor de forma inteligente en la posición correcta tras pegar
+            // Coloca el cursor de forma inteligente en la posición correcta tras pegar
             const pos = ini + Math.max(0, agregados);
             this.setSelectionRange(pos, pos);
             
