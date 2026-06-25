@@ -18,13 +18,8 @@
   <div class="loader-box">
     <h1 class="loader-title">Damad</h1>
     
-    <div class="billiard-scene">
-      <!-- El taco de billar hecho con puro CSS -->
-      <div class="billiard-cue"></div>
-      <!-- Bola Blanca -->
-      <div class="cue-ball"></div>
-      <!-- Bola Objetivo (Ej. Bola 8) -->
-      <div class="target-ball"></div>
+    <div class="video-container">
+      <a href="https://www.gifsanimados.org/cat-billar-420.htm"><img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" border="0" alt="billar-imagen-animada-0106" /></a>
     </div>
 
     <p class="loader-text">Cargando contenido...</p>
@@ -628,83 +623,10 @@ window.addEventListener('load', () => {
     setTimeout(() => {
       loader.style.display = 'none';
       app.style.display = 'block';
-    }, 500);
-  }, 2000);
+    }, 600);
+  }, 3000);
 });
-// Aseguramos que el DOM esté listo
-document.addEventListener("DOMContentLoaded", () => {
 
-  const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
-
-  // 1. El taco va hacia atrás despacio (Apunta)
-  tl.to('.billiard-cue', {
-    x: -20,
-    duration: 0.8,
-    ease: 'power1.inOut'
-  });
-
-  // 2. El taco va hacia adelante rápido e impacta a la bola blanca
-  tl.to('.billiard-cue', {
-    x: 10,
-    duration: 0.1,
-    ease: 'power2.in'
-  });
-
-  // 3. La bola blanca sale disparada hacia la derecha (recorre los 84px exactos hasta tocar la otra bola)
-  tl.to('.cue-ball', {
-    x: 84, 
-    duration: 0.25,
-    ease: 'power1.out'
-  }, '-=0.02'); // Sincronizado con el impacto del taco
-
-  // 4. EL CHOQUE: El taco regresa a su posición base
-  tl.to('.billiard-cue', { x: 0, duration: 0.3, ease: 'power1.out' }, 'hit');
-
-  // Al chocar, la bola blanca frena casi por completo (se mueve solo un pelín por inercia)
-  tl.to('.cue-ball', {
-    x: 90,
-    duration: 0.4,
-    ease: 'power3.out'
-  }, 'hit');
-
-  // Al mismo tiempo, la bola de color absorbe la energía y sale disparada hacia la banda derecha (borde de la mesa a los 280px)
-  tl.to('.target-ball', {
-    x: 54, // Golpea la banda derecha
-    duration: 0.25,
-    ease: 'power1.out'
-  }, 'hit'); // 'hit' ejecuta ambos movimientos en el mismo instante matemático
-
-  // 5. La bola de color rebota con efecto físico real en la banda derecha
-  tl.to('.target-ball', {
-    x: 25, // Rebota hacia atrás
-    duration: 0.5,
-    ease: 'bounce.out'
-  });
-
-  // 6. Desvanecimiento suave para reiniciar el loop limpiamente
-  tl.to(['.cue-ball', '.target-ball'], {
-    opacity: 0,
-    duration: 0.3,
-    ease: 'power1.in'
-  }, '+=0.2');
-
-  // Reseteamos las posiciones a 0 en silencio antes de volver a empezar
-  tl.to(['.cue-ball', '.target-ball'], {
-    x: 0,
-    opacity: 1,
-    duration: 0.01
-  });
-
-  // Animación del texto "Cargando..."
-  gsap.to('.loader-text', {
-    opacity: 0.3,
-    duration: 0.8,
-    repeat: -1,
-    yoyo: true,
-    ease: 'power1.inOut'
-  });
-
-});
 </script>
 <script src="js/inicio.js"></script>
 <script src="js/personalizacion.js"></script>
