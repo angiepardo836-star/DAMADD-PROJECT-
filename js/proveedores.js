@@ -213,8 +213,8 @@ async function guardarEdicion(btn) {
 
     const documentoOriginal = fila.getAttribute('data-id');
 
-    const tipo_documento = celdas[0].querySelector("input").value.trim();
-    const documento      = celdas[1].querySelector("input").value.trim();
+    const tipo_documento = (celdas[0].querySelector('span') || celdas[0]).innerText.trim();
+    const documento      = (celdas[1].querySelector('span') || celdas[1]).innerText.trim();
     const nombre         = celdas[2].querySelector("input").value.trim();
     const apellido       = celdas[3].querySelector("input").value.trim();
     const telefono       = celdas[4].querySelector("input").value.trim();
