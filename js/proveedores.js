@@ -93,7 +93,7 @@ async function saveNew() {
         return;
     }
 
-    const datos = { tipo_documento, documento, nombre, telefono, ciudad, direccion, estado, correo };
+    const datos = { tipo_documento, documento, nombre,  telefono, ciudad, direccion, estado, correo };
 
     try {
         const response = await fetch('/guardar-proveedor', {
