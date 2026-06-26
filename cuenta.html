@@ -689,19 +689,17 @@
             </div>
             <p class="match-label" id="match-label"></p>
           </div>
- <div class="field-group" style="margin-top:.6rem">
-                    <div id="contenedor-admin-key">
-                        <label for="admin-key">Clave de autorización <span>*</span></label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon"><use href="#ic-lock"/></svg>
-                            <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
-                            <span class="toggle-passwordd">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="admin-key-note">* La clave de autorización es necesaria para confirmar cambios en cuentas de nivel Gerente.</p>
-                </div>
+          <div class="field-group"  style ="margin-top:.6rem">
+              <label for="admin-key">Clave de Autorización <span style="color:var(--green);">*</span></label>
+                <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-lock"/></svg>
+                <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
+                <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
+                <svg><use href="#ic-eye"/></svg>
+              </button>
+            </div>
+            <p style="font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1rem;" class="admin-key-note">* La clave de autorización es necesaria para crear cuentas de nivel Gerente.</p>
+          </div>
           <button type="submit" class="btn-primary">Agregar Cuenta</button>
         </form>
       </div>
@@ -747,7 +745,7 @@
       <input type="hidden" id="editar-usuario-original">
       <div class="field-row">
         <div class="field-group">
-          <label>Nombre</label>
+          <label>Nombre<span>*</span></label>
           <div class="input-wrap">
             <svg class="input-icon"><use href="#ic-user"/></svg>
             <input type="text" id="editar-nombre" required>
@@ -762,7 +760,7 @@
         </div>
       </div>
       <div class="field-group" style="margin-top:.6rem">
-        <label>Usuario</label>
+        <label>Usuario<span>*</span></label>
         <div class="input-wrap">
           <svg class="input-icon"><use href="#ic-at"/></svg>
           <input type="text" id="editar-usuario" required>
@@ -770,14 +768,14 @@
       </div>
       <div class="field-row" style="margin-top:.6rem">
         <div class="field-group">
-          <label>Teléfono</label>
+          <label>Teléfono<span>*</span></label>
           <div class="input-wrap">
             <svg class="input-icon"><use href="#ic-phone"/></svg>
             <input type="tel" id="editar-telefono">
           </div>
         </div>
         <div class="field-group">
-          <label>Correo</label>
+          <label>Correo<span>*</span></label>
           <div class="input-wrap">
             <svg class="input-icon"><use href="#ic-mail"/></svg>
             <input type="email" id="editar-correo" required>
@@ -785,7 +783,7 @@
         </div>
       </div>
       <div class="field-group" style="margin-top:.6rem">
-        <label>Contraseña</label>
+        <label>Contraseña<span>*</span></label>
         <div class="input-wrap">
           <svg class="input-icon"><use href="#ic-lock"/></svg>
           <input type="password" id="editar-contrasena" placeholder="Dejar vacío para mantener actual" class="has-eye">
@@ -794,19 +792,17 @@
           </button>
         </div>
       </div>
- <div class="field-group" style="margin-top:.6rem">
-                    <div id="contenedor-admin-key">
-                        <label for="admin-key">Clave de autorización <span>*</span></label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon"><use href="#ic-lock"/></svg>
-                            <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
-                            <span class="toggle-passwordd">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="admin-key-note">* La clave de autorización es necesaria para confirmar cambios en cuentas de nivel Gerente.</p>
-                </div>
+      <div class="field-group"  style ="margin-top:.6rem">
+            <label for="admin-key">Clave de Autorización <span>*</span></label>
+            <div class="input-wrap">
+              <svg class="input-icon"><use href="#ic-lock"/></svg>
+              <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
+              <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
+                <svg><use href="#ic-eye"/></svg>
+              </button>
+            </div>
+            <p style="font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1rem;" class="admin-key-note">* La clave de autorización es necesaria para crear cuentas de nivel Gerente.</p>
+          </div>
       <div class="modal-botones">
         <button type="submit" class="btn-guardar">Guardar Cambios</button>
         <button type="button" class="btn-cancelar">Cancelar</button>
@@ -1147,7 +1143,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   makeEye('eye-pass',    'contrasena');
   makeEye('eye-confirm', 'confirmar');
-  makeEye('eye-edit',    'editar-contrasena');
+  makeEye('eye-edit',    'editar-contrasena')
+  makeEye('eye-admin',   'admin-key-create');
 
  
   const passEl = document.getElementById('contrasena');
