@@ -19,10 +19,12 @@
     <h1 class="loader-title">Damad</h1>
     
     <div class="video-container">
-      <a href="https://www.gifsanimados.org/cat-billar-420.htm"><img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" border="0" alt="billar-imagen-animada-0106" /></a>
+      <img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" alt="billar-animado" />
     </div>
-
     <p class="loader-text">Cargando contenido...</p>
+    <div class="barra-taco">
+      <div class="progreso" id="progreso"></div>
+    </div>
   </div>
 </div>
     <input type="checkbox" id="btn-menu" hidden> <!-- Control oculto para abrir/cerrar menú -->
@@ -623,10 +625,22 @@ window.addEventListener('load', () => {
     setTimeout(() => {
       loader.style.display = 'none';
       app.style.display = 'block';
-    }, 600);
-  }, 3000);
+    }, 700);
+  }, 3500);
 });
+let progreso = document.getElementById('progreso');
+let porcentaje = 0;
 
+let intervalo = setInterval(() => {
+  porcentaje += Math.random() * 15; // avanza random
+  if (porcentaje >= 100) {
+    porcentaje = 100;
+    clearInterval(intervalo);
+    // aquí ocultas el loader
+    document.getElementById('loader').style.display = 'none';
+  }
+  progreso.style.width = porcentaje + '%';
+}, 300);
 </script>
 <script src="js/inicio.js"></script>
 <script src="js/personalizacion.js"></script>
