@@ -745,7 +745,7 @@
       <input type="hidden" id="editar-usuario-original">
       <div class="field-row">
         <div class="field-group">
-          <label>Nombre</label>
+          <label>Nombre<span>*</span></label>
           <div class="input-wrap">
             <svg class="input-icon"><use href="#ic-user"/></svg>
             <input type="text" id="editar-nombre" required>
@@ -760,7 +760,7 @@
         </div>
       </div>
       <div class="field-group" style="margin-top:.6rem">
-        <label>Usuario</label>
+        <label>Usuario<span>*</span></label>
         <div class="input-wrap">
           <svg class="input-icon"><use href="#ic-at"/></svg>
           <input type="text" id="editar-usuario" required>
@@ -768,14 +768,14 @@
       </div>
       <div class="field-row" style="margin-top:.6rem">
         <div class="field-group">
-          <label>Teléfono</label>
+          <label>Teléfono<span>*</span></label>
           <div class="input-wrap">
             <svg class="input-icon"><use href="#ic-phone"/></svg>
             <input type="tel" id="editar-telefono">
           </div>
         </div>
         <div class="field-group">
-          <label>Correo</label>
+          <label>Correo<span>*</span></label>
           <div class="input-wrap">
             <svg class="input-icon"><use href="#ic-mail"/></svg>
             <input type="email" id="editar-correo" required>
@@ -783,7 +783,7 @@
         </div>
       </div>
       <div class="field-group" style="margin-top:.6rem">
-        <label>Contraseña</label>
+        <label>Contraseña<span>*</span></label>
         <div class="input-wrap">
           <svg class="input-icon"><use href="#ic-lock"/></svg>
           <input type="password" id="editar-contrasena" placeholder="Dejar vacío para mantener actual" class="has-eye">
@@ -793,7 +793,7 @@
         </div>
       </div>
       <div class="field-group"  style ="margin-top:.6rem">
-            <label for="admin-key">Clave de Autorización <span style="color:var(--green);">*</span></label>
+            <label for="admin-key">Clave de Autorización <span>*</span></label>
             <div class="input-wrap">
               <svg class="input-icon"><use href="#ic-lock"/></svg>
               <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
@@ -1143,7 +1143,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   makeEye('eye-pass',    'contrasena');
   makeEye('eye-confirm', 'confirmar');
-  makeEye('eye-edit',    'editar-contrasena');
+  makeEye('eye-edit',    'editar-contrasena')
+  makeEye('eye-admin',   'admin-key-create');
 
  
   const passEl = document.getElementById('contrasena');
