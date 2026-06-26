@@ -78,7 +78,7 @@ async function saveNew() {
     const correo         = document.getElementById('new_correo').value.trim();
 
 
-    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
+    if (!tipo_documento || !documento || !nombre || !telefono || !ciudad || !direccion || !estado || !correo) {
         showAlert3("Todos los campos son obligatorios. Por favor, completa el formulario.");
         return;
     }
@@ -93,7 +93,7 @@ async function saveNew() {
         return;
     }
 
-    const datos = { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo };
+    const datos = { tipo_documento, documento, nombre, telefono, ciudad, direccion, estado, correo };
 
     try {
         const response = await fetch('/guardar-proveedor', {
@@ -225,7 +225,7 @@ async function guardarEdicion(btn) {
 
 
     
-    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
+    if (!tipo_documento || !documento || !nombre  || !telefono || !ciudad || !direccion || !estado || !correo) {
         showAlert3("Todos los campos son obligatorios.");
         return;
     }
@@ -235,7 +235,7 @@ async function guardarEdicion(btn) {
         return;
     }
 
-    if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(apellido)) {
+    if (apellido && !/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(apellido)) {
         showAlert3("El apellido solo debe contener letras y tener máximo 3 palabras.");
         return;
     }
