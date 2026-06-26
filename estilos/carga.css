@@ -13,19 +13,35 @@
   display: flex; justify-content: center; align-items: center;
   z-index: 9999; font-family: 'Poppins', sans-serif;
   overflow: hidden;
-}
-/* Contenedor del GIF */
-.video-container {
-  width: 100%;
-  max-width: 280px; /* Tamaño ideal para que conserve buena calidad */
-  margin: 18px auto;
-  border-radius: 12px; /* Redondea las esquinas */
-  overflow: hidden; /* Corta el GIF para que se adapte al redondeado */
-  border: var(--color-principal) solid 5px; /* Sutil marco neón */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.678); /* Sombra neón */
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
 }
 
-/* Ajuste específico para la imagen animada */
+#loader.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#app {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+#app.show {
+  opacity: 1;
+}
+
+.video-container {
+  width: 100%;
+  max-width: 280px; 
+  margin: 18px auto;
+  border-radius: 12px; 
+  overflow: hidden; 
+  border: var(--color-principal) solid 5px; 
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.678); 
+}
+
 .video-container img {
   width: 100%;
   height: auto;
@@ -33,7 +49,6 @@
   object-fit: cover;
 }
 
-/* Texto inferior más pulido y minimalista */
 .loader-text {
   font-size: 0.85rem;
   letter-spacing: 2px;
@@ -48,6 +63,7 @@
   padding: 3rem; border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   max-width: 400px; width: 90%;
 }
@@ -66,7 +82,6 @@
   border-bottom: 4px solid var(--billiard-green);
 }
 
-/* El Taco: inicia más a la izquierda */
 .billiard-cue {
   position: absolute;
   left: 0px;
@@ -78,7 +93,6 @@
   box-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
 }
 
-/* Bola Blanca: posicionada justo enfrente del taco */
 .cue-ball {
   position: absolute;
   bottom: 18px; 
@@ -90,11 +104,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.6);
 }
 
-/* Bola Objetivo: colocada más hacia la derecha */
 .target-ball {
   position: absolute;
   bottom: 18px; 
-  left: 210px; /* 100px de distancia de la blanca */
+  left: 210px; 
   width: 16px;
   height: 16px;
   background: radial-gradient(circle at 35% 35%, #ff66b2, var(--neon-magenta));
@@ -106,19 +119,21 @@
   color: #94a3b8; font-size: 0.95rem; letter-spacing: 2px;
   margin-top: 1.5rem; font-weight: 300;
 }
+
 .barra-taco {
   width: 100%; height: 6px;
   background: #1a0f08;
   border: 2px solid #c9a227;
   border-radius: 7px;
-  margin :15px auto 0;
+  margin: 15px auto 0;
   overflow: hidden;
   box-shadow: 0 0 8px #c9a227;
 }
+
 .progreso {
   width: 0%; 
   height: 100%;
   background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
   border-radius: 5px;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease-out;
 }

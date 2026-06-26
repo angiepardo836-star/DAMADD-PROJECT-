@@ -9,6 +9,7 @@
      <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+     <link rel="stylesheet" href="estilos/carga.css">
 
     <style>
         .tarjeta-mesa-agregar {
@@ -152,7 +153,21 @@
 
     </style>
 </head>
-<body class="mesas-page"> <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
+<body class="mesas-page">
+  <div id="loader">
+  <div class="loader-box">
+    <h1 class="loader-title">Damadd</h1>
+    
+    <div class="video-container">
+      <img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" alt="billar-animado" />
+    </div>
+    <p class="loader-text">Cargando contenido...</p>
+    <div class="barra-taco">
+      <div class="progreso" id="progreso"></div>
+    </div>
+  </div>
+</div>
+   <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
     <div id="panel" class="panel-accesibilidad">
         <button onclick="cambiarTema('rojo')">Rojo</button>
         <button onclick="cambiarTema('morado')">Morado</button>
@@ -1118,6 +1133,34 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  const app = document.getElementById('app');
+  
+  // Espera 2 seg o hasta que cargue tu JS pesado
+  setTimeout(() => {
+    loader.classList.add('hide');
+    
+    // Quita del DOM después de la animación
+    setTimeout(() => {
+      loader.style.display = 'none';
+      app.style.display = 'block';
+    }, 700);
+  }, 3500);
+});
+let progreso = document.getElementById('progreso');
+let porcentaje = 0;
+
+let intervalo = setInterval(() => {
+  porcentaje += Math.random() * 15; // avanza random
+  if (porcentaje >= 100) {
+    porcentaje = 100;
+    clearInterval(intervalo);
+    // aquí ocultas el loader
+    document.getElementById('loader').style.display = 'none';
+  }
+  progreso.style.width = porcentaje + '%';
+}, 300);
 </script>
   <script src="js/mesas.js"></script>
   <script src="js/personalizacion.js"></script> 
