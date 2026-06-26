@@ -206,7 +206,6 @@ app.post('/registrar-compra', (req, res) => {
 });
 
 // GUARDAR PRODUCTO
-// GUARDAR PRODUCTO
 app.post('/guardar-producto', async (req, res) => {
     console.log('Datos producto recibidos:', req.body);
 
