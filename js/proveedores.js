@@ -184,7 +184,7 @@ function editarFila(btn) {
             <option value="Inactivo" ${estadoActual === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
         </select>`;
 
-    btn.textContent = "Guardar";
+    btn.innerHTML = '<i class="fas fa-save"></i>';
     btn.onclick = function () { guardarEdicion(this); };
 
     // Correo
