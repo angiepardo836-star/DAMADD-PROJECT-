@@ -5,6 +5,7 @@
     --fondo-degradado: #092004; /* color actual */
     --cartas-mesas:#0750199d;
     --menu-juegos: linear-gradient(135deg, #074105, #0d8209);
+    --imagen-fondo: url('../imagenes/fondo.png');
 }
 :root {
     --fuente-global: Arial;
@@ -91,7 +92,7 @@ h1, h2, h3  {
     --cartas-mesas:#6108089d;
     --menu-juegos: linear-gradient(135deg, #450303, #820919);
     --mesa-titulo: rgba(184, 4, 4, 0.288);
-    
+    --imagen-fondo: url('../imagenes/fondo_rojo.png');
 }
 
 /* 🟣 MORADO */
@@ -102,6 +103,7 @@ h1, h2, h3  {
     --cartas-mesas:#4005639d;
     --menu-juegos: linear-gradient(135deg, #3d0345, #5a0982);
     --mesa-titulo: rgba(142, 4, 184, 0.288);
+    --imagen-fondo: url('../imagenes/fondo_morado.png');
 }
 
 /* 🔵 AZUL */
@@ -112,6 +114,7 @@ h1, h2, h3  {
     --cartas-mesas:#081c5ec5;
     --menu-juegos: linear-gradient(135deg, #021349, #3159c9);
     --mesa-titulo: rgba(7, 64, 102, 0.527);
+    --imagen-fondo: url('../imagenes/fondo_azul.png');
 }
 
 /* LÍNEA Y ACCENTOS DEL MENÚ */
@@ -150,9 +153,6 @@ h1, h2, h3  {
 }
 
 /* TEMA MORADO */
-.tema-morado .mesa-usuario {
-    background: linear-gradient(180deg, #572b96, #1f084a);
-}
 .tema-morado .cuenta-btn {
     background: linear-gradient(180deg, #572b96, #1f084a);
     border: 2px solid var(--color-principal);
@@ -172,6 +172,9 @@ h1, h2, h3  {
 }
 .tema-morado .p-btn-primario {
     background: linear-gradient(180deg, #572b96, #1f084a);
+}
+.tema-morado .p-btn-primario:hover {
+    background: linear-gradient(180deg, #6934b3, #180638);
 }
 .tema-morado .p-close-btn:hover  {
     color: var(--color-principal);
@@ -193,12 +196,21 @@ h1, h2, h3  {
 .tema-morado .step-num {background: linear-gradient(135deg, #7c3aed, #c026d3);}
 .tema-morado .cta-banner {background: linear-gradient(135deg, #4c1d95, #86198f);}
 .tema-morado .logo-icon { background: linear-gradient(135deg, #c026d3, #86198f);}
+.tema-morado #modal-registro > div {
+    box-shadow: 0 25px 50px rgba(96, 9, 104, 0.6), 0 0 15px rgba(70, 2, 109, 0.2); 
+}
+.tema-morado #registro-form input:focus {
+    box-shadow: 0 0 5px rgba(74, 4, 120, 0.3);
+}
+.tema-morado #registro-form select:focus { 
+    box-shadow: 0 0 5px rgba(83, 4, 120, 0.3);
+}
+.tema-morado #registro-form button:hover {
+    background: linear-gradient(180deg, #7a0198, #000000);
+}
 
 
 /* TEMA ROJO */
-.tema-rojo .mesa-usuario {
-    background: linear-gradient(180deg, #990000,#5a1414);
-}
 .tema-rojo .cuenta-btn {
     background: linear-gradient(180deg, #990000,#5a1414);
     border: 2px solid var(--color-principal);
@@ -218,6 +230,9 @@ h1, h2, h3  {
 }
 .tema-rojo .p-btn-primario {
     background: linear-gradient(180deg, #990000,#5a1414);
+}
+.tema-rojo .p-btn-primario:hover {
+    background: linear-gradient(180deg, #be0101,#420f0f);
 }
 .tema-rojo .p-close-btn:hover  {
     color: var(--color-principal);
@@ -239,12 +254,20 @@ h1, h2, h3  {
 .tema-rojo .step-num {background: linear-gradient(135deg, #3a0000, #af0303);}
 .tema-rojo .cta-banner {background: linear-gradient(135deg, #3a0000, #af0303);}
 .tema-rojo .logo-icon { background: linear-gradient(135deg, #e22b2b, #961a1a);}
-
+.tema-rojo #modal-registro > div {
+    box-shadow: 0 25px 50px rgba(104, 9, 9, 0.6), 0 0 15px rgba(109, 2, 2, 0.2); 
+}
+.tema-rojo #registro-form input:focus {
+    box-shadow: 0 0 5px rgba(120, 4, 4, 0.3);
+}
+.tema-rojo #registro-form select:focus { 
+    box-shadow: 0 0 5px rgba(120, 4, 4, 0.3);
+}
+.tema-rojo #registro-form button:hover {
+    background: linear-gradient(180deg, #980101, #000000);
+}
 
 /* TEMA AZUL */
-.tema-azul .mesa-usuario {
-    background: linear-gradient(180deg, #3159c9, #021349);
-}
 .tema-azul .cuenta-btn {
     background: linear-gradient(180deg, #3159c9, #021349);
     border: 2px solid var(--color-principal);
@@ -264,6 +287,9 @@ h1, h2, h3  {
 }
 .tema-azul .p-btn-primario {
     background: linear-gradient(180deg, #3159c9, #021349);
+}
+.tema-azul .p-btn-primario:hover {
+    background: linear-gradient(180deg, #3764df, #020e38);
 }
 .tema-azul .p-close-btn:hover  {
     color: var(--color-principal);
@@ -285,6 +311,18 @@ h1, h2, h3  {
 .tema-azul .step-num {background: linear-gradient(135deg, #3159c9, #021349);}
 .tema-azul .cta-banner {background: linear-gradient(135deg, #3159c9, #021349);}
 .tema-azul .logo-icon { background: linear-gradient(135deg, #3159c9, #1a228c);}
+.tema-azul #modal-registro > div {
+    box-shadow: 0 25px 50px rgba(9, 31, 104, 0.6), 0 0 15px rgba(2, 9, 109, 0.2); 
+}
+.tema-azul #registro-form input:focus {
+    box-shadow: 0 0 5px rgba(4, 25, 120, 0.3);
+}
+.tema-azul #registro-form select:focus { 
+    box-shadow: 0 0 5px rgba(6, 4, 120, 0.3);
+}
+.tema-azul #registro-form button:hover {
+    background: linear-gradient(180deg, #013d98, #000000);
+}
 
 
 /* 🔥 FACTURA EN MESAS */

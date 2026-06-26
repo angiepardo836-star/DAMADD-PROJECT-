@@ -78,12 +78,12 @@ async function saveNew() {
     const total = precio * cantidad;
 
     if (!tipo_producto || !nombre || !marca || isNaN(cantidad) || !categoria || isNaN(precio) || !estado || !descripcion) {
-        alert("Todos los campos son obligatorios, menos la fecha de vencimiento y presentacion.");
+        showAlert2("Todos los campos son obligatorios, menos la fecha de vencimiento y presentacion.");
         return;
     }
     // Si es Producto, presentación sí es obligatoria
     if (tipo_producto === "Producto" && !presentacion) {
-        alert("La presentación es obligatoria para los productos.");
+        showAlert2("La presentación es obligatoria para los productos.");
         return;
     }
     //ALTER TABLE producto
@@ -111,11 +111,11 @@ async function saveNew() {
         });
 
         if (response.ok) {
-            alert("Producto guardado exitosamente.");
+            showAlert3("Producto guardado exitosamente.");
             closeAddModal();
             location.reload(); // Refrescamos para ver el nuevo dato
         } else {
-            alert("ERROR: producto repetido no se puede agregar.");
+            showAlert3("ERROR: producto repetido no se puede agregar.");
         }
     } catch (error) {
       console.error("Error al agregar:", error);
@@ -132,10 +132,10 @@ async function eliminarProducto(id) {
         });
 
         if(response.ok) {
-            alert("Producto eliminado correctamente.");
+            showAlert3("Producto eliminado correctamente.");
             obtenerProductos();
         } else {
-            alert("No se pudo eliminar el producto de la base de datos.");
+            showAlert3("No se pudo eliminar el producto de la base de datos.");
         }
     } catch (error) {
         console.error("Error al eliminar:", error);
@@ -296,7 +296,7 @@ async function guardarEdicion(btn) {
 
 
     if (isNaN(id)) {
-        alert("Error: No se pudo encontrar el ID del producto.");
+        showAlert3("Error: No se pudo encontrar el ID del producto.");
         return;
     }
 
@@ -312,24 +312,52 @@ async function guardarEdicion(btn) {
     const estado = celdas[9].querySelector("select").value.trim();
     const descripcion = celdas[10].querySelector("input").value.replace(/[\n\r]/g, '').trim();
 
-    // VALIDACIÓN: campos obligatorios (excepto fecha_vencimiento, siempre opcional)
-    if (!tipo_producto || !nombre || !marca || isNaN(cant) || !categoria || isNaN(prec) || !estado || !descripcion) {
-        alert("Todos los campos son obligatorios, menos la fecha de vencimiento.");
+// VALIDACIÓN PARA PRODUCTOS
+if (tipo_producto === "Producto") {
+
+    if (
+        !tipo_producto ||
+        !nombre ||
+        !marca ||
+        isNaN(cant) ||
+        !categoria ||
+        !presentacion ||
+        isNaN(prec) ||
+        !estado ||
+        !descripcion
+    ) {
+        showAlert3("En productos, todos los campos son obligatorios, menos la fecha de vencimiento.");
         return;
     }
 
-    // VALIDACIÓN: presentación es obligatoria solo si el tipo es "Producto"
-    if (tipo_producto === "Producto" && !presentacion) {
-        alert("La presentación es obligatoria para los productos.");
+}
+
+// VALIDACIÓN PARA MATERIALES
+if (tipo_producto === "Material") {
+
+    if (
+        !tipo_producto ||
+        !nombre ||
+        !marca ||
+        isNaN(cant) ||
+        !categoria ||
+        isNaN(prec) ||
+        !estado ||
+        !descripcion
+    ) {
+        showAlert3("En materiales, todos los campos son obligatorios, menos la presentación y la fecha de vencimiento.");
         return;
     }
+
+}
 
     if (cant < 0) {
-        return alert('La cantidad no puede ser negativa');
+        return showAlert3('La cantidad no puede ser negativa');
     }
     if (prec < 0) {
-        return alert('El precio no puede ser negativo');
+        return showAlert3('El precio no puede ser negativo');
     }
+    
 
     const datos = {
         tipo_producto: tipo_producto,
@@ -352,11 +380,11 @@ async function guardarEdicion(btn) {
         });
 
         if(response.ok) {
-            alert("Producto actualizado correctamente."); 
+            showAlert3("Producto actualizado correctamente."); 
             obtenerProductos();
         } else {
             const msj = await response.text();
-            alert("Error del servidor (404/500): " + msj);
+            showAlert3("Error del servidor (404/500): " + msj);
         }
     } catch (error) {
         console.error("Error en la petición fetch:", error);
@@ -756,3 +784,40 @@ function cerrarModal() {
     closeAddModal();
     limpiarFormularioRegistro();
 }
+//Función para alertas de formulario
+    let toastTimer2;
+    function showAlert2(msg) {
+        const t = document.getElementById('toast2');
+        if (!t) return;
+
+        t.textContent = msg;
+        
+        t.style.transform = 'translateX(-50%) translateY(0)';
+        t.style.opacity = '1';
+
+        clearTimeout(toastTimer2);
+        
+        toastTimer2 = setTimeout(() => { 
+            t.style.transform = 'translateX(-50%) translateY(-100px)'; 
+            t.style.opacity = '0'; 
+        }, 4000);
+    }
+
+    //Función para alertas de tabla
+    let toastTimer3;
+    function showAlert3(msg) {
+        const t = document.getElementById('toast3');
+        if (!t) return;
+
+        t.textContent = msg;
+        
+        t.style.transform = 'translateX(-50%) translateY(0)';
+        t.style.opacity = '1';
+
+        clearTimeout(toastTimer3);
+        
+        toastTimer3 = setTimeout(() => { 
+            t.style.transform = 'translateX(-50%) translateY(-100px)'; 
+            t.style.opacity = '0'; 
+        }, 4000);
+    }
