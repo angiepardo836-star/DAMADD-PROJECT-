@@ -5,6 +5,7 @@
     --fondo-degradado: #092004; /* color actual */
     --cartas-mesas:#0750199d;
     --menu-juegos: linear-gradient(135deg, #074105, #0d8209);
+    --imagen-fondo: url('../imagenes/fondo.png');
 }
 :root {
     --fuente-global: Arial;
@@ -91,7 +92,7 @@ h1, h2, h3  {
     --cartas-mesas:#6108089d;
     --menu-juegos: linear-gradient(135deg, #450303, #820919);
     --mesa-titulo: rgba(184, 4, 4, 0.288);
-    
+    --imagen-fondo: url('../imagenes/fondo_rojo.png');
 }
 
 /* 🟣 MORADO */
@@ -102,6 +103,7 @@ h1, h2, h3  {
     --cartas-mesas:#4005639d;
     --menu-juegos: linear-gradient(135deg, #3d0345, #5a0982);
     --mesa-titulo: rgba(142, 4, 184, 0.288);
+    --imagen-fondo: url('../imagenes/fondo_morado.png');
 }
 
 /* 🔵 AZUL */
@@ -112,6 +114,7 @@ h1, h2, h3  {
     --cartas-mesas:#081c5ec5;
     --menu-juegos: linear-gradient(135deg, #021349, #3159c9);
     --mesa-titulo: rgba(7, 64, 102, 0.527);
+    --imagen-fondo: url('../imagenes/fondo_azul.png');
 }
 
 /* LÍNEA Y ACCENTOS DEL MENÚ */
