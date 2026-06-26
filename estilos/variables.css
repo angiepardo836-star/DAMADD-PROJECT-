@@ -6,6 +6,7 @@
     --cartas-mesas:#0750199d;
     --menu-juegos: linear-gradient(135deg, #074105, #0d8209);
     --imagen-fondo: url('../imagenes/fondo.png');
+    --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo.jpeg');
 }
 :root {
     --fuente-global: Arial;
@@ -93,6 +94,7 @@ h1, h2, h3  {
     --menu-juegos: linear-gradient(135deg, #450303, #820919);
     --mesa-titulo: rgba(184, 4, 4, 0.288);
     --imagen-fondo: url('../imagenes/fondo_rojo.png');
+    --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo_rojo.jpeg');
 }
 
 /* 🟣 MORADO */
@@ -104,6 +106,7 @@ h1, h2, h3  {
     --menu-juegos: linear-gradient(135deg, #3d0345, #5a0982);
     --mesa-titulo: rgba(142, 4, 184, 0.288);
     --imagen-fondo: url('../imagenes/fondo_morado.png');
+    --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo_morado.jpeg');
 }
 
 /* 🔵 AZUL */
@@ -115,6 +118,7 @@ h1, h2, h3  {
     --menu-juegos: linear-gradient(135deg, #021349, #3159c9);
     --mesa-titulo: rgba(7, 64, 102, 0.527);
     --imagen-fondo: url('../imagenes/fondo_azul.png');
+    --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo_azul.jpeg');
 }
 
 /* LÍNEA Y ACCENTOS DEL MENÚ */
@@ -206,7 +210,7 @@ h1, h2, h3  {
     box-shadow: 0 0 5px rgba(83, 4, 120, 0.3);
 }
 .tema-morado #registro-form button {
-    background: linear-gradient(98deg, #6f2b96, #1f084a); !important;
+    background: linear-gradient(98deg, #6f2b96, #1f084a) !important;
 }
 .tema-morado #registro-form button:hover {
     background: linear-gradient(180deg, #7a0198, #000000);
@@ -215,6 +219,12 @@ h1, h2, h3  {
     background: linear-gradient(180deg, #86198f, #000000d0) !important;
 }
 .tema-morado .mesa-usuario button:hover{
+    background: linear-gradient(180deg, #c026d3, #000000) !important;
+}
+.tema-morado .btn-billar {
+    background: linear-gradient(180deg, #86198f, #000000d0) !important;
+}
+.tema-morado .btn-billar:hover {
     background: linear-gradient(180deg, #c026d3, #000000) !important;
 }
 
@@ -281,6 +291,12 @@ h1, h2, h3  {
 .tema-rojo .mesa-usuario button:hover{
     background: linear-gradient(180deg, #d32626, #000000)  !important;
 }
+.tema-rojo .btn-billar {
+    background: linear-gradient(180deg, #8f1919, #000000d0) !important;
+}
+.tema-rojo .btn-billar:hover {
+    background: linear-gradient(180deg, #d32626, #000000)  !important;
+}
 
 
 /* TEMA AZUL */
@@ -343,6 +359,12 @@ h1, h2, h3  {
     background: linear-gradient(180deg, #19488f, #000000d0) !important;
 }
 .tema-azul .mesa-usuario button:hover{
+    background: linear-gradient(180deg, #2693d3, #000000) !important;
+}
+.tema-azul .btn-billar {
+    background: linear-gradient(180deg, #19488f, #000000d0) !important;
+}
+.tema-azul .btn-billar:hover {
     background: linear-gradient(180deg, #2693d3, #000000) !important;
 }
 

@@ -2,6 +2,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
   }
 
   .logo h2{
@@ -105,6 +106,7 @@
     background: var(--verde-oscuro);
     min-height: 100vh;
     overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
   }
 
   #btn-menu { display: none; }
@@ -1483,5 +1485,45 @@ input:focus {
 .add-product-dialog input:focus,
 .add-product-dialog select:focus {
   border-color: rgb(30, 215, 96) /* verde */
+}
+
+.input-editar{
+    width:100%;
+    box-sizing:border-box;
+
+    background:#2d2d2d;      /* Gris oscuro */
+    color:white;
+
+    border:1px solid #555;
+    border-radius:6px;
+
+    padding:3px 5px;
+    font-size:14px;
+
+    transition:.3s;
+}
+
+.input-editar:focus{
+    outline:none;
+    border-color:#1ed760;
+    box-shadow:0 0 5px #1ed760;
+}
+
+.select-editar{
+    width:100%;
+    box-sizing:border-box;
+
+    background:#2d2d2d;
+    color:white;
+
+    border:1px solid #555;
+    border-radius:6px;
+
+    padding:3px 5px;
+}
+
+.select-editar:focus{
+    outline:none;
+    border-color:#1ed760;
 }
 

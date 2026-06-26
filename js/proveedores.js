@@ -82,7 +82,7 @@ async function saveNew() {
     const correo         = document.getElementById('new_correo').value.trim();
 
 
-    if (!tipo_documento || !documento || !nombre || !telefono || !ciudad || !direccion || !estado || !correo) {
+    if (!tipo_documento || !documento || !nombre  || !telefono || !ciudad || !direccion || !estado || !correo) {
         showAlert3("Todos los campos son obligatorios. Por favor, completa el formulario.");
         return;
     }
@@ -97,7 +97,7 @@ async function saveNew() {
         return;
     }
 
-    const datos = { tipo_documento, documento, nombre,  telefono, ciudad, direccion, estado, correo };
+    const datos = { tipo_documento, documento, nombre, telefono, ciudad, direccion, estado, correo };
 
     try {
         const response = await fetch('/guardar-proveedor', {
@@ -208,10 +208,10 @@ function editarFila(btn) {
 // Estado
     const estadoActual = celdas[7].innerText.trim();
     celdas[7].innerHTML = `
-        <select style="width:100%;box-sizing:border-box;">
-            <option value="Activo"   ${estadoActual === 'Activo'   ? 'selected' : ''}>Activo</option>
-            <option value="Inactivo" ${estadoActual === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
-        </select>`;
+    <select class="select-editar">
+        <option value="Activo" ${estadoActual === 'Activo' ? 'selected' : ''}>Activo</option>
+        <option value="Inactivo" ${estadoActual === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
+    </select>`;
 
     btn.innerHTML = '<i class="fas fa-save"></i>';
     btn.onclick = function () { guardarEdicion(this); };
@@ -225,12 +225,11 @@ function editarFila(btn) {
 }
 
 
-// Input de texto reutilizable
 function crearInputTexto(valor) {
     const input = document.createElement('input');
-    input.type  = 'text';
+    input.type = 'text';
     input.value = valor;
-    input.style.cssText = 'width:100%;box-sizing:border-box;';
+    input.className = "input-editar";
     return input;
 }
 
@@ -268,6 +267,7 @@ async function guardarEdicion(btn) {
         showAlert3("El apellido solo debe contener letras y tener máximo 3 palabras.");
         return;
     }
+
 
     if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
         showAlert3("El correo debe tener formato válido: algo@gmail.com");
@@ -786,4 +786,8 @@ function mostrarModalEliminarProveedor(id){
 function cerrarModalEliminarProveedor(){
     document.getElementById("modalEliminarProveedor").style.display = "none";
     idProveedorAEliminar = null;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d52ee77d13472ad4a7ce9759c1405261ce8704e7
