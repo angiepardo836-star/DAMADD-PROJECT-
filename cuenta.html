@@ -602,7 +602,7 @@
         <form id="formulario-crear-cuenta" autocomplete="off">
           <div class="field-row">
             <div class="field-group">
-              <label>Tipo de Documento</label>
+              <label>Tipo de Documento<span>*</span></label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-doc"/></svg>
                 <select id="tipo_doc" name="tipo_documento" required>
@@ -615,7 +615,7 @@
               </div>
             </div>
             <div class="field-group">
-              <label>Número de Documento</label>
+              <label>Número de Documento<span>*</span></label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-hash"/></svg>
                 <input type="text" id="num_doc" name="numero_documento" placeholder="Ej: 1023456789" required inputmode="numeric">
@@ -624,14 +624,14 @@
           </div>
           <div class="field-row">
             <div class="field-group">
-              <label>Nombre</label>
+              <label>Nombre<span>*</span></label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-user"/></svg>
                 <input type="text" id="nombre" name="nombre_usuario" placeholder="Ej: María José" required>
               </div>
             </div>
             <div class="field-group">
-              <label>Apellido</label>
+              <label>Apellido<span>*</span></label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-user"/></svg>
                 <input type="text" id="apellido" name="apellido_usuario" placeholder="Ej: Gómez Cortes" required>
@@ -639,7 +639,7 @@
             </div>
           </div>
           <div class="field-group">
-            <label>Usuario</label>
+            <label>Usuario<span>*</span></label>
             <div class="input-wrap">
               <svg class="input-icon"><use href="#ic-at"/></svg>
               <input type="text" id="usuario" name="usuario_usuario" placeholder="Nombre de usuario único" required>
@@ -647,14 +647,14 @@
           </div>
           <div class="field-row">
             <div class="field-group">
-              <label>Teléfono</label>
+              <label>Teléfono<span>*</span></label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-phone"/></svg>
                 <input type="tel" id="telefono" name="telefono_usuario" placeholder="Ej: 3001234567" required inputmode="tel">
               </div>
             </div>
             <div class="field-group">
-              <label>Correo</label>
+              <label>Correo<span>*</span></label>
               <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-mail"/></svg>
                 <input type="email" id="correo" name="correo_usuario" placeholder="correo@gmail.com" required>
@@ -662,7 +662,7 @@
             </div>
           </div>
           <div class="field-group">
-            <label>Contraseña</label>
+            <label>Contraseña<span>*</span></label>
             <div class="input-wrap">
               <svg class="input-icon"><use href="#ic-lock"/></svg>
               <input type="password" id="contrasena" name="contraseña_usuario" placeholder="Mín. 6 caracteres + símbolo" required minlength="6" class="has-eye">
@@ -679,7 +679,7 @@
             <p class="strength-label" id="strength-label"></p>
           </div>
           <div class="field-group">
-            <label>Confirmar Contraseña</label>
+            <label>Confirmar Contraseña<span>*</span></label>
             <div class="input-wrap">
               <svg class="input-icon"><use href="#ic-check-lock"/></svg>
               <input type="password" id="confirmar" name="confirmar_contrasena" placeholder="Repite la contraseña" required class="has-eye">
@@ -690,7 +690,7 @@
             <p class="match-label" id="match-label"></p>
           </div>
           <div class="field-group"  style ="margin-top:.6rem">
-              <label for="admin-key">Clave de Autorización <span style="color:var(--green);">*</span></label>
+              <label for="admin-key">Clave de Autorización <span>*</span></label>
                 <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-lock"/></svg>
                 <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
@@ -1340,42 +1340,83 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
 
-  formEditar?.addEventListener('submit', async e => {
-    e.preventDefault();
-    const documento = document.getElementById('editar-usuario-original').value;
-    const telEditar = document.getElementById('editar-telefono').value.trim();
+  formCrear?.addEventListener('submit', async e => {
+  e.preventDefault();
+  await saveNew();
+});
 
-    if (telEditar && !/^[36][0-9]{9}$/.test(telEditar)) {
-      mostrarAlerta('El teléfono debe iniciar por 3 o 6 y tener exactamente 10 dígitos.', 'error');
-      return;
+async function saveNew() {
+  const tipo_documento = document.getElementById('tipo_doc').value.trim();
+  const documento = document.getElementById('num_doc').value.trim();
+  const nombre = document.getElementById('nombre').value.trim();
+  const apellido = document.getElementById('apellido').value.trim();
+  const usuario = document.getElementById('usuario').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
+  const correo = document.getElementById('correo').value.trim();
+  const contrasena = document.getElementById('contrasena').value.trim();
+  const confirmar = document.getElementById('confirmar').value.trim();
+  const admin_key = document.getElementById('admin-key').value.trim();
+
+  // Validar que todos estén llenos
+  if (!tipo_documento ||!documento ||!nombre ||!apellido ||!usuario ||!telefono ||!correo ||!contrasena ||!confirmar ||!admin_key) {
+    mostrarAlerta("Todos los campos son obligatorios. Por favor, completa el formulario.", 'error');
+    return;
+  }
+
+  // Validar contraseñas
+  if (contrasena!== confirmar) {
+    mostrarAlerta('Las contraseñas no coinciden', 'error');
+    return;
+  }
+
+  // Validar correo Gmail
+  if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
+    mostrarAlerta("El correo debe tener formato válido: algo@gmail.com", 'error');
+    return;
+  }
+
+  // Validar teléfono
+  if (!/^[36][0-9]{9}$/.test(telefono)) {
+    mostrarAlerta("El teléfono debe tener 10 dígitos y empezar con 3 o 6.", 'error');
+    return;
+  }
+
+  const datos = {
+    tipo_documento,
+    documento,
+    nombre,
+    apellido,
+    usuario,
+    telefono,
+    correo,
+    contrasena,
+    admin_key,
+    cargo: 'empleado' // Asignar cargo por defecto, puedes cambiarlo según tu lógica
+  };
+
+  try {
+    const response = await fetch('/guardar-usuario', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos)
+    });
+
+    const json = await response.json();
+    if (response.ok && json.success) {
+      mostrarAlerta("Cuenta creada correctamente.", 'ok');
+      formCrear.reset();
+      [1,2,3,4].forEach(i => document.getElementById('s'+i).style.background = 'var(--border)');
+      document.getElementById('strength-label').textContent = '';
+      document.getElementById('match-label').textContent = '';
+      document.querySelector('[data-pestaña="administrar"]')?.click();
+    } else {
+      mostrarAlerta(json.message || "Error al registrar la cuenta", 'error');
     }
-
-    const datos = {
-      nombre:   document.getElementById('editar-nombre').value.trim(),
-      apellido: document.getElementById('editar-apellido').value.trim(),
-      usuario:  document.getElementById('editar-usuario').value.trim(),
-      telefono: telEditar,
-      correo:   document.getElementById('editar-correo').value.trim(),
-      cargo:    document.getElementById('editar-rol').value
-    };
-    const nuevaPass = document.getElementById('editar-contrasena').value.trim();
-    if (nuevaPass) datos.contrasena = nuevaPass;
-    try {
-      const res  = await fetch(`/editar-usuario/${documento}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-      });
-      const json = await res.json();
-      if (res.ok && json.success) {
-        mostrarAlerta('Cuenta actualizada con éxito', 'ok');
-        cerrarModal();
-        cargarUsuarios();
-      } else {
-        mostrarAlerta(json.message || 'Error al actualizar', 'error');
-      }
-    } catch (err) { console.error(err); mostrarAlerta('Error de conexión', 'error'); }
-  });
-
+  } catch (error) {
+    console.error("Error al agregar usuario:", error);
+    mostrarAlerta("Error: " + error.message, 'error');
+  }
+}
 
   window.eliminarUsuario = async documento => {
     if (!confirm('¿Estás seguro de eliminar esta cuenta? Esta acción no se puede deshacer.')) return;
