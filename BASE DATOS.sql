@@ -1,4 +1,4 @@
-
+            
 # Crear base de datos
 create database damadd; 
 use damadd; 
@@ -27,7 +27,7 @@ capacidad int not null,
 mantenimiento varchar(255)
 );
 
-# Tabla Bolirana 
+        # Tabla Bolirana data
 create table bolirana(
 id int primary key not null auto_increment,
 estado ENUM("Libre","Ocupada","Inactiva") not null,

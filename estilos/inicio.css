@@ -22,7 +22,7 @@ body {
 .icon-menu {
     font-size: 28px;
     cursor: pointer;
-    display: block;
+    display: inline-flex;
     padding: 10px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
@@ -30,6 +30,8 @@ body {
     margin-left: 20px;
     text-align: center;
     transition: background 0.3s ease;
+    position: relative;
+    z-index: 99;
 }
 
 .icon-menu:hover {

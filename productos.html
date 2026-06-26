@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="estilos/variables.css"> 
     <link rel="stylesheet" href="estilos/global.css"> <!-- Estilos globales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 </head> <!-- Fin head -->
 
@@ -327,29 +328,91 @@
   <!--  agregar producto  -->
   <div id="addProductModal" style="display: none;"> 
     <div class="add-product-dialog">
-        <h3>Agregar producto</h3>
-        
-        <label>Nombre</label>
-        <input id="new_nombre" type="text" name="nombre_producto"> 
-        <label>Marca</label>
-        <input id="new_marca" type="text" name="marca_producto">
-        <label>Cantidad</label>
-        <input id="new_cantidad" type="number" min="1" name="cantidad_producto"> 
-        <label>Categoría</label>
-        <input id="new_categoria" type="text" name="categoria_producto">
-        <label>Presentación</label>
-        <input id="new_presentacion" type="text" name="presentacion_producto">
-        <label>Fecha de vencimiento</label>
-        <input id="new_fecha_vencimiento" type="date" name="fecha_vencimiento_producto">
-        <label>Precio unitario (ej. 5000)</label>
-        <input id="new_precio" type="text" name="precio_unitario_producto">
+        <button type="button" class="btn-cerrar-bola img" onclick="cerrarModal()">
+          X
+        </button>
+        <h3 class="titulo-producto">
+          <span class="texto-blanco">Agregar</span>
+          <span class="texto-verde">Producto</span>
+        </h3>
+        <div class="pd-form-row">
+            <div class="pd-info-group">
+                <label>Tipo Producto *</label>
+                <select id="new_tipo_producto">
+                    <option value="">Seleccione una opción</option>
+                    <option value="Producto">Producto</option>
+                    <option value="Material">Material</option>
+                </select>
+            </div>
+
+            <div class="pd-info-group">
+                <label>Marca *</label>
+                <input id="new_marca" type="text" placeholder="Marca del producto">
+            </div>
+        </div>
+
+        <div class="pd-form-row">
+            <div class="pd-info-group">
+                <label>Nombre *</label>
+                <input id="new_nombre" type="text" placeholder="Nombre del producto">
+            </div>
+
+            <div class="pd-info-group">
+                <label>Categoría *</label>
+                <input id="new_categoria" type="text" placeholder="Categoría">
+            </div>
+        </div>
+
+        <div class="pd-form-row">
+            <div class="pd-info-group">
+                <label>Cantidad *</label>
+                <input id="new_cantidad" type="number" placeholder="Cantidad">
+            </div>
+
+            <div class="pd-info-group">
+                <label>Fecha de vencimiento *</label>
+                <input id="new_fecha_vencimiento" type="date">
+            </div>
+        </div>
+
+        <div class="pd-form-row">
+            <div class="pd-info-group">
+                <label>Presentación</label>
+                <input id="new_presentacion" type="text" placeholder="Presentación">
+            </div>
+
+            <div class="pd-info-group">
+                <label>Precio Unitario *</label>
+                <input id="new_precio" type="text" placeholder="Precio">
+            </div>
+        </div>
+
+        <!-- ESTADO SOLO -->
+        <div class="pd-form-row">
+            <div class="pd-info-group full-width">
+                <label>Estado *</label>
+                <select id="new_estado">
+                    <option value="">Seleccione una opción</option>
+                    <option value="Bueno">Bueno</option>
+                    <option value="Malo">Malo</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- DESCRIPCIÓN SOLA -->
+        <div class="pd-form-row">
+            <div class="pd-info-group full-width">
+                <label>Descripción *</label>
+                <input id="new_descripcion" type="text" placeholder="Descripción del producto">
+            </div>
+        </div>
       <div class="add-product-actions">
         <button type="button" onclick="closeAddModal()">Cancelar</button>
         <button type="button" onclick="saveNew()">Agregar</button> 
       </div>
     </div>
   </div>
- </div> <!-- Fin barra-superior -->
+</div> <!-- Fin barra-superior -->
  
 </div> <!-- Fin fondo2 -->
 <div class="barra-superior"></div> <!-- Separador visual -->
