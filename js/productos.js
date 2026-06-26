@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     obtenerProductos();
 });
+let idProductoAEliminar = null;
 
 // FORMATEO DE FECHA: Función auxiliar para que la fecha se vea bien (YYYY-MM-DD)
 function formatearFecha(fechaISO) {
@@ -50,7 +51,7 @@ async function obtenerProductos() {
                             <i class="fa-solid fa-pen"></i>
                         </button>
 
-                        <button class="btn-accion-eliminar" onclick="eliminarProducto(${p.id})" title="Eliminar">
+                        <button class="btn-accion-eliminar" onclick="mostrarModalEliminar(${p.id})" title="Eliminar">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -124,7 +125,6 @@ async function saveNew() {
 
 // ELIMINAR 
 async function eliminarProducto(id) {
-    if(!confirm("¿Estás seguro de que deseas eliminar este producto?")) return;
 
     try {
         const response = await fetch(`/eliminar-producto/${id}`, {
@@ -140,7 +140,25 @@ async function eliminarProducto(id) {
     } catch (error) {
         console.error("Error al eliminar:", error);
     }
+
+    cerrarModalEliminar();
 }
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const btnEliminar = document.getElementById("btnConfirmarEliminar");
+
+        if(btnEliminar){
+            btnEliminar.addEventListener("click", () => {
+
+                if(idProductoAEliminar){
+                    eliminarProducto(idProductoAEliminar);
+                }
+
+            });
+        }
+
+    });
+
 // Permite solo letras y espacios, máx. 2 palabras, máx. 20 caracteres por palabra
 function aplicarValidacionLetras(input) {
     if (!input) return;
@@ -820,4 +838,15 @@ function cerrarModal() {
             t.style.transform = 'translateX(-50%) translateY(-100px)'; 
             t.style.opacity = '0'; 
         }, 4000);
+    }
+
+    //Función para mostrar el modal de confirmación de eliminación
+    function mostrarModalEliminar(id){
+        idProductoAEliminar = id;
+        document.getElementById("modalEliminar").style.display = "flex";
+    }
+
+    function cerrarModalEliminar(){
+        document.getElementById("modalEliminar").style.display = "none";
+        idProductoAEliminar = null;
     }
