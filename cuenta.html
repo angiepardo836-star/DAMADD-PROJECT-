@@ -126,7 +126,7 @@
     .pestaña-btn:first-child { border-radius: 10px 0 0 10px; border-right: none; }
     .pestaña-btn:last-child  { border-radius: 0 10px 10px 0; border-left: 1.5px solid var(--border); }
     .pestaña-btn.activo {
-      background: var(--green); color: #000;
+      background: var(--color-principal); color: #000;
       border-color: var(--green);
       box-shadow: inset 0 0 0 1px var(--green-dark);
     }
@@ -259,14 +259,14 @@
 
     .tabla-cuentas thead tr {
       background: #005203 !important;
-      border-bottom: 3px solid #00c621 !important;
+      border-bottom: 3px solid var(--color-principal) !important;
     }
     .tabla-cuentas thead th {
       background: #005203 !important;
       text-align: center !important;
       padding: 13px 12px !important;
       color: #ffffff !important;
-      border-bottom: 3px solid #00c621 !important;
+      border-bottom: 3px solid var(--color-principal) !important;
       border-right: 1px solid #006804 !important;
       font-size: 11px !important;
       font-weight: 700 !important;
@@ -274,7 +274,7 @@
       letter-spacing: 0.6px !important;
       white-space: nowrap !important;
     }
-    .tabla-cuentas thead th:first-child { border-left: 3px solid #00c621 !important; }
+    .tabla-cuentas thead th:first-child { border-left: 3px solid var(--color-principal) !important; }
     .tabla-cuentas thead th:last-child  { border-right: none !important; }
 
     .tabla-cuentas td {
@@ -445,20 +445,22 @@
   </div>
 </div>
 
-    <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
-    <div id="panel" class="panel-accesibilidad">
-        <button onclick="cambiarTema('rojo')">Rojo</button>
-        <button onclick="cambiarTema('morado')">Morado</button>
-        <button onclick="cambiarTema('azul')">Azul</button>
-        <button onclick="restablecerTema()">Restablecer</button>
-    </div>
 
+ <!-- BOTÓN FLOTANTE -->
+<div class="boton-accesibilidad">🎨</div>
+
+<div class="panel-accesibilidad" id="panel">
+    <button onclick="cambiarTema('rojo')">Rojo</button>
+    <button onclick="cambiarTema('morado')">Morado</button>
+    <button onclick="cambiarTema('azul')">Azul</button>
+    <button onclick="restablecerTema()">Restablecer</button>
+</div>
     <input type="checkbox" id="btn-menu" hidden>
     
       <header class="header-mesas">
         <div class="container">
             <div class="btn-menu">
-                <label for="btn-menu" class="icon-menu">☰</label>
+                <label for="btn-menu" >☰</label>
             </div>
         </div>
         <div class="logo">
@@ -687,17 +689,19 @@
             </div>
             <p class="match-label" id="match-label"></p>
           </div>
-          <div class="field-group">
-            <label>Rol</label>
-            <div class="input-wrap">
-              <svg class="input-icon"><use href="#ic-badge"/></svg>
-              <select id="rol" name="cargo_usuario" required>
-                <option value="">Selecciona un rol</option>
-                <option value="empleado">Empleado</option>
-                <option value="gerente">Gerente</option>
-              </select>
-            </div>
-          </div>
+ <div class="field-group" style="margin-top:.6rem">
+                    <div id="contenedor-admin-key">
+                        <label for="admin-key">Clave de autorización <span>*</span></label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon"><use href="#ic-lock"/></svg>
+                            <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
+                            <span class="toggle-passwordd">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="admin-key-note">* La clave de autorización es necesaria para confirmar cambios en cuentas de nivel Gerente.</p>
+                </div>
           <button type="submit" class="btn-primary">Agregar Cuenta</button>
         </form>
       </div>
@@ -736,7 +740,7 @@
 <div id="modal-editar" class="modal">
   <div class="modal-contenido">
     <div class="modal-header">
-      <h2>Editar <span style="color:#1ed760;">Cuenta</span></h2>
+      <h2>Editar <span style="color: var(--color-principal);">Cuenta</span></h2>
       <button class="cerrar-modal">&times;</button>
     </div>
     <form id="formulario-editar-cuenta">
@@ -790,16 +794,19 @@
           </button>
         </div>
       </div>
-      <div class="field-group" style="margin-top:.6rem">
-        <label>Rol</label>
-        <div class="input-wrap">
-          <svg class="input-icon"><use href="#ic-badge"/></svg>
-          <select id="editar-rol" required>
-            <option value="empleado">Empleado</option>
-            <option value="gerente">Gerente</option>
-          </select>
-        </div>
-      </div>
+ <div class="field-group" style="margin-top:.6rem">
+                    <div id="contenedor-admin-key">
+                        <label for="admin-key">Clave de autorización <span>*</span></label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon"><use href="#ic-lock"/></svg>
+                            <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
+                            <span class="toggle-passwordd">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="admin-key-note">* La clave de autorización es necesaria para confirmar cambios en cuentas de nivel Gerente.</p>
+                </div>
       <div class="modal-botones">
         <button type="submit" class="btn-guardar">Guardar Cambios</button>
         <button type="button" class="btn-cancelar">Cancelar</button>
