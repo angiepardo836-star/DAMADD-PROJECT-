@@ -206,6 +206,7 @@ app.post('/registrar-compra', (req, res) => {
 });
 
 // GUARDAR PRODUCTO
+// GUARDAR PRODUCTO
 app.post('/guardar-producto', async (req, res) => {
     console.log('Datos producto recibidos:', req.body);
 
@@ -322,8 +323,8 @@ app.post('/descontar-producto', (req, res) => {
         return res.status(400).send('Datos incompletos');
     }
     const sql = `UPDATE producto
-                 SET cantidad_producto = cantidad_producto - ?
-                 WHERE id_producto = ? AND cantidad_producto >= ?`;
+                 SET cantidad= cantidad - ?
+                 WHERE id = ? AND cantidad >= ?`;
     db.query(sql, [cantidad, id, cantidad], (err, result) => {
         if (err) {
             console.error('Error al descontar producto:', err);
@@ -340,7 +341,7 @@ app.post('/descontar-producto', (req, res) => {
 // RUTA PARA ELIMINAR PRODUCTO 
 app.delete('/eliminar-producto/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "DELETE FROM producto WHERE id_producto = ?";
+    const sql = "DELETE FROM producto WHERE id = ?";
     
     db.query(sql, [id], (err, result) => {
         if (err) {
@@ -357,31 +358,37 @@ app.delete('/eliminar-producto/:id', (req, res) => {
 
 // RUTA PARA EDITAR PRODUCTO
 app.put('/editar-producto/:id', (req, res) => {
-    const id = req.params.id;
+    const id = req.params.id.trim();
     const { 
-        nombre_producto, 
-        marca_producto, 
-        cantidad_producto, 
-        categoria_producto, 
-        presentacion_producto, 
-        fecha_vencimiento_producto, 
-        precio_unitario_producto, 
-        precio_total_producto 
+        tipo_producto,
+        nombre, 
+        marca, 
+        cantidad, 
+        categoria, 
+        presentacion, 
+        fecha_vencimiento, 
+        precio_unitario,
+        estado,
+        descripcion
     } = req.body;
+
+    const desc = descripcion ? descripcion.trim() : '';
     
     const sql = `
         UPDATE producto
-        SET nombre_producto=?, marca_producto=?, cantidad_producto=?, 
-            categoria_producto=?, presentacion_producto=?, fecha_vencimiento_producto=?, 
-            precio_unitario_producto=?, precio_total_producto=? 
-        WHERE id_producto=?
+        SET tipo_producto =?, nombre =?, marca=?, cantidad=?, 
+            categoria=?, presentacion=?, fecha_vencimiento=?, 
+            precio_unitario=?, estado=?, descripcion=?
+        WHERE id=?
     `;
 
     const valores = [
-        nombre_producto, marca_producto, cantidad_producto, 
-        categoria_producto, presentacion_producto, 
-        fecha_vencimiento_producto || null, 
-        precio_unitario_producto, precio_total_producto, 
+        tipo_producto, nombre, marca, cantidad, 
+        categoria, presentacion, 
+        fecha_vencimiento, 
+        precio_unitario,
+        estado,
+        desc,
         id
     ];
 
