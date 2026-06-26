@@ -37,7 +37,6 @@ body {
 
     transform: translate(-50%, -50%);
 
-    background: linear-gradient(180deg, #09840000, #00000000);
     padding: 1%;
     width: 400px;
     height: 200px;
@@ -201,7 +200,7 @@ input::-ms-clear {
     padding-top: 30px;
     padding-bottom: 30px;
     border-radius: 15px;
-    border: 1px solid #1eb304; 
+    border: 1px solid var(--color-principal); 
     box-shadow: 0 25px 50px rgba(9, 104, 9, 0.6), 0 0 15px rgba(20, 109, 2, 0.2); 
     animation: pFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
@@ -214,18 +213,19 @@ input::-ms-clear {
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #1eb304;
+    border-bottom: 1px solid var(--color-principal); 
 }
 
 .modal-header span {
-    color:#1eb304;
+    color:var(--color-principal); 
+    text-shadow: none !important;
 }
 
 .linea {
     grid-column: span 2;
     padding-bottom: 0px;
     margin-top: 10px;
-    border-bottom: 1px solid #1eb304;
+    border-bottom: 1px solid var(--color-principal); 
 }
 
 #modal-registro h2 {
@@ -233,6 +233,7 @@ input::-ms-clear {
     color: #ffffff;
     font-size: 24px;
     text-align: center;
+    text-shadow: none !important;
 }
 
 #registro-form {
@@ -264,7 +265,7 @@ input::-ms-clear {
 
 #registro-form input:focus {
     outline: none;
-    border-color: #1eb304;
+    border-color: var(--color-principal);  
     box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
 }
 
@@ -283,7 +284,7 @@ input::-ms-clear {
 
 #registro-form select:focus {
     outline: none;
-    border-color: #1eb304;
+    border-color: var(--color-principal); 
     box-shadow: 0 0 5px rgba(4, 120, 10, 0.3);
 }
 
@@ -302,7 +303,7 @@ input::-ms-clear {
 }
 
 .p-btn-primario {
-    background: linear-gradient(135deg, #1eb304 0%, #084101 100%) !important;
+    background: linear-gradient(135deg, #1eb304 0%, #084101 100%);
     color: white !important;
     border: none !important;
     padding: 12px 25px;
@@ -339,7 +340,7 @@ input::-ms-clear {
     transition: color 0.3s;
 }
 
-.p-close-btn:hover { color: #1eb304; }
+.p-close-btn:hover { color: var(--color-principal);  }
 
 .password-requisitos {
     position: absolute;
