@@ -689,19 +689,17 @@
             </div>
             <p class="match-label" id="match-label"></p>
           </div>
- <div class="field-group" style="margin-top:.6rem">
-                    <div id="contenedor-admin-key">
-                        <label for="admin-key">Clave de autorización <span>*</span></label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon"><use href="#ic-lock"/></svg>
-                            <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
-                            <span class="toggle-passwordd">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="admin-key-note">* La clave de autorización es necesaria para confirmar cambios en cuentas de nivel Gerente.</p>
-                </div>
+          <div class="field-group"  style ="margin-top:.6rem">
+              <label for="admin-key">Clave de Autorización <span style="color:var(--green);">*</span></label>
+                <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-lock"/></svg>
+                <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
+                <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
+                <svg><use href="#ic-eye"/></svg>
+              </button>
+            </div>
+            <p style="font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1rem;" class="admin-key-note">* La clave de autorización es necesaria para crear cuentas de nivel Gerente.</p>
+          </div>
           <button type="submit" class="btn-primary">Agregar Cuenta</button>
         </form>
       </div>
@@ -794,19 +792,17 @@
           </button>
         </div>
       </div>
- <div class="field-group" style="margin-top:.6rem">
-                    <div id="contenedor-admin-key">
-                        <label for="admin-key">Clave de autorización <span>*</span></label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon"><use href="#ic-lock"/></svg>
-                            <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
-                            <span class="toggle-passwordd">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="admin-key-note">* La clave de autorización es necesaria para confirmar cambios en cuentas de nivel Gerente.</p>
-                </div>
+      <div class="field-group"  style ="margin-top:.6rem">
+            <label for="admin-key">Clave de Autorización <span style="color:var(--green);">*</span></label>
+            <div class="input-wrap">
+              <svg class="input-icon"><use href="#ic-lock"/></svg>
+              <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
+              <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
+                <svg><use href="#ic-eye"/></svg>
+              </button>
+            </div>
+            <p style="font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1rem;" class="admin-key-note">* La clave de autorización es necesaria para crear cuentas de nivel Gerente.</p>
+          </div>
       <div class="modal-botones">
         <button type="submit" class="btn-guardar">Guardar Cambios</button>
         <button type="button" class="btn-cancelar">Cancelar</button>
