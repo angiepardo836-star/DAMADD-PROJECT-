@@ -636,14 +636,14 @@
 
   <div id="contenedor-mesas-billar">
     <div class="mesa-row" id="fila-billar-1">
-      <div class="tarjeta-mesa" id="mesa-billar-1">
+      <div class="tarjeta-mesa tarjeta-billar" id="mesa-billar-1">
         <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">1</span></h2>
-          <img src="imagenes/mesa-morada.png" alt="Mesa 1" class="mesa-foto">
-          <div class="mesa-acciones">
-            <div class="time-container container-mesa1">
-              <div class="time-display time-display-mesa1" aria-live="polite">00:00:00</div>
-              <button class="time-btn mesa1" type="button" >Tiempo ▾</button>
-                <div class="time-menu time-menu-mesa1" aria-hidden="true">
+        <img src="imagenes/mesa-morada.png" alt="Mesa 1" class="mesa-foto">
+        <div class="mesa-acciones">
+          <div class="time-container container-mesa1">
+            <div class="time-display time-display-mesa1" aria-live="polite">00:00:00</div>
+            <button class="time-btn mesa1" type="button" data-id="1" data-tipo="billar">Tiempo ▾</button>
+            <div class="time-menu time-menu-mesa1" aria-hidden="true">
               <button class="time-option">1 min</button>
               <button class="time-option">30 min</button>
               <button class="time-option">1 hora</button>
@@ -651,10 +651,10 @@
               <button class="time-option">2 horas</button>
               <button class="time-option stop-option">Detener cronómetro</button>
             </div>
-            </div>
-          
-            <button class="factura-btn mesa1" data-mesa="1" data-tipo="Billar">Factura</button>
           </div>
+          
+          <button class="factura-btn mesa1" data-id="1" data-mesa="1" data-tipo="Billar">Factura</button>
+        </div>
       </div>
       
       <div class="tarjeta-mesa-agregar" id="btn-agregar-mesa-billar" onclick="agregarNuevaMesaBillar()">
@@ -665,34 +665,26 @@
 
   <div id="mesas_normales" class="mesasN-contenedor" style="display: none;">
     <div class="mesa-row" id="fila-mesas-1">
-      <div class="tarjeta-mesa" id="mesa-mesas-1">
+      <div class="tarjeta-mesa tarjeta-mesa-normal" id="mesa-mesas-1">
         <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">1</span></h2>
         <img src="imagenes/mesa_centarse.png" alt="Mesa 1" class="mesa-foto">
         <div class="mesa-acciones">
-          <div class="time-container container-mesas1">
-            <div class="time-display time-display-mesas1" aria-live="polite">00:00:00</div>
-            <button class="time-btn mesas1" type="button">Tiempo ▾</button>
-            <div class="time-menu time-menu-mesas1" aria-hidden="true">
-              <button class="time-option">30 min</button>
-              <button class="time-option">1 hora</button>
-              <button class="time-option">2 horas</button>
-              <button class="time-option stop-option">Detener</button>
-            </div>
-          </div>
-          <button class="factura-btn mesas1"data-mesa="1" data-tipo="Mesas">Factura</button>
+          
+          <span class="estado-texto-mesa" style="color: #00ffcc; font-weight: bold; font-size: 14px;">Consumo barra</span>
+
+          <button class="factura-btn mesas1" data-id="1" data-mesa="1" data-tipo="Mesa">Factura</button>
         </div>
       </div>
-
-    
 
       <div class="tarjeta-mesa-agregar" id="btn-agregar-mesas" onclick="agregarNuevaMesa()">
           <div class="icon-agregar">+</div>
       </div>
     </div>
   </div> 
-    <div id="bolirana-unica" class="bolirana-contenedor" style="display: none;">
+
+  <div id="bolirana-unica" class="bolirana-contenedor" style="display: none;">
     <div class="mesa-row" id="fila-bolirana-1">
-      <div class="tarjeta-mesa" id="mesa-bolirana-1">
+      <div class="tarjeta-mesa tarjeta-bolirana" id="mesa-bolirana-1">
         <h2 class="mesa-title">Bolirana <span class="numero-mesa-badge">1</span></h2>
         <img src="imagenes/bolirana.png" alt="Bolirana 1" class="mesa-foto">
         <div class="mesa-acciones">
@@ -706,17 +698,16 @@
               <button class="time-option stop-option">Detener</button>
             </div>
           </div>
-          <button class="factura-btn bolirana1" data-mesa="1" data-tipo="Bolirana">Factura</button>
+          <button class="factura-btn bolirana1" data-id="1" data-mesa="1" data-tipo="Bolirana">Factura</button>
         </div>
       </div>
-
-    
 
       <div class="tarjeta-mesa-agregar" id="btn-agregar-bolirana" onclick="agregarNuevaBolirana()">
           <div class="icon-agregar">+</div>
       </div>
     </div>
   </div>
+</div>
 
 </div> <footer class="footer-main">
     <div class="footer-content">
@@ -744,7 +735,6 @@
     </div>
 
 <script>
-// Mantener los contadores solo como base por si el contenedor está vacío
 let contadorMesasBillar = 1; 
 let contadorBoliranas = 1;
 let contadorMesasNormales = 1;
@@ -773,19 +763,19 @@ function obtenerSiguienteNumeroMesa(selectorTarjetas) {
 }
 
 function agregarNuevaMesaBillar() {
-    // Calculamos el número real que le corresponde según las que ya existen
     const numMesa = obtenerSiguienteNumeroMesa('#contenedor-mesas-billar .tarjeta-mesa');
     const botonAgregar = document.getElementById('btn-agregar-mesa-billar');
 
+    // AJUSTE: Sincronizamos data-id, data-mesa y data-tipo tanto en el botón de tiempo como en el de factura
     const nuevaMesaHTML = `
-        <div class="tarjeta-mesa" id="mesa-billar-${numMesa}">
+        <div class="tarjeta-mesa tarjeta-billar" id="mesa-billar-${numMesa}" data-mesa="${numMesa}">
             <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-billar-${numMesa}')">✕</button>
             <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesa}</span></h2>
             <img src="imagenes/mesa-morada.png" alt="Mesa ${numMesa}" class="mesa-foto">
             <div class="mesa-acciones">
                 <div class="time-container container-mesa${numMesa}">
                     <div class="time-display time-display-mesa${numMesa}" aria-live="polite">00:00:00</div>
-                    <button class="time-btn mesa${numMesa}" type="button">Tiempo ▾</button>
+                    <button class="time-btn mesa${numMesa}" type="button" data-id="${numMesa}" data-tipo="billar">Tiempo ▾</button>
                     <div class="time-menu time-menu-mesa${numMesa}" aria-hidden="true">
                         <button class="time-option">1 min</button>
                         <button class="time-option">30 min</button>
@@ -795,7 +785,7 @@ function agregarNuevaMesaBillar() {
                         <button class="time-option stop-option">Detener cronómetro</button>
                     </div>
                 </div>
-                <button class="factura-btn" data-mesa="${numMesa}" data-tipo="Billar">Factura</button>
+                <button class="factura-btn" data-id="${numMesa}" data-mesa="${numMesa}" data-tipo="billar">Factura</button>
             </div>
         </div>
     `;
@@ -823,15 +813,19 @@ function agregarNuevaBolirana() {
     const numBolirana = obtenerSiguienteNumeroMesa('#bolirana-unica .tarjeta-mesa');
     const botonAgregarBolirana = document.getElementById('btn-agregar-bolirana');
 
+    // Mantenemos tu lógica de desfasar el ID (+100) para control de DOM si es necesario, 
+    // pero asegurando data-tipo="bolirana"
+    const idGlobalMesa = numBolirana + 100;
+
     const nuevaBoliranaHTML = `
-        <div class="tarjeta-mesa" id="mesa-bolirana-${numBolirana}">
+        <div class="tarjeta-mesa tarjeta-bolirana" id="mesa-bolirana-${numBolirana}" data-mesa="${idGlobalMesa}">
             <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-bolirana-${numBolirana}')">✕</button>
             <h2 class="mesa-title">Bolirana <span class="numero-mesa-badge">${numBolirana}</span></h2>
             <img src="imagenes/bolirana.png" alt="Bolirana ${numBolirana}" class="mesa-foto">
             <div class="mesa-acciones">
               <div class="time-container container-bolirana${numBolirana}">
                 <div class="time-display time-display-bolirana${numBolirana}" aria-live="polite">00:00:00</div>
-                <button class="time-btn bolirana${numBolirana}" type="button">Tiempo ▾</button>
+                <button class="time-btn bolirana${numBolirana}" type="button" data-id="${numBolirana}" data-tipo="bolirana">Tiempo ▾</button>
                 <div class="time-menu time-menu-bolirana${numBolirana}" aria-hidden="true">
                   <button class="time-option">30 min</button>
                   <button class="time-option">1 hora</button>
@@ -839,7 +833,7 @@ function agregarNuevaBolirana() {
                   <button class="time-option stop-option">Detener</button>
                 </div>
               </div>
-              <button class="factura-btn" data-mesa="${numBolirana}" data-tipo="Bolirana">Factura</button>
+              <button class="factura-btn" data-id="${numBolirana}" data-mesa="${numBolirana}" data-tipo="bolirana">Factura</button>
             </div>
         </div>
     `;
@@ -867,23 +861,15 @@ function agregarNuevaMesa() {
     const numMesaNormal = obtenerSiguienteNumeroMesa('#mesas_normales .tarjeta-mesa');
     const botonAgregarMesas = document.getElementById('btn-agregar-mesas');
 
+    // REFACTORIZACIÓN COMPLETA DE MESA NORMAL: Sin cronómetros heredados
     const nuevaMesaNormalHTML = `
-        <div class="tarjeta-mesa" id="mesa-mesas-${numMesaNormal}">
+        <div class="tarjeta-mesa tarjeta-mesa-normal" id="mesa-mesas-${numMesaNormal}" data-mesa="${numMesaNormal}">
             <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-mesas-${numMesaNormal}')">✕</button>
             <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesaNormal}</span></h2>
             <img src="imagenes/mesa_centarse.png" alt="Mesa ${numMesaNormal}" class="mesa-foto">
             <div class="mesa-acciones">
-              <div class="time-container container-mesas${numMesaNormal}">
-                <div class="time-display time-display-mesas${numMesaNormal}" aria-live="polite">00:00:00</div>
-                <button class="time-btn mesas${numMesaNormal}" type="button">Tiempo ▾</button>
-                <div class="time-menu time-menu-mesas${numMesaNormal}" aria-hidden="true">
-                  <button class="time-option">30 min</button>
-                  <button class="time-option">1 hora</button>
-                  <button class="time-option">2 horas</button>
-                  <button class="time-option stop-option">Detener</button>
-                </div>
-              </div>
-              <button class="factura-btn" data-mesa="${numMesaNormal}" data-tipo="Mesa Normal">Factura</button>
+              <span class="estado-texto-mesa" style="color: #00ffcc; font-weight: bold; font-size: 14px;">Consumo barra</span>
+              <button class="factura-btn" data-id="${numMesaNormal}" data-mesa="${numMesaNormal}" data-tipo="mesa">Factura</button>
             </div>
         </div>
     `;
@@ -899,10 +885,7 @@ function agregarNuevaMesa() {
         duration: 0.5,
         ease: "back.out(1.7)",
         onComplete: () => {
-            if (typeof inicializarEventoMesa === 'function') {
-                inicializarEventoMesa(numMesaNormal);
-            }
-            console.log(`Mesa ${numMesaNormal} agregada`);
+            console.log(`Mesa Consumo ${numMesaNormal} agregada de manera limpia`);
         }
     });
 }
@@ -913,13 +896,11 @@ function eliminarMesa(idMesa) {
 
     if (mesa.querySelector('.menu-confirmacion-accion')) return;
 
-    // Aseguramos que la mesa tenga posición relativa para que el menú se clave encima
     mesa.style.position = 'relative';
 
     const menuConfirm = document.createElement('div');
     menuConfirm.className = 'menu-confirmacion-accion';
     
-    // APLICAMOS ESTILOS DIRECTOS DE CAPA OSCURA Y CENTRADO EN FLEXBOX
     Object.assign(menuConfirm.style, {
         position: 'absolute',
         top: '0',
@@ -929,13 +910,12 @@ function eliminarMesa(idMesa) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 'inherit', // Hereda el redondeado de la tarjeta de la mesa
+        borderRadius: 'inherit',
         zIndex: '10',
         padding: '20px',
         boxSizing: 'border-box'
     });
     
-    // Estructura interna con estilos de centrado para el subcontenedor
     menuConfirm.innerHTML = `
         <div class="menu-vista-principal" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%;">
             <p style="margin: 0 0 8px 0; font-weight: bold; text-align: center; color: #fff; font-size: 1.1rem;">¿Qué deseas hacer?</p>
@@ -953,17 +933,8 @@ function eliminarMesa(idMesa) {
 
     mesa.appendChild(menuConfirm);
 
-    // Animación de entrada
-    gsap.fromTo(menuConfirm, 
-        { opacity: 0 }, 
-        { opacity: 1, duration: 0.2, ease: "power2.out" }
-    );
-    
-    // Animación  contenido interno
-    gsap.fromTo(menuConfirm.querySelector('.menu-vista-principal'),
-        { scale: 0.9 },
-        { scale: 1, duration: 0.2, ease: "power2.out" }
-    );
+    gsap.fromTo(menuConfirm, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" });
+    gsap.fromTo(menuConfirm.querySelector('.menu-vista-principal'), { scale: 0.9 }, { scale: 1, duration: 0.2, ease: "power2.out" });
 
     const cerrarMenuAnimado = () => {
         gsap.to(menuConfirm, {
@@ -973,56 +944,45 @@ function eliminarMesa(idMesa) {
     };
 
     const desactivarConMotivo = (claseMotivo) => {
-    mesa.classList.add('mesa-desactivada', claseMotivo);
-    
-    // 1. Determinar el texto y el color según el motivo
-    const esMantenimiento = claseMotivo === 'motivo-mantenimiento';
-    const textoIndicador = esMantenimiento ? 'MANTENIMIENTO' :'FUERA DE SERVICIO';
-    const colorIndicador = esMantenimiento ? 'rgb(245, 158, 11)' : ' rgb(155 0 0)'; // Ámbar o Rojo
-    const fondoIndicador = esMantenimiento ? 'rgb(159 125 68 / 73%)' : 'rgb(239 68 68 / 74%)';
+        mesa.classList.add('mesa-desactivada', claseMotivo);
+        
+        const esMantenimiento = claseMotivo === 'motivo-mantenimiento';
+        const textoIndicador = esMantenimiento ? 'MANTENIMIENTO' : 'FUERA DE SERVICIO';
+        const colorIndicador = esMantenimiento ? 'rgb(245, 158, 11)' : 'rgb(155 0 0)';
+        const fondoIndicador = esMantenimiento ? 'rgb(159 125 68 / 73%)' : 'rgb(239 68 68 / 74%)';
 
-    // 2. Crear la etiqueta visual
-    const cartelEstado = document.createElement('div');
-    cartelEstado.className = 'indicador-estado-mesa';
-    cartelEstado.innerText = textoIndicador;
-    
-    // Estilos para que quede flotando en el centro o arriba de la mesa
-    Object.assign(cartelEstado.style, {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)', // Lo centra perfectamente en la mesa
-        backgroundColor: fondoIndicador,
-        color: colorIndicador,
-        border: `1px solid ${colorIndicador}`,
-        padding: '14px 0px',
-        borderRadius: '8px',
-        fontWeight: 'bold',
-        fontSize: '0.9rem',
-        letterSpacing: '1px',
-        zIndex: '5',
-        pointerEvents: 'none', // Para que no interfiera con los clics si necesitas reactivarla
-        boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
-    });
-    
-
-    //  posicionar el cartel
-    mesa.style.position = 'relative';
-    
-    // Insertar el cartel en la mesa
-    mesa.appendChild(cartelEstado);
-    
-    // Animacion palabra 
-    gsap.fromTo(cartelEstado, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" });
-
-    // Deshabilitacion de botonesw factura tiempo
-    mesa.querySelectorAll('.mesa-acciones button').forEach(b => b.disabled = true);
-    
-    mesa.dataset.motivoDesactivacion = esMantenimiento ? 'mantenimiento' : 'danada';
-    
-    cerrarMenuAnimado();
-};
-    
+        const cartelEstado = document.createElement('div');
+        cartelEstado.className = 'indicador-estado-mesa';
+        cartelEstado.innerText = textoIndicador;
+        
+        Object.assign(cartelEstado.style, {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: fondoIndicador,
+            color: colorIndicador,
+            border: `1px solid ${colorIndicador}`,
+            padding: '14px 0px',
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            fontSize: '0.9rem',
+            letterSpacing: '1px',
+            zIndex: '5',
+            pointerEvents: 'none',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+        });
+        
+        mesa.style.position = 'relative';
+        mesa.appendChild(cartelEstado);
+        
+        gsap.fromTo(cartelEstado, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" });
+        mesa.querySelectorAll('.mesa-acciones button').forEach(b => b.disabled = true);
+        mesa.dataset.motivoDesactivacion = esMantenimiento ? 'mantenimiento' : 'danada';
+        
+        cerrarMenuAnimado();
+    };
+        
     menuConfirm.querySelector('.btn-acc-cancelar').onclick = (e) => {
         e.stopPropagation();
         cerrarMenuAnimado();
@@ -1031,22 +991,18 @@ function eliminarMesa(idMesa) {
     menuConfirm.querySelector('.btn-acc-desactivar').onclick = (e) => {
         e.stopPropagation();
         
-        // CASO A: Si la mesa ya estaba desactivada, la reactivamos directamente
-if (mesa.classList.contains('mesa-desactivada')) {
-    mesa.classList.remove('mesa-desactivada', 'motivo-mantenimiento', 'motivo-danada');
-    delete mesa.dataset.motivoDesactivacion;
-    mesa.style.pointerEvents = 'auto';
-    mesa.querySelectorAll('.mesa-acciones button').forEach(b => b.disabled = false);
-    
-    // --- NUEVO: Eliminar el cartel de texto si existe ---
-    const cartelExistente = mesa.querySelector('.indicador-estado-mesa');
-    if (cartelExistente) {
-        cartelExistente.remove();
-    }
-    
-    cerrarMenuAnimado();
-    return;
-}
+        if (mesa.classList.contains('mesa-desactivada')) {
+            mesa.classList.remove('mesa-desactivada', 'motivo-mantenimiento', 'motivo-danada');
+            delete mesa.dataset.motivoDesactivacion;
+            mesa.style.pointerEvents = 'auto';
+            mesa.querySelectorAll('.mesa-acciones button').forEach(b => b.disabled = false);
+            
+            const cartelExistente = mesa.querySelector('.indicador-estado-mesa');
+            if (cartelExistente) cartelExistente.remove();
+            
+            cerrarMenuAnimado();
+            return;
+        }
 
         const vistaPrincipal = menuConfirm.querySelector('.menu-vista-principal');
         const vistaMotivos = menuConfirm.querySelector('.menu-vista-motivos');
@@ -1055,15 +1011,11 @@ if (mesa.classList.contains('mesa-desactivada')) {
             opacity: 0, scale: 0.9, duration: 0.15, 
             onComplete: () => {
                 vistaPrincipal.style.display = 'none';
-                
-                // Forzamos el display flex para mantener el centrado de la segunda vista
                 vistaMotivos.style.display = 'flex'; 
-                
                 gsap.to(vistaMotivos, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" });
             }
         });
     };
-
 
     menuConfirm.querySelector('.btn-motivo-mantenimiento').onclick = (ev) => {
         ev.stopPropagation();
@@ -1080,7 +1032,6 @@ if (mesa.classList.contains('mesa-desactivada')) {
         cerrarMenuAnimado();
     };
 
-    // --- BOTÓN ELIMINARRRR ---
     menuConfirm.querySelector('.btn-acc-eliminar').onclick = (e) => {
         e.stopPropagation();
         menuConfirm.remove(); 
@@ -1093,8 +1044,7 @@ if (mesa.classList.contains('mesa-desactivada')) {
     };
 }
 
-
-// Funciones de filtrado
+// Funciones de filtrado y loaders
 function ocultarTodo() {
     document.getElementById('contenedor-mesas-billar').style.display = 'none';
     document.getElementById('bolirana-unica').style.display = 'none';
@@ -1133,33 +1083,31 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
   const app = document.getElementById('app');
   
-  // Espera 2 seg o hasta que cargue tu JS pesado
   setTimeout(() => {
-    loader.classList.add('hide');
-    
-    // Quita del DOM después de la animación
+    if(loader) loader.classList.add('hide');
     setTimeout(() => {
-      loader.style.display = 'none';
-      app.style.display = 'block';
+      if(loader) loader.style.display = 'none';
+      if(app) app.style.display = 'block';
     }, 700);
   }, 3500);
 });
+
 let progreso = document.getElementById('progreso');
 let porcentaje = 0;
-
 let intervalo = setInterval(() => {
-  porcentaje += Math.random() * 15; // avanza random
+  porcentaje += Math.random() * 15;
   if (porcentaje >= 100) {
     porcentaje = 100;
     clearInterval(intervalo);
-    // aquí ocultas el loader
-    document.getElementById('loader').style.display = 'none';
+    const loader = document.getElementById('loader');
+    if(loader) loader.style.display = 'none';
   }
-  progreso.style.width = porcentaje + '%';
+  if(progreso) progreso.style.width = porcentaje + '%';
 }, 300);
 </script>
   <script src="js/mesas.js"></script>
