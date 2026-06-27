@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="estilos/global.css"> 
     <link rel="stylesheet" href="estilos/variables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" >
     <link rel="stylesheet" href="estilos/carga.css">
 
@@ -392,7 +393,7 @@
                 <label>Apellido</label>
                 <div class="input-wrap">
                     <svg class="input-icon"><use href="#ic-user"/></svg>
-                    <input id="new_apellido" type="text" maxlength="100" required placeholder="Apellido">
+                    <input id="new_apellido" type="text" maxlength="100"  placeholder="Apellido">
                 </div>
             </div>
         </div>
@@ -520,6 +521,33 @@
         <p>&copy; 2026 DAMADD. Todos los derechos reservados a DAMADD.</p> <!-- Derechos -->
         </div> 
     </footer> <!-- Fin footer -->
+      <div id="modalEliminarProveedor" class="p-modal-overlay">
+          <div class="p-modal-card sub-modal-card">
+
+              <div class="p-modal-header">
+                  <h3>Confirmar eliminación</h3>
+              </div>
+
+              <p class="p-confirmar-texto">
+                  ¿Está seguro de que desea eliminar este proveedor?
+                  <br><br>
+                  Esta acción no se puede deshacer.
+              </p>
+
+              <div class="p-modal-footer">
+
+                  <button class="p-btn-primario" id="btnConfirmarEliminarProveedor">
+                      Eliminar
+                  </button>
+
+                  <button class="p-btn-primario" onclick="cerrarModalEliminarProveedor()">
+                      Cancelar
+                  </button>
+
+              </div>
+
+          </div>
+      </div>
     <script>
 window.addEventListener("DOMContentLoaded", function() {
     const boton = document.querySelector(".boton-accesibilidad");

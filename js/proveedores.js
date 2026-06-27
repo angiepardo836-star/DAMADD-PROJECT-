@@ -20,6 +20,7 @@ let toastTimer3;
 document.addEventListener('DOMContentLoaded', () => {
     obtenerProveedores();
 });
+let idProveedorAEliminar = null;
 
 
 //  LEER (MOSTRAR DATOS)
@@ -53,7 +54,10 @@ async function obtenerProveedores() {
 
                 <td>
                     <button class="btn-accion-editar"  onclick="editarFila(this)">✏️</button>
-                    <button class="btn-accion-eliminar" onclick="eliminarProveedor(${p.documento})">🗑️</button>
+                    <button class="btn-accion-eliminar"
+                            onclick="mostrarModalEliminarProveedor(${p.documento})">
+                        🗑️
+                    </button>
                     <button class="btn-accion-comprar"  onclick="realizarCompra(${p.documento}, '${p.nombre}')">🛒</button>
                 </td>
             `;
@@ -78,7 +82,7 @@ async function saveNew() {
     const correo         = document.getElementById('new_correo').value.trim();
 
 
-    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
+    if (!tipo_documento || !documento || !nombre  || !telefono || !ciudad || !direccion || !estado || !correo) {
         showAlert3("Todos los campos son obligatorios. Por favor, completa el formulario.");
         return;
     }
@@ -93,7 +97,7 @@ async function saveNew() {
         return;
     }
 
-    const datos = { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo };
+    const datos = { tipo_documento, documento, nombre, telefono, ciudad, direccion, estado, correo };
 
     try {
         const response = await fetch('/guardar-proveedor', {
@@ -120,23 +124,48 @@ async function saveNew() {
         limpiarFormularioRegistro();}
 
         
-//  ELIMINAR
+// Eliminar proveedor
 async function eliminarProveedor(id) {
-    if (!confirm("¿Estás seguro de que deseas eliminar este proveedor?")) return;
-
     try {
-        const response = await fetch(`/eliminar-proveedor/${id}`, { method: 'DELETE' });
+        const response = await fetch(`/eliminar-proveedor/${id}`, {
+            method: 'DELETE'
+        });
 
         if (response.ok) {
             showAlert3("Proveedor eliminado correctamente.");
+
+            const modal = document.getElementById("modalEliminarProveedor");
+            if (modal) {
+                modal.style.display = "none";
+            }
+
+            idProveedorAEliminar = null;
+
             obtenerProveedores();
+        } else {
+            showAlert3("Error al eliminar proveedor.");
         }
+
     } catch (error) {
         console.error("Error al eliminar:", error);
         showAlert3("Error: " + error.message);
     }
 }
+document.addEventListener("DOMContentLoaded", () => {
 
+    const btnEliminar = document.getElementById("btnConfirmarEliminarProveedor");
+
+    if (btnEliminar) {
+        btnEliminar.addEventListener("click", () => {
+
+            if (idProveedorAEliminar !== null) {
+                eliminarProveedor(idProveedorAEliminar);
+            }
+
+        });
+    }
+
+});
 
 //  EDITAR EN LÍNEA 
 
@@ -225,7 +254,7 @@ async function guardarEdicion(btn) {
 
 
     
-    if (!tipo_documento || !documento || !nombre || !apellido || !telefono || !ciudad || !direccion || !estado || !correo) {
+    if (!tipo_documento || !documento || !nombre  || !telefono || !ciudad || !direccion || !estado || !correo) {
         showAlert3("Todos los campos son obligatorios.");
         return;
     }
@@ -235,10 +264,11 @@ async function guardarEdicion(btn) {
         return;
     }
 
-    if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(apellido)) {
+    if (apellido && !/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{1,75}$/.test(apellido)) {
         showAlert3("El apellido solo debe contener letras y tener máximo 3 palabras.");
         return;
     }
+
 
     if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
         showAlert3("El correo debe tener formato válido: algo@gmail.com");
@@ -748,3 +778,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inputCorreo) agregarValidacionCorreo(inputCorreo);
 
 });
+
+function mostrarModalEliminarProveedor(id){
+    idProveedorAEliminar = id;
+    document.getElementById("modalEliminarProveedor").style.display = "flex";
+}
+
+function cerrarModalEliminarProveedor(){
+    document.getElementById("modalEliminarProveedor").style.display = "none";
+    idProveedorAEliminar = null;
+}
