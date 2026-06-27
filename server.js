@@ -872,33 +872,37 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-app.post("/actualizar_mesa", (req, res) => {
+app.post('/actualizar_mesa', (req, res) => {
+    // Recibimos id, estado, tiempo y el tipo desde el frontend optimizado
+    const { id, estado, tiempo, tipo } = req.body;
+    
+    console.log(`Petición recibida: POST /actualizar_mesa - Tipo: ${tipo}, ID: ${id}, Estado: ${estado}, Tiempo: ${tiempo}`);
 
-  const mesa = req.body.mesa;
-  const estado = req.body.estado;
-  const tiempo = req.body.tiempo;
-
-  console.log("Mesa:", mesa, "Estado:", estado, "Tiempo:", tiempo);
-
-  const sql = `
-    UPDATE mesa
-    SET estado_mesa = ?, tiempo_servicio = ?
-    WHERE numero_mesa = ?
-  `;
-
-  db.query(sql, [estado, tiempo, mesa], (err, result) => {
-
-    if (err) {
-      console.log("Error:", err);
-      res.send("error");
-      return;
+    // Validamos que el ID no llegue undefined o nulo
+    if (!id) {
+        return res.status(400).json({ error: "El ID del espacio de juego es requerido y llegó undefined." });
     }
 
-    console.log("Filas afectadas:", result.affectedRows);
-    res.send("ok");
+    // Definimos por defecto la tabla 'mesa'
+    let tabla = 'mesa'; 
+    if (tipo === 'billar') tabla = 'billar';
+    if (tipo === 'bolirana') tabla = 'bolirana';
 
-  });
+    // Construimos la consulta usando los campos estándar de tu base de datos ('estado' e 'id')
+    // NOTA: Si en tus tablas el campo se llama 'estado_mesa' o 'id_billar', ajústalos aquí abajo:
+    const sql = `
+        UPDATE ${tabla} 
+        SET estado = ?, tiempo_servicio = ? 
+        WHERE id = ?
+    `;
 
+    db.query(sql, [estado, tiempo, id], (err, result) => {
+        if (err) {
+            console.error("Error en MySQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ success: true, message: `${tabla} actualizada correctamente` });
+    });
 });
 // BUSCAR CANCIÓN EN YOUTUBE
 app.get('/search-song', async (req, res) => {
