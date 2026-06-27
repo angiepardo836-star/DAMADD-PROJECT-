@@ -904,6 +904,113 @@ app.post('/actualizar_mesa', (req, res) => {
         res.json({ success: true, message: `${tabla} actualizada correctamente` });
     });
 });
+app.post('/crear_mesa_db', (req, res) => {
+    const { id, tipo } = req.body;
+
+    if (!id || !tipo) {
+        return res.status(400).json({ error: "Faltan datos obligatorios (id o tipo)." });
+    }
+
+    let sql = "";
+    let params = [];
+
+    // Estructuramos el INSERT de acuerdo a las columnas de cada tabla
+    if (tipo === 'billar' || tipo === 'bolirana') {
+        sql = `INSERT INTO ${tipo} (id, estado, precio_hora, tiempo_servicio, mantenimiento) VALUES (?, 'Libre', 0.00, '00:00:00', 0)`;
+        params = [id];
+    } else if (tipo === 'mesa') {
+        // Para las mesas de consumo normal incluimos la columna 'capacidad' obligatoria
+        sql = `INSERT INTO mesa (id, estado, mantenimiento, capacidad) VALUES (?, 'Libre', 0, 4)`;
+        params = [id];
+    } else {
+        return res.status(400).json({ error: "Tipo de mesa no válido." });
+    }
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            console.error(`Error al insertar nueva ${tipo} en la BD:`, err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log(`-> Nueva ${tipo} registrada en la base de datos con ID: ${id}`);
+        res.json({ success: true, message: `${tipo} creada correctamente en la base de datos.` });
+    });
+});
+// ==========================================
+// RUTA 1: ELIMINAR REGISTRO FÍSICO DE LA BD
+// ==========================================
+app.post('/eliminar_mesa_db', (req, res) => {
+    const { idHTML } = req.body; // Recibe ej: 'mesa-billar-2'
+
+    if (!idHTML) {
+        return res.status(400).json({ error: "Falta el ID del elemento HTML." });
+    }
+
+    let tabla = "";
+    let idNumerico = "";
+
+    // Parseamos el prefijo para saber a qué tabla de MySQL corresponde
+    if (idHTML.startsWith('mesa-billar-')) {
+        tabla = 'billar';
+        idNumerico = idHTML.replace('mesa-billar-', '');
+    } else if (idHTML.startsWith('mesa-bolirana-')) {
+        tabla = 'bolirana';
+        idNumerico = idHTML.replace('mesa-bolirana-', '');
+    } else if (idHTML.startsWith('mesa-mesas-')) {
+        tabla = 'mesa';
+        idNumerico = idHTML.replace('mesa-mesas-', '');
+    } else {
+        return res.status(400).json({ error: "Estructura de ID no reconocida." });
+    }
+
+    const sql = `DELETE FROM ${tabla} WHERE id = ?`;
+
+    db.query(sql, [idNumerico], (err, result) => {
+        if (err) {
+            console.error(`Error al eliminar registro de la tabla [${tabla}]:`, err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log(`-> Registro eliminado: Tabla [${tabla}], ID [${idNumerico}]`);
+        res.json({ success: true, message: `Mesa borrada con éxito de la tabla ${tabla}.` });
+    });
+});
+
+// ==========================================
+// RUTA 2: ACTUALIZAR ESTADO DE MANTENIMIENTO
+// ==========================================
+app.post('/actualizar_mantenimiento_db', (req, res) => {
+    const { idHTML, mantenimiento } = req.body; // mantenimiento es 0 (activa) o 1 (desactivada)
+
+    if (!idHTML || mantenimiento === undefined) {
+        return res.status(400).json({ error: "Faltan datos requeridos (idHTML o mantenimiento)." });
+    }
+
+    let tabla = "";
+    let idNumerico = "";
+
+    if (idHTML.startsWith('mesa-billar-')) {
+        tabla = 'billar';
+        idNumerico = idHTML.replace('mesa-billar-', '');
+    } else if (idHTML.startsWith('mesa-bolirana-')) {
+        tabla = 'bolirana';
+        idNumerico = idHTML.replace('mesa-bolirana-', '');
+    } else if (idHTML.startsWith('mesa-mesas-')) {
+        tabla = 'mesa';
+        idNumerico = idHTML.replace('mesa-mesas-', '');
+    } else {
+        return res.status(400).json({ error: "Estructura de ID no reconocida." });
+    }
+
+    const sql = `UPDATE ${tabla} SET mantenimiento = ? WHERE id = ?`;
+
+    db.query(sql, [mantenimiento, idNumerico], (err, result) => {
+        if (err) {
+            console.error(`Error al actualizar estado en la tabla [${tabla}]:`, err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log(`-> Estado cambiado: Tabla [${tabla}], ID [${idNumerico}] a mantenimiento = ${mantenimiento}`);
+        res.json({ success: true, message: `Mantenimiento de ${tabla} ${idNumerico} cambiado a ${mantenimiento}.` });
+    });
+});
 // BUSCAR CANCIÓN EN YOUTUBE
 app.get('/search-song', async (req, res) => {
     const q = req.query.q;

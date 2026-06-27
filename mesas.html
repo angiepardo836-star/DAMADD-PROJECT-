@@ -716,23 +716,12 @@
         <p class="footer-brand">DAMADD — La mejor opción</p>
       </div>
       <div class="footer-section">
-        <h3>Redes Sociales</h3> <!-- Título redes -->
-            <div class="social-icons"> <!-- Iconos sociales -->
-            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" class="social-link">
-                <img src="imagenes/facebook.png" alt="facebook">
-            </a>
-
-            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" class="social-link">
-                <img src="imagenes/instagram.png" alt="instagram">
-            </a>
-
-            <a href="https://wa.me" target="_blank" rel="noopener noreferrer" title="WhatsApp" class="social-link">
-                <img src="imagenes/whatsapp.png" alt="whatsapp">
-            </a>
-
-            <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" title="TikTok" class="social-link">
-                <img src="imagenes/tik-tok.png" alt="tik-tok">
-            </a>
+        <h3>Redes Sociales</h3>
+        <div class="social-icons">
+          <a href="#" title="Facebook" class="social-link"><img src="imagenes/facebook.png" alt="facebook"></a>
+          <a href="#" title="Instagram" class="social-link"><img src="imagenes/instagram.png" alt="instagram"></a>
+          <a href="#" title="WhatsApp" class="social-link"><img src="imagenes/whatsapp.png" alt="whatsapp"></a>
+          <a href="#" title="TikTok" class="social-link"><img src="imagenes/tik-tok.png" alt="tik-tok"></a>
         </div>
       </div>
       <div class="footer-section">
@@ -746,11 +735,12 @@
     </div>
 
 <script>
+// Mantener los contadores solo como base por si el contenedor está vacío
 let contadorMesasBillar = 1; 
 let contadorBoliranas = 1;
 let contadorMesasNormales = 1;
 
-// Función genérica e inteligente para encontrar el siguiente número disponible
+// ====== COLOCA ESTA FUNCIÓN PRIMERO PARA QUE EL NAVEGADOR LA ENCUENTRE ======
 function obtenerSiguienteNumeroMesa(selectorTarjetas) {
     const tarjetas = document.querySelectorAll(selectorTarjetas);
     if (tarjetas.length === 0) return 1;
@@ -773,134 +763,145 @@ function obtenerSiguienteNumeroMesa(selectorTarjetas) {
     return siguienteNumero;
 }
 
+// ====== LAS FUNCIONES DE AGREGAR CORREGIDAS ======
 function agregarNuevaMesaBillar() {
-    const numMesa = obtenerSiguienteNumeroMesa('#contenedor-mesas-billar .tarjeta-mesa');
-    const botonAgregar = document.getElementById('btn-agregar-mesa-billar');
+    try {
+        const numMesa = obtenerSiguienteNumeroMesa('#contenedor-mesas-billar .tarjeta-mesa');
+        const botonAgregar = document.getElementById('btn-agregar-mesa-billar');
+        if (!botonAgregar) return;
 
-    // AJUSTE: Sincronizamos data-id, data-mesa y data-tipo tanto en el botón de tiempo como en el de factura
-    const nuevaMesaHTML = `
-        <div class="tarjeta-mesa tarjeta-billar" id="mesa-billar-${numMesa}" data-mesa="${numMesa}">
-            <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-billar-${numMesa}')">✕</button>
-            <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesa}</span></h2>
-            <img src="imagenes/mesa-morada.png" alt="Mesa ${numMesa}" class="mesa-foto">
-            <div class="mesa-acciones">
-                <div class="time-container container-mesa${numMesa}">
-                    <div class="time-display time-display-mesa${numMesa}" aria-live="polite">00:00:00</div>
-                    <button class="time-btn mesa${numMesa}" type="button" data-id="${numMesa}" data-tipo="billar">Tiempo ▾</button>
-                    <div class="time-menu time-menu-mesa${numMesa}" aria-hidden="true">
-                        <button class="time-option">1 min</button>
-                        <button class="time-option">30 min</button>
-                        <button class="time-option">1 hora</button>
-                        <button class="time-option">1:30 hora</button>
-                        <button class="time-option">2 horas</button>
-                        <button class="time-option stop-option">Detener cronómetro</button>
+        const nuevaMesaHTML = `
+            <div class="tarjeta-mesa tarjeta-billar" id="mesa-billar-${numMesa}" data-mesa="${numMesa}">
+                <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-billar-${numMesa}')">✕</button>
+                <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesa}</span></h2>
+                <img src="imagenes/mesa-morada.png" alt="Mesa ${numMesa}" class="mesa-foto">
+                <div class="mesa-acciones">
+                    <div class="time-container container-mesa${numMesa}">
+                        <div class="time-display time-display-mesa${numMesa}" aria-live="polite">00:00:00</div>
+                        <button class="time-btn mesa${numMesa}" type="button" data-id="${numMesa}" data-tipo="billar">Tiempo ▾</button>
+                        <div class="time-menu time-menu-mesa${numMesa}" aria-hidden="true">
+                            <button class="time-option">1 min</button>
+                            <button class="time-option">30 min</button>
+                            <button class="time-option">1 hora</button>
+                            <button class="time-option">1:30 hora</button>
+                            <button class="time-option">2 horas</button>
+                            <button class="time-option stop-option">Detener cronómetro</button>
+                        </div>
                     </div>
+                    <button class="factura-btn" data-id="${numMesa}" data-mesa="${numMesa}" data-tipo="billar">Factura</button>
                 </div>
-                <button class="factura-btn" data-id="${numMesa}" data-mesa="${numMesa}" data-tipo="billar">Factura</button>
             </div>
-        </div>
-    `;
-    
-    botonAgregar.insertAdjacentHTML('beforebegin', nuevaMesaHTML);
-    const mesaRecienCreada = document.getElementById(`mesa-billar-${numMesa}`);
-    
-    gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
-    gsap.to(mesaRecienCreada, {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)",
-        onComplete: () => {
-            if (typeof inicializarEventoMesa === 'function') {
-                inicializarEventoMesa(numMesa);
-            }
-            console.log(`Mesa Billar ${numMesa} agregada`);
+        `;
+        
+        botonAgregar.insertAdjacentHTML('beforebegin', nuevaMesaHTML);
+        const mesaRecienCreada = document.getElementById(`mesa-billar-${numMesa}`);
+        
+        if (window.gsap && mesaRecienCreada) {
+            gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
+            gsap.to(mesaRecienCreada, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" });
         }
-    });
+
+        if (typeof inicializarEventoMesa === 'function') {
+            inicializarEventoMesa(numMesa);
+        }
+
+        fetch("http://localhost:3000/crear_mesa_db", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: numMesa, tipo: "billar" })
+        }).catch(() => {});
+
+    } catch (error) {
+        console.error("Error crítico en agregarNuevaMesaBillar:", error);
+    }
 }
 
 function agregarNuevaBolirana() {
-    const numBolirana = obtenerSiguienteNumeroMesa('#bolirana-unica .tarjeta-mesa');
-    const botonAgregarBolirana = document.getElementById('btn-agregar-bolirana');
+    try {
+        const numBolirana = obtenerSiguienteNumeroMesa('#bolirana-unica .tarjeta-mesa');
+        const botonAgregarBolirana = document.getElementById('btn-agregar-bolirana');
+        if (!botonAgregarBolirana) return;
 
-    // Mantenemos tu lógica de desfasar el ID (+100) para control de DOM si es necesario, 
-    // pero asegurando data-tipo="bolirana"
-    const idGlobalMesa = numBolirana + 100;
-
-    const nuevaBoliranaHTML = `
-        <div class="tarjeta-mesa tarjeta-bolirana" id="mesa-bolirana-${numBolirana}" data-mesa="${idGlobalMesa}">
-            <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-bolirana-${numBolirana}')">✕</button>
-            <h2 class="mesa-title">Bolirana <span class="numero-mesa-badge">${numBolirana}</span></h2>
-            <img src="imagenes/bolirana.png" alt="Bolirana ${numBolirana}" class="mesa-foto">
-            <div class="mesa-acciones">
-              <div class="time-container container-bolirana${numBolirana}">
-                <div class="time-display time-display-bolirana${numBolirana}" aria-live="polite">00:00:00</div>
-                <button class="time-btn bolirana${numBolirana}" type="button" data-id="${numBolirana}" data-tipo="bolirana">Tiempo ▾</button>
-                <div class="time-menu time-menu-bolirana${numBolirana}" aria-hidden="true">
-                  <button class="time-option">30 min</button>
-                  <button class="time-option">1 hora</button>
-                  <button class="time-option">2 horas</button>
-                  <button class="time-option stop-option">Detener</button>
+        const nuevaBoliranaHTML = `
+            <div class="tarjeta-mesa tarjeta-bolirana" id="mesa-bolirana-${numBolirana}" data-mesa="${numBolirana}">
+                <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-bolirana-${numBolirana}')">✕</button>
+                <h2 class="mesa-title">Bolirana <span class="numero-mesa-badge">${numBolirana}</span></h2>
+                <img src="imagenes/bolirana.png" alt="Bolirana ${numBolirana}" class="mesa-foto">
+                <div class="mesa-acciones">
+                  <div class="time-container container-bolirana${numBolirana}">
+                    <div class="time-display time-display-bolirana${numBolirana}" aria-live="polite">00:00:00</div>
+                    <button class="time-btn bolirana${numBolirana}" type="button" data-id="${numBolirana}" data-tipo="bolirana">Tiempo ▾</button>
+                    <div class="time-menu time-menu-bolirana${numBolirana}" aria-hidden="true">
+                      <button class="time-option">30 min</button>
+                      <button class="time-option">1 hora</button>
+                      <button class="time-option">2 horas</button>
+                      <button class="time-option stop-option">Detener</button>
+                    </div>
+                  </div>
+                  <button class="factura-btn" data-id="${numBolirana}" data-mesa="${numBolirana}" data-tipo="bolirana">Factura</button>
                 </div>
-              </div>
-              <button class="factura-btn" data-id="${numBolirana}" data-mesa="${numBolirana}" data-tipo="bolirana">Factura</button>
             </div>
-        </div>
-    `;
-    
-    botonAgregarBolirana.insertAdjacentHTML('beforebegin', nuevaBoliranaHTML);
-    const mesaRecienCreada = document.getElementById(`mesa-bolirana-${numBolirana}`);
-    
-    gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
-    gsap.to(mesaRecienCreada, {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)",
-        onComplete: () => {
-            if (typeof inicializarEventoMesa === 'function') {
-                inicializarEventoMesa(numBolirana);
-            }
-            console.log(`Bolirana ${numBolirana} agregada`);
+        `;
+        
+        botonAgregarBolirana.insertAdjacentHTML('beforebegin', nuevaBoliranaHTML);
+        const mesaRecienCreada = document.getElementById(`mesa-bolirana-${numBolirana}`);
+        
+        if (window.gsap && mesaRecienCreada) {
+            gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
+            gsap.to(mesaRecienCreada, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" });
         }
-    });
+
+        if (typeof inicializarEventoMesa === 'function') {
+            inicializarEventoMesa(numBolirana);
+        }
+
+        fetch("http://localhost:3000/crear_mesa_db", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: numBolirana, tipo: "bolirana" })
+        }).catch(() => {});
+
+    } catch (error) {
+        console.error("Error crítico en agregarNuevaBolirana:", error);
+    }
 }
 
 function agregarNuevaMesa() {
-    const numMesaNormal = obtenerSiguienteNumeroMesa('#mesas_normales .tarjeta-mesa');
-    const botonAgregarMesas = document.getElementById('btn-agregar-mesas');
+    try {
+        const numMesaNormal = obtenerSiguienteNumeroMesa('#mesas_normales .tarjeta-mesa');
+        const botonAgregarMesas = document.getElementById('btn-agregar-mesas');
+        if (!botonAgregarMesas) return;
 
-    // REFACTORIZACIÓN COMPLETA DE MESA NORMAL: Sin cronómetros heredados
-    const nuevaMesaNormalHTML = `
-        <div class="tarjeta-mesa tarjeta-mesa-normal" id="mesa-mesas-${numMesaNormal}" data-mesa="${numMesaNormal}">
-            <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-mesas-${numMesaNormal}')">✕</button>
-            <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesaNormal}</span></h2>
-            <img src="imagenes/mesa_centarse.png" alt="Mesa ${numMesaNormal}" class="mesa-foto">
-            <div class="mesa-acciones">
-              <span class="estado-texto-mesa" style="color: #00ffcc; font-weight: bold; font-size: 14px;">Consumo barra</span>
-              <button class="factura-btn" data-id="${numMesaNormal}" data-mesa="${numMesaNormal}" data-tipo="mesa">Factura</button>
+        const nuevaMesaNormalHTML = `
+            <div class="tarjeta-mesa tarjeta-mesa-normal" id="mesa-mesas-${numMesaNormal}" data-mesa="${numMesaNormal}">
+                <button class="btn-eliminar-mesa" onclick="eliminarMesa('mesa-mesas-${numMesaNormal}')">✕</button>
+                <h2 class="mesa-title">Mesa <span class="numero-mesa-badge">${numMesaNormal}</span></h2>
+                <img src="imagenes/mesa_centarse.png" alt="Mesa ${numMesaNormal}" class="mesa-foto">
+                <div class="mesa-acciones">
+                  <span class="estado-texto-mesa" style="color: #00ffcc; font-weight: bold; font-size: 14px;">Consumo barra</span>
+                  <button class="factura-btn" data-id="${numMesaNormal}" data-mesa="${numMesaNormal}" data-tipo="mesa">Factura</button>
+                </div>
             </div>
-        </div>
-    `;
-    
-    botonAgregarMesas.insertAdjacentHTML('beforebegin', nuevaMesaNormalHTML);
-    const mesaRecienCreada = document.getElementById(`mesa-mesas-${numMesaNormal}`);
-    
-    gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
-    gsap.to(mesaRecienCreada, {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)",
-        onComplete: () => {
-            console.log(`Mesa Consumo ${numMesaNormal} agregada de manera limpia`);
+        `;
+        
+        botonAgregarMesas.insertAdjacentHTML('beforebegin', nuevaMesaNormalHTML);
+        const mesaRecienCreada = document.getElementById(`mesa-mesas-${numMesaNormal}`);
+        
+        if (window.gsap && mesaRecienCreada) {
+            gsap.set(mesaRecienCreada, { scale: 0, opacity: 0, y: -30 });
+            gsap.to(mesaRecienCreada, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" });
         }
-    });
-}
 
+        fetch("http://localhost:3000/crear_mesa_db", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: numMesaNormal, tipo: "mesa" })
+        }).catch(() => {});
+
+    } catch (error) {
+        console.error("Error crítico en agregarNuevaMesa:", error);
+    }
+}
 function eliminarMesa(idMesa) {
     const mesa = document.getElementById(idMesa);
     if (!mesa) return;
@@ -952,6 +953,18 @@ function eliminarMesa(idMesa) {
             opacity: 0, duration: 0.2, 
             onComplete: () => menuConfirm.remove()
         });
+    };
+
+    // Función auxiliar interna para notificar el estado de mantenimiento a MySQL
+    const enviarMantenimientoBD = (estadoMantenimiento) => {
+        fetch("http://localhost:3000/actualizar_mantenimiento_db", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idHTML: idMesa, mantenimiento: estadoMantenimiento })
+        })
+        .then(res => res.json())
+        .then(data => console.log("Sincronización BD (Mantenimiento):", data.message))
+        .catch(err => console.error("Error al actualizar mantenimiento en BD:", err));
     };
 
     const desactivarConMotivo = (claseMotivo) => {
@@ -1011,6 +1024,8 @@ function eliminarMesa(idMesa) {
             const cartelExistente = mesa.querySelector('.indicador-estado-mesa');
             if (cartelExistente) cartelExistente.remove();
             
+            // Sincronizar reactivación en la BD (mantenimiento = 0)
+            enviarMantenimientoBD(0);
             cerrarMenuAnimado();
             return;
         }
@@ -1031,11 +1046,15 @@ function eliminarMesa(idMesa) {
     menuConfirm.querySelector('.btn-motivo-mantenimiento').onclick = (ev) => {
         ev.stopPropagation();
         desactivarConMotivo('motivo-mantenimiento');
+        // Sincronizar desactivación en la BD (mantenimiento = 1)
+        enviarMantenimientoBD(1);
     };
 
     menuConfirm.querySelector('.btn-motivo-danada').onclick = (ev) => {
         ev.stopPropagation();
         desactivarConMotivo('motivo-danada');
+        // Sincronizar desactivación en la BD (mantenimiento = 1)
+        enviarMantenimientoBD(1);
     };
 
     menuConfirm.querySelector('.btn-motivo-cancelar').onclick = (ev) => {
@@ -1048,13 +1067,23 @@ function eliminarMesa(idMesa) {
         menuConfirm.remove(); 
         mesa.style.pointerEvents = 'none';
         
+        // Petición al servidor para borrar el registro físico en MySQL
+        fetch("http://localhost:3000/eliminar_mesa_db", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idHTML: idMesa })
+        })
+        .then(res => res.json())
+        .then(data => console.log("Sincronización BD (Borrado exitoso):", data.message))
+        .catch(err => console.error("Error al remover de la base de datos:", err));
+
+        // Animación original con GSAP
         const tl = gsap.timeline({ onComplete: () => mesa.remove() });
         tl.to(mesa, { backgroundColor: "rgba(0,0,0,0.75)", duration: 0.3, ease: "power2.out" })
           .to(mesa.querySelector('.btn-eliminar-mesa'), { scale: 1.3, rotation: 90, duration: 0.2, ease: "back.out(2)" }, 0)
           .to(mesa, { scale: 0, opacity: 0, y: 50, duration: 0.4, ease: "back.in(1.7)" }, 0.2);
     };
 }
-
 // Funciones de filtrado y loaders
 function ocultarTodo() {
     document.getElementById('contenedor-mesas-billar').style.display = 'none';
