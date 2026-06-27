@@ -208,10 +208,10 @@ function editarFila(btn) {
 // Estado
     const estadoActual = celdas[7].innerText.trim();
     celdas[7].innerHTML = `
-        <select style="width:100%;box-sizing:border-box;">
-            <option value="Activo"   ${estadoActual === 'Activo'   ? 'selected' : ''}>Activo</option>
-            <option value="Inactivo" ${estadoActual === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
-        </select>`;
+    <select class="select-editar">
+        <option value="Activo" ${estadoActual === 'Activo' ? 'selected' : ''}>Activo</option>
+        <option value="Inactivo" ${estadoActual === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
+    </select>`;
 
     btn.innerHTML = '<i class="fas fa-save"></i>';
     btn.onclick = function () { guardarEdicion(this); };
@@ -225,12 +225,11 @@ function editarFila(btn) {
 }
 
 
-// Input de texto reutilizable
 function crearInputTexto(valor) {
     const input = document.createElement('input');
-    input.type  = 'text';
+    input.type = 'text';
     input.value = valor;
-    input.style.cssText = 'width:100%;box-sizing:border-box;';
+    input.className = "input-editar";
     return input;
 }
 
