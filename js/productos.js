@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     obtenerProductos();
 });
+let idProductoAEliminar = null;
 
 // FORMATEO DE FECHA: Función auxiliar para que la fecha se vea bien (YYYY-MM-DD)
 function formatearFecha(fechaISO) {
@@ -50,7 +51,7 @@ async function obtenerProductos() {
                             <i class="fa-solid fa-pen"></i>
                         </button>
 
-                        <button class="btn-accion-eliminar" onclick="eliminarProducto(${p.id})" title="Eliminar">
+                        <button class="btn-accion-eliminar" onclick="mostrarModalEliminar(${p.id})" title="Eliminar">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -124,7 +125,6 @@ async function saveNew() {
 
 // ELIMINAR 
 async function eliminarProducto(id) {
-    if(!confirm("¿Estás seguro de que deseas eliminar este producto?")) return;
 
     try {
         const response = await fetch(`/eliminar-producto/${id}`, {
@@ -140,7 +140,25 @@ async function eliminarProducto(id) {
     } catch (error) {
         console.error("Error al eliminar:", error);
     }
+
+    cerrarModalEliminar();
 }
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const btnEliminar = document.getElementById("btnConfirmarEliminar");
+
+        if(btnEliminar){
+            btnEliminar.addEventListener("click", () => {
+
+                if(idProductoAEliminar){
+                    eliminarProducto(idProductoAEliminar);
+                }
+
+            });
+        }
+
+    });
+
 // Permite solo letras y espacios, máx. 2 palabras, máx. 20 caracteres por palabra
 function aplicarValidacionLetras(input) {
     if (!input) return;
@@ -228,61 +246,60 @@ function editarFila(btn) {
 
     // Tipo Producto
     celdas[1].innerHTML = `
-        <select>
+        <select class="select-editar">
             <option value="Producto" ${tipoActual === "Producto" ? "selected" : ""}>Producto</option>
             <option value="Material" ${tipoActual === "Material" ? "selected" : ""}>Material</option>
         </select>
     `;
 
     // Nombre
-    celdas[2].innerHTML = `<input type="text" value="${celdas[2].innerText}">`;
+    celdas[2].innerHTML = `<input class="input-editar" type="text" value="${celdas[2].innerText}">`;
     aplicarValidacionLetras(celdas[2].querySelector("input"));
 
     // Marca
-    celdas[3].innerHTML = `<input type="text" value="${celdas[3].innerText}">`;
+    celdas[3].innerHTML = `<input class="input-editar" type="text" value="${celdas[3].innerText}">`;
     aplicarValidacionLetras(celdas[3].querySelector("input"));
 
     // Cantidad
-    celdas[4].innerHTML = `<input type="number" min="0" value="${celdas[4].innerText}">`;
+    celdas[4].innerHTML = `<input class="input-editar" type="number" min="0" value="${celdas[4].innerText}">`;
     aplicarValidacionEntero(celdas[4].querySelector("input"));
 
     // Categoría
-    celdas[5].innerHTML = `<input type="text" value="${celdas[5].innerText}">`;
+    celdas[5].innerHTML = `<input class="input-editar" type="text" value="${celdas[5].innerText}">`;
     aplicarValidacionLetras(celdas[5].querySelector("input"));
 
     // Presentación
     const presActual = celdas[6].innerText.trim() === "N/A" ? "" : celdas[6].innerText.trim();
-    celdas[6].innerHTML = `<input type="text" value="${presActual}">`;
+    celdas[6].innerHTML = `<input class="input-editar" type="text" value="${presActual}">`;
 
     // Fecha
     const fechaActual = celdas[7].innerText.trim() === "N/A" ? "" : celdas[7].innerText.trim();
     const hoyEdicion = new Date().toISOString().split('T')[0];
-    celdas[7].innerHTML = `<input type="date" value="${fechaActual}" min="${hoyEdicion}">`;
 
+    celdas[7].innerHTML = `
+    <input class="input-editar"
+        type="date"
+        value="${fechaActual}"
+        min="${hoyEdicion}">
+    `;
     // Precio
-    celdas[8].innerHTML = `<input type="text" min="0" value="${celdas[8].innerText}">`;
+    celdas[8].innerHTML = `<input class="input-editar" type="text" min="0" value="${celdas[8].innerText}">`;
     aplicarValidacionPrecio(celdas[8].querySelector("input"));
 
     // Estado
     celdas[9].innerHTML = `
-        <select>
+        <select class="select-editar">
             <option value="Bueno" ${estadoActual === "Bueno" ? "selected" : ""}>Bueno</option>
             <option value="Malo" ${estadoActual === "Malo" ? "selected" : ""}>Malo</option>
         </select>
     `;
+    
 
     // Descripción
     const descActual = celdas[10].innerText.trim();
     const descFormateada = descActual.charAt(0).toUpperCase() + descActual.slice(1);
-    celdas[10].innerHTML = `<input type="text" value="${descFormateada}">`;
 
-    btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i>`;
-    btn.classList.remove('btn-accion-editar');
-    btn.classList.add('btn-accion-comprar');
-    btn.title = "Guardar";
-    btn.onclick = function () {
-        guardarEdicion(this);
-    };
+    celdas[10].innerHTML = `<input class="input-editar" type="text" value="${descFormateada}">`;
 }
  
 // GUARDAR EDICIÓN
@@ -821,3 +838,41 @@ function cerrarModal() {
             t.style.opacity = '0'; 
         }, 4000);
     }
+
+    //Función para mostrar el modal de confirmación de eliminación
+    function mostrarModalEliminar(id){
+        idProductoAEliminar = id;
+        document.getElementById("modalEliminar").style.display = "flex";
+    }
+
+    function cerrarModalEliminar(){
+        document.getElementById("modalEliminar").style.display = "none";
+        idProductoAEliminar = null;
+    }
+
+    //Función para que aparezca el campo de presentación como obligatorio u opcional según el tipo de producto seleccionado
+        if (this.value === "Producto") {
+
+            presentacion.required = true;
+            lbl.textContent = "Presentación *";
+
+            info.style.display = "block";
+            info.textContent = "Este campo es obligatorio para los productos.";
+
+        } else if (this.value === "Material") {
+
+            presentacion.required = false;
+            lbl.textContent = "Presentación (Opcional)";
+
+            info.style.display = "block";
+            info.textContent = "Este campo es opcional para los materiales.";
+
+        } else {
+
+            presentacion.required = false;
+            lbl.textContent = "Presentación";
+
+            info.style.display = "none";
+            info.textContent = "";
+
+}

@@ -390,10 +390,14 @@
         </div>
 
         <div class="pd-form-row">
-            <div class="pd-info-group">
-                <label>Presentación</label>
-                <input id="new_presentacion" type="text" placeholder="Presentación">
-            </div>
+        <div class="pd-info-group">
+            <label id="lbl_presentacion">Presentación</label>
+            <input
+                id="new_presentacion"
+                type="text"
+                placeholder="Presentación">
+            <small id="info_presentacion" class="texto-opcional"></small>
+        </div>
 
             <div class="pd-info-group">
                 <label>Precio Unitario *</label>
@@ -501,6 +505,32 @@
   <script src="js/personalizacion.js"></script>
   <script src="js/memoriaPersonalizacion.js"></script>
   <script src="js/global.js"></script>
+  <!-- Modal de confirmación para eliminar un producto -->
+  <div id="modalEliminar" class="p-modal-overlay">
+    <div class="p-modal-card sub-modal-card">
+
+        <div class="p-modal-header">
+            <h3>Confirmar eliminación</h3>
+        </div>
+
+        <p class="p-confirmar-texto">
+            ¿Está seguro de que desea eliminar este producto?
+            <br><br>
+            Esta acción no se puede deshacer.
+        </p>
+
+        <div class="p-modal-footer">
+            <button class="p-btn-primario" id="btnConfirmarEliminar">
+                Eliminar
+            </button>
+
+            <button class="p-btn-primario" onclick="cerrarModalEliminar()">
+                Cancelar
+            </button>
+        </div>
+
+    </div>
+</div>
 <script>
 window.addEventListener("DOMContentLoaded", function() {
     const boton = document.querySelector(".boton-accesibilidad");

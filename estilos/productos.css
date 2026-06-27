@@ -1575,3 +1575,46 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     filter: brightness(0) invert(1);
     cursor: pointer;
 }
+/* texto opcional en el formulario*/
+.texto-opcional{
+    display: none;
+}
+/*  Campos de edición */
+
+.input-editar{
+    width:100%;
+    box-sizing:border-box;
+    padding:3px 5px;
+
+    background:#3a3a3a;
+    color:#fff;
+
+    border:1px solid #5a5a5a;
+    border-radius:6px;
+
+    font-size:14px;
+}
+
+.input-editar:focus{
+    outline:none;
+    border-color:#00d26a;
+    box-shadow:0 0 6px rgba(0,210,106,.5);
+}
+
+.select-editar{
+    width:100%;
+    box-sizing:border-box;
+    padding:3px 5px;
+
+    background:#3a3a3a;
+    color:#fff;
+
+    border:1px solid #5a5a5a;
+    border-radius:6px;
+}
+
+.select-editar:focus{
+    outline:none;
+    border-color:#00d26a;
+    box-shadow:0 0 6px rgba(0,210,106,.5);
+}
