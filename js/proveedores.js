@@ -85,7 +85,8 @@ async function saveNew() {
     const tipo_documento = document.getElementById('new_tipo_documento').value.trim();
     const documento      = document.getElementById('new_documento').value.trim();
     const nombre         = document.getElementById('new_nombre').value.trim();
-    const apellido       = document.getElementById('new_apellido').value.trim();
+    const apellidoRaw = document.getElementById('new_apellido').value.trim();
+    const apellido = apellidoRaw === "" ? null : apellidoRaw;
     const telefono       = document.getElementById('new_telefono').value.trim();
     const ciudad         = document.getElementById('new_ciudad').value.trim();
     const direccion      = document.getElementById('new_direccion').value.trim();
@@ -108,7 +109,7 @@ async function saveNew() {
         return;
     }
 
-    const datos = { tipo_documento, documento, nombre, telefono, ciudad, direccion, estado, correo };
+    const datos = { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo };
 
     try {
         const response = await fetch('/guardar-proveedor', {
