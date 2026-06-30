@@ -293,14 +293,22 @@ function editarFila(btn) {
             <option value="Malo" ${estadoActual === "Malo" ? "selected" : ""}>Malo</option>
         </select>
     `;
-    
 
     // Descripción
     const descActual = celdas[10].innerText.trim();
     const descFormateada = descActual.charAt(0).toUpperCase() + descActual.slice(1);
 
     celdas[10].innerHTML = `<input class="input-editar" type="text" value="${descFormateada}">`;
-}
+
+    btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i>`;
+    btn.classList.remove("btn-accion-editar");
+    btn.classList.add("btn-accion-comprar"); 
+    btn.title = "Guardar";
+
+    btn.onclick = function () {
+        guardarEdicion(this);
+      }  
+    };
  
 // GUARDAR EDICIÓN
 async function guardarEdicion(btn) { 
@@ -851,28 +859,72 @@ function cerrarModal() {
     }
 
     //Función para que aparezca el campo de presentación como obligatorio u opcional según el tipo de producto seleccionado
-        if (this.value === "Producto") {
+    document.addEventListener("DOMContentLoaded", () => {
 
-            presentacion.required = true;
-            lbl.textContent = "Presentación *";
+        const tipo = document.getElementById("new_tipo_producto");
+        // Presentación
+        const presentacion = document.getElementById("new_presentacion");
+        const infoPresentacion = document.getElementById("info_presentacion");
 
-            info.style.display = "block";
-            info.textContent = "Este campo es obligatorio para los productos.";
+        presentacion.addEventListener("focus", () => {
 
-        } else if (this.value === "Material") {
+        if (tipo.value === "Producto") {
 
-            presentacion.required = false;
-            lbl.textContent = "Presentación (Opcional)";
+        infoPresentacion.textContent =
+            "La presentación es obligatoria para los productos.";
 
-            info.style.display = "block";
-            info.textContent = "Este campo es opcional para los materiales.";
+        } else if (tipo.value === "Material") {
+
+        infoPresentacion.textContent =
+            "La presentación es opcional para los materiales.";
 
         } else {
 
-            presentacion.required = false;
-            lbl.textContent = "Presentación";
+        infoPresentacion.textContent =
+            "Primero seleccione un tipo de producto.";
 
-            info.style.display = "none";
-            info.textContent = "";
+        }
 
-}
+        infoPresentacion.style.display = "block";
+
+        });
+
+        presentacion.addEventListener("blur", () => {
+
+            infoPresentacion.style.display = "none";
+
+        });
+        // Fecha
+        const fecha = document.getElementById("new_fecha_vencimiento");
+        const infoFecha = document.getElementById("info_fecha");
+
+        fecha.addEventListener("focus", () => {
+
+        if (tipo.value === "Producto") {
+
+        infoFecha.textContent =
+            "La fecha de vencimiento es opcional para los productos.";
+
+        } else if (tipo.value === "Material") {
+
+        infoFecha.textContent =
+            "La fecha de vencimiento es opcional para los materiales.";
+
+        } else {
+
+        infoFecha.textContent =
+            "Primero seleccione un tipo de producto.";
+
+        }
+
+            infoFecha.style.display = "block";
+
+        });
+
+        fecha.addEventListener("blur", () => {
+
+            infoFecha.style.display = "none";
+
+        });
+
+});

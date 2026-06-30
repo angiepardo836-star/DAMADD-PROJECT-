@@ -53,12 +53,23 @@ async function obtenerProveedores() {
                 <td class="correo-cell">${p.correo}</td>
 
                 <td>
-                    <button class="btn-accion-editar"  onclick="editarFila(this)">✏️</button>
-                    <button class="btn-accion-eliminar"
-                            onclick="mostrarModalEliminarProveedor(${p.documento})">
-                        🗑️
-                    </button>
-                    <button class="btn-accion-comprar"  onclick="realizarCompra(${p.documento}, '${p.nombre}')">🛒</button>
+                    <div class="acciones">
+                        <button class="btn-accion-editar" onclick="editarFila(this)" title="Editar">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+
+                        <button class="btn-accion-eliminar"
+                                onclick="mostrarModalEliminarProveedor(${p.documento})"
+                                title="Eliminar">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                        <button class="btn-accion-comprar"
+                                onclick="realizarCompra(${p.documento}, '${p.nombre}')"
+                                title="Comprar">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
+                    </div>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -170,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //  EDITAR EN LÍNEA 
 
 function editarFila(btn) {
-    const fila   = btn.parentNode.parentNode;
+    const fila = btn.closest("tr");
     const celdas = fila.getElementsByTagName("td");
 
 
@@ -236,7 +247,7 @@ function crearInputTexto(valor) {
 
 //  GUARDAR EDICIÓN
 async function guardarEdicion(btn) {
-    const fila   = btn.parentNode.parentNode;
+    const fila = btn.closest("tr");
     const celdas = fila.getElementsByTagName("td");
 
     const documentoOriginal = fila.getAttribute('data-id');
@@ -786,4 +797,4 @@ function mostrarModalEliminarProveedor(id){
 function cerrarModalEliminarProveedor(){
     document.getElementById("modalEliminarProveedor").style.display = "none";
     idProveedorAEliminar = null;
-} 
+}

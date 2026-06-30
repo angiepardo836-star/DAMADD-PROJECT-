@@ -1575,12 +1575,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     filter: brightness(0) invert(1);
     cursor: pointer;
 }
-/* texto opcional en el formulario*/
+
+/* Texto opcional en el formulario */
 .texto-opcional{
     display: none;
+    margin-top: -12px;
+    padding-left: 10px;
+    font-size: 11px;
+    color: rgb(255, 255, 255);
 }
 /*  Campos de edición */
-
 .input-editar{
     width:100%;
     box-sizing:border-box;
