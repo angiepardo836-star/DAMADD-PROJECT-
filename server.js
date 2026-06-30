@@ -749,7 +749,7 @@ app.get('/obtener-perfil/:id', async (req, res) => {
 app.get('/obtener-usuarios', async (req, res) => {
     try {
         const sql = `
-            SELECT documento, tipo_documento, nombre, apellido, usuario, 
+            SELECT id, documento, tipo_documento, nombre, apellido, usuario, 
                    telefono, correo, rol, estado, fecha_creacion 
             FROM usuario
         `;
@@ -771,24 +771,25 @@ app.delete('/eliminar-usuario/:id', (req, res) => {
 
 // VERIFICAR CONTRASEÑA ANTES DE EDITAR
 app.post('/verificar-password-admin', async (req, res) => {
-    const { documento, password_ingresada } = req.body;
+    const { password_ingresada } = req.body;
     
-    if (!documento || !password_ingresada) {
-        return res.status(400).json({ success: false, message: "Datos incompletos." });
+    if (!password_ingresada) {
+        return res.status(400).json({ success: false, message: "Datos incompletos. Debe ingresar la contraseña." });
     }
 
-    const sql = "SELECT contrasena FROM usuario WHERE documento = ?";
+    // Buscamos directamente la contraseña del Gerente en la base de datos
+    const sql = "SELECT contrasena FROM usuario WHERE rol = 'Gerente' LIMIT 1";
     try {
-        const [results] = await db.promise().query(sql, [documento]);
+        const [results] = await db.promise().query(sql);
         if (results.length === 0) {
-            return res.json({ success: false, message: "Usuario no encontrado." });
+            return res.json({ success: false, message: "No se encontró un Gerente registrado." });
         }
         
-        // Comparación del hash seguro de Bcrypt
+        // Comparamos la contraseña digitada con la del Gerente
         const valid = await bcrypt.compare(password_ingresada, results[0].contrasena);
         return res.json({ success: valid });
     } catch (err) {
-        console.error("Error en verificar-password:", err);
+        console.error("Error en verificar-password-admin:", err);
         return res.status(500).json({ success: false, message: "Error en el servidor." });
     }
 });
@@ -824,6 +825,26 @@ app.put('/editar-usuario/:id', async (req, res) => {
         }
     } catch (error) {
         console.error("Error al actualizar usuario:", error);
+        return res.status(500).json({ success: false, message: "Error en el servidor." });
+    }
+});
+// BUSCAR USUARIO POR ID (PRIMARY KEY)
+app.get('/api/usuarios/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Hacemos el filtro directamente por la Primary Key 'id'
+        const sql = "SELECT tipo_documento, documento, nombre, apellido, usuario, telefono, correo, rol as cargo FROM usuario WHERE id = ? LIMIT 1";
+        const [results] = await db.promise().query(sql, [id]);
+
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: "Usuario no encontrado." });
+        }
+
+        return res.json(results[0]);
+
+    } catch (error) {
+        console.error("Error al obtener usuario por ID:", error);
         return res.status(500).json({ success: false, message: "Error en el servidor." });
     }
 });

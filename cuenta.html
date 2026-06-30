@@ -693,7 +693,7 @@
               <label for="admin-key">Clave de Autorización <span>*</span></label>
                 <div class="input-wrap">
                 <svg class="input-icon"><use href="#ic-lock"/></svg>
-                <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
+                <input type="password" id="admin-key" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
                 <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
                 <svg><use href="#ic-eye"/></svg>
               </button>
@@ -792,11 +792,21 @@
           </button>
         </div>
       </div>
+      <div class="field-group" style="margin-top:.6rem">
+  <label>Rol / Cargo<span>*</span></label>
+  <div class="input-wrap">
+    <svg class="input-icon"><use href="#ic-user"/></svg>
+    <select id="editar-rol" required style="width: 100%; padding: 0.5rem 2rem; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: inherit;">
+      <option value="Empleado">Empleado</option>
+      <option value="Gerente">Gerente</option>
+    </select>
+  </div>
+</div>
       <div class="field-group"  style ="margin-top:.6rem">
             <label for="admin-key">Clave de Autorización <span>*</span></label>
             <div class="input-wrap">
               <svg class="input-icon"><use href="#ic-lock"/></svg>
-              <input type="password" id="admin-key-create" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
+              <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required class="has-eye">
               <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
                 <svg><use href="#ic-eye"/></svg>
               </button>
@@ -1144,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', () => {
   makeEye('eye-pass',    'contrasena');
   makeEye('eye-confirm', 'confirmar');
   makeEye('eye-edit',    'editar-contrasena')
-  makeEye('eye-admin',   'admin-key-create');
+  makeEye('eye-admin',   'admin-key');
 
  
   const passEl = document.getElementById('contrasena');
@@ -1229,10 +1239,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---- Tabla de cuentas ---- */
   const tablaCuerpo = document.getElementById('tabla-cuentas-body');
-  const sinCuentas  = document.getElementById('sin-cuentas');
+  const sinCuentas   = document.getElementById('sin-cuentas');
   const modalEditar = document.getElementById('modal-editar');
-  const formEditar  = document.getElementById('formulario-editar-cuenta');
-  const formCrear   = document.getElementById('formulario-crear-cuenta');
+  const formEditar   = document.getElementById('formulario-editar-cuenta');
+  const formCrear    = document.getElementById('formulario-crear-cuenta');
 
   async function cargarUsuarios() {
     try {
@@ -1240,11 +1250,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const usuarios = await res.json();
       tablaCuerpo.innerHTML = '';
       if (!Array.isArray(usuarios) || usuarios.length === 0) {
-        sinCuentas.style.display = 'block';
+        if (sinCuentas) sinCuentas.style.display = 'block';
         return;
       }
-      sinCuentas.style.display = 'none';
+      if (sinCuentas) sinCuentas.style.display = 'none';
+      
       usuarios.forEach(u => {
+        // SOLUCIÓN AL UNDEFINED: Validamos si la propiedad viene como '.cargo' o '.rol'
+        const rolUsuario = u.cargo || u.rol || 'empleado';
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${u.usuario}</td>
@@ -1252,12 +1266,12 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${u.apellido}</td>
           <td>${u.correo}</td>
           <td>${u.telefono || '—'}</td>
-          <td><span class="badge-${u.cargo}">${u.cargo}</span></td>
+          <td><span class="badge-${rolUsuario}">${rolUsuario}</span></td>
           <td>
-            <button class="btn-edit"   onclick="prepararEdicion(${u.documento})" title="Editar">
+            <button class="btn-edit"   onclick="prepararEdicion(${u.id})" title="Editar">
               <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
-            <button class="btn-delete" onclick="eliminarUsuario(${u.documento})" title="Eliminar">
+            <button class="btn-delete" onclick="eliminarUsuario(${u.id})" title="Eliminar">
               <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
             </button>
           </td>`;
@@ -1268,114 +1282,76 @@ document.addEventListener('DOMContentLoaded', () => {
       mostrarAlerta('Error al conectar con el servidor', 'error');
     }
   }
-
-
-  formCrear?.addEventListener('submit', async e => {
-    e.preventDefault();
-    const pass = document.getElementById('contrasena').value;
-    const conf = document.getElementById('confirmar').value;
-    if (pass !== conf) { mostrarAlerta('Las contraseñas no coinciden', 'error'); return; }
-
-    const tel = document.getElementById('telefono').value;
-    if (!/^[36][0-9]{9}$/.test(tel)) {
-      mostrarAlerta('El teléfono debe iniciar por 3 o 6 y tener exactamente 10 dígitos.', 'error');
-      return;
+window.prepararEdicion = async function(id) {
+  const pwd = prompt('Ingrese su contraseña de GERENTE para autorizar la edición:');
+  if (pwd === null) return;
+  
+  try {
+    const verif = await fetch('/verificar-password-admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password_ingresada: pwd })
+    });
+    
+    const r = await verif.json();
+    if (!r.success) { 
+      mostrarAlerta('Contraseña de Gerente incorrecta.', 'error'); 
+      return; 
     }
-
-    const datos = {
-      documento:      document.getElementById('num_doc').value.trim(),
-      tipo_documento: document.getElementById('tipo_doc').value,
-      nombre:         document.getElementById('nombre').value.trim(),
-      apellido:       document.getElementById('apellido').value.trim(),
-      usuario:        document.getElementById('usuario').value.trim(),
-      telefono:       tel,
-      correo:         document.getElementById('correo').value.trim(),
-      contrasena:     pass,
-      cargo:          document.getElementById('rol').value
-    };
-    try {
-      const res  = await fetch('/guardar-usuario', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-      });
-      const json = await res.json();
-      if (res.ok && json.success) {
-        mostrarAlerta('¡Cuenta creada con éxito!', 'ok');
-        formCrear.reset();
-        [1,2,3,4].forEach(i => document.getElementById('s'+i).style.background = 'var(--border)');
-        document.getElementById('strength-label').textContent = '';
-        document.getElementById('match-label').textContent    = '';
-        document.querySelector('[data-pestaña="administrar"]')?.click();
-      } else {
-        mostrarAlerta(json.message || 'Error al registrar la cuenta', 'error');
-      }
-    } catch (err) {
-      console.error(err);
-      mostrarAlerta('Error de conexión con el servidor', 'error');
-    }
-  });
-
-
-  window.prepararEdicion = async documento => {
-    const pwd = prompt('Ingrese la contraseña ACTUAL de este usuario para permitir cambios:');
-    if (pwd === null) return;
-    try {
-      const verif = await fetch('/verificar-password-admin', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ documento, contrasena: pwd })
-      });
-      const r = await verif.json();
-      if (!r.success) { mostrarAlerta('Contraseña incorrecta. Sin permiso para editar.', 'error'); return; }
-      const res = await fetch(`/api/usuarios/${documento}`);
-      const u   = await res.json();
-      document.getElementById('editar-usuario-original').value = u.documento;
-      document.getElementById('editar-nombre').value           = u.nombre;
-      document.getElementById('editar-apellido').value         = u.apellido;
-      document.getElementById('editar-usuario').value          = u.usuario;
-      document.getElementById('editar-telefono').value         = u.telefono || '';
-      document.getElementById('editar-correo').value           = u.correo;
-      document.getElementById('editar-rol').value              = u.cargo;
-      modalEditar.classList.add('open');
-    } catch (err) { console.error(err); mostrarAlerta('Error de conexión', 'error'); }
-  };
-
-
-  formCrear?.addEventListener('submit', async e => {
-  e.preventDefault();
-  await saveNew();
-});
+    
+    // Cambiamos la ruta para pedirlo por ID al backend
+    const res = await fetch(`/api/usuarios/${id}`);
+    const u   = await res.json();
+    
+    // Llenas los campos exactamente igual
+    document.getElementById('editar-usuario-original').value = u.documento;
+    document.getElementById('editar-nombre').value           = u.nombre;
+    document.getElementById('editar-apellido').value         = u.apellido;
+    document.getElementById('editar-usuario').value          = u.usuario;
+    document.getElementById('editar-telefono').value         = u.telefono || '';
+    document.getElementById('editar-correo').value           = u.correo;
+    document.getElementById('editar-rol').value              = u.cargo || u.rol;
+    
+    const modalEditar = document.getElementById('modal-editar');
+    if (modalEditar) modalEditar.classList.add('open');
+    
+  } catch (err) { 
+    console.error(err); 
+    mostrarAlerta('Error de conexión', 'error'); 
+  }
+};
 
 async function saveNew() {
-  const tipo_documento = document.getElementById('tipo_doc').value.trim();
-  const documento = document.getElementById('num_doc').value.trim();
-  const nombre = document.getElementById('nombre').value.trim();
-  const apellido = document.getElementById('apellido').value.trim();
-  const usuario = document.getElementById('usuario').value.trim();
-  const telefono = document.getElementById('telefono').value.trim();
-  const correo = document.getElementById('correo').value.trim();
-  const contrasena = document.getElementById('contrasena').value.trim();
-  const confirmar = document.getElementById('confirmar').value.trim();
-  const admin_key = document.getElementById('admin-key').value.trim();
+  // Usamos el operador '?.' para que si no encuentra el ID, no rompa la página
+  const tipo_documento = document.getElementById('tipo_doc')?.value.trim() || '';
+  const documento = document.getElementById('num_doc')?.value.trim() || '';
+  const nombre = document.getElementById('nombre')?.value.trim() || '';
+  const apellido = document.getElementById('apellido')?.value.trim() || '';
+  const usuario = document.getElementById('usuario')?.value.trim() || '';
+  const telefono = document.getElementById('telefono')?.value.trim() || '';
+  const correo = document.getElementById('correo')?.value.trim() || '';
+  const contrasena = document.getElementById('contrasena')?.value.trim() || '';
+  const confirmar = document.getElementById('confirmar')?.value.trim() || '';
+  
+  // Si no usas llave de administrador en el formulario, esto devolverá vacío en lugar de dar error
+  const admin_key = document.getElementById('admin-key')?.value.trim() || 'NO_KEY';
 
-  // Validar que todos estén llenos
-  if (!tipo_documento ||!documento ||!nombre ||!apellido ||!usuario ||!telefono ||!correo ||!contrasena ||!confirmar ||!admin_key) {
-    mostrarAlerta("Todos los campos son obligatorios. Por favor, completa el formulario.", 'error');
+  // Validar que todos estén llenos (Quitamos admin_key de la validación estricta por si no lo tienes en el HTML)
+  if (!tipo_documento || !documento || !nombre || !apellido || !usuario || !telefono || !correo || !contrasena || !confirmar) {
+    mostrarAlerta("Todos los campos obligatorios deben estar completos.", 'error');
     return;
   }
 
-  // Validar contraseñas
-  if (contrasena!== confirmar) {
+  if (contrasena !== confirmar) {
     mostrarAlerta('Las contraseñas no coinciden', 'error');
     return;
   }
 
-  // Validar correo Gmail
   if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
     mostrarAlerta("El correo debe tener formato válido: algo@gmail.com", 'error');
     return;
   }
 
-  // Validar teléfono
   if (!/^[36][0-9]{9}$/.test(telefono)) {
     mostrarAlerta("El teléfono debe tener 10 dígitos y empezar con 3 o 6.", 'error');
     return;
@@ -1391,7 +1367,8 @@ async function saveNew() {
     correo,
     contrasena,
     admin_key,
-    rol: 'empleado' // Asignar cargo por defecto, puedes cambiarlo según tu lógica
+    cargo: 'empleado', 
+    rol: 'empleado' 
   };
 
   try {
@@ -1404,17 +1381,24 @@ async function saveNew() {
     const json = await response.json();
     if (response.ok && json.success) {
       mostrarAlerta("Cuenta creada correctamente.", 'ok');
-      formCrear.reset();
-      [1,2,3,4].forEach(i => document.getElementById('s'+i).style.background = 'var(--border)');
-      document.getElementById('strength-label').textContent = '';
-      document.getElementById('match-label').textContent = '';
+      if (formCrear) formCrear.reset();
+      [1,2,3,4].forEach(i => {
+        const line = document.getElementById('s'+i);
+        if (line) line.style.background = 'var(--border)';
+      });
+      
+      const strLabel = document.getElementById('strength-label');
+      const matchLabel = document.getElementById('match-label');
+      if (strLabel) strLabel.textContent = '';
+      if (matchLabel) matchLabel.textContent = '';
+      
       document.querySelector('[data-pestaña="administrar"]')?.click();
     } else {
       mostrarAlerta(json.message || "Error al registrar la cuenta", 'error');
     }
   } catch (error) {
     console.error("Error al agregar usuario:", error);
-    mostrarAlerta("Error: " + error.message, 'error');
+    mostrarAlerta("Error al conectar con el servidor", 'error');
   }
 }
 
@@ -1432,7 +1416,6 @@ async function saveNew() {
     } catch (err) { mostrarAlerta('Error de conexión', 'error'); }
   };
 
-
   function mostrarAlerta(mensaje, tipo = 'ok') {
     const alerta = document.createElement('div');
     alerta.textContent = mensaje;
@@ -1446,11 +1429,9 @@ async function saveNew() {
     setTimeout(() => alerta.remove(), 3000);
   }
 
-
   function cerrarModal() {
-    modalEditar.classList.remove('open');
-    formEditar.reset();
-    // Limpiar bordes de validación del modal al cerrar
+    if (modalEditar) modalEditar.classList.remove('open');
+    if (formEditar) formEditar.reset();
     ['editar-telefono','editar-correo'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.borderColor = '';
@@ -1462,34 +1443,32 @@ async function saveNew() {
   modalEditar?.addEventListener('click', e => { if (e.target === modalEditar) cerrarModal(); });
 
 });
+
+// SOLUCIÓN AL ERROR STYLE: Movemos todo el control de carga e intervalos al evento 'load'
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
   const app = document.getElementById('app');
-  
-  // Espera 2 seg o hasta que cargue tu JS pesado
-  setTimeout(() => {
-    loader.classList.add('hide');
-    
-    // Quita del DOM después de la animación
-    setTimeout(() => {
-      loader.style.display = 'none';
-      app.style.display = 'block';
-    }, 700);
-  }, 3500);
-});
-let progreso = document.getElementById('progreso');
-let porcentaje = 0;
+  const progreso = document.getElementById('progreso');
+  let porcentaje = 0;
 
-let intervalo = setInterval(() => {
-  porcentaje += Math.random() * 15; // avanza random
-  if (porcentaje >= 100) {
-    porcentaje = 100;
-    clearInterval(intervalo);
-    // aquí ocultas el loader
-    document.getElementById('loader').style.display = 'none';
+  if (progreso) {
+    let intervalo = setInterval(() => {
+      porcentaje += Math.random() * 15; 
+      if (porcentaje >= 100) {
+        porcentaje = 100;
+        clearInterval(intervalo);
+        if (loader) loader.style.display = 'none';
+        if (app) app.style.display = 'block';
+      }
+      progreso.style.width = porcentaje + '%';
+    }, 300);
+  } else {
+    // Si no encuentra la barra de progreso, oculta el loader por seguridad directamente
+    if (loader) loader.style.display = 'none';
+    if (app) app.style.display = 'block';
   }
-  progreso.style.width = porcentaje + '%';
-}, 300);
+});
+</script>
 </script>
 </body>
 </html>
