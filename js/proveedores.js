@@ -786,8 +786,4 @@ function mostrarModalEliminarProveedor(id){
 function cerrarModalEliminarProveedor(){
     document.getElementById("modalEliminarProveedor").style.display = "none";
     idProveedorAEliminar = null;
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> d52ee77d13472ad4a7ce9759c1405261ce8704e7
+} 
