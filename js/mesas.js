@@ -5,24 +5,24 @@
     /**
      * Consulta al backend la lista de productos
      */
-    function cargarProductosDisponibles() {
-        return fetch('/obtener-productos')
-            .then(resp => resp.json())
-            .then(productos => {
-                productosDisponibles = productos.map(p => ({
-                    id: p.id_producto,
-                    nombre: p.nombre_producto,
-                    marca: p.marca_producto,
-                    precio: p.precio_unitario_producto,
-                    cantidad: p.cantidad_producto
-                }));
-                return productosDisponibles;
-            })
-            .catch(err => {
-                console.error('Error cargando productos disponibles:', err);
-                return [];
-            });
-    }
+function cargarProductosDisponibles() {
+    return fetch('/obtener-productos')
+        .then(resp => resp.json())
+        .then(productos => {
+            productosDisponibles = productos.map(p => ({
+                id: p.id,
+                nombre: p.nombre,
+                marca: p.marca,
+                precio: p.precio_unitario,
+                cantidad: p.cantidad
+            }));
+            return productosDisponibles;
+        })
+        .catch(err => {
+            console.error('Error cargando productos disponibles:', err);
+            return [];
+        });
+}
 
     // Traer productos e inicializar eventos globales al iniciar
     document.addEventListener('DOMContentLoaded', () => {
