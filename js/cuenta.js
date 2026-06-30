@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 3. GUARDAR NUEVO USUARIO (EVITA PANTALLA NEGRA) ---
+    // --- 3. GUARDAR NUEVO USUARIO  ---
     formCrearCuenta.addEventListener('submit', async (e) => {
         e.preventDefault(); // Detiene el envío automático del navegador
 
@@ -105,43 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 4. PREPARAR EDICIÓN (PIDE CONTRASEÑA DEL USUARIO A EDITAR) ---
-    window.prepararEdicion = async (id) => {
-        const password_ingresada = prompt("Ingrese la contraseña ACTUAL de este usuario para permitir cambios:");
-        
-        if (!password_ingresada) return;
 
-        try {
-            const verif = await fetch('/verificar-password-admin', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({documento: id, contrasena: password_ingresada })
-            });
-
-            const resultado = await verif.json();
-
-            if (resultado.success) {
-                const res = await fetch('/obtener-usuarios');
-                const usuarios = await res.json();
-                const u = usuarios.find(u => u.id_usuario === id);
-
-                if (u) {
-                    document.getElementById('editar-usuario-original').value = u.documento || u.id_usuario;
-                    document.getElementById('editar-nombre').value = u.nombre_usuario || u.nombre || '';
-                    document.getElementById('editar-apellido').value = u.apellido_usuario || u.apellido || '';
-                    document.getElementById('editar-usuario').value = u.usuario_usuario || u.usuario || '';
-                    document.getElementById('editar-correo').value = u.correo_usuario || u.correo || '';
-                    document.getElementById('editar-rol').value = u.cargo_usuario || u.cargo || '';
-
-                    modalEditar.style.display = 'flex';
-                }
-            } else {
-                alert("Contraseña incorrecta. No tienes permiso para editar este perfil.");
-            }
-        } catch (error) {
-            console.error("Error en validación:", error);
-        }
-    };
 
     // --- 5. GUARDAR CAMBIOS DE EDICIÓN ---
     formEditar.addEventListener('submit', async (e) => {
