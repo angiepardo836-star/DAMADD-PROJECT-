@@ -107,35 +107,205 @@
       padding: 2.4rem 2rem 3rem;
     }
 
-    .pestanas-cuenta {
-      display: flex; gap: 0;
-      margin-bottom: 2rem;
-      border-radius: 10px; overflow: hidden;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.5);
-      flex-shrink: 0;
-    }
-    .pestaña-btn {
-      padding: .7rem 2rem;
-      border: 1.5px solid var(--border);
-      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .9rem;
-      cursor: pointer;
-      background: var(--bg-card); color: var(--text-muted);
-      transition: background .25s, color .25s, border-color .25s;
-      white-space: nowrap;
-    }
-    .pestaña-btn:first-child { border-radius: 10px 0 0 10px; border-right: none; }
-    .pestaña-btn:last-child  { border-radius: 0 10px 10px 0; border-left: 1.5px solid var(--border); }
-    .pestaña-btn.activo {
-      background: var(--color-principal); color: #000;
-      border-color: var(--green);
-      box-shadow: inset 0 0 0 1px var(--green-dark);
-    }
-    .pestaña-btn:hover:not(.activo) { color: var(--green); border-color: var(--green-border); }
+.pestanas-cuenta {
+  display: flex;
+  justify-content: center; /* Centra los tres botones en la pantalla */
+  gap: 12px;               /* Separa limpiamente los botones entre sí */
+  margin-top: 20px;        /* Espacio respecto a la barra superior "CUENTA" */
+  margin-bottom: 25px;     /* Espacio antes de que empiece la tabla o el formulario */
+}
 
-    .contenido-area { width: 100%; display: flex; justify-content: center; }
-    .pestaña-contenido { display: none; width: 100%; }
-    .pestaña-contenido.activo { display: flex; justify-content: center; width: 100%; }
-    #administrar.pestaña-contenido.activo { max-width: 1400px; margin: 0 auto; }
+.pestaña-btn {
+  padding: .7rem 2rem;
+  border: 1.5px solid var(--border);
+  font-family: 'Poppins', sans-serif; 
+  font-weight: 600; 
+  font-size: .9rem;
+  cursor: pointer;
+  background: var(--bg-card); 
+  color: var(--text-muted);
+  transition: background .25s, color .25s, border-color .25s;
+  white-space: nowrap;
+  border-radius: 8px; /* Redondea los 4 lados de forma individual por igual */
+}
+
+.pestaña-btn.activo {
+  background: var(--color-principal); 
+  color: #fff; /* Cambio a texto blanco sobre el morado para legibilidad */
+  border-color: var(--green); /* Borde verde brillante alrededor de todo el botón */
+}
+
+.pestaña-btn:hover:not(.activo) { 
+  color: var(--green); 
+  border-color: var(--green-border); 
+}
+
+/* Efecto hover al pasar el ratón por encima del marco del avatar */
+.avatar-frame:hover {
+  transform: scale(1.04);
+  border-color: var(--color-principal) !important;
+}
+
+.contenido-area { width: 100%; display: flex; justify-content: center; }
+.pestaña-contenido { display: none; width: 100%; }
+.pestaña-contenido.activo { display: flex; justify-content: center; width: 100%; }
+#administrar.pestaña-contenido.activo { max-width: 1400px; margin: 0 auto; }
+
+
+/* Tarjeta Principal del Perfil */
+.perfil-card {
+  background: #1e1e1e; /* Fondo oscuro de la tarjeta */
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  border: 1px solid #2e1065;
+  /* Resplandor verde brillante exterior simétrico al de la imagen */
+  box-shadow: 0 0 25px rgba(0, 230, 118, 0.25); 
+  margin: 10px auto;
+}
+
+/* Encabezados */
+.perfil-card h2 {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.perfil-card h3 {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.destacado-verde {
+  color: #00e676; /* Verde brillante */
+}
+
+/* Contenedor del Avatar */
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.avatar-frame {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid #00e676; /* Borde verde de la foto */
+  padding: 3px;
+  background: #1e1e1e;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Pequeña insignia de icono superpuesto abajo a la derecha de la foto */
+.avatar-icon-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: #424242;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  border: 1.5px solid #1e1e1e;
+}
+
+.avatar-role {
+  color: #aaaaaa;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+/* Distribución del Formulario en 2 Columnas */
+.perfil-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Divide en dos columnas perfectas */
+  gap: 1.2rem;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Campos de lectura */
+.form-group input {
+  background: #2a2a2a;
+  border: 1px solid #444444;
+  color: #dddddd;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Opcional: Estilo visual cuando están bloqueados (readonly) */
+.form-group input[readonly] {
+  cursor: default;
+  background: #252525;
+}
+
+/* Contenedor del botón inferior centrado */
+.form-actions {
+  grid-column: span 2; /* Hace que el contenedor ocupe el ancho de ambas columnas */
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Botón Editar Datos */
+.btn-editar {
+  background: #252525;
+  color: #ffffff;
+  border: 1.5px solid #00e676; /* Borde verde como el de la captura */
+  padding: 0.6rem 2rem;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-editar:hover {
+  background: #00e676;
+  color: #000000;
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+}
+
+
     .card {
       background: var(--bg-card);
       border: 1.5px solid var(--green-border);
@@ -589,8 +759,10 @@
 <main class="page-main">
 
   <div class="pestanas-cuenta">
-    <button class="pestaña-btn activo" data-pestaña="crear">Crear Cuenta</button>
+    <button class="pestaña-btn" data-pestaña="perfil">Mi Perfil</button>
     <button class="pestaña-btn" data-pestaña="administrar">Administrar Cuentas</button>
+    <button class="pestaña-btn activo" data-pestaña="crear">Crear Cuenta</button>
+   
   </div>
 
   <div class="contenido-area">
@@ -728,6 +900,83 @@
         <div id="sin-cuentas" class="mensaje-vacio" style="display:none">
           <p>No hay cuentas registradas aún.</p>
         </div>
+      </div>
+    </div>
+
+
+<div id="perfil" class="pestaña-contenido">
+      <div class="perfil-card">
+        <h1>Perfil <span>Gerente</span></h1>
+        
+        <!-- Contenedor del Avatar adaptable para subir archivos -->
+        <div class="avatar-container" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem;">
+          <label for="input-avatar" class="avatar-frame" title="Cambiar foto de perfil" style="position: relative; width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--green); padding: 3px; cursor: pointer; display: block; transition: transform 0.2s ease;">
+            <!-- Puedes colocar una imagen por defecto aquí -->
+            <img src="https://via.placeholder.com/110" alt="Foto de Gerente" id="avatar-preview" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+            <div class="avatar-icon-badge" style="position: absolute; bottom: 2px; right: 2px; background: #424242; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 1.5px solid #1e1e1e;">
+              <svg style="width: 14px; height: 14px; fill: currentColor;"><use href="#ic-user"/></svg>
+            </div>
+          </label>
+          <input type="file" id="input-avatar" accept="image/*" style="display: none;">
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem; font-family: 'Poppins', sans-serif;">Gerente</p>
+        </div>
+
+        <h2 style="font-family: 'Poppins', sans-serif; color: #ffffff; font-size: 1.2rem; text-align: center; margin-bottom: 1.5rem;">Datos Personales</h2>
+
+        <form id="formulario-perfil" autocomplete="off">
+          <div class="field-row">
+            <div class="field-group">
+              <label>Nombre</label>
+              <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-user"/></svg>
+                <input type="text" value="Yulieth Daniela" readonly>
+              </div>
+            </div>
+            <div class="field-group">
+              <label>Apellido</label>
+              <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-user"/></svg>
+                <input type="text" value="Fonseca García" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Documento</label>
+              <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-hash"/></svg>
+                <input type="text" value="+57 3223122111" readonly>
+              </div>
+            </div>
+            <div class="field-group">
+              <label>Correo</label>
+              <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-mail"/></svg>
+                <input type="email" value="gerente@correo.com" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Usuario</label>
+              <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-at"/></svg>
+                <input type="text" value="gerente_yulieth" readonly>
+              </div>
+            </div>
+            <div class="field-group">
+              <label>Rol</label>
+              <div class="input-wrap">
+                <svg class="input-icon"><use href="#ic-user"/></svg>
+                <input type="text" value="Gerente Principal" readonly>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn-primary" style="background: transparent; border: 1.5px solid var(--green); color: #fff; margin-top: 1.5rem;">Editar Datos</button>
+        </form>
       </div>
     </div>
 
@@ -1466,6 +1715,18 @@ window.addEventListener('load', () => {
     // Si no encuentra la barra de progreso, oculta el loader por seguridad directamente
     if (loader) loader.style.display = 'none';
     if (app) app.style.display = 'block';
+  }
+});
+
+document.getElementById('input-avatar').addEventListener('change', function(event) {
+  const archivo = event.target.files[0];
+  if (archivo) {
+    const lector = new FileReader();
+    lector.onload = function(e) {
+      // Actualiza la visualización de la foto en tiempo real
+      document.getElementById('avatar-preview').src = e.target.result;
+    };
+    lector.readAsDataURL(archivo);
   }
 });
 </script>
