@@ -310,7 +310,7 @@ if (producto.imagen) {
 
     // Mapeo directo y seguro
     if (marcaLimpia.includes('poker')) {
-        urlImagen = 'imagenes/poker.png';
+        urlImagen = 'https://static.wixstatic.com/media/d9f50b_b4affb2c757144edbb7afb86dec1ead4~mv2.png/v1/fill/w_480,h_480,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d9f50b_b4affb2c757144edbb7afb86dec1ead4~mv2.png';
     } else if (marcaLimpia.includes('aguila')) { // Ahora sí atrapará 'Águila' o 'aguila'
         urlImagen = 'https://i.revistapym.com.co/cms/2025/04/03170436/7.png?w=412&d=2.625';
     } else if (marcaLimpia.includes('club colombia') || marcaLimpia.includes('club')) {
@@ -333,8 +333,6 @@ if (producto.imagen) {
         urlImagen = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRocLCfNwtWTMLgFWcaxveWE_T8ku0S42rJABOVU2TUnVGTcgGZsEnWRBDT&s=10';
     } else if (marcaLimpia.includes('cristal')) {
         urlImagen = 'https://lacaretalicores.com/cdn/shop/files/AGUA_CRISTAL_BOTELLA_600ML.webp?v=1764819735';
-    } else if (marcaLimpia.includes('poker')) {
-        urlImagen = 'https://static.wixstatic.com/media/d9f50b_b4affb2c757144edbb7afb86dec1ead4~mv2.png/v1/fill/w_480,h_480,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d9f50b_b4affb2c757144edbb7afb86dec1ead4~mv2.png';
     }
 }
     // --------------------------------------------------------
