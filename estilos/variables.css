@@ -45,46 +45,237 @@ body {
 .tema-azul footer {
     background: linear-gradient(98deg, #3159c9, #010511) !important;
 }
-
-/* BOTONES OPCIONAL */
-body:not(.mesas-page).tema-rojo button {
-    background: linear-gradient(98deg, #990000,#5a1414);
-    color: white;
-}
-
-body:not(.mesas-page).tema-morado button {
-    background: linear-gradient(98deg, #572b96, #1f084a);
-    color: white;
-}
-
-body:not(.mesas-page).tema-azul button {
-    background: linear-gradient(98deg, #3159c9, #021349);
-    color: white;
-}
+/* INICIO DE PANEL DE ACCESIBILIDAD */
+/* PANEL DE ACCESIBILIDAD */
 .boton-accesibilidad {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #333;
-    color: white;
-    padding: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 9999;
+    position:fixed;
+    right:30px;
+    bottom:20px;
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    background:#242424;
+    color:white;
+    box-shadow: 
+        0 0 25px rgba(0,255,0,.35);
+    border:2px solid var(--color-principal);
+    transition:.35s;
+    z-index:99999;
+}
+.boton-accesibilidad:hover{
+    transform:scale(1.08);
+    box-shadow: 
+        0 0 35px var(--color-principal);
 }
 
 .panel-accesibilidad {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    display: none;
+    position:fixed;
+    right:30px;
+    bottom:130px;
+    width:320px;
+    background:#16181d;
+    border-radius:25px;
+    border:2px solid var(--color-principal);
+    box-shadow:
+        0 0 30px rgba(0,0,0,.55),
+        0 0 25px var(--color-principal);
+    display:none;
+    overflow:hidden;
+    z-index:99999;
+    animation:abrirPanel .35s ease;
 }
+/* Cuando el panel está abierto */
+.panel-accesibilidad.mostrar{
+    display:block;
+}
+
 h1, h2, h3  {
     text-shadow: 2px 6px 10px var(--sombra-texto);
 }
+/* ESTILOS DE LA CABECERA*/
+.panel-header{
+    position: relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:20px 25px;
+    text-align:center
+}
+/* ESTILOS PARA EL TITULO*/
+.panel-header h2{
+    margin:10px 0 5px;
+    font-size:18px;
+}
+
+.panel-header p{
+    margin-top:5px;
+    color:#bbbbbb;
+    font-size:15px;
+}
+
+.cerrar-panel{
+    position:absolute;
+    top:10px;
+    right:20px;
+    background:none;
+    border:none;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.linea-panel{
+    height:1px;
+    background:#3d3d3d;
+    margin:0 25px;
+}
+
+
+/* ESTILOS PARA EL CONTENEDOR DE OPCIONES*/
+.panel-body{
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+
+/* ESTILOS PARA LAS TARJETA*/
+.opcion-tema{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-radius:13px;
+    padding:10px 12px;
+    cursor:pointer;
+    transition:.30s;
+    border:2px solid transparent;
+}
+
+.opcion-tema:hover{
+        transform:translateY(-2px);
+        box-shadow:0 0 18px var(--color-principal);
+}
+
+
+/* ESTILOS PARA LA INFORMACIÓN DEL TEMA */
+
+.info-tema{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* ESTILOS PARA EL CIRCULO DONDE VAN LOS ICONOS*/
+.icono-tema{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+/* ESTILOS PARA EL TEXTO DEL TEMA */
+
+.texto-tema h3{
+    margin:0;
+    font-size:16px;
+}
+
+.texto-tema p{
+    margin-top:2px;
+    color:#bdbdbd;
+    font-size:12px;
+}
+
+
+/* ESTILOS PARA LA FLECHA*/
+
+.flecha{
+    font-size:22px;
+    color:white;
+}
+
+
+/* ESTILOS PARA LAS TARJETAS ROJAS */
+
+.tema-card-rojo{
+    border-color:#d32020;
+    background:#2b1717;
+}
+
+.tema-card-rojo .icono-tema{
+    background:#571717;
+    color:#ff5252;
+}
+
+
+/* ESTILOS PARA LAS TARJETAS MORADAS */
+
+.tema-card-morado{
+    border-color:#8d45ff;
+    background:#221d32;
+}
+
+.tema-card-morado .icono-tema{
+    background:#40215e;
+    color:#b76cff;
+}
+
+
+/* ESTILOS PARA LAS TARJETAS AZULES */
+
+.tema-card-azul{
+    border-color:#2d8cff;
+    background:#182431;
+}
+
+.tema-card-azul .icono-tema{
+    background:#163b63;
+    color:#4ea2ff;
+}
+
+
+/* ESTILOS PARA LAS TARJETAS DE RESTABLECER*/
+.tema-card-reset{
+    border-color:#1cc84f;
+    background:#172c1b;
+}
+
+.tema-card-reset .icono-tema{
+
+    background:#184d27;
+    color:#3cff72;
+}
+
+
+/* ANIMACIÓN*/
+    @keyframes abrirPanel{
+
+        from{
+
+            opacity:0;
+
+            transform:translateY(20px);
+        }
+
+        to{
+
+            opacity:1;
+
+            transform:translateY(0);
+        }
+    }
+/* FIN ESTILOS DE PANEL DE ACCESIBILIDAD */
 /* 🔴 ROJO */
 .tema-rojo {
     --color-principal: rgb(209, 18, 18);

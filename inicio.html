@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="estilos/variables.css"> 
     <link rel="stylesheet" href="estilos/global.css">
     <link rel="stylesheet" href="estilos/carga.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     
 
@@ -488,14 +489,156 @@
   </footer> <!-- Fin footer -->
 <!-- Script para controlar el carrusel -->
  <!-- BOTÓN FLOTANTE -->
-<div class="boton-accesibilidad">🎨</div>
+      <!-- Botón de accesibilidad -->
+      <button id="btnAccesibilidad" class="boton-accesibilidad" title="Opciones de accesibilidad">
+          🎨
+      </button>
 
-<div class="panel-accesibilidad" id="panel">
-    <button onclick="cambiarTema('rojo')">Rojo</button>
-    <button onclick="cambiarTema('morado')">Morado</button>
-    <button onclick="cambiarTema('azul')">Azul</button>
-    <button onclick="restablecerTema()">Restablecer</button>
-</div>
+      <div id="panelAccesibilidad" class="panel-accesibilidad">
+
+          <!-- Cabecera -->
+          <div class="panel-header">
+
+              <div class="info-panel">
+
+                  <div>
+
+                      <h2>Opciones de accesibilidad</h2>
+
+                      <p>Personaliza la apariencia</p>
+
+                  </div>
+
+              </div>
+
+              <button class="cerrar-panel" id="cerrarPanel">
+                  ✕
+              </button>
+
+          </div>
+
+          <div class="linea-panel"></div>
+
+
+          <!-- Opciones -->
+          <div class="panel-body">
+              <!-- Tarjetica roja -->
+              <div class="opcion-tema tema-card-rojo"
+                  onclick="cambiarTema('rojo')">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Rojo</h3>
+
+                          <p>
+                              Aplica el tema con<br>
+                              tonos rojos
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+              <!-- Tarjetica morada -->
+              <div class="opcion-tema tema-card-morado"
+                  onclick="cambiarTema('morado')">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Morado</h3>
+
+                          <p>
+                              Aplica el tema con<br>
+                              tonos morados
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+              <!-- Tarjetica azul -->
+              <div class="opcion-tema tema-card-azul"
+                  onclick="cambiarTema('azul')">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Azul</h3>
+
+                          <p>
+                              Aplica el tema con<br>
+                              tonos azules
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+              <!-- Trestablecer tema  -->
+              <div class="opcion-tema tema-card-reset"
+                  onclick="restablecerTema()">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          ↻
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Restablecer</h3>
+
+                          <p>
+                              Vuelve al tema<br>
+                              predeterminado
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+
+
+          </div>
+
+      </div>
 <!-- Botón flotante de música -->
 <button id="musicBtn" onclick="toggleMusicPanel()"
         style="position:fixed; bottom:90px; right:20px; width:55px; height:55px; 
@@ -523,18 +666,36 @@
 </div>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-// 1. CONTROL DE APARICIÓN DE LOS PANELES (Asegura que el HTML exista)
-document.addEventListener("DOMContentLoaded", function () {
-    const botonAccesibilidad = document.querySelector(".boton-accesibilidad");
-    const panelAccesibilidad = document.getElementById("panel");
+// función para panel de accesibilidad 
+window.addEventListener("DOMContentLoaded", () => {
 
-    if (botonAccesibilidad && panelAccesibilidad) {
-        botonAccesibilidad.onclick = function () {
-            panelAccesibilidad.style.display = panelAccesibilidad.style.display === "block" ? "none" : "block";
-        };
-    }
+    const boton = document.getElementById("btnAccesibilidad");
+    const panel = document.getElementById("panelAccesibilidad");
+    const cerrar = document.getElementById("cerrarPanel");
+
+    // Abrir y cerrar desde el botón
+    boton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        panel.classList.toggle("mostrar");
+    });
+
+    // Cerrar con la X
+    cerrar.addEventListener("click", () => {
+        panel.classList.remove("mostrar");
+    });
+
+    // No cerrar cuando se hace clic dentro del panel
+    panel.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+
+    // Cerrar al hacer clic fuera
+    document.addEventListener("click", () => {
+        panel.classList.remove("mostrar");
+    });
+
 });
-
+// Fin de función para panel de accesibilidad
 // 2. CONTROL DEL PANEL DE MÚSICA
 function toggleMusicPanel() {
     const panel = document.getElementById('musicPanel');
