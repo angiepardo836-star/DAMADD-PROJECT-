@@ -233,14 +233,156 @@
   </div>
 </div>
 
-        <!-- 🎨 Botón de accesibilidad -->
-    <button class="boton-accesibilidad" aria-label="Abrir opciones de accesibilidad">🎨</button>
-    <div id="panel" class="panel-accesibilidad">
-        <button onclick="cambiarTema('rojo')">Rojo</button>
-        <button onclick="cambiarTema('morado')">Morado</button>
-        <button onclick="cambiarTema('azul')">Azul</button>
-        <button onclick="restablecerTema()">Restablecer</button>
-    </div>
+      <!-- Botón de accesibilidad -->
+      <button id="btnAccesibilidad" class="boton-accesibilidad" title="Opciones de accesibilidad">
+          🎨
+      </button>
+
+      <div id="panelAccesibilidad" class="panel-accesibilidad">
+
+          <!-- Cabecera -->
+          <div class="panel-header">
+
+              <div class="info-panel">
+
+                  <div>
+
+                      <h2>Opciones de accesibilidad</h2>
+
+                      <p>Personaliza la apariencia</p>
+
+                  </div>
+
+              </div>
+
+              <button class="cerrar-panel" id="cerrarPanel">
+                  ✕
+              </button>
+
+          </div>
+
+          <div class="linea-panel"></div>
+
+
+          <!-- Opciones -->
+          <div class="panel-body">
+              <!-- Tarjetica roja -->
+              <div class="opcion-tema tema-card-rojo"
+                  onclick="cambiarTema('rojo')">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Rojo</h3>
+
+                          <p>
+                              Aplica el tema con<br>
+                              tonos rojos
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+              <!-- Tarjetica morada -->
+              <div class="opcion-tema tema-card-morado"
+                  onclick="cambiarTema('morado')">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Morado</h3>
+
+                          <p>
+                              Aplica el tema con<br>
+                              tonos morados
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+              <!-- Tarjetica azul -->
+              <div class="opcion-tema tema-card-azul"
+                  onclick="cambiarTema('azul')">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Azul</h3>
+
+                          <p>
+                              Aplica el tema con<br>
+                              tonos azules
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+              <!-- Trestablecer tema  -->
+              <div class="opcion-tema tema-card-reset"
+                  onclick="restablecerTema()">
+
+                  <div class="info-tema">
+
+                      <div class="icono-tema">
+                          ↻
+                      </div>
+
+                      <div class="texto-tema">
+
+                          <h3>Restablecer</h3>
+
+                          <p>
+                              Vuelve al tema<br>
+                              predeterminado
+                          </p>
+
+                      </div>
+
+                  </div>
+
+                  <div class="flecha">
+                      ❯
+                  </div>
+
+              </div>
+
+
+          </div>
+
+      </div>
  
     <input type="checkbox" id="btn-menu" hidden> <!-- Control oculto para el menú lateral -->
     
@@ -549,19 +691,36 @@
           </div>
       </div>
     <script>
-window.addEventListener("DOMContentLoaded", function() {
-    const boton = document.querySelector(".boton-accesibilidad");
-    const panel = document.getElementById("panel");
-    if (!boton || !panel) return;
-    boton.onclick = function() {
-        panel.style.display = panel.style.display === "block" ? "none" : "block";
-    };
-    window.addEventListener("click", function(e) {
-        if (e.target === panel) {
-            panel.style.display = "none";
-        }
+// función para panel de accesibilidad 
+window.addEventListener("DOMContentLoaded", () => {
+
+    const boton = document.getElementById("btnAccesibilidad");
+    const panel = document.getElementById("panelAccesibilidad");
+    const cerrar = document.getElementById("cerrarPanel");
+
+    // Abrir y cerrar desde el botón
+    boton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        panel.classList.toggle("mostrar");
     });
+
+    // Cerrar con la X
+    cerrar.addEventListener("click", () => {
+        panel.classList.remove("mostrar");
+    });
+
+    // No cerrar cuando se hace clic dentro del panel
+    panel.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+
+    // Cerrar al hacer clic fuera
+    document.addEventListener("click", () => {
+        panel.classList.remove("mostrar");
+    });
+
 });
+// Fin de función para panel de accesibilidad
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
   const app = document.getElementById('app');
