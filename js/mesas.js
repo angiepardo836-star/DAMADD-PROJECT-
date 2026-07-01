@@ -291,38 +291,79 @@ function cargarProductosDisponibles() {
             return;
         }
 
-        productosFiltrados.forEach((producto) => {
-            if (producto.cantidad <= 0) return;
+productosFiltrados.forEach((producto) => {
+    if (producto.cantidad <= 0) return;
 
-            const urlImagen = producto.imagen || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&auto=format&fit=crop&q=60'; 
+    // --- LÓGICA PARA ASIGNAR TU IMAGEN SEGÚN TU MARCA REAL ---
+// --- LÓGICA REPARADA PARA ASIGNAR TU IMAGEN SEGÚN TU MARCA REAL ---
+let urlImagen = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&auto=format&fit=crop&q=60'; // Por defecto si no hay match
 
-            const card = document.createElement('div');
-            card.style.cssText = 'background: white; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;';
-            
-            card.onmouseenter = () => card.style.transform = 'scale(1.02)';
-            card.onmouseleave = () => card.style.transform = 'none';
+if (producto.imagen) {
+    urlImagen = producto.imagen;
+} else if (producto.marca) {
+    // ESTO QUITA TILDES, PASA A MINÚSCULAS Y QUITA ESPACIOS
+    const marcaLimpia = producto.marca
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // Convierte 'á' en 'a'
+        .trim();
 
-            card.innerHTML = `
-                <div style="position: relative; width: 100%; height: 140px; background: #f9f9f9;">
-                    <img src="${urlImagen}" alt="${producto.nombre}" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div style="padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
-                    <div>
-                        <strong style="font-size: 15px; color: #333; display: block; margin-bottom: 2px;">${producto.nombre}</strong>
-                        <span style="font-size: 12px; color: #888; display: block;">Marca: ${producto.marca}</span>
-                        <span style="font-size: 12px; color: #fff; background: #666; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">Stock: ${producto.cantidad}</span>
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
-                        <span style="font-size: 16px; font-weight: bold; color: #146d02;">COP$ ${producto.precio.toLocaleString('es-CO')}</span>
-                        <button onclick="window.abrirConfirmacionAgregar(${producto.id});" 
-                                style="width: 100%; padding: 8px; background: #146d02; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;">
-                            Agregar
-                        </button>
-                    </div>
-                </div>
-            `;
-            productsList.appendChild(card);
-        });
+    // Mapeo directo y seguro
+    if (marcaLimpia.includes('poker')) {
+        urlImagen = 'imagenes/poker.png';
+    } else if (marcaLimpia.includes('aguila')) { // Ahora sí atrapará 'Águila' o 'aguila'
+        urlImagen = 'https://i.revistapym.com.co/cms/2025/04/03170436/7.png?w=412&d=2.625';
+    } else if (marcaLimpia.includes('club colombia') || marcaLimpia.includes('club')) {
+        urlImagen = 'https://mir-s3-cdn-cf.behance.net/project_modules/1400/b1b44215402823.562909633f131.jpg';
+    } else if (marcaLimpia.includes('heineken')) {
+        urlImagen = 'https://phantom-expansion.uecdn.es/4340bb30ee80f26098a2b748307cb41b/crop/0x0/2048x1365/resize/1200/f/webp/assets/multimedia/imagenes/2022/12/28/16721898121235.jpg';
+    } else if (marcaLimpia.includes('coronita')) {
+        urlImagen = 'https://media.istockphoto.com/id/458285549/es/foto/coronita-cerveza-en-un-d%C3%ADa-soleado.jpg?s=612x612&w=0&k=20&c=UMwf-ad15cqey68KdyuvoLDY3w_Cy3SaoshWE7QgfK8=';
+    } else if (marcaLimpia.includes('coca')) { // Busca solo 'coca' para agarrar 'Coca Cola' o 'Coca-Cola'
+        urlImagen = 'https://marx.ba/wp-content/uploads/2024/01/xcoca-cola-1-1-1024x594.jpg.pagespeed.ic.Kv4qKV8wYi.webp';
+    } else if (marcaLimpia.includes('manzana postobon')) { // Aseguramos que la marca sea 'Manzana Postobon'
+        urlImagen = 'https://http2.mlstatic.com/D_NQ_NP_992966-MCO109991199998_042026-O.webp';
+    } else if (marcaLimpia.includes('mustang')) {
+        urlImagen = 'https://www.licoresentrerios.com/wp-content/uploads/2022/02/Rothmans-Azul-x-10-Mustang-Azul.png'; // Para los cigarrillos que vi en tu captura
+    } else if (marcaLimpia.includes('margarita')) {
+        urlImagen = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgOUqMKrZirJZIlkYeXr_KN8l0urh9rPAnlNxSvNhNWbUbpD5Uruv8OiFJ&s=10';
+    } else if (marcaLimpia.includes('bacana')) {
+        urlImagen = 'https://img.lalr.co/cms/2023/08/25114409/secundaria-pleito-26-1.jpg';
+    } else if (marcaLimpia.includes('zenu')) {
+        urlImagen = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRocLCfNwtWTMLgFWcaxveWE_T8ku0S42rJABOVU2TUnVGTcgGZsEnWRBDT&s=10';
+    } else if (marcaLimpia.includes('cristal')) {
+        urlImagen = 'https://lacaretalicores.com/cdn/shop/files/AGUA_CRISTAL_BOTELLA_600ML.webp?v=1764819735';
+    }
+}
+    // --------------------------------------------------------
+
+    const card = document.createElement('div');
+    card.style.cssText = 'background: var(--fondo-degradado); border: 1px solid var(--color-principal); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease;';
+    
+    card.onmouseenter = () => card.style.transform = 'scale(1.02)';
+    card.onmouseleave = () => card.style.transform = 'none';
+
+    card.innerHTML = `
+        <div style="position: relative; width: 100%; height: 120px; background: #2d1f5e; overflow: hidden;">
+            <img src="${urlImagen}" alt="${producto.nombre}" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div style="padding: 10px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
+            <div>
+                <strong style="font-size: 13px; font-weight: 500; color: #fff; display: block; margin-bottom: 2px;">${producto.nombre}</strong>
+                <span style="font-size: 11px; color: #a89ccc; display: block; margin-bottom: 5px;">Marca: ${producto.marca}</span>
+                <span style="font-size: 10px; background: #2d1f5e; color: #c4b8f0; padding: 2px 7px; border-radius: 4px; display: inline-block; margin-bottom: 6px;">Stock: ${producto.cantidad}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
+                <span style="font-size: 14px; font-weight: 500; color: #a855f7; display: block; margin-bottom: 8px;">COP$ ${producto.precio.toLocaleString('es-CO')}</span>
+                <button onclick="window.abrirConfirmacionAgregar(${producto.id});" 
+                        style="width: 100%; padding: 7px; background: #7c3aed; color: #fff; border: none; border-radius: 7px; font-size: 12px; font-weight: 500; cursor: pointer;">
+                    Agregar
+                </button>
+            </div>
+        </div>
+    `;
+    productsList.appendChild(card);
+});
     }
 
     window.abrirConfirmacionAgregar = function(productoId) {
