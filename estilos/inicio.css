@@ -665,7 +665,19 @@ label.sub-toggle:hover .nav-icon {
     font-size: 20px;
     padding-top: 20px;
 }
+.carousel{
+  position: relative;   /* necesario para que el canvas se posicione dentro */
+  overflow: hidden;     /* evita que las partículas se salgan del contenedor */
+}
 
+#particles-canvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;           /* ajusta según tus otras capas: debe ir sobre el fondo pero debajo del texto */
+  pointer-events: none; /* que no bloquee clics en botones encima */
+}
 /* ==========================================================================
    CTA BANNER
    ========================================================================== */
