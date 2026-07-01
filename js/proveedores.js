@@ -41,7 +41,7 @@ async function obtenerProveedores() {
                 <td><span class="badge-tipo">${p.tipo_documento}</span></td>
                 <td><span class="badge-doc">${p.documento}</span></td>
                 <td>${p.nombre}</td>
-                <td>${p.apellido}</td>
+                <td>${p.apellido || 'N/A'}</td>
                 <td>${p.telefono}</td>
                 <td>${p.ciudad}</td>
                 <td>${p.direccion}</td>
@@ -256,7 +256,8 @@ async function guardarEdicion(btn) {
     const tipo_documento = (celdas[0].querySelector('span') || celdas[0]).innerText.trim();
     const documento      = (celdas[1].querySelector('span') || celdas[1]).innerText.trim();
     const nombre         = celdas[2].querySelector("input").value.trim();
-    const apellido       = celdas[3].querySelector("input").value.trim();
+    const apellidoTexto = celdas[3].querySelector("input").value.trim();
+    const apellido = (apellidoTexto === "" || apellidoTexto === "N/A") ? null : apellidoTexto;
     const telefono       = celdas[4].querySelector("input").value.trim();
     const ciudad         = celdas[5].querySelector("input").value.trim();
     const direccion      = celdas[6].querySelector("input").value.trim();
