@@ -704,7 +704,85 @@ footer.footer-main {
     overflow: hidden !important;
     animation: modalSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+.pedido-modal-content{ max-width: 1200px !important; width: 95% !important; }
 
+.pedido-layout{
+  display: grid;
+  grid-template-columns: 220px 1fr 300px;
+  gap: 18px;
+  margin-top: 16px;
+}
+.pedido-layout > div{
+  background: var(--fondo-degradado, #1f0a38);
+  border: 1px solid var(--color-principal, #a855f7);
+  border-radius: 12px;
+  padding: 14px;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+.pedido-layout h3{ font-size: 14px; margin: 0 0 12px 0; color: #fff; }
+
+/* MESAS */
+.mesas-pedido-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  overflow-y: auto;
+}
+.mesa-pedido-btn{
+  background: #2d1f5e;
+  border: 1.5px solid var(--color-principal, #a855f7);
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .15s ease, border-color .15s ease;
+}
+.mesa-pedido-btn:hover{ transform: translateY(-2px); }
+.mesa-pedido-btn .num{ display: block; font-size: 12.5px; font-weight: 600; color: #fff; }
+.mesa-pedido-btn .estado{ display: block; font-size: 10px; color: #a89ccc; margin-top: 3px; }
+.mesa-pedido-btn.ocupada{ background: linear-gradient(160deg, #7c3aed, #5b21b6); }
+.mesa-pedido-btn.ocupada .estado{ color: #ecdcff; }
+.mesa-pedido-btn.activa{ box-shadow: 0 0 0 2px #fff; }
+
+/* MENU */
+.panel-menu-pedido input{
+  width: 100%; padding: 10px; margin-bottom: 12px;
+  border-radius: 8px; border: 1px solid var(--color-principal, #a855f7);
+  box-sizing: border-box;
+}
+.products-list-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  overflow-y: auto;
+}
+
+/* REGISTRO */
+.registro-mesa-activa{ font-size: 13px; color: #c4b8f0; margin-bottom: 10px; }
+.registro-items{ flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.registro-vacio{ color: #a89ccc; font-size: 12.5px; text-align: center; margin-top: 30px; }
+.registro-item-row{
+  background: #2d1f5e; border: 1px solid var(--color-principal, #a855f7);
+  border-radius: 8px; padding: 8px; display: flex; align-items: center; gap: 8px;
+}
+.registro-item-row .info{ flex: 1; min-width: 0; }
+.registro-item-row .nombre{ font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.registro-item-row .precio-u{ font-size: 10px; color: #a89ccc; }
+.qty-ctrl{ display: flex; align-items: center; gap: 6px; }
+.qty-ctrl button{
+  width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--color-principal, #a855f7);
+  background: #170729; color: #fff; cursor: pointer;
+}
+.qty-ctrl span{ font-size: 12px; min-width: 14px; text-align: center; color: #fff; }
+.item-total{ font-size: 11.5px; font-weight: 600; color: #a855f7; min-width: 55px; text-align: right; }
+.registro-total{
+  border-top: 1px solid var(--color-principal, #a855f7);
+  margin-top: 10px; padding-top: 10px;
+  display: flex; justify-content: space-between;
+  font-size: 15px; font-weight: 700; color: #fff;
+}
 @keyframes modalSlideIn {
     from { transform: translateY(18px); opacity: 0; }
     to   { transform: translateY(0);    opacity: 1; }

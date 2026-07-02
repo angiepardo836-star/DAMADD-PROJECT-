@@ -265,6 +265,7 @@ function cargarProductosDisponibles() {
     const btnPedidos = document.getElementById('btn-pedidos'); 
 
     let productoSeleccionadoTemporal = null;
+    let mesaActivaPedido = null;
 
     // Evento para el buscador en tiempo real
     document.addEventListener('DOMContentLoaded', () => {
@@ -367,28 +368,142 @@ if (producto.imagen) {
     }
 
     window.abrirConfirmacionAgregar = function(productoId) {
-        const producto = productosDisponibles.find(p => p.id === productoId);
-        if (!producto) return;
+    const producto = productosDisponibles.find(p => p.id === productoId);
+    if (!producto) return;
 
-        productoSeleccionadoTemporal = producto;
-
-        document.getElementById('confirm-product-title').textContent = `Añadir "${producto.nombre}"`;
-        document.getElementById('confirm-product-stock').textContent = `Disponibles en inventario: ${producto.cantidad}`;
-        document.getElementById('confirm-input-cantidad').value = 1; 
-        document.getElementById('confirm-input-cantidad').max = producto.cantidad;
-        document.getElementById('confirm-error-msg').style.display = 'none';
-
-        const confirmModal = document.getElementById('confirm-add-modal');
-        confirmModal.classList.add('visible');
-        confirmModal.setAttribute('aria-hidden', 'false');
-    };
-
-    function cerrarConfirmacion() {
-        const confirmModal = document.getElementById('confirm-add-modal');
-        confirmModal.classList.remove('visible');
-        confirmModal.setAttribute('aria-hidden', 'true');
-        productoSeleccionadoTemporal = null;
+    if (!mesaActivaPedido) {
+        alert('Selecciona primero una mesa en el panel de la izquierda.');
+        return;
     }
+    if (producto.cantidad <= 0) {
+        alert('No hay stock disponible de este producto.');
+        return;
+    }
+
+    fetch('/descontar-producto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: producto.id, cantidad: 1 })
+    }).then(resp => {
+        if (!resp.ok) return resp.text().then(t => Promise.reject(t));
+
+        producto.cantidad -= 1;
+
+        asegurarMesaInicializada(mesaActivaPedido);
+        const productos = mesasProductos.get(mesaActivaPedido) || [];
+        const existente = productos.find(p => p.id === producto.id);
+        if (existente) {
+            existente.cantidad += 1;
+        } else {
+            productos.push({ id: producto.id, nombre: producto.nombre, marca: producto.marca, precio: producto.precio, cantidad: 1 });
+        }
+        mesasProductos.set(mesaActivaPedido, productos);
+
+        renderProductsList(document.getElementById('search-product')?.value.trim() || '');
+        renderRegistroPedido();
+    }).catch(err => {
+        alert('Error al agregar el producto (stock insuficiente o error de conexión).');
+        console.error(err);
+    });
+};
+function renderMesasPedido() {
+    const cont = document.getElementById('mesas-pedido-grid');
+    if (!cont) return;
+    cont.innerHTML = '';
+
+    const vistos = new Set();
+    document.querySelectorAll('.factura-btn').forEach(btn => {
+        const id = parseInt(btn.getAttribute('data-id') || btn.getAttribute('data-mesa'), 10);
+        const tipo = btn.getAttribute('data-tipo') || 'Mesa';
+        const key = tipo.toLowerCase() + '-' + id;
+        if (vistos.has(key)) return;
+        vistos.add(key);
+
+        const productos = mesasProductos.get(id) || [];
+        const ocupada = productos.length > 0;
+
+        const div = document.createElement('div');
+        div.className = 'mesa-pedido-btn' + (ocupada ? ' ocupada' : '') + (mesaActivaPedido === id ? ' activa' : '');
+        div.innerHTML = `<span class="num">${tipo} ${id}</span><span class="estado">${ocupada ? 'Ocupada' : 'Libre'}</span>`;
+        div.onclick = () => {
+            mesaActivaPedido = id;
+            renderMesasPedido();
+            renderRegistroPedido();
+        };
+        cont.appendChild(div);
+    });
+}
+
+function renderRegistroPedido() {
+    const label = document.getElementById('mesa-activa-label');
+    const cont = document.getElementById('registro-items');
+    const totalEl = document.getElementById('registro-total-valor');
+    if (!cont) return;
+
+    if (!mesaActivaPedido) {
+        if (label) label.textContent = '—';
+        cont.innerHTML = '<p class="registro-vacio">Selecciona una mesa para empezar</p>';
+        if (totalEl) totalEl.textContent = 'COP$ 0';
+        return;
+    }
+
+    if (label) label.textContent = 'Mesa ' + mesaActivaPedido;
+    const productos = mesasProductos.get(mesaActivaPedido) || [];
+    cont.innerHTML = '';
+
+    if (productos.length === 0) {
+        cont.innerHTML = '<p class="registro-vacio">Sin productos agregados</p>';
+    } else {
+        productos.forEach((p, idx) => {
+            const row = document.createElement('div');
+            row.className = 'registro-item-row';
+            row.innerHTML = `
+                <div class="info">
+                    <div class="nombre">${p.nombre} · ${p.marca}</div>
+                    <div class="precio-u">COP$ ${p.precio.toLocaleString('es-CO')} c/u</div>
+                </div>
+                <div class="qty-ctrl">
+                    <button data-d="-1">−</button>
+                    <span>${p.cantidad}</span>
+                    <button data-d="1">+</button>
+                </div>
+                <div class="item-total">COP$ ${(p.precio * p.cantidad).toLocaleString('es-CO')}</div>`;
+            row.querySelectorAll('button').forEach(btn => {
+                btn.onclick = () => ajustarCantidadRegistro(idx, parseInt(btn.dataset.d, 10));
+            });
+            cont.appendChild(row);
+        });
+    }
+
+    const total = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
+    if (totalEl) totalEl.textContent = 'COP$ ' + total.toLocaleString('es-CO');
+
+    renderMesasPedido();
+}
+
+function ajustarCantidadRegistro(idx, delta) {
+    const productos = mesasProductos.get(mesaActivaPedido) || [];
+    const item = productos[idx];
+    if (!item) return;
+
+    fetch('/descontar-producto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: item.id, cantidad: delta })
+    }).then(resp => {
+        if (!resp.ok) return resp.text().then(t => Promise.reject(t));
+        item.cantidad += delta;
+        if (item.cantidad <= 0) productos.splice(idx, 1);
+        mesasProductos.set(mesaActivaPedido, productos);
+        renderRegistroPedido();
+        cargarProductosDisponibles().then(() =>
+            renderProductsList(document.getElementById('search-product')?.value.trim() || '')
+        );
+    }).catch(err => {
+        alert('No se pudo actualizar la cantidad (stock insuficiente o error de conexión).');
+        console.error(err);
+    });
+}
 
     window.procesarAgregarProducto = function() {
         if (!productoSeleccionadoTemporal) return;
@@ -441,26 +556,26 @@ if (producto.imagen) {
         });
     };
 
-    function showProductsModal(mesaNumPredetermada = null) { 
-        if (mesaNumPredetermada) {
-            document.getElementById('confirm-select-mesa').value = mesaNumPredetermada;
-        }
+function showProductsModal(mesaNumPredetermada = null) {
+    mesaActivaPedido = mesaNumPredetermada || null;
 
-        const searchInput = document.getElementById('search-product');
-        if (searchInput) searchInput.value = '';
+    const searchInput = document.getElementById('search-product');
+    if (searchInput) searchInput.value = '';
 
-        if (productosDisponibles.length === 0) {
-            cargarProductosDisponibles().then(() => {
-                renderProductsList();
-                productsModal.classList.add('visible');
-                productsModal.setAttribute('aria-hidden', 'false');
-            });
-        } else {
-            renderProductsList();
-            productsModal.classList.add('visible');
-            productsModal.setAttribute('aria-hidden', 'false');
-        }
+    const abrir = () => {
+        renderProductsList();
+        renderMesasPedido();
+        renderRegistroPedido();
+        productsModal.classList.add('visible');
+        productsModal.setAttribute('aria-hidden', 'false');
+    };
+
+    if (productosDisponibles.length === 0) {
+        cargarProductosDisponibles().then(abrir);
+    } else {
+        abrir();
     }
+}
 
     function closeProductsModal() { 
         productsModal.classList.remove('visible');
