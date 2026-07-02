@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="estilos/variables.css">
     <!-- Carga estilos específicos de la pantalla de olvido de contraseña -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
 </head>
 
@@ -109,7 +110,136 @@
                 </div>
             </div>
         </div>
+              <button id="btnAccesibilidad" class="boton-accesibilidad" title="Opciones de accesibilidad">
+          🎨
+      </button>
+      <div id="panelAccesibilidad" class="panel-accesibilidad">
+          <!-- Cabecera -->
+          <div class="panel-header">
+              <div class="info-panel">   
+                  <div>
+                      <h2>Opciones de accesibilidad</h2>
+                      <p>Personaliza la apariencia</p>
+                  </div>
+              </div>
+              <button class="cerrar-panel" id="cerrarPanel">
+                  ✕
+              </button>
+          </div>
+          <div class="linea-panel"></div>
+
+          <!-- Opciones -->
+          <div class="panel-body">
+              <!-- Tarjetica roja -->
+              <div class="opcion-tema tema-card-rojo"
+                  onclick="cambiarTema('rojo')">
+                  <div class="info-tema">
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+                      <div class="texto-tema">
+                          <h3>Rojo</h3>
+                          <p>
+                              Aplica el tema con<br>
+                              tonos rojos
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flecha">
+                      ❯
+                  </div>
+              </div>
+              <!-- Tarjetica morada -->
+              <div class="opcion-tema tema-card-morado"
+                  onclick="cambiarTema('morado')">
+                  <div class="info-tema">
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+                      <div class="texto-tema">
+                          <h3>Morado</h3>
+                          <p>
+                              Aplica el tema con<br>
+                              tonos morados
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flecha">
+                      ❯
+                  </div>
+              </div>
+              <!-- Tarjetica azul -->
+              <div class="opcion-tema tema-card-azul"
+                  onclick="cambiarTema('azul')">
+                  <div class="info-tema">
+                      <div class="icono-tema">
+                          🎨
+                      </div>
+                      <div class="texto-tema">
+                          <h3>Azul</h3>
+                          <p>
+                              Aplica el tema con<br>
+                              tonos azules
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flecha">
+                      ❯
+                  </div>
+              </div>
+              <!-- restablecer tema  -->
+              <div class="opcion-tema tema-card-reset"
+                  onclick="restablecerTema()">
+                  <div class="info-tema">
+                      <div class="icono-tema">
+                          ↻
+                      </div>
+                      <div class="texto-tema">
+                          <h3>Restablecer</h3>
+                          <p>
+                              Vuelve al tema<br>
+                              predeterminado
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flecha">
+                      ❯
+                  </div>
+              </div>
+          </div>
+      </div>
     <div id="toast" style="position:fixed;top:2rem;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--color-principal);color:white;padding:10px;width:30%;border-radius:10px;font-size:18px;box-shadow:#000 0px 0px 10px;opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:300;min-width:30px;text-align:center;"></div>
+    <script>
+// función para panel de accesibilidad 
+window.addEventListener("DOMContentLoaded", () => {
+
+    const boton = document.getElementById("btnAccesibilidad");
+    const panel = document.getElementById("panelAccesibilidad");
+    const cerrar = document.getElementById("cerrarPanel");
+
+    // Abrir y cerrar desde el botón
+    boton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        panel.classList.toggle("mostrar");
+    });
+
+    // Cerrar con la X
+    cerrar.addEventListener("click", () => {
+        panel.classList.remove("mostrar");
+    });
+
+    // No cerrar cuando se hace clic dentro del panel
+    panel.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+
+    // Cerrar al hacer clic fuera
+    document.addEventListener("click", () => {
+        panel.classList.remove("mostrar");
+    });
+
+});
+</script>
     <script src="js/olvido_contraseña.js"></script>
     <script src="js/personalizacion.js"></script>
     <script src="js/memoriaPersonalizacion.js"></script>

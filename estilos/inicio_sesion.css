@@ -6,7 +6,7 @@ body {
     min-height: 100vh;
     background: #111;
     overflow: hidden; /* Evita scrolls innecesarios */
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .fondo {
@@ -48,6 +48,9 @@ body {
     font-size: 20px;
     color: rgb(255, 255, 255);
     text-shadow: #000000 3px 5px 5px;
+    white-space: nowrap;
+    display: inline-block;
+    line-height: 1;
 }
 
 .input-wrapper {
@@ -55,6 +58,7 @@ body {
     width: 100%;
     display: flex;
     align-items: center;
+    
 }
 
 .input-wrapper input {
@@ -88,11 +92,14 @@ body {
 }
 
 .input-usuario {
-    transform: translate(40px, 0px);
-    color: rgb(0, 0, 0);
+    transform: translate(40px, 0);
     width: 68%;
-    border-color: #907715bb;
+    padding: 2px 4px;
+    border: 1px solid #907715bb;
     border-radius: 6px;
+    box-sizing: border-box;
+    color: #000;
+    font-family: 'Poppins', sans-serif;
 }
 
 .mesa-usuario .input-contrasena[type="text"]
@@ -102,6 +109,7 @@ body {
     width: 68%;
     border-color: #907715bb;
     border-radius: 6px;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 /*para cuando al seleccionar un input el color del borde cambie*/
@@ -110,35 +118,40 @@ body {
     outline: none;
     border-color: #ffeb3b; /* Cambia el color del borde al enfocar */
     box-shadow: 0 0 5px #ffeb3b; /* Agrega un efecto de sombra */
+    font-family: 'Poppins', sans-serif !important;
 }
 
-.mesa-usuario input[type="password"]
- {
+.mesa-usuario input[type="password"]{
     transform: translate(10px, 0px);    
     color: rgb(0, 0, 0);
     width:68%;
     border-color: #907715bb;
     border-radius: 6px;
 }
+/*estilos para el boton de iniciar sesion*/
+input::placeholder{
+    font-family: 'Poppins', sans-serif !important;
+}
 
 /*estilos para el boton de iniciar sesion*/
 .mesa-usuario button{   
-    transform: translate(100px,-50px);
+    transform: translate(100px,-60px);
     margin-top: 40px;
     width: 50%;
-    padding: 10px;
+    padding: 7px;
     background: linear-gradient(180deg, #04780a, #000000d0);
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 19px;
+    font-size: 17px;
     cursor: pointer;
+    font-family: 'Poppins', sans-serif !important;
+    
 }
 
 .mesa-usuario button:hover{
     background: linear-gradient(180deg, #019808, #000000);
     transition: 0.3s;
-    transform:translate(100px,-50px) scale(1.1);
 }
 
 .toggle-password {
@@ -157,7 +170,8 @@ body {
 .toggle-passwordd {
     position: absolute;
     right: 12px;
-    top: 18%;
+    top:35%;
+    transform:translateY(-50%);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -181,7 +195,7 @@ input::-ms-clear {
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    font-family: arial;
+    font-family: 'Poppins', sans-serif;
     justify-content: center;    /* centra horizontal */
     align-items: center;        /* centra vertical */
 }
@@ -244,7 +258,7 @@ input::-ms-clear {
 #registro-form label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 18px;
     margin-top: 20px;
 }
@@ -260,6 +274,7 @@ input::-ms-clear {
     font-size: 14px;
     background: #252525;
     color: #fff;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 #registro-form input:focus {
@@ -279,6 +294,7 @@ input::-ms-clear {
     font-size: 14px;
     background: #252525;
     color: #e8e8e8;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 #registro-form select:focus {
@@ -312,6 +328,7 @@ input::-ms-clear {
     font-size: 16px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    font-family: 'Poppins', sans-serif !important;
 }
 
 

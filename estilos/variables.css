@@ -89,6 +89,7 @@ body {
     overflow:hidden;
     z-index:99999;
     animation:abrirPanel .35s ease;
+
 }
 /* Cuando el panel está abierto */
 .panel-accesibilidad.mostrar{
