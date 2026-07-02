@@ -24,7 +24,6 @@
       position: absolute; /* Lo fija en la pantalla */
       top: 25px;       /* Distancia desde arriba */
       right: 30px;      /* Distancia desde la derecha */
-
       display: inline-flex;
       align-items: center;
       gap: 10px;

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="estilos/inicio_sesion.css">
     <link rel="stylesheet" href="estilos/variables.css">
     <!-- Carga estilos específicos de la pantalla de inicio de sesión -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="estilos/carga.css">
 </head>
@@ -74,159 +75,104 @@
         </symbol>
     </svg>
 
-        <!-- Botón de accesibilidad -->
+      <!-- Botón de accesibilidad -->
       <button id="btnAccesibilidad" class="boton-accesibilidad" title="Opciones de accesibilidad">
           🎨
       </button>
-
       <div id="panelAccesibilidad" class="panel-accesibilidad">
-
           <!-- Cabecera -->
           <div class="panel-header">
-
-              <div class="info-panel">
-
-                  <div class="icono-principal">
-                      🎨
-                  </div>
-
+              <div class="info-panel">   
                   <div>
-
                       <h2>Opciones de accesibilidad</h2>
-
                       <p>Personaliza la apariencia</p>
-
                   </div>
-
               </div>
-
               <button class="cerrar-panel" id="cerrarPanel">
                   ✕
               </button>
-
           </div>
-
           <div class="linea-panel"></div>
-
 
           <!-- Opciones -->
           <div class="panel-body">
               <!-- Tarjetica roja -->
               <div class="opcion-tema tema-card-rojo"
                   onclick="cambiarTema('rojo')">
-
                   <div class="info-tema">
-
                       <div class="icono-tema">
                           🎨
                       </div>
-
                       <div class="texto-tema">
-
                           <h3>Rojo</h3>
-
                           <p>
                               Aplica el tema con<br>
                               tonos rojos
                           </p>
-
                       </div>
-
                   </div>
-
                   <div class="flecha">
                       ❯
                   </div>
-
               </div>
               <!-- Tarjetica morada -->
               <div class="opcion-tema tema-card-morado"
                   onclick="cambiarTema('morado')">
-
                   <div class="info-tema">
-
                       <div class="icono-tema">
                           🎨
                       </div>
-
                       <div class="texto-tema">
-
                           <h3>Morado</h3>
-
                           <p>
                               Aplica el tema con<br>
                               tonos morados
                           </p>
-
                       </div>
-
                   </div>
-
                   <div class="flecha">
                       ❯
                   </div>
-
               </div>
               <!-- Tarjetica azul -->
               <div class="opcion-tema tema-card-azul"
                   onclick="cambiarTema('azul')">
-
                   <div class="info-tema">
-
                       <div class="icono-tema">
                           🎨
                       </div>
-
                       <div class="texto-tema">
-
                           <h3>Azul</h3>
-
                           <p>
                               Aplica el tema con<br>
                               tonos azules
                           </p>
-
                       </div>
-
                   </div>
-
                   <div class="flecha">
                       ❯
                   </div>
-
               </div>
-              <!-- Trestablecer tema  -->
+              <!-- restablecer tema  -->
               <div class="opcion-tema tema-card-reset"
                   onclick="restablecerTema()">
-
                   <div class="info-tema">
-
                       <div class="icono-tema">
                           ↻
                       </div>
-
                       <div class="texto-tema">
-
                           <h3>Restablecer</h3>
-
                           <p>
                               Vuelve al tema<br>
                               predeterminado
                           </p>
-
                       </div>
-
                   </div>
-
                   <div class="flecha">
                       ❯
                   </div>
-
               </div>
-
-
           </div>
-
       </div>
     <!-- Contenido visible de la página -->
 <div class="fondo"></div>
@@ -247,7 +193,7 @@
                     <br><br>
 
                     <button type="submit">Iniciar sesión</button>
-                    <p style="cursor: pointer; color: #ffffff; margin-top: -20px; text-align: center; font-size: 14px;">
+                    <p style="cursor: pointer; color: #ffffff; margin-top: -30px; text-align: center; font-size: 14px;">
                         <a id="abrir-registro" style="text-decoration: none; font-weight: bold;">¿No tienes cuenta? <span style="text-decoration: underline;">Registrar una cuenta</span></a>
                     </p> 
                     <div id="contenedor-olvido" style="cursor: pointer; color: #ffffff; margin-top: -5px; text-align: center; font-size: 14px;"><a href="olvido_contraseña.html" style="text-decoration: underline; color: #ffffff; font-weight: bold;">¿Olvidaste tu contraseña?</a></div>

@@ -1,7 +1,15 @@
+<<<<<<< HEAD
+body { 
+    visibility: hidden; 
+    background-color: #000;
+    font-family: 'Poppins', sans-serif;
+}
+=======
 body {
      visibility: hidden; background-color: #000; 
     
     }
+>>>>>>> 89c8913b4a025bedb0a778ca20ab37b74e25ec16
 
 .toggle-passwordd {
     position: absolute;
