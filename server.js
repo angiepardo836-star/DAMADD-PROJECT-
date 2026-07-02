@@ -157,7 +157,7 @@ app.put('/editar-proveedor/:id', (req, res) => {
     });
 });
 
-// COMPRAr PRODUCTO (REGISTRAR COMPRA)
+// COMPRAR PRODUCTO (REGISTRAR COMPRA)
 
 app.post('/registrar-compra', (req, res) => {
     const { 
@@ -538,6 +538,9 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,  
         pass: process.env.EMAIL_PASS 
+    },
+    tls: {
+        rejectUnauthorized: false // ⚠️ solo desarrollo local, ver nota abajo
     }
 });
 

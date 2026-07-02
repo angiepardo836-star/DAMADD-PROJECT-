@@ -7,6 +7,7 @@
 
 body {
     background: linear-gradient(200deg, #000000, var(--fondo-degradado))!important;
+    
 
 }
 
@@ -369,63 +370,146 @@ label.sub-toggle:hover .nav-icon {
 @keyframes blink { 0%,100%{opacity:.5} 50%{opacity:1} }
 
 
-/* Banner promocional: ancho completo, altura reducida y texto centrado sobre la imagen */
-.banner-promocional{
-    width: 100%;
-    height: 900px;         /* altura no muy grande */
-    max-height: 500px;
-    overflow: hidden;
-    position: relative;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-    margin: 0;
+:root {
+  --neon-purple: #b026ff;
+  --neon-cyan: #00f3ff;
 }
 
-.banner-promocional img{
-    width: 100%;
-    height: 100%;
-    filter: blur(5px) brightness(0.5);
-    object-fit: cover;     /* recorta la imagen para llenar el banner */
-    display: block;
-}
-
-/* Carrusel de promociones */
-.carousel{
+/* Carrusel base */
+.carousel {
     width: 100%;
     max-height: 500px;
     height: 500px;
     position: relative;
     overflow: hidden;
     background: #000;
-    
 }
-.carousel-track{
-    display: flex;
+
+/* El Canvas ahora está protegido en una capa intermedia por encima de los fondos */
+#particles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s ease;
-    filter:  brightness(0.45);
+    z-index: 5; 
+    pointer-events: none; /* Crucial para que puedas hacer click en los botones del carrusel */
 }
-.carousel-slide{
-    min-width: 100%;
+
+.carousel-track {
+    position: absolute;
+    inset: 0;
+    z-index: 1; /* Fondo base */
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    flex-shrink: 0;
+    opacity: 0;
+    visibility: hidden;
+    will-change: clip-path, opacity;
+    z-index: 1;
 }
-.carousel-slide img{
+
+.carousel-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2; /* Se eleva un poco al estar activo */
+}
+
+.carousel-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: blur(2px) brightness(0.45);
+    filter: blur(2px) brightness(0.35);
 }
-.carousel-btn{
+
+/* Contenedor absoluto de textos por encima de las partículas */
+.carousel-text-container {
+    position: absolute;
+    inset: 0;
+    z-index: 10; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.carousel-text-block {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-text-block.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tipografía limpia Montserrat */
+.card-titulo {
+    font-family: 'Montserrat', 'Arial Black', sans-serif;
+    font-weight: 900;
+    font-size: 3.5rem;
+    margin: 0;
+    color: #fff;
+    letter-spacing: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-transform: uppercase;
+    text-shadow: 
+      0 0 10px rgba(0, 243, 255, 0.3),
+      0 0 20px rgba(176, 38, 255, 0.4);
+}
+
+.card-titulo img {
+    width: 52px;
+    height: auto;
+    object-fit: contain;
+}
+
+.carousel-text-block .sub { 
+    margin-top: 12px; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 5px; 
+    color: #caa3ff;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px var(--neon-purple);
+}
+
+.carousel-text-block .desc {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+    color: #fff;
+    opacity: 0.85;
+    margin-top: 6px;
+    text-transform: uppercase;
+}
+
+/* Botones de control al frente */
+.carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0,0,0,0.45);
+    background: rgba(15, 8, 28, 0.6);
     color: #fff;
-    border: none;
+    border: 1px solid rgba(176, 38, 255, 0.3);
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -434,51 +518,52 @@ label.sub-toggle:hover .nav-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 50;
+    z-index: 12; /* Por encima del canvas */
+    transition: all 0.3s ease;
 }
-.carousel-btn:focus{ outline: 2px solid #00c62d; }
-.carousel-btn.prev{ left: 16px; }
-.carousel-btn.next{ right: 16px; }
-.carousel-indicators{
+
+.carousel-btn:focus { outline: 2px solid var(--neon-cyan); }
+.carousel-btn:hover {
+    background: var(--neon-purple);
+    box-shadow: 0 0 15px var(--neon-purple);
+    border-color: transparent;
+}
+.carousel-btn.prev { left: 16px; }
+.carousel-btn.next { right: 16px; }
+
+/* Indicadores circulares */
+.carousel-indicators {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     bottom: 16px;
     display: flex;
     gap: 8px;
-    z-index: 60;
+    z-index: 12;
 }
-.carousel-indicators .indicator{
+
+.carousel-indicators .indicator {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.45);
+    background: rgba(255, 255, 255, 0.35);
     border: none;
     cursor: pointer;
-}
-.carousel-indicators .indicator.active{
-    background: var(--color-principal);
-    opacity: 0,1;
+    transition: background 0.3s ease;
 }
 
-.carousel-text.text_1{
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 40;
-    text-align: center;
-    padding: 20px;
+.carousel-indicators .indicator.active {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 8px var(--neon-cyan);
 }
-.carousel-text .sub{ margin-top: 6px; font-weight: 600; letter-spacing: 1px; }
 
 @media (max-width: 800px){
-    .carousel, .carousel-track, .carousel-slide{ height: 320px; }
-    .logo img{ transform: translate(40px,-60px); width: 160px; }
+    .carousel { height: 320px; }
+    .card-titulo { font-size: 1.8rem; gap: 10px; letter-spacing: 1px; }
+    .card-titulo img { width: 28px; }
+    .carousel-text-block .sub { font-size: 0.85rem; letter-spacing: 2px; }
+    .carousel-text-block .desc { font-size: 0.75rem; }
 }
-
 /* capa de texto centrada sobre la imagen */
 
 
@@ -666,7 +751,19 @@ label.sub-toggle:hover .nav-icon {
     font-size: 20px;
     padding-top: 20px;
 }
+.carousel{
+  position: relative;   /* necesario para que el canvas se posicione dentro */
+  overflow: hidden;     /* evita que las partículas se salgan del contenedor */
+}
 
+#particles-canvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;           /* ajusta según tus otras capas: debe ir sobre el fondo pero debajo del texto */
+  pointer-events: none; /* que no bloquee clics en botones encima */
+}
 /* ==========================================================================
    CTA BANNER
    ========================================================================== */
