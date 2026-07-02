@@ -360,56 +360,137 @@ function limpiarFormularioRegistro() {
         .forEach(id => { document.getElementById(id).value = ""; });
 }
 
-//  REALIZAR COMPRA
-async function realizarCompra(idProv, nombreProv) {
-    const idProd = prompt(`ID del producto que comprará a ${nombreProv}:`);
-    const cant   = prompt("¿Cuántas unidades comprará?");
-    const precio = prompt("¿Precio unitario de compra?");
-    const pago   = prompt("Método de pago (Ejemplo: Efectivo, Transferencia, Crédito):", "Efectivo");
 
-    if (!idProd || !cant || !precio || !pago) {
-        showAlert3("Operación cancelada: Faltan datos.");
-        return;
-    }
+//  REALIZAR COMPRA (MODAL)
+let compraProveedorId = null;
 
-    if (isNaN(parseInt(idProd)) || isNaN(parseInt(cant)) || isNaN(parseFloat(precio))) {
-        showAlert3("Por favor ingresa números válidos para ID de producto, cantidad y precio.");
-        return;
-    }
+function realizarCompra(idProv, nombreProv) {
+    compraProveedorId = idProv;
+    document.getElementById('modalCompraTexto').textContent =
+        `Completa los datos de la compra a ${nombreProv}.`;
+    document.getElementById('formRegistrarCompra').reset();
+    document.getElementById('modalRegistrarCompra').style.display = 'flex';
+}
 
-    const datos = {
-        fecha_compra: new Date().toISOString().split('T')[0],
-        cantidad_producto_compra: parseInt(cant),
-        precio_unitario: parseFloat(precio),
-        valor_compra: parseInt(cant) * parseFloat(precio),
-        forma_pago_compra: pago,
-        estado_compra: "Completado",
-        documento: idProv,
-        id_producto: parseInt(idProd)
-    };
+function cerrarModalCompra() {
+    document.getElementById('modalRegistrarCompra').style.display = 'none';
+    compraProveedorId = null;
+}
+document.addEventListener('DOMContentLoaded', () => {
 
-    if (isNaN(datos.cantidad_producto_compra) || isNaN(datos.precio_unitario) || isNaN(datos.id_producto)) {
-        showAlert3("Error: alguno de los campos numéricos no es válido.");
-        return;
-    }
-
-    try {
-        const res = await fetch('/registrar-compra', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
+    //  Formato precio con separador de miles
+    const inputPrecioCompra = document.getElementById('inputPrecioUnitario');
+    if (inputPrecioCompra) {
+        inputPrecioCompra.addEventListener('input', function () {
+            let valor = this.value.replace(/[^0-9]/g, '');
+            if (valor) {
+                valor = parseInt(valor).toLocaleString('es-CO');
+            }
+            this.value = valor;
         });
 
-        if (res.ok) {
-            showAlert3("¡Compra registrada con éxito!");
-        } else {
-            const mensajeError = await res.text();
-            showAlert3("Error: " + mensajeError);
-        }
-    } catch (error) {
-        console.error("Error:", error);
+        // Bloquea el signo menos y letras al escribir
+        inputPrecioCompra.addEventListener('keydown', function (event) {
+            const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+            if (teclasPermitidas.includes(event.key) || event.ctrlKey || event.metaKey) return;
+            if (!/^[0-9]$/.test(event.key)) { event.preventDefault(); return; }
+        });
     }
-}
+
+    //  Bloquear negativos en ID producto y Cantidad 
+    ['inputIdProducto', 'inputCantidad'].forEach(id => {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        input.addEventListener('keydown', function (event) {
+            const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+            if (teclasPermitidas.includes(event.key) || event.ctrlKey || event.metaKey) return;
+            // Bloquea "-", "+", "e"/"E" (notación científica) y cualquier no dígito
+            if (!/^[0-9]$/.test(event.key)) { event.preventDefault(); return; }
+        });
+
+        input.addEventListener('input', function () {
+            // Por si se pega un valor negativo o con letras
+            let limpio = this.value.replace(/[^0-9]/g, '');
+            if (this.value !== limpio) this.value = limpio;
+        });
+
+        input.addEventListener('paste', function (event) {
+            event.preventDefault();
+            const clipboard = event.clipboardData || window.clipboardData;
+            const texto = clipboard ? clipboard.getData('text') : '';
+            const limpio = texto.replace(/[^0-9]/g, '');
+            if (limpio) this.value = limpio;
+        });
+    });
+
+    //  Envío del formulario 
+    const form = document.getElementById('formRegistrarCompra');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const idProd = document.getElementById('inputIdProducto').value.trim();
+            const cant   = document.getElementById('inputCantidad').value.trim();
+            const precioTexto = document.getElementById('inputPrecioUnitario').value.trim();
+            const precio = precioTexto.replace(/[^0-9]/g, ''); 
+            const pago   = document.getElementById('selectMetodoPago').value;
+
+            if (!idProd || !cant || !precio || !pago) {
+                showAlert3("Todos los campos son obligatorios.");
+                return;
+            }
+
+            if (isNaN(idProd) || isNaN(cant) || isNaN(precio)
+                || Number(idProd) <= 0 || Number(cant) <= 0 || Number(precio) <= 0) {
+                showAlert3("Ingresa valores numéricos válidos y mayores a 0.");
+                return;
+            }
+
+            const datos = {
+                fecha_compra: new Date().toISOString().split('T')[0],
+                cantidad_producto_compra: parseInt(cant),
+                precio_unitario: parseFloat(precio),
+                valor_compra: parseInt(cant) * parseFloat(precio),
+                forma_pago_compra: pago,
+                estado_compra: "Completado",
+                documento: compraProveedorId,
+                id_producto: parseInt(idProd)
+            };
+
+            const btn = document.getElementById('btnAceptarCompra');
+            btn.disabled = true;
+            btn.textContent = 'Guardando...';
+
+            try {
+                const res = await fetch('/registrar-compra', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+
+                if (res.ok) {
+                    showAlert3("¡Compra registrada con éxito!");
+                    cerrarModalCompra();
+                } else {
+                    const mensajeError = await res.text();
+                    showAlert3("Error: " + mensajeError);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                showAlert3("Error al registrar la compra.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Aceptar';
+            }
+        });
+    }
+
+    const btnCancelarCompra = document.getElementById('btnCancelarCompra');
+    if (btnCancelarCompra) {
+        btnCancelarCompra.addEventListener('click', cerrarModalCompra);
+    }
+});
 
 
 //  Nombre / Apellido

@@ -1527,3 +1527,119 @@ input:focus {
     border-color:#1ed760;
 }
 
+/* estilos modal compra */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-compra {
+  background: #1a1a1a;
+  border: 1px solid #9b30ff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 0 40px rgba(155, 48, 255, 0.35);
+}
+
+.modal-titulo {
+  text-align: center;
+  color: #fff;
+  font-size: 1.8rem;
+}
+
+.modal-titulo-highlight {
+  color: #b84dff;
+}
+
+.modal-divider {
+  border: none;
+  border-top: 1px solid #6a2fb0;
+  margin: 16px 0;
+}
+
+.modal-subtitulo {
+  text-align: center;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.campo label {
+  display: block;
+  color: #aaa;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  background: #111;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.campo input.input-error {
+  border-color: #ff4d4d;
+}
+
+.error-msg {
+  display: block;
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  min-height: 16px;
+  margin-top: 4px;
+}
+
+.modal-botones {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-aceptar, .btn-cancelar {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(90deg, #6a2fb0, #9b30ff);
+}
+
+.btn-aceptar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Estilos para el select de método de pago */
+#selectMetodoPago {
+    background-color: var(--input-bg, #2a2a2a);
+    color: var(--input-color, #ccc);
+    border: 1px solid var(--input-border, #444);
+    border-radius: 8px;
+    padding: 10px 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#selectMetodoPago option {
+    background-color: var(--input-bg, #2a2a2a);
+    color: var(--input-color, #ccc);
+}

@@ -663,6 +663,7 @@
         <p>&copy; 2026 DAMADD. Todos los derechos reservados a DAMADD.</p> <!-- Derechos -->
         </div> 
     </footer> <!-- Fin footer -->
+
       <div id="modalEliminarProveedor" class="p-modal-overlay">
           <div class="p-modal-card sub-modal-card">
 
@@ -690,6 +691,66 @@
 
           </div>
       </div>
+
+      // Modal  Registrar Compra 
+<div id="modalRegistrarCompra" class="p-modal-overlay" style="display:none;">
+  <div class="p-modal-card sub-modal-card">
+
+    <div class="p-modal-header">
+      <span class="p-close-btn" onclick="cerrarModalCompra()">&times;</span>
+      <h3>Registrar <span class="titulo-color">Compra</span></h3>
+    </div>
+
+    <p class="p-confirmar-texto" id="modalCompraTexto">Completa los datos de la compra.</p>
+
+    <form id="formRegistrarCompra" novalidate>
+
+      <div class="p-form-row">
+        <div class="p-info-group">
+          <label>ID del producto *</label>
+          <div class="input-wrapper">
+            <svg class="input-icon"><use href="#ic-hash"/></svg>
+            <input type="number" id="inputIdProducto" class="p-input-editable"  min="1" required>
+          </div>
+        </div>
+        <div class="p-info-group">
+          <label>Cantidad *</label>
+          <div class="input-wrapper">
+            <svg class="input-icon"><use href="#ic-hash"/></svg>
+            <input type="number" id="inputCantidad" class="p-input-editable"  min="1" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-form-row">
+        <div class="p-info-group">
+          <label>Precio unitario *</label>
+          <div class="input-wrapper">
+            <svg class="input-icon"><use href="#ic-hash"/></svg>
+            <input type="text" id="inputPrecioUnitario" class="p-input-editable"  step="0.01" required>
+          </div>
+        </div>
+        <div class="p-info-group">
+          <label>Método de pago *</label>
+          <select id="selectMetodoPago" class="p-input-editable" required>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Tarjeta">Tarjeta</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="p-modal-footer">
+        <button type="submit" class="p-btn-primario" id="btnAceptarCompra">
+          <i class="fas fa-check-circle"></i> Aceptar
+        </button>
+        <button type="button" class="p-btn-primario" id="btnCancelarCompra">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
     <script>
 // función para panel de accesibilidad 
 window.addEventListener("DOMContentLoaded", () => {
