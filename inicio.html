@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="estilos/global.css">
     <link rel="stylesheet" href="estilos/carga.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body> <!-- Contenido visible de la página -->
@@ -123,45 +120,92 @@
       </div>
     </nav>
 
-    <div class="capa"></div> <!-- Capa que oscurece cuando el menú está abierto -->
+<!-- Enlace a la tipografía premium Montserrat para máxima legibilidad -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+<!-- Enlace de seguridad de GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<div class="capa"></div> <!-- Capa que oscurece cuando el menú está abierto -->
+
 <section class="carousel" aria-label="Promociones">
+  <!-- El canvas de tus partículas se queda al frente de las imágenes, fijo e intocable -->
   <canvas id="particles-canvas"></canvas>
-    <section class="carousel" aria-label="Promociones"> <!-- Carrusel de promociones -->
-      <div class="carousel-track"> <!-- Pista que se desplaza horizontalmente -->
-        <div class="carousel-slide"> <!-- Diapositiva 1 -->
-          <img src="imagenes/carrusel1.png" alt="Promoción 1"> <!-- Imagen promo 1 -->
-        </div> <!-- Fin slide 1 -->
-        <div class="carousel-slide"> <!-- Diapositiva 2 -->
-          <img src="imagenes/promocional.jpg" alt="Promoción 2"> <!-- Imagen promo 2 -->
-        </div> <!-- Fin slide 2 -->
-        <div class="carousel-slide"> <!-- Diapositiva 3 -->
-          <img src="imagenes/carrusel2.png" alt="Promoción 3"> <!-- Imagen promo 3 -->
-        </div> <!-- Fin slide 3 -->
-         <div class="carousel-slide"> <!-- Diapositiva 4 -->
-          <img src="imagenes/carrusel3.png" alt="Promoción 4"> <!-- Imagen promo 4 -->
-        </div> <!-- Fin slide 4 -->
-         <div class="carousel-slide"> <!-- Diapositiva 5 -->
-          <img src="imagenes/carrusel4.jpg" alt="Promoción 5"> <!-- Imagen promo 5 -->
-        </div> <!-- Fin slide 5 -->
-      </div> <!-- Fin carousel-track -->
+  
+  <!-- Pista de imágenes fijas para la máscara -->
+  <div class="carousel-track"> 
+    <div class="carousel-slide active" data-index="0"><img src="imagenes/carrusel1.png" alt="Promoción 1"></div>
+    <div class="carousel-slide" data-index="1"><img src="imagenes/promocional.jpg" alt="Promoción 2"></div>
+    <div class="carousel-slide" data-index="2"><img src="imagenes/carrusel2.png" alt="Promoción 3"></div>
+    <div class="carousel-slide" data-index="3"><img src="imagenes/carrusel3.png" alt="Promoción 4"></div>
+    <div class="carousel-slide" data-index="4"><img src="imagenes/carrusel4.jpg" alt="Promoción 5"></div>
+  </div>
 
-      <button class="carousel-btn prev" aria-label="Anterior">‹</button> <!-- Botón anterior del carrusel -->
-      <button class="carousel-btn next" aria-label="Siguiente">›</button> <!-- Botón siguiente del carrusel -->
+  <!-- Contenedor de Textos Dinámicos -->
+  <div class="carousel-text-container">
+    
+    <!-- Texto 1 -->
+    <div class="carousel-text-block active">
+      <h1 class="card-titulo">
+        <img src="imagenes/bola-amarilla.png" class="icono-titulo1" alt="Bola Amarilla"> 
+        SOFTWARE DAMADD
+        <img src="imagenes/bola-morada.png" class="icono-titulo2" alt="Bola Morada">
+      </h1>
+      <h3 class="sub">AUTOMATIZA TU NEGOCIO</h3>
+      <h3 class="desc">LA MEJOR OPCIÓN</h3>
+    </div>
 
-      <div class="carousel-indicators" aria-hidden="false"></div> <!-- Contenedor para los puntos indicadores -->
+    <!-- Texto 2 -->
+    <div class="carousel-text-block">
+      <h1 class="card-titulo">
+        <img src="imagenes/bola-amarilla.png" class="icono-titulo1" alt="Bola Amarilla"> 
+        CONTROL DE MESAS
+        <img src="imagenes/bola-morada.png" class="icono-titulo2" alt="Bola Morada">
+      </h1>
+      <h3 class="sub">TIEMPO REAL Y PRECISIÓN</h3>
+      <h3 class="desc">GESTIÓN IMPECABLE</h3>
+    </div>
 
-      
+    <!-- Texto 3 -->
+    <div class="carousel-text-block">
+      <h1 class="card-titulo">
+        <img src="imagenes/bola-amarilla.png" class="icono-titulo1" alt="Bola Amarilla"> 
+        POTENCIA TU CLUB
+        <img src="imagenes/bola-morada.png" class="icono-titulo2" alt="Bola Morada">
+      </h1>
+      <h3 class="sub">SISTEMA MODERNO E INTUITIVO</h3>
+      <h3 class="desc">MÁXIMO RENDIMIENTO</h3>
+    </div>
 
-      <div class="carousel-text text_1"> <!-- Texto superpuesto al carrusel -->
-        <h1 class="card-titulo">
-          <img src="imagenes/bola-amarilla.png" class="icono-titulo1"> <!-- Imagen de la bola amarilla -->
-          SOFTWARE DAMADD
-          <img src="imagenes/bola-morada.png" class="icono-titulo2"> <!-- Imagen de la bola morada -->
-        </h1> <!-- Título principal visible -->
-        <h3 class="sub">AUTOMATIZA TU NEGOCIO</h3> <!-- Subtítulo llamativo -->
-        <h3>LA MEJOR OPCIÓN</h3> <!-- Mensaje secundario breve -->
-      </div> <!-- Fin carousel-text -->
-    </section> <!-- Fin section carrusel -->
+    <!-- Texto 4 -->
+    <div class="carousel-text-block">
+      <h1 class="card-titulo">
+        <img src="imagenes/bola-amarilla.png" class="icono-titulo1" alt="Bola Amarilla"> 
+        INVENTARIO INTEGRADO
+        <img src="imagenes/bola-morada.png" class="icono-titulo2" alt="Bola Morada">
+      </h1>
+      <h3 class="sub">SABES QUÉ VENDES AL INSTANTE</h3>
+      <h3 class="desc">CERO PÉRDIDAS</h3>
+    </div>
+
+    <!-- Texto 5 -->
+    <div class="carousel-text-block">
+      <h1 class="card-titulo">
+        <img src="imagenes/bola-amarilla.png" class="icono-titulo1" alt="Bola Amarilla"> 
+        TECNOLOGÍA PREMIUM
+        <img src="imagenes/bola-morada.png" class="icono-titulo2" alt="Bola Morada">
+      </h1>
+      <h3 class="sub">DISEÑADO PARA CRECER</h3>
+      <h3 class="desc">SOPORTE TOTAL</h3>
+    </div>
+
+  </div>
+
+  <!-- Botones de Control -->
+  <button class="carousel-btn prev" aria-label="Anterior">‹</button> 
+  <button class="carousel-btn next" aria-label="Siguiente">›</button>
+
+  <!-- Puntos Indicadores -->
+  <div class="carousel-indicators" aria-hidden="false"></div> 
 </section>
     <!-- ESTADÍSTICAS -->
 <div class="stats">
@@ -831,7 +875,7 @@ let intervalo = setInterval(() => {
   }
 
   function initParticles(){
-    const count = Math.max(28, Math.floor((w * h) / 12000));
+    const count = Math.max(28, Math.floor((w * h) / 6000));
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
