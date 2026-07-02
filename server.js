@@ -157,7 +157,7 @@ app.put('/editar-proveedor/:id', (req, res) => {
     });
 });
 
-// COMPRAR PRODUCTO (REGISTRAR COMPRA)
+// COMPRAr PRODUCTO (REGISTRAR COMPRA)
 
 app.post('/registrar-compra', (req, res) => {
     const { 
