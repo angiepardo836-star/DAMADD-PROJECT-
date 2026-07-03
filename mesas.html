@@ -577,17 +577,37 @@
 </div>
 
 <div id="products-modal" class="modal" aria-hidden="true">
-  <div class="modal-content" style="max-width: 900px; width: 90%;">
+  <div class="modal-content pedido-modal-content">
     <span class="modal-close" onclick="closeProductsModal()">&times;</span>
-    <h2>Menú de Productos</h2>
-    
-    <div style="margin-bottom: 20px;">
-      <input type="text" id="search-product" placeholder="🔍 Buscar producto por nombre o marca..." 
-             style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box;">
-    </div>
+    <h2>Nuevo Pedido</h2>
 
-    <div id="products-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; max-height: 60vh; overflow-y: auto; padding: 5px;">
+    <div class="pedido-layout">
+
+      <!-- MESAS -->
+      <div class="panel-mesas-pedido">
+        <h3>Mesas</h3>
+        <div id="mesas-pedido-grid" class="mesas-pedido-grid"></div>
       </div>
+
+      <!-- MENU -->
+      <div class="panel-menu-pedido">
+        <h3>Menú de productos</h3>
+        <input type="text" id="search-product" placeholder="🔍 Buscar producto por nombre o marca...">
+        <div id="products-list" class="products-list-grid"></div>
+      </div>
+
+      <!-- REGISTRO -->
+      <div class="panel-registro-pedido">
+        <h3>Registro del pedido</h3>
+        <div class="registro-mesa-activa">Mesa activa: <b id="mesa-activa-label">—</b></div>
+        <div id="registro-items" class="registro-items"></div>
+        <div class="registro-total">
+          <span>Total</span>
+          <span id="registro-total-valor">COP$ 0</span>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
 
