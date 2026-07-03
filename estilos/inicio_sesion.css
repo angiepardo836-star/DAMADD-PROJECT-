@@ -100,6 +100,7 @@ body {
     box-sizing: border-box;
     color: #000;
     font-family: 'Poppins', sans-serif;
+    height: 21px;
 }
 
 .mesa-usuario .input-contrasena[type="text"]

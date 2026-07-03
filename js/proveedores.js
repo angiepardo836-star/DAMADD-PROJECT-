@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cerrarModalCompra();
                 } else {
                     const mensajeError = await res.text();
-                    showAlert3("Error: " + mensajeError);
+                    showAlert3("Error: " + mensajeError);                
                 }
             } catch (error) {
                 console.error("Error:", error);
