@@ -159,48 +159,90 @@ app.put('/editar-proveedor/:id', (req, res) => {
 
 // COMPRAr PRODUCTO (REGISTRAR COMPRA)
 
+// COMPRAR PRODUCTO (REGISTRAR COMPRA)
 app.post('/registrar-compra', (req, res) => {
-    const { 
-        fecha_compra, cantidad_producto_compra, precio_unitario, 
-        valor_compra, forma_pago_compra, estado_compra, 
-        id_proveedor, id_producto 
+    const {
+        documento_proveedor,
+        documento_usuario,
+        id_producto,
+        cantidad,
+        precio_unitario,
+        forma_pago
     } = req.body;
 
-    // validación básica de entrada
-    if (!fecha_compra || !forma_pago_compra || !estado_compra) {
+    // Validación básica de entrada
+    if (!documento_proveedor || !documento_usuario || !id_producto || !cantidad || !precio_unitario || !forma_pago) {
         return res.status(400).send('Faltan campos obligatorios');
     }
     if (
-        isNaN(cantidad_producto_compra) ||
-        isNaN(precio_unitario) ||
-        isNaN(valor_compra) ||
-        isNaN(id_proveedor) ||
-        isNaN(id_producto)
+        isNaN(id_producto) || isNaN(cantidad) || isNaN(precio_unitario) ||
+        Number(cantidad) <= 0 || Number(precio_unitario) <= 0
     ) {
         return res.status(400).send('Valores numéricos inválidos');
     }
 
-    // 1. Primero insertamos la compra
-    const sqlCompra = `INSERT INTO compra (fecha_compra, cantidad_producto_compra, precio_unitario, valor_compra, forma_pago_compra, estado_compra, id_proveedor, id_producto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    
-    db.query(sqlCompra, [fecha_compra, cantidad_producto_compra, precio_unitario, valor_compra, forma_pago_compra, estado_compra, id_proveedor, id_producto], (err, result) => {
-        if (err) {
-            console.error("ERROR AL INSERTAR COMPRA:", err.message);
-            return res.status(500).send("Error al registrar la compra.");
+    // 1. Resolver el id interno del proveedor a partir de su documento
+    db.query('SELECT id FROM proveedor WHERE documento = ?', [documento_proveedor], (errProv, resProv) => {
+        if (errProv) {
+            console.error("ERROR AL BUSCAR PROVEEDOR:", errProv.message);
+            return res.status(500).send("Error al buscar el proveedor.");
         }
+        if (resProv.length === 0) {
+            return res.status(404).send("Proveedor no encontrado.");
+        }
+        const idProveedor = resProv[0].id;
 
-        // 2. Si la compra se insertó bien, actualizamos el stock en la tabla producto
-        // Usamos SET cantidad_producto = cantidad_producto + ? para sumar lo nuevo
-        const sqlActualizarStock = `UPDATE producto SET cantidad_producto = cantidad_producto + ? WHERE id_producto = ?`;
-
-        db.query(sqlActualizarStock, [cantidad_producto_compra, id_producto], (errStock) => {
-            if (errStock) {
-                console.error("ERROR AL ACTUALIZAR STOCK:", errStock.message);
-                // Nota: La compra ya se guardó, pero el stock falló
-                return res.status(500).send("Compra registrada, pero no se pudo actualizar el stock.");
+        // 2. Resolver el id interno del usuario  a partir de su documento
+        db.query('SELECT id FROM usuario WHERE documento = ?', [documento_usuario], (errUser, resUser) => {
+            if (errUser) {
+                console.error("ERROR AL BUSCAR USUARIO:", errUser.message);
+                return res.status(500).send("Error al buscar el usuario.");
             }
-            
-            res.send("ok"); // Todo salió perfecto
+            if (resUser.length === 0) {
+                return res.status(404).send("Usuario no encontrado.");
+            }
+            const idUsuario = resUser[0].id;
+
+            const total = Number(cantidad) * Number(precio_unitario);
+            const iva = 0; // valor fijo por ahora
+
+            // 3. Insertar la cabecera de la compra
+            const sqlCompra = `
+                INSERT INTO compra (fecha, hora, total, estado, metodo_pago, forma_pago, id_usuario)
+                VALUES (CURDATE(), CURTIME(), ?, 'Completada', 'Contado', ?, ?)
+            `;
+            db.query(sqlCompra, [total, forma_pago, idUsuario], (errCompra, resultCompra) => {
+                if (errCompra) {
+                    console.error("ERROR AL INSERTAR COMPRA:", errCompra.message);
+                    return res.status(500).send("Error al registrar la compra.");
+                }
+                const idCompra = resultCompra.insertId;
+
+                // 4. Insertar el detalle de la compra
+                const sqlDetalle = `
+                    INSERT INTO detalle_compra (id_compra, id_proveedor, id_producto, cantidad, precio_unitario, total, iva)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                `;
+                db.query(sqlDetalle, [idCompra, idProveedor, id_producto, cantidad, precio_unitario, total, iva], (errDetalle) => {
+                    if (errDetalle) {
+                        console.error("ERROR AL INSERTAR DETALLE_COMPRA:", errDetalle.message);
+                        return res.status(500).send("Error al registrar el detalle de la compra.");
+                    }
+
+                    // 5. Sumar el stock en producto (columna real: cantidad)
+                    const sqlStock = `UPDATE producto SET cantidad = cantidad + ? WHERE id = ?`;
+                    db.query(sqlStock, [cantidad, id_producto], (errStock, resultStock) => {
+                        if (errStock) {
+                            console.error("ERROR AL ACTUALIZAR STOCK:", errStock.message);
+                            return res.status(500).send("Compra registrada, pero no se pudo actualizar el stock.");
+                        }
+                        if (resultStock.affectedRows === 0) {
+                            return res.status(404).send("Compra registrada, pero el producto no existe.");
+                        }
+                        res.send("ok"); 
+                    });
+                });
+            });
         });
     });
 });

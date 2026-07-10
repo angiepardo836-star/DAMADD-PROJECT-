@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //  Envío del formulario 
+//  Envío del formulario 
     const form = document.getElementById('formRegistrarCompra');
     if (form) {
         form.addEventListener('submit', async (e) => {
@@ -447,15 +447,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            const documentoUsuario = sessionStorage.getItem('usuarioId');
+            if (!documentoUsuario) {
+                showAlert3("No se encontró el usuario en sesión. Vuelve a iniciar sesión.");
+                return;
+            }
+
             const datos = {
-                fecha_compra: new Date().toISOString().split('T')[0],
-                cantidad_producto_compra: parseInt(cant),
+                documento_proveedor: compraProveedorId,
+                documento_usuario: documentoUsuario,
+                id_producto: parseInt(idProd),
+                cantidad: parseInt(cant),
                 precio_unitario: parseFloat(precio),
-                valor_compra: parseInt(cant) * parseFloat(precio),
-                forma_pago_compra: pago,
-                estado_compra: "Completado",
-                documento: compraProveedorId,
-                id_producto: parseInt(idProd)
+                forma_pago: pago
             };
 
             const btn = document.getElementById('btnAceptarCompra');
@@ -484,11 +488,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.textContent = 'Aceptar';
             }
         });
-    }
-
-    const btnCancelarCompra = document.getElementById('btnCancelarCompra');
-    if (btnCancelarCompra) {
-        btnCancelarCompra.addEventListener('click', cerrarModalCompra);
     }
 });
 

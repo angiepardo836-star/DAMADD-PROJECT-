@@ -640,8 +640,6 @@
 
           </div>
       </div>
-
-      // Modal Registrar Compra 
 <div id="modalRegistrarCompra" class="p-modal-overlay" style="display:none;">
   <div class="p-modal-card sub-modal-card">
 
@@ -652,21 +650,21 @@
 
     <p class="p-confirmar-texto" id="modalCompraTexto">Completa los datos de la compra.</p>
 
-    <form id="formRegistrarCompra" novalidate>
+    <form id="formRegistrarCompra" method="POST" action="javascript:void(0);" novalidate>
 
       <div class="p-form-row">
         <div class="p-info-group">
           <label>ID del producto *</label>
           <div class="input-wrapper">
             <svg class="input-icon"><use href="#ic-hash"/></svg>
-            <input type="number" id="inputIdProducto" class="p-input-editable"  min="1" required>
+            <input type="text" id="inputIdProducto" class="p-input-editable" required>
           </div>
         </div>
         <div class="p-info-group">
           <label>Cantidad *</label>
           <div class="input-wrapper">
             <svg class="input-icon"><use href="#ic-hash"/></svg>
-            <input type="number" id="inputCantidad" class="p-input-editable"  min="1" required>
+            <input type="text" id="inputCantidad" class="p-input-editable" required>
           </div>
         </div>
       </div>
@@ -676,7 +674,7 @@
           <label>Precio unitario *</label>
           <div class="input-wrapper">
             <svg class="input-icon"><use href="#ic-hash"/></svg>
-            <input type="text" id="inputPrecioUnitario" class="p-input-editable"  step="0.01" required>
+            <input type="text" id="inputPrecioUnitario" class="p-input-editable" required>
           </div>
         </div>
         <div class="p-info-group">
@@ -684,7 +682,8 @@
           <select id="selectMetodoPago" class="p-input-editable" required>
             <option value="Efectivo">Efectivo</option>
             <option value="Transferencia">Transferencia</option>
-            <option value="Tarjeta">Tarjeta</option>
+            <option value="Tarjeta Débito">Tarjeta Débito</option>
+            <option value="Tarjeta Crédito">Tarjeta Crédito</option>
           </select>
         </div>
       </div>
@@ -693,7 +692,7 @@
         <button type="submit" class="p-btn-primario" id="btnAceptarCompra">
           <i class="fas fa-check-circle"></i> Aceptar
         </button>
-        <button type="button" class="p-btn-primario" id="btnCancelarCompra">
+        <button type="button" class="p-btn-primario" id="btnCancelarCompra" onclick="cerrarModalCompra()">
           Cancelar
         </button>
       </div>
