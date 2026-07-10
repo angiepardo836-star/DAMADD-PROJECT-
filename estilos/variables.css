@@ -7,6 +7,7 @@
     --menu-juegos: linear-gradient(135deg, #074105, #0d8209);
     --imagen-fondo: url('../imagenes/fondo.png');
     --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo.jpeg');
+    --header-inicio: linear-gradient(98deg, #0920049d, #0d820986);
 }
 :root {
     --fuente-global: Arial;
@@ -287,6 +288,7 @@ h1, h2, h3  {
     --mesa-titulo: rgba(184, 4, 4, 0.288);
     --imagen-fondo: url('../imagenes/fondo_rojo.png');
     --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo_rojo.jpeg');
+    --header-inicio: linear-gradient(98deg, #2004049d, #82090986);
 }
 
 /* 🟣 MORADO */
@@ -299,6 +301,7 @@ h1, h2, h3  {
     --mesa-titulo: rgba(142, 4, 184, 0.288);
     --imagen-fondo: url('../imagenes/fondo_morado.png');
     --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo_morado.jpeg');
+    --header-inicio: linear-gradient(98deg, #1904209d, #6e098286);
 }
 
 /* 🔵 AZUL */
@@ -311,6 +314,7 @@ h1, h2, h3  {
     --mesa-titulo: rgba(7, 64, 102, 0.527);
     --imagen-fondo: url('../imagenes/fondo_azul.png');
     --imagen-fondo-olvido-contrasena: url('../imagenes/olvido_contraseña_fondo_azul.jpeg');
+    --header-inicio: linear-gradient(98deg, #040e209d, #09398286);
 }
 
 /* LÍNEA Y ACCENTOS DEL MENÚ */
