@@ -10,6 +10,157 @@
     <link rel="stylesheet" href="estilos/carga.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- === Estilos del menú (clases con prefijo ddm- para que el selector de cambio de tema NO le pegue) === -->
+    <style>
+      div.ddm-bar{
+        position:fixed !important;
+        top:0 !important; left:0 !important; right:0 !important;
+        z-index:5000 !important; /* por encima del canvas de partículas */
+        background:transparent !important;
+        background-image:none !important;
+        background-color:transparent !important;
+        box-shadow:none !important;
+        border:none !important;
+        outline:none !important;
+        padding:18px 40px !important;
+        margin:0 !important;
+        transition:background .3s ease, padding .3s ease, box-shadow .3s ease;
+      }
+      div.ddm-bar.scrolled{
+        background:var(--header-inicio) !important;
+        backdrop-filter:blur(10px);
+        -webkit-backdrop-filter:blur(10px);
+        padding:12px 40px !important;
+        box-shadow:0 2px 20px rgba(0,0,0,.25) !important;
+      }
+      .ddm-container{
+        max-width:1400px;
+        margin:0 auto;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+      }
+      .ddm-logo{ text-decoration:none; }
+      .ddm-logo h2{
+        color:#fff !important;
+        background:none !important;
+        font-family:'Poppins', sans-serif;
+        font-weight:700;
+        font-size:40px;
+        letter-spacing:2px;
+        margin:0;
+      }
+      .ddm-logo h2 span{ color:var(--color-principal) !important; }
+
+      .ddm-links{
+        display:flex;
+        align-items:center;
+        gap:32px;
+        list-style:none;
+        margin:0; padding:0;
+      }
+      .ddm-link{
+        color:#fff !important;
+        background:none !important;
+        background-color:transparent !important;
+        border:none !important;
+        text-shadow: 0 2px 5px rgba(255, 255, 255, 0.445) !important;
+        text-decoration:none;
+        font-family:'Poppins', sans-serif;
+        font-size:15px;
+        font-weight:500;
+        letter-spacing:.5px;
+        cursor:pointer;
+        position:relative;
+        opacity:.9;
+        padding:6px 2px;
+        transition:opacity .2s, color .2s;
+      }
+      .ddm-link:hover, .ddm-link.is-active{ opacity:1; color:var(--color-principal) !important; }
+
+      .ddm-dropdown{ display:flex; align-items:center; }
+      .ddm-dropdown-toggle{ display:flex; align-items:center; gap:6px; }
+      .ddm-caret{ width:13px; height:13px; transition:transform .2s; }
+      .ddm-dropdown:hover .ddm-caret{ transform:rotate(180deg); }
+
+      .ddm-dropdown-menu{
+        position:absolute;
+        top:130%;
+        left:0;
+        background:rgba(15,15,35,.97) !important;
+        backdrop-filter:blur(10px);
+        border-radius:10px;
+        min-width:190px;
+        padding:8px;
+        opacity:0;
+        visibility:hidden;
+        transform:translateY(-8px);
+        transition:opacity .2s, transform .2s, visibility .2s;
+        box-shadow:0 10px 30px rgba(0,0,0,.4);
+        z-index:5001;
+      }
+      .ddm-dropdown:hover .ddm-dropdown-menu{
+        opacity:1; visibility:visible; transform:translateY(0);
+      }
+      .ddm-dropdown-menu a{
+        display:block;
+        color:#fff !important;
+        background:none !important;
+        text-decoration:none;
+        padding:10px 12px;
+        border-radius:6px;
+        font-size:14px;
+        opacity:.9;
+        font-family:'Poppins', sans-serif;
+      }
+      .ddm-dropdown-menu a:hover{ background:rgba(255,255,255,.08) !important; opacity:1; }
+
+      .ddm-right{ display:flex; align-items:center; gap:20px; }
+      .ddm-cuenta{ display:flex; align-items:center; gap:8px; text-decoration:none; }
+      .ddm-cuenta .icono-img{ width:30px; height:30px; border-radius:50%; }
+      .ddm-cuenta .ddm-nombre{ color:#fff !important; font-size:14px; font-family:'Poppins', sans-serif; }
+
+      .ddm-burger{
+        display:none;
+        flex-direction:column;
+        gap:5px;
+        background:none !important;
+        border:none !important;
+        cursor:pointer;
+        padding:6px;
+      }
+      .ddm-burger span{ width:24px; height:2px; background:#fff; border-radius:2px; }
+
+      .ddm-mobile{
+        display:none;
+        flex-direction:column;
+        background:rgba(10,10,30,.97) !important;
+        backdrop-filter:blur(10px);
+        padding:6px 20px 16px;
+      }
+      .ddm-mobile.open{ display:flex; }
+      .ddm-mobile a, .ddm-mobile-toggle{
+        color:#fff !important;
+        background:none !important;
+        text-decoration:none;
+        padding:14px 0;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        border-bottom:1px solid rgba(255,255,255,.08);
+        font-family:'Poppins', sans-serif;
+        cursor:pointer;
+      }
+      .ddm-mobile-sub{ display:none; flex-direction:column; padding-left:16px; }
+      .ddm-mobile-sub.open{ display:flex; }
+      .ddm-mobile-salir{ color:#ff6b6b !important; }
+
+      @media (max-width:900px){
+        .ddm-links{ display:none; }
+        .ddm-burger{ display:flex; }
+      }
+    </style>
 </head>
 <body> <!-- Contenido visible de la página -->
 <div id="loader">
@@ -25,107 +176,68 @@
     </div>
   </div>
 </div>
-    <input type="checkbox" id="btn-menu" hidden> <!-- Control oculto para abrir/cerrar menú -->
-    
-  <header class="header-mesas"> <!-- Cabecera con logo y control de menú -->
-    <div class="container"> <!-- Fila para centrar elementos -->
-      <div class="btn-menu"> <!-- Área del botón del menú -->
-        <label for="btn-menu" class="icon-menu">☰</label> <!-- Icono que abre el menú -->
-      </div> <!-- Fin botón menú -->
-    </div> <!-- Fin contenedor -->
-    <div class="logo"> <h2>𝙄𝙉𝙄<span>𝘾</span>𝙄𝙊</h2>
-    </div> <!-- Fin logo -->
-    <!-- Botón de cuenta -->
-    <a href="#" id="boton-perfil" class="cuenta-btn">
-      <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
-      <span id="nombre-display" class="nombre" style="color: white;">Cargando...</span>
+
+<!-- === Menú transparente sobre el carrusel (con divs, no header/nav, para que el selector de cambio de tema no le pegue) === -->
+<div class="ddm-bar" id="navTransparente">
+  <div class="ddm-container">
+    <a href="inicio.html" class="ddm-logo">
+      <h2>DAMA<span>DD</span></h2>
     </a>
-  </header> <!-- Fin cabecera -->
-<label class="overlay" for="btn-menu"></label>
 
-    <nav class="menu-lateral">
-      <div class="menu-header">
-        <div class="menu-logo">
-          <div class="logo-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="8" r="3"/>
-              <circle cx="6" cy="16" r="2.5"/>
-              <circle cx="18" cy="16" r="2.5"/>
-            </svg>
-          </div>
-          <h3>Menú</h3>
+    <div class="ddm-links" role="navigation" aria-label="Menú principal">
+      <a href="inicio.html" class="ddm-link is-active">Inicio</a>
+      <a href="#funciones" class="ddm-link ddm-scroll">Funciones</a>
+      <a href="#como-funciona" class="ddm-link ddm-scroll">Cómo funciona</a>
+      <a href="#preguntas" class="ddm-link ddm-scroll">Preguntas</a>
+      <div class="ddm-link ddm-dropdown">
+        <span class="ddm-dropdown-toggle">
+          Software
+          <svg class="ddm-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+        <div class="ddm-dropdown-menu">
+          <a href="mesas.html">Mesas</a>
+          <a href="proveedores.html">Proveedores</a>
+          <a href="productos.html">Productos</a>
         </div>
-        <label for="btn-menu" class="close-menu" aria-label="Cerrar menú">✕</label>
       </div>
+    </div>
 
-      <div class="menu-opciones">
-        <div class="menu-section-label">Principal</div>
-        <ul>
-          <li>
-            <a href="inicio.html">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              </span>
-              <span class="nav-label">Inicio</span>
-            </a>
-          </li>
-          <li>
-            <a href="mesas.html">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="3" rx="1"/><line x1="6" y1="13" x2="6" y2="20"/><line x1="18" y1="13" x2="18" y2="20"/><rect x="2" y="7" width="20" height="3" rx="1"/></svg>
-              </span>
-              <span class="nav-label">Mesas</span>
-            </a>
-          </li>
-          <li class="has-sub">
-            <input type="checkbox" id="sub-inventario">
-            <label class="sub-toggle" for="sub-inventario">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-              </span>
-              <span class="nav-label">Inventario</span>
-              <svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </label>
-            <ul class="submenu">
-              <li>
-                <a href="proveedores.html">
-                  <span class="nav-label">Proveedores</span>
-                </a>
-              </li>
-              <li>
-                <a href="productos.html">
-                  <span class="nav-label">Productos</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-            </ul>
-        <div class="divider"></div>
-        <div class="menu-section-label">Sistema</div>
-        <ul>
-          <li class="item-salir">
-            <a href="Inicio_sesion.html">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              </span>
-              <span class="nav-label">Salir</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+    <div class="ddm-right">
+      <a href="#" id="boton-perfil" class="ddm-cuenta">
+        <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
+        <span id="nombre-display" class="ddm-nombre">Cargando...</span>
+      </a>
+      <button class="ddm-burger" id="navBurger" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
 
-      <div class="menu-footer">
-        <div class="status-dot"></div>
-        <span class="menu-version">DAMADD v2.0 · </span>
+  <!-- Menú desplegable para móvil -->
+  <div class="ddm-mobile" id="navMobileMenu">
+    <a href="inicio.html">Inicio</a>
+    <a href="#funciones" class="ddm-scroll">Funciones</a>
+    <a href="#como-funciona" class="ddm-scroll">Cómo funciona</a>
+    <a href="#preguntas" class="ddm-scroll">Preguntas</a>
+    <div>
+      <div class="ddm-mobile-toggle" id="navMobileDropdownToggle">
+        Software
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-    </nav>
+      <div class="ddm-mobile-sub" id="navMobileDropdownContent">
+        <a href="mesas.html">Mesas</a>
+        <a href="proveedores.html">Proveedores</a>
+        <a href="productos.html">Productos</a>
+      </div>
+    </div>
+    <a href="Inicio_sesion.html" class="ddm-mobile-salir">Salir</a>
+  </div>
+</div>
 
 <!-- Enlace a la tipografía premium Montserrat para máxima legibilidad -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
 <!-- Enlace de seguridad de GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-<div class="capa"></div> <!-- Capa que oscurece cuando el menú está abierto -->
 
 <section class="carousel" aria-label="Promociones">
   <!-- El canvas de tus partículas se queda al frente de las imágenes, fijo e intocable -->
@@ -214,7 +326,7 @@
   <div class="stat"><div class="stat-num" id="s3">0</div><div class="stat-label">Negocios activos</div></div>
 </div>
 
-<h1 class="titulo_funcion">FUNCIONES DEL SOFTWARE DAMADD</h1>
+<h1 class="titulo_funcion" id="funciones">FUNCIONES DEL SOFTWARE DAMADD</h1>
 
 <div class="contenedor-funciones">
 
@@ -250,7 +362,7 @@
 
 </div>
   <!-- CÓMO FUNCIONA -->
-<div class="how">
+<div class="how" id="como-funciona">
   <div class="sec-title" style="padding-top:0;">¿CÓMO FUNCIONA?</div>
   <div class="steps">
     <div class="step">
@@ -279,7 +391,7 @@
 </div>
 
 <!-- FAQ -->
-<div class="faq">
+<div class="faq" id="preguntas">
   <div class="sec-title" style="padding-top:0;">PREGUNTAS FRECUENTES</div>
   <div class="faq-item">
     <div class="faq-q" onclick="toggleFaq(this)">¿El software funciona sin internet? <span class="faq-icon">+</span></div>
@@ -635,7 +747,7 @@
 <!-- Botón flotante de música -->
 <button id="musicBtn" onclick="toggleMusicPanel()"
         style="position:fixed; bottom:90px; right:20px; width:55px; height:55px; 
-               border-radius:50%; background:#8a2be2; color:white; border:none; 
+               border-radius:50%; background:var(--color-principal); color:white; border:none; 
                font-size:24px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.4); 
                z-index:9999;">
   🎵
@@ -643,15 +755,15 @@
 
 <!-- Panel oculto -->
 <div id="musicPanel" style="display:none; position:fixed; bottom:160px; right:20px; 
-     width:320px; background:#1a1a1a; border:2px solid #8a2be2; border-radius:12px; 
+     width:320px; background:#1a1a1a; border:2px solid var(--color-principal); border-radius:12px; 
      padding:15px; z-index:9999; color:white;">
   
-  <h4 style="margin:0 0 10px 0; color:#8a2be2;">🎵 Reproducir canción</h4>
+  <h4 style="margin:0 0 10px 0; color:var(--color-principal);">🎵 Reproducir canción</h4>
   <input type="text" id="songInput" placeholder="Nombre de la canción..."
          style="width:100%; padding:8px; border-radius:6px; border:none; margin-bottom:10px;
                 background:#2a2a2a; color:white;">
   <button onclick="searchSong()" 
-          style="width:100%; padding:8px; background:#8a2be2; color:white; 
+          style="width:100%; padding:8px; background:var(--menu-juegos); color:white; 
                  border:none; border-radius:6px; cursor:pointer;">
     Reproducir
   </button>
@@ -659,6 +771,52 @@
 </div>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
+// === Comportamiento del nuevo menú transparente ===
+window.addEventListener("DOMContentLoaded", () => {
+  const nav = document.getElementById("navTransparente");
+  const burger = document.getElementById("navBurger");
+  const mobileMenu = document.getElementById("navMobileMenu");
+  const mobileDropdownToggle = document.getElementById("navMobileDropdownToggle");
+  const mobileDropdownContent = document.getElementById("navMobileDropdownContent");
+
+  // Fondo del menú al hacer scroll, para que siga siendo legible
+  const onScroll = () => {
+    if (window.scrollY > 40) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  };
+  window.addEventListener("scroll", onScroll);
+  onScroll();
+
+  // Scroll suave hacia las secciones (Funciones, Cómo funciona, Preguntas) compensando la altura del menú fijo
+  document.querySelectorAll(".ddm-scroll").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute("href"));
+      if (target) {
+        const offset = 90;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+      mobileMenu.classList.remove("open");
+    });
+  });
+
+  // Abrir / cerrar menú móvil
+  if (burger) {
+    burger.addEventListener("click", () => {
+      mobileMenu.classList.toggle("open");
+    });
+  }
+
+  // Acordeón del desplegable "Software" en móvil
+  if (mobileDropdownToggle) {
+    mobileDropdownToggle.addEventListener("click", () => {
+      mobileDropdownContent.classList.toggle("open");
+    });
+  }
+
+});
+
 // función para panel de accesibilidad 
 window.addEventListener("DOMContentLoaded", () => {
 
@@ -913,4 +1071,4 @@ let intervalo = setInterval(() => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
 </body> 
-</html> 
+</html>
