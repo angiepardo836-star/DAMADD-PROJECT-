@@ -42,7 +42,6 @@ app.get('/', (req, res) => {
 });
 
 // GUARDAR PROVEEDOR
-// GUARDAR PROVEEDOR
 app.post('/guardar-proveedor', (req, res) => {
     console.log('Datos proveedor recibidos:', req.body);
     const { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo } = req.body;
@@ -166,17 +165,17 @@ app.post('/registrar-compra', (req, res) => {
         documento_usuario,
         id_producto,
         cantidad,
-        precio_unitario,
+        precio_venta,
         forma_pago
     } = req.body;
 
     // Validación básica de entrada
-    if (!documento_proveedor || !documento_usuario || !id_producto || !cantidad || !precio_unitario || !forma_pago) {
+    if (!documento_proveedor || !documento_usuario || !id_producto || !cantidad || !precio_venta || !forma_pago) {
         return res.status(400).send('Faltan campos obligatorios');
     }
     if (
-        isNaN(id_producto) || isNaN(cantidad) || isNaN(precio_unitario) ||
-        Number(cantidad) <= 0 || Number(precio_unitario) <= 0
+        isNaN(id_producto) || isNaN(cantidad) || isNaN(precio_venta) ||
+        Number(cantidad) <= 0 || Number(precio_venta) <= 0
     ) {
         return res.status(400).send('Valores numéricos inválidos');
     }
@@ -203,7 +202,7 @@ app.post('/registrar-compra', (req, res) => {
             }
             const idUsuario = resUser[0].id;
 
-            const total = Number(cantidad) * Number(precio_unitario);
+            const total = Number(cantidad) * Number(precio_venta);
             const iva = 0; // valor fijo por ahora
 
             // 3. Insertar la cabecera de la compra
@@ -220,10 +219,10 @@ app.post('/registrar-compra', (req, res) => {
 
                 // 4. Insertar el detalle de la compra
                 const sqlDetalle = `
-                    INSERT INTO detalle_compra (id_compra, id_proveedor, id_producto, cantidad, precio_unitario, total, iva)
+                    INSERT INTO detalle_compra (id_compra, id_proveedor, id_producto, cantidad, precio_venta, total, iva)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                 `;
-                db.query(sqlDetalle, [idCompra, idProveedor, id_producto, cantidad, precio_unitario, total, iva], (errDetalle) => {
+                db.query(sqlDetalle, [idCompra, idProveedor, id_producto, cantidad, precio_venta, total, iva], (errDetalle) => {
                     if (errDetalle) {
                         console.error("ERROR AL INSERTAR DETALLE_COMPRA:", errDetalle.message);
                         return res.status(500).send("Error al registrar el detalle de la compra.");
@@ -259,7 +258,8 @@ app.post('/guardar-producto', async (req, res) => {
         categoria,
         presentacion,
         fecha_vencimiento,
-        precio_unitario,
+        precio_compra,
+        precio_venta,
         estado, 
         descripcion
     } = req.body;
@@ -318,8 +318,8 @@ app.post('/guardar-producto', async (req, res) => {
         const sqlInsert = `
             INSERT INTO producto 
             (tipo_producto, nombre, marca, cantidad, categoria, 
-            presentacion, fecha_vencimiento, 
-            precio_unitario, estado, descripcion)
+            presentacion, fecha_vencimiento, precio_compra, 
+            precio_venta, estado, descripcion)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
@@ -331,7 +331,8 @@ app.post('/guardar-producto', async (req, res) => {
             categoria,
             presentacion,
             fecha_vencimiento,
-            precio_unitario,
+            precio_compra,
+            precio_venta,
             estado, 
             descripcion
         ], (errInsert) => {
@@ -408,7 +409,8 @@ app.put('/editar-producto/:id', (req, res) => {
         categoria, 
         presentacion, 
         fecha_vencimiento, 
-        precio_unitario,
+        precio_compra,
+        precio_venta,
         estado,
         descripcion
     } = req.body;
@@ -419,7 +421,7 @@ app.put('/editar-producto/:id', (req, res) => {
         UPDATE producto
         SET tipo_producto =?, nombre =?, marca=?, cantidad=?, 
             categoria=?, presentacion=?, fecha_vencimiento=?, 
-            precio_unitario=?, estado=?, descripcion=?
+            precio_compra=?, precio_venta=?, estado=?, descripcion=?
         WHERE id=?
     `;
 
@@ -427,7 +429,8 @@ app.put('/editar-producto/:id', (req, res) => {
         tipo_producto, nombre, marca, cantidad, 
         categoria, presentacion, 
         fecha_vencimiento, 
-        precio_unitario,
+        precio_compra,
+        precio_venta,
         estado,
         desc,
         id
@@ -904,7 +907,7 @@ app.post('/guardar-factura', (req, res) => {
 
     const sql = `
         INSERT INTO factura (
-            fecha_venta, hora_venta, cantidad_producto_venta, precio_unitario, forma_pago_venta, numero_mesa,
+            fecha_venta, hora_venta, cantidad_producto_venta, precio_venta, forma_pago_venta, numero_mesa,
             id_compra, id_proveedor, id_producto
         )
         VALUES (?, ?, ?, ?, ?, ?, NULL, NULL, ?)
