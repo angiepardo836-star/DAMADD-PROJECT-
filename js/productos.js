@@ -29,7 +29,7 @@ async function obtenerProductos() {
                 tr.classList.add('sin-stock');
             }
             const cantidadNum = Number(p.cantidad) || 0;
-            const precioNum = Number(p.precio_unitario) || 0;
+            const precioNum = Number(p.precio_venta) || 0;
             let totalCalc = cantidadNum * precioNum;
             // mostrar sin decimales cuando es entero, en especial 0
             let totalDisplay = totalCalc === 0 ? '0' : (Number.isInteger(totalCalc) ? String(totalCalc) : totalCalc.toFixed(2));
@@ -42,7 +42,8 @@ async function obtenerProductos() {
                 <td>${p.categoria}</td>
                 <td>${p.presentacion || "N/A"}</td>
                 <td>${p.fecha_vencimiento ? formatearFecha(p.fecha_vencimiento) : "N/A"}</td>
-                <td>${parseFloat(p.precio_unitario).toLocaleString('es-CO')}</td>
+                <td>${parseFloat(p.precio_compra).toLocaleString('es-CO')}</td>
+                <td>${parseFloat(p.precio_venta).toLocaleString('es-CO')}</td>
                 <td>${p.estado}</td>
                 <td>${p.descripcion}</td>
                 <td>
@@ -73,12 +74,13 @@ async function saveNew() {
     const categoria = document.getElementById('new_categoria').value.trim();
     const presentacion = document.getElementById('new_presentacion').value.trim();
     const fecha_vencimiento = document.getElementById('new_fecha_vencimiento').value.trim();
-    const precio = parseFloat(document.getElementById('new_precio').value.replace(/\./g, ''));
+    const precio_compra = parseFloat(document.getElementById('new_precio_compra').value.replace(/\./g, ''));
+    const precio_venta = parseFloat(document.getElementById('new_precio_venta').value.replace(/\./g, ''));
     const estado = document.getElementById('new_estado').value;
     const descripcion = document.getElementById('new_descripcion').value.trim();
-    const total = precio * cantidad;
+    const total = precio_venta * cantidad;
 
-    if (!tipo_producto || !nombre || !marca || isNaN(cantidad) || !categoria || isNaN(precio) || !estado || !descripcion) {
+    if (!tipo_producto || !nombre || !marca || isNaN(cantidad) || !categoria || isNaN(precio_venta) || !estado || !descripcion) {
         showAlert2("Todos los campos son obligatorios, menos la fecha de vencimiento y presentacion.");
         return;
     }
@@ -98,8 +100,9 @@ async function saveNew() {
         categoria: categoria,
         presentacion: presentacion,
         fecha_vencimiento: fecha_vencimiento === "" ? null : fecha_vencimiento, // ← null si está vacío
-        precio_unitario: precio,
-        estado: estado, 
+        precio_compra: precio_compra,
+        precio_venta: precio_venta,
+        estado: estado,
         descripcion: descripcion,
         precio_total: total
     };
@@ -282,12 +285,16 @@ function editarFila(btn) {
         value="${fechaActual}"
         min="${hoyEdicion}">
     `;
-    // Precio
+    // Precio Compra
     celdas[8].innerHTML = `<input class="input-editar" type="text" min="0" value="${celdas[8].innerText}">`;
     aplicarValidacionPrecio(celdas[8].querySelector("input"));
+    
+    // Precio Venta
+    celdas[9].innerHTML = `<input class="input-editar" type="text" min="0" value="${celdas[9].innerText}">`;
+    aplicarValidacionPrecio(celdas[9].querySelector("input"));
 
     // Estado
-    celdas[9].innerHTML = `
+    celdas[10].innerHTML = `
         <select class="select-editar">
             <option value="Bueno" ${estadoActual === "Bueno" ? "selected" : ""}>Bueno</option>
             <option value="Malo" ${estadoActual === "Malo" ? "selected" : ""}>Malo</option>
@@ -295,10 +302,10 @@ function editarFila(btn) {
     `;
 
     // Descripción
-    const descActual = celdas[10].innerText.trim();
+    const descActual = celdas[11].innerText.trim();
     const descFormateada = descActual.charAt(0).toUpperCase() + descActual.slice(1);
 
-    celdas[10].innerHTML = `<input class="input-editar" type="text" value="${descFormateada}">`;
+    celdas[11].innerHTML = `<input class="input-editar" type="text" value="${descFormateada}">`;
 
     btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i>`;
     btn.classList.remove("btn-accion-editar");
@@ -333,9 +340,10 @@ async function guardarEdicion(btn) {
     const categoria = celdas[5].querySelector("input").value.trim();
     const presentacion = celdas[6].querySelector("input").value.trim();
     const fecha_vencimiento = celdas[7].querySelector("input").value.trim();
-    const prec = parseFloat(celdas[8].querySelector("input").value.replace(/\./g, ''));
-    const estado = celdas[9].querySelector("select").value.trim();
-    const descripcion = celdas[10].querySelector("input").value.replace(/[\n\r]/g, '').trim();
+    const precio_compra = parseFloat(celdas[8].querySelector("input").value.replace(/\./g, ''));
+    const precio_venta = parseFloat(celdas[9].querySelector("input").value.replace(/\./g, ''));
+    const estado = celdas[10].querySelector("select").value.trim();
+    const descripcion = celdas[11].querySelector("input").value.replace(/[\n\r]/g, '').trim();
 
 // VALIDACIÓN PARA PRODUCTOS
 if (tipo_producto === "Producto") {
@@ -347,7 +355,8 @@ if (tipo_producto === "Producto") {
         isNaN(cant) ||
         !categoria ||
         !presentacion ||
-        isNaN(prec) ||
+        isNaN(precio_compra) ||
+        isNaN(precio_venta) ||
         !estado ||
         !descripcion
     ) {
@@ -366,7 +375,8 @@ if (tipo_producto === "Material") {
         !marca ||
         isNaN(cant) ||
         !categoria ||
-        isNaN(prec) ||
+        isNaN(precio_compra) ||
+        isNaN(precio_venta) ||
         !estado ||
         !descripcion
     ) {
@@ -379,8 +389,11 @@ if (tipo_producto === "Material") {
     if (cant < 0) {
         return showAlert3('La cantidad no puede ser negativa');
     }
-    if (prec < 0) {
-        return showAlert3('El precio no puede ser negativo');
+    if (precio_compra < 0) {
+        return showAlert3('El precio de compra no puede ser negativo');
+    }
+    if (precio_venta < 0) {
+        return showAlert3('El precio de venta no puede ser negativo');
     }
     
 
@@ -392,10 +405,11 @@ if (tipo_producto === "Material") {
         categoria: categoria,
         presentacion: presentacion,
         fecha_vencimiento: fecha_vencimiento === "" ? null : fecha_vencimiento, // ← null si está vacío
-        precio_unitario: prec,
+        precio_compra: precio_compra,
+        precio_venta: precio_venta,
         estado: estado,
         descripcion: descripcion,
-        precio_total: (cant * prec).toFixed(2)
+        precio_total: (cant * precio_venta).toFixed(2)
     };
     try {
         const response = await fetch('/editar-producto/'+id, {

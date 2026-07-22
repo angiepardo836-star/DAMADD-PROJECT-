@@ -379,7 +379,7 @@ function cerrarModalCompra() {
 document.addEventListener('DOMContentLoaded', () => {
 
     //  Formato precio con separador de miles
-    const inputPrecioCompra = document.getElementById('inputPrecioUnitario');
+    const inputPrecioCompra = document.getElementById('inputPrecioCompra');
     if (inputPrecioCompra) {
         inputPrecioCompra.addEventListener('input', function () {
             let valor = this.value.replace(/[^0-9]/g, '');
@@ -425,6 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 //  Envío del formulario 
+//  Envío del formulario 
     const form = document.getElementById('formRegistrarCompra');
     if (form) {
         form.addEventListener('submit', async (e) => {
@@ -432,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const idProd = document.getElementById('inputIdProducto').value.trim();
             const cant   = document.getElementById('inputCantidad').value.trim();
-            const precioTexto = document.getElementById('inputPrecioUnitario').value.trim();
+            const precioTexto = document.getElementById('inputPrecioCompra').value.trim();
             const precio = precioTexto.replace(/[^0-9]/g, ''); 
             const pago   = document.getElementById('selectMetodoPago').value;
 
@@ -489,7 +490,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
+        const btnCancelarCompra = document.getElementById('btnCancelarCompra');
+        if (btnCancelarCompra) {
+            btnCancelarCompra.addEventListener('click', () => {
+                cerrarModalCompra();
+            });
+        }
+    });
 
 
 //  Nombre / Apellido
