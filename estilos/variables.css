@@ -49,17 +49,17 @@ body {
 /* PANEL DE ACCESIBILIDAD */
 .boton-accesibilidad {
     position:fixed;
-    right:30px;
+    right:18px;
     bottom:20px;
-    width:60px;
-    height:60px;
+    width:58px;
+    height:58px;
     border:none;
     border-radius:50%;
     cursor:pointer;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:30px;
+    font-size:29px;
     background:#242424;
     color:white;
     box-shadow: 
@@ -69,7 +69,7 @@ body {
     z-index:99999;
 }
 .boton-accesibilidad:hover{
-    transform:scale(1.08);
+    transform:scale(1.05);
     box-shadow: 
         0 0 35px var(--color-principal);
 }
@@ -116,14 +116,14 @@ h1, h2, h3  {
 }
 
 .panel-header p{
-    margin-top:5px;
+    margin-top:3px;
     color:#bbbbbb;
-    font-size:15px;
+    font-size:13px;
 }
 
 .cerrar-panel{
     position:absolute;
-    top:10px;
+    top:8px;
     right:20px;
     background:none;
     border:none;
