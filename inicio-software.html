@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Inicio</title>
+<style>
+  :root{
+    --bg-0:#0a0512;
+    --bg-1:#150a24;
+    --bg-2:#1d0f30;
+    --panel:#1a0e2c;
+    --line:rgba(192,132,252,0.22);
+    --line-strong:rgba(192,132,252,0.45);
+    --magenta:#d946ef;
+    --magenta-soft:#c026d3;
+    --violet:#8b5cf6;
+    --felt:#0d5c4f;
+    --felt-light:#12806e;
+    --gold:#eab308;
+    --red:#ef4444;
+    --text-hi:#f5f0fb;
+    --text-mid:#c9b8dd;
+    --text-low:#8a7aa3;
+  }
+  html{ font-size:18px; }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 1300px 700px at 15% -10%, rgba(192,38,211,0.18), transparent 60%),
+      radial-gradient(ellipse 1000px 700px at 100% 0%, rgba(139,92,246,0.14), transparent 55%),
+      var(--bg-0);
+    font-family:'Segoe UI', Arial, sans-serif;
+    color:var(--text-hi);
+    min-height:100vh;
+  }
+  .app{ display:flex; }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    width:290px;
+    min-height:100vh;
+    background:var(--bg-1);
+    border-right:1px solid var(--line);
+    padding:36px 20px;
+    position:sticky; top:0;
+    flex-shrink:0;
+  }
+  .logo{
+    font-size:30px; font-weight:800; letter-spacing:0.5px;
+    margin:0 6px 46px 6px;
+  }
+  .logo span{ color:var(--magenta); text-shadow:0 0 14px rgba(217,70,239,0.7); }
+  .nav-item{
+    display:flex; align-items:center; gap:14px;
+    padding:15px 18px; margin-bottom:6px;
+    border-radius:12px; font-size:18px; font-weight:600;
+    color:var(--text-mid); cursor:pointer;
+    border:1px solid transparent;
+  }
+  .nav-item .dot{ width:8px; height:8px; border-radius:50%; background:var(--text-low); flex-shrink:0; }
+  .nav-item.active{
+    background:linear-gradient(90deg, rgba(217,70,239,0.18), rgba(139,92,246,0.06));
+    border-color:var(--line-strong);
+    color:var(--text-hi);
+  }
+  .nav-item.active .dot{ background:var(--magenta); box-shadow:0 0 8px var(--magenta); }
+  .nav-section{
+    font-size:14px; text-transform:uppercase; letter-spacing:1px;
+    color:var(--text-low); margin:30px 18px 10px;
+  }
+  .sidebar-foot{
+    margin-top:52px; padding:18px; border-radius:14px;
+    background:var(--bg-2); border:1px solid var(--line);
+    font-size:15px; color:var(--text-low); line-height:1.6;
+  }
+  .sidebar-foot b{ color:var(--text-mid); }
+
+  /* ---------- MAIN ---------- */
+  .main{ flex:1; padding:36px 46px 64px; max-width:1560px; }
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:36px;
+  }
+  .topbar h1{ font-size:34px; margin:0 0 6px; font-weight:800; }
+  .topbar p{ margin:0; color:var(--text-mid); font-size:18px; }
+  .user-chip{
+    display:flex; align-items:center; gap:14px;
+    background:var(--panel); border:1px solid var(--line);
+    padding:10px 20px 10px 10px; border-radius:34px;
+  }
+  .avatar{
+    width:42px; height:42px; border-radius:50%;
+    background:linear-gradient(135deg,var(--magenta),var(--violet));
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; font-weight:800;
+  }
+  .user-chip small{ display:block; color:var(--text-low); font-size:13px; }
+  .user-chip{ font-size:18px; }
+
+  /* KPI row */
+  .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-bottom:40px; }
+  .kpi{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; padding:24px 26px;
+  }
+  .kpi .label{ font-size:16px; color:var(--text-mid); margin-bottom:12px; }
+  .kpi .value{ font-size:36px; font-weight:800; }
+  .kpi .delta{ font-size:15px; margin-top:8px; }
+  .kpi .delta.up{ color:#4ade80; }
+  .kpi .delta.down{ color:var(--red); }
+  .kpi.accent .value{ color:var(--magenta); text-shadow:0 0 12px rgba(217,70,239,0.5); }
+
+  /* Section title */
+  .section-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin:0 0 20px;
+  }
+  .section-head h2{ font-size:22px; font-weight:800; margin:0; }
+  .section-head a{ font-size:16px; color:var(--magenta); text-decoration:none; font-weight:700; }
+
+  /* Layout: mesas + side column */
+  .grid-main{ display:grid; grid-template-columns:1.6fr 1fr; gap:30px; align-items:start; }
+
+  /* Mesas */
+  .mesas{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:38px;
+  }
+  .mesa{
+    border-radius:16px; padding:20px; position:relative; overflow:hidden;
+    border:1px solid var(--line);
+    min-height:120px;
+  }
+  .mesa.busy{ background:linear-gradient(160deg,var(--felt-light),var(--felt) 70%); }
+  .mesa.free{ background:var(--panel); }
+  .mesa .num{ font-size:16px; font-weight:800; color:rgba(255,255,255,0.85); }
+  .mesa .status{ font-size:14px; margin-top:22px; font-weight:700; }
+  .mesa.busy .status{ color:#fff; }
+  .mesa.free .status{ color:var(--text-low); }
+  .mesa .timer{ font-size:26px; font-weight:800; margin-top:4px; color:#fff; }
+  .mesa .badge{
+    position:absolute; top:14px; right:14px; width:11px; height:11px; border-radius:50%;
+  }
+  .mesa.busy .badge{ background:var(--gold); box-shadow:0 0 8px var(--gold); }
+  .mesa.free .badge{ background:#3fbf7f; box-shadow:0 0 8px #3fbf7f; }
+  .mesa .ball{
+    position:absolute; bottom:-18px; right:-14px; width:62px; height:62px;
+    border-radius:50%; opacity:0.16;
+    background:radial-gradient(circle at 35% 30%, #fff, #333 70%);
+  }
+
+  /* Side column cards */
+  .panel-card{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; padding:22px 24px; margin-bottom:26px;
+  }
+  .panel-card h3{ font-size:19px; margin:0 0 16px; font-weight:800; }
+  .alert-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:13px 0; border-bottom:1px solid var(--line);
+    font-size:16px;
+  }
+  .alert-row:last-child{ border-bottom:none; }
+  .alert-row .name{ color:var(--text-hi); font-weight:600; }
+  .alert-row .qty{ color:var(--text-low); font-size:14px; }
+  .pill{
+    font-size:13px; font-weight:800; padding:5px 12px; border-radius:20px;
+  }
+  .pill.low{ background:rgba(239,68,68,0.18); color:#f87171; }
+  .pill.ok{ background:rgba(63,191,127,0.18); color:#4ade80; }
+
+  .activity-row{
+    display:flex; gap:12px; align-items:flex-start; padding:13px 0;
+    border-bottom:1px solid var(--line); font-size:15.5px;
+  }
+  .activity-row:last-child{ border-bottom:none; }
+  .activity-row .dot2{
+    width:9px; height:9px; border-radius:50%; margin-top:6px; flex-shrink:0;
+    background:var(--violet);
+  }
+  .activity-row .t{ color:var(--text-low); font-size:14px; }
+
+  .quick-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+  .qa-btn{
+    flex:1; min-width:140px; text-align:center;
+    background:linear-gradient(135deg, rgba(217,70,239,0.18), rgba(139,92,246,0.1));
+    border:1px solid var(--line-strong); border-radius:14px;
+    padding:18px 12px; font-size:15px; font-weight:700; color:var(--text-hi);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+<style>
+  .nav-item{
+    text-decoration:none; /* quita el subrayado del link */
+  }
+</style>
+
+<div class="sidebar">
+  <div class="logo">DAMA<span>DD</span></div>
+
+  <a href="inicio.html" class="nav-item active"><div class="dot"></div>Inicio</a>
+  <a href="mesas.html" class="nav-item"><div class="dot"></div>Mesas</a>
+  <a href="inventario.html" class="nav-item"><div class="dot"></div>Inventario</a>
+  <a href="productos.html" class="nav-item"><div class="dot"></div>Productos</a>
+  <a href="proveedores.html" class="nav-item"><div class="dot"></div>Proveedores</a>
+
+  <div class="nav-section">Negocio</div>
+  <a href="reportes.html" class="nav-item"><div class="dot"></div>Reportes</a>
+  <a href="configuracion.html" class="nav-item"><div class="dot"></div>Configuración</a>
+
+  <div class="sidebar-foot">
+    <b>Plan Negocio</b><br>50 mesas · 4 sucursales activas
+  </div>
+</div>
+  <div class="main">
+
+    <div class="topbar">
+      <div>
+        <h1>Hola, Daniel</h1>
+        <p>Miércoles 22 de julio · Turno de tarde</p>
+      </div>
+      <div class="user-chip">
+        <div class="avatar">D</div>
+        <div>
+          Daniel Ramírez
+          <small>Administrador</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi accent">
+        <div class="label">Mesas activas</div>
+        <div class="value">14 / 22</div>
+        <div class="delta up">▲ 4 desde ayer</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Ingresos de hoy</div>
+        <div class="value">$684.500</div>
+        <div class="delta up">▲ 12% vs. ayer</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Horas jugadas</div>
+        <div class="value">38,5 h</div>
+        <div class="delta up">▲ 6,2 h</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Productos con stock bajo</div>
+        <div class="value">5</div>
+        <div class="delta down">▼ revisar inventario</div>
+      </div>
+    </div>
+
+    <div class="grid-main">
+
+      <div>
+        <div class="section-head">
+          <h2>Mesas en tiempo real</h2>
+          <a href="#">Ver todas →</a>
+        </div>
+        <div class="mesas">
+          <div class="mesa busy"><div class="badge"></div><div class="ball"></div>
+            <div class="num">Mesa 01</div><div class="status">En juego</div><div class="timer">42:10</div></div>
+          <div class="mesa busy"><div class="badge"></div><div class="ball"></div>
+            <div class="num">Mesa 02</div><div class="status">En juego</div><div class="timer">08:55</div></div>
+          <div class="mesa free">
+            <div class="badge"></div><div class="num">Mesa 03</div><div class="status">Disponible</div></div>
+          <div class="mesa busy"><div class="badge"></div><div class="ball"></div>
+            <div class="num">Mesa 04</div><div class="status">En juego</div><div class="timer">01:12:30</div></div>
+          <div class="mesa free">
+            <div class="badge"></div><div class="num">Mesa 05</div><div class="status">Disponible</div></div>
+          <div class="mesa busy"><div class="badge"></div><div class="ball"></div>
+            <div class="num">Mesa 06</div><div class="status">En juego</div><div class="timer">19:47</div></div>
+        </div>
+
+        <div class="panel-card">
+          <h3>Accesos rápidos</h3>
+          <div class="quick-actions">
+            <div class="qa-btn">＋ Abrir mesa</div>
+            <div class="qa-btn">＋ Registrar venta</div>
+            <div class="qa-btn">＋ Ingresar producto</div>
+            <div class="qa-btn">＋ Nuevo proveedor</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel-card">
+          <h3>Inventario · alertas</h3>
+          <div class="alert-row"><div><div class="name">Tacos de billar (punta)</div><div class="qty">3 unidades</div></div><div class="pill low">Bajo</div></div>
+          <div class="alert-row"><div><div class="name">Tiza azul</div><div class="qty">6 unidades</div></div><div class="pill low">Bajo</div></div>
+          <div class="alert-row"><div><div class="name">Cerveza 330ml</div><div class="qty">84 unidades</div></div><div class="pill ok">Ok</div></div>
+          <div class="alert-row"><div><div class="name">Bolas set completo</div><div class="qty">2 sets</div></div><div class="pill low">Bajo</div></div>
+        </div>
+
+        <div class="panel-card">
+          <h3>Actividad reciente</h3>
+          <div class="activity-row"><div class="dot2"></div><div>Mesa 04 abierta por <b>Camila</b><div class="t">Hace 8 min</div></div></div>
+          <div class="activity-row"><div class="dot2"></div><div>Venta registrada: 2 cervezas, Mesa 02<div class="t">Hace 15 min</div></div></div>
+          <div class="activity-row"><div class="dot2"></div><div>Mesa 03 cerrada · $18.000<div class="t">Hace 26 min</div></div></div>
+          <div class="activity-row"><div class="dot2"></div><div>Stock actualizado: Tiza azul<div class="t">Hace 41 min</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
