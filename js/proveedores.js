@@ -363,62 +363,20 @@ function limpiarFormularioRegistro() {
 
 //  REALIZAR COMPRA (MODAL)
 let compraProveedorId = null;
-let mapaProductosPorNombre = {};
 
 function realizarCompra(idProv, nombreProv) {
     compraProveedorId = idProv;
     document.getElementById('modalCompraTexto').textContent =
         `Completa los datos de la compra a ${nombreProv}.`;
     document.getElementById('formRegistrarCompra').reset();
-
-    // Limpia también el campo oculto del ID de producto, ya que el reset()
-    // del form no toca este input porque vive fuera del <form> en algunos casos
-    const inputIdProd = document.getElementById('inputIdProducto');
-    if (inputIdProd) inputIdProd.value = '';
-
     document.getElementById('modalRegistrarCompra').style.display = 'flex';
-    cargarDatalistProductos();
 }
 
 function cerrarModalCompra() {
     document.getElementById('modalRegistrarCompra').style.display = 'none';
     compraProveedorId = null;
 }
-
-//  Carga el datalist de productos para el autocompletado por nombre
-async function cargarDatalistProductos() {
-    try {
-        const respuesta = await fetch('/obtener-productos');
-        const productos = await respuesta.json();
-
-        mapaProductosPorNombre = {};
-        const datalist = document.getElementById('listaProductosCompra');
-        if (!datalist) return;
-
-        datalist.innerHTML = '';
-
-        productos.forEach(p => {
-            mapaProductosPorNombre[p.nombre] = p.id;
-            const option = document.createElement('option');
-            option.value = p.nombre;
-            datalist.appendChild(option);
-        });
-    } catch (error) {
-        console.error("Error al cargar productos para el autocompletado:", error);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-
-    //  Vincula el nombre de producto escrito con su ID real (campo oculto)
-    const inputNombreProducto = document.getElementById('inputNombreProducto');
-    if (inputNombreProducto) {
-        inputNombreProducto.addEventListener('input', function () {
-            const idEncontrado = mapaProductosPorNombre[this.value];
-            const inputIdProd = document.getElementById('inputIdProducto');
-            if (inputIdProd) inputIdProd.value = idEncontrado || '';
-        });
-    }
 
     //  Formato precio con separador de miles
     const inputPrecioCompra = document.getElementById('inputPrecioUnitario');
@@ -439,8 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    //  Bloquear negativos en Cantidad 
-    ['inputCantidad'].forEach(id => {
+    //  Bloquear negativos en ID producto y Cantidad 
+    ['inputIdProducto', 'inputCantidad'].forEach(id => {
         const input = document.getElementById(id);
         if (!input) return;
 
@@ -478,11 +436,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const precio = precioTexto.replace(/[^0-9]/g, ''); 
             const pago   = document.getElementById('selectMetodoPago').value;
 
-            if (!idProd) {
-                showAlert3("Selecciona un producto válido de la lista.");
-                return;
-            }
-
             if (!idProd || !cant || !precio || !pago) {
                 showAlert3("Todos los campos son obligatorios.");
                 return;
@@ -505,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 documento_usuario: documentoUsuario,
                 id_producto: parseInt(idProd),
                 cantidad: parseInt(cant),
-                precio_venta: parseFloat(precio),
+                precio_unitario: parseFloat(precio),
                 forma_pago: pago
             };
 
