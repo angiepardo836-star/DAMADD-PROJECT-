@@ -319,7 +319,7 @@ app.post('/guardar-producto', async (req, res) => {
             (tipo_producto, nombre, marca, cantidad, categoria, 
             presentacion, fecha_vencimiento, precio_compra, 
             precio_venta, estado, descripcion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         db.query(sqlInsert, [

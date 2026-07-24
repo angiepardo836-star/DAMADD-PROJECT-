@@ -86,9 +86,39 @@ async function saveNew() {
     const descripcion = document.getElementById('new_descripcion').value.trim();
     const total = precio_venta * cantidad;
 
-    if (!tipo_producto || !nombre || !marca || isNaN(cantidad) || !categoria || isNaN(precio_venta) || !estado || !descripcion) {
-        showAlert2("Todos los campos son obligatorios, menos la fecha de vencimiento y presentacion.");
-        return;
+    // Validación para Producto
+    if (tipo_producto === "Producto") {
+
+        if (
+            !nombre ||
+            !marca ||
+            isNaN(cantidad) ||
+            !categoria ||
+            precio_venta === null ||
+            !estado ||
+            !descripcion
+        ) {
+            showAlert2("En productos todos los campos son obligatorios, excepto la fecha de vencimiento.");
+            return;
+        }
+
+    }
+
+    // Validación para Material
+    if (tipo_producto === "Material") {
+
+        if (
+            !nombre ||
+            !marca ||
+            isNaN(cantidad) ||
+            !categoria ||
+            !estado ||
+            !descripcion
+        ) {
+            showAlert2("En materiales la presentación, la fecha de vencimiento y el precio de venta son opcionales.");
+            return;
+        }
+
     }
     // Si es Producto, presentación sí es obligatoria
     if (tipo_producto === "Producto" && !presentacion) {
@@ -251,7 +281,7 @@ function editarFila(btn) {
     let celdas = fila.getElementsByTagName("td");
 
     const tipoActual = celdas[1].innerText.trim();
-    const estadoActual = celdas[9].innerText.trim();
+    const estadoActual = celdas[10].innerText.trim();
 
     // Tipo Producto
     celdas[1].innerHTML = `
