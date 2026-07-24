@@ -43,11 +43,7 @@ async function obtenerProductos() {
                 <td>${p.presentacion || "N/A"}</td>
                 <td>${p.fecha_vencimiento ? formatearFecha(p.fecha_vencimiento) : "N/A"}</td>
                 <td>${parseFloat(p.precio_compra).toLocaleString('es-CO')}</td>
-                <td>${
-                    p.precio_venta == null
-                        ? "N/A"
-                        : parseFloat(p.precio_venta).toLocaleString('es-CO')
-                }</td>
+                <td>${parseFloat(p.precio_venta).toLocaleString('es-CO')}</td>
                 <td>${p.estado}</td>
                 <td>${p.descripcion}</td>
                 <td>
@@ -78,10 +74,8 @@ async function saveNew() {
     const categoria = document.getElementById('new_categoria').value.trim();
     const presentacion = document.getElementById('new_presentacion').value.trim();
     const fecha_vencimiento = document.getElementById('new_fecha_vencimiento').value.trim();
-    const precioVentaTexto = document.getElementById('new_precio').value.trim();
-    const precio_venta = precioVentaTexto === ""
-        ? null
-        : parseFloat(precioVentaTexto.replace(/\./g, ''));
+    const precio_compra = parseFloat(document.getElementById('new_precio_compra').value.replace(/\./g, ''));
+    const precio_venta = parseFloat(document.getElementById('new_precio_venta').value.replace(/\./g, ''));
     const estado = document.getElementById('new_estado').value;
     const descripcion = document.getElementById('new_descripcion').value.trim();
     const total = precio_venta * cantidad;
@@ -136,7 +130,7 @@ async function saveNew() {
         categoria: categoria,
         presentacion: presentacion,
         fecha_vencimiento: fecha_vencimiento === "" ? null : fecha_vencimiento, // ← null si está vacío
-        precio_compra: null,
+        precio_compra: precio_compra,
         precio_venta: precio_venta,
         estado: estado,
         descripcion: descripcion,
@@ -412,10 +406,11 @@ if (tipo_producto === "Material") {
         isNaN(cant) ||
         !categoria ||
         isNaN(precio_compra) ||
+        isNaN(precio_venta) ||
         !estado ||
         !descripcion
     ) {
-        showAlert3("En materiales, todos los campos son obligatorios, menos la presentación, la fecha de vencimiento y el precio de venta.");
+        showAlert3("En materiales, todos los campos son obligatorios, menos la presentación y la fecha de vencimiento.");
         return;
     }
 
@@ -440,7 +435,7 @@ if (tipo_producto === "Material") {
         categoria: categoria,
         presentacion: presentacion,
         fecha_vencimiento: fecha_vencimiento === "" ? null : fecha_vencimiento, // ← null si está vacío
-        precio_compra: null,
+        precio_compra: precio_compra,
         precio_venta: precio_venta,
         estado: estado,
         descripcion: descripcion,
@@ -975,43 +970,5 @@ function cerrarModal() {
             infoFecha.style.display = "none";
 
         });
-
-});
-document.addEventListener("DOMContentLoaded", () => {
-
-    const tipo = document.getElementById("new_tipo_producto");
-
-    // Precio Venta
-    const precio = document.getElementById("new_precio");
-    const infoPrecio = document.getElementById("info_precio");
-
-    precio.addEventListener("focus", () => {
-
-        if (tipo.value === "Producto") {
-
-            infoPrecio.textContent =
-                "El precio de venta es obligatorio para los productos.";
-
-        } else if (tipo.value === "Material") {
-
-            infoPrecio.textContent =
-                "El precio de venta es opcional para los materiales.";
-
-        } else {
-
-            infoPrecio.textContent =
-                "Primero seleccione un tipo de producto.";
-
-        }
-
-        infoPrecio.style.display = "block";
-
-    });
-
-    precio.addEventListener("blur", () => {
-
-        infoPrecio.style.display = "none";
-
-    });
 
 });
