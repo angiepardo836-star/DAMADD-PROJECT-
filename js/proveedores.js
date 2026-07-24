@@ -425,7 +425,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 //  Envío del formulario 
-//  Envío del formulario 
     const form = document.getElementById('formRegistrarCompra');
     if (form) {
         form.addEventListener('submit', async (e) => {
@@ -490,13 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-        const btnCancelarCompra = document.getElementById('btnCancelarCompra');
-        if (btnCancelarCompra) {
-            btnCancelarCompra.addEventListener('click', () => {
-                cerrarModalCompra();
-            });
-        }
-    });
+});
 
 
 //  Nombre / Apellido
