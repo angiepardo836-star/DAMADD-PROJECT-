@@ -44,11 +44,11 @@ app.get('/', (req, res) => {
 // GUARDAR PROVEEDOR
 app.post('/guardar-proveedor', (req, res) => {
     console.log('Datos proveedor recibidos:', req.body);
-    const { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo } = req.body;
+    const { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, correo, estado } = req.body;
 
     const sql = `
         INSERT INTO proveedor
-        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo)
+        (tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, correo, estado)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -60,8 +60,8 @@ app.post('/guardar-proveedor', (req, res) => {
         telefono,
         ciudad,
         direccion,
-        estado,
-        correo
+        correo,
+        estado
     ], (err) => {
 
         if (err) {
@@ -102,15 +102,15 @@ app.delete('/eliminar-proveedor/:id', (req, res) => {
 // RUTA PARA EDITAR PROVEEDOR
 app.put('/editar-proveedor/:id', (req, res) => {
     const id = req.params.id;
-    const { tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, estado, correo } = req.body;
+    const { tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, correo, estado } = req.body;
     
     const sql = `
         UPDATE proveedor 
-        SET tipo_documento=?, documento=?, nombre=?, apellido=?,  telefono=?, ciudad=?, direccion=?, estado=?, correo=?
+        SET tipo_documento=?, documento=?, nombre=?, apellido=?,  telefono=?, ciudad=?, direccion=?, correo=?, estado=?
         WHERE documento =?
     `;
 
-    db.query(sql, [tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, estado, correo, id], (err) => {
+    db.query(sql, [tipo_documento, documento, nombre, apellido,  telefono, ciudad, direccion, correo, estado], (err) => {
         if (err) {
             console.error(err);
             return res.status(500).send("Error");
@@ -138,15 +138,16 @@ app.delete('/eliminar-proveedor/:id', (req, res) => {
 // RUTA PARA EDITAR PROVEEDOR
 app.put('/editar-proveedor/:id', (req, res) => {
     const id = req.params.id;
-    const { tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo } = req.body;
-
+    const { nombre, documento, telefono, ciudad, direccion, correo, producto } = req.body;
+    
     const sql = `
         UPDATE proveedor 
-        SET tipo_documento=?, documento=?, nombre=?, apellido=?, telefono=?, ciudad=?, direccion=?, estado=?, correo=?
-        WHERE documento=?
+        SET nombre_proveedor=?, certificacion_proveedor=?, telefono_proveedor=?, 
+            ciudad_proveedor=?, direccion_proveedor=?, correo_proveedor=?, producto_proveedor=? 
+        WHERE id_proveedor=?
     `;
 
-    db.query(sql, [tipo_documento, documento, nombre, apellido, telefono, ciudad, direccion, estado, correo, id], (err) => {
+    db.query(sql, [nombre, documento, telefono, ciudad, direccion, correo, producto, id], (err) => {
         if (err) {
             console.error(err);
             return res.status(500).send("Error");
@@ -156,8 +157,6 @@ app.put('/editar-proveedor/:id', (req, res) => {
     });
 });
 
-// COMPRAr PRODUCTO (REGISTRAR COMPRA)
-
 // COMPRAR PRODUCTO (REGISTRAR COMPRA)
 app.post('/registrar-compra', (req, res) => {
     const {
@@ -165,17 +164,17 @@ app.post('/registrar-compra', (req, res) => {
         documento_usuario,
         id_producto,
         cantidad,
-        precio_venta,
-        forma_pago
+        precio_unitario,
+        metodo_pago
     } = req.body;
 
     // Validación básica de entrada
-    if (!documento_proveedor || !documento_usuario || !id_producto || !cantidad || !precio_venta || !forma_pago) {
+    if (!documento_proveedor || !documento_usuario || !id_producto || !cantidad || !precio_unitario || !forma_pago) {
         return res.status(400).send('Faltan campos obligatorios');
     }
     if (
-        isNaN(id_producto) || isNaN(cantidad) || isNaN(precio_venta) ||
-        Number(cantidad) <= 0 || Number(precio_venta) <= 0
+        isNaN(id_producto) || isNaN(cantidad) || isNaN(precio_unitario) ||
+        Number(cantidad) <= 0 || Number(precio_unitario) <= 0
     ) {
         return res.status(400).send('Valores numéricos inválidos');
     }
@@ -202,7 +201,7 @@ app.post('/registrar-compra', (req, res) => {
             }
             const idUsuario = resUser[0].id;
 
-            const total = Number(cantidad) * Number(precio_venta);
+            const total = Number(cantidad) * Number(precio_unitario);
             const iva = 0; // valor fijo por ahora
 
             // 3. Insertar la cabecera de la compra
@@ -219,10 +218,10 @@ app.post('/registrar-compra', (req, res) => {
 
                 // 4. Insertar el detalle de la compra
                 const sqlDetalle = `
-                    INSERT INTO detalle_compra (id_compra, id_proveedor, id_producto, cantidad, precio_venta, total, iva)
+                    INSERT INTO detalle_compra (id_compra, id_proveedor, id_producto, cantidad, precio_unitario, total, iva)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                 `;
-                db.query(sqlDetalle, [idCompra, idProveedor, id_producto, cantidad, precio_venta, total, iva], (errDetalle) => {
+                db.query(sqlDetalle, [idCompra, idProveedor, id_producto, cantidad, precio_unitario, total, iva], (errDetalle) => {
                     if (errDetalle) {
                         console.error("ERROR AL INSERTAR DETALLE_COMPRA:", errDetalle.message);
                         return res.status(500).send("Error al registrar el detalle de la compra.");
@@ -251,53 +250,25 @@ app.post('/guardar-producto', async (req, res) => {
     console.log('Datos producto recibidos:', req.body);
 
     const {
-        tipo_producto,
-        nombre,
-        marca,
-        cantidad,
-        categoria,
-        presentacion,
-        fecha_vencimiento,
-        precio_compra,
-        precio_venta,
-        estado, 
-        descripcion
+        nombre_producto,
+        marca_producto,
+        cantidad_producto,
+        categoria_producto,
+        presentacion_producto,
+        fecha_vencimiento_producto,
+        precio_unitario_producto
     } = req.body;
 
-    // Definimos la consulta según el tipo de producto
-    let sqlCheck;
-    let valoresCheck;
-
-    if (tipo_producto === "Producto") {
-
-        // Para productos: nombre + marca + presentación
-        sqlCheck = `
-            SELECT id
-            FROM producto
-            WHERE nombre = ?
-            AND marca = ?
-            AND presentacion = ?
-        `;
-
-        valoresCheck = [nombre, marca, presentacion];
-
-    } else if (tipo_producto === "Material") {
-
-        // Para materiales: nombre + marca
-        sqlCheck = `
-            SELECT id
-            FROM producto
-            WHERE nombre = ?
-            AND marca = ?
-        `;
-
-        valoresCheck = [nombre, marca];
-
-    }
+    // Definimos la consulta para buscar duplicados
+    const sqlCheck = `
+        SELECT id_producto FROM producto 
+        WHERE marca_producto = ? 
+          AND categoria_producto = ? 
+          AND presentacion_producto = ?
+    `;
 
     // Ejecutamos la búsqueda
-    db.query(sqlCheck, valoresCheck, (err, results) => {
-
+    db.query(sqlCheck, [ marca_producto, categoria_producto, presentacion_producto], (err, results) => {
         if (err) {
             console.error("Error al buscar duplicados:", err);
             return res.status(500).send("Error en el servidor al verificar el producto.");
@@ -305,36 +276,28 @@ app.post('/guardar-producto', async (req, res) => {
 
         // Si encontramos resultados, significa que ya existe
         if (results.length > 0) {
-
-            if (tipo_producto === "Producto") {
-                return res.status(400).send("El producto ya existe en la base de datos.");
-            }
-
-            return res.status(400).send("El material ya existe en la base de datos.");
+            return res.status(400).send("El producto ya existe en la base de datos.");
         }
 
         // Si no existe, procedemos con el guardado normal
-
+        const total = cantidad_producto * precio_unitario_producto;
         const sqlInsert = `
             INSERT INTO producto 
-            (tipo_producto, nombre, marca, cantidad, categoria, 
-            presentacion, fecha_vencimiento, precio_compra, 
-            precio_venta, estado, descripcion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (nombre_producto, marca_producto, cantidad_producto, categoria_producto, 
+            presentacion_producto, fecha_vencimiento_producto, 
+            precio_unitario_producto, precio_total_producto)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         db.query(sqlInsert, [
-            tipo_producto,
-            nombre,
-            marca,
-            cantidad,
-            categoria,
-            presentacion,
-            fecha_vencimiento,
-            precio_compra,
-            precio_venta,
-            estado, 
-            descripcion
+            nombre_producto,
+            marca_producto,
+            cantidad_producto,
+            categoria_producto,
+            presentacion_producto,
+            fecha_vencimiento_producto,
+            precio_unitario_producto,
+            total
         ], (errInsert) => {
             if (errInsert) {
                 console.error("Error al insertar:", errInsert);
@@ -365,8 +328,8 @@ app.post('/descontar-producto', (req, res) => {
         return res.status(400).send('Datos incompletos');
     }
     const sql = `UPDATE producto
-                 SET cantidad= cantidad - ?
-                 WHERE id = ? AND cantidad >= ?`;
+                 SET cantidad_producto = cantidad_producto - ?
+                 WHERE id_producto = ? AND cantidad_producto >= ?`;
     db.query(sql, [cantidad, id, cantidad], (err, result) => {
         if (err) {
             console.error('Error al descontar producto:', err);
@@ -383,7 +346,7 @@ app.post('/descontar-producto', (req, res) => {
 // RUTA PARA ELIMINAR PRODUCTO 
 app.delete('/eliminar-producto/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "DELETE FROM producto WHERE id = ?";
+    const sql = "DELETE FROM producto WHERE id_producto = ?";
     
     db.query(sql, [id], (err, result) => {
         if (err) {
@@ -400,39 +363,31 @@ app.delete('/eliminar-producto/:id', (req, res) => {
 
 // RUTA PARA EDITAR PRODUCTO
 app.put('/editar-producto/:id', (req, res) => {
-    const id = req.params.id.trim();
+    const id = req.params.id;
     const { 
-        tipo_producto,
-        nombre, 
-        marca, 
-        cantidad, 
-        categoria, 
-        presentacion, 
-        fecha_vencimiento, 
-        precio_compra,
-        precio_venta,
-        estado,
-        descripcion
+        nombre_producto, 
+        marca_producto, 
+        cantidad_producto, 
+        categoria_producto, 
+        presentacion_producto, 
+        fecha_vencimiento_producto, 
+        precio_unitario_producto, 
+        precio_total_producto 
     } = req.body;
-
-    const desc = descripcion ? descripcion.trim() : '';
     
     const sql = `
         UPDATE producto
-        SET tipo_producto =?, nombre =?, marca=?, cantidad=?, 
-            categoria=?, presentacion=?, fecha_vencimiento=?, 
-            precio_compra=?, precio_venta=?, estado=?, descripcion=?
-        WHERE id=?
+        SET nombre_producto=?, marca_producto=?, cantidad_producto=?, 
+            categoria_producto=?, presentacion_producto=?, fecha_vencimiento_producto=?, 
+            precio_unitario_producto=?, precio_total_producto=? 
+        WHERE id_producto=?
     `;
 
     const valores = [
-        tipo_producto, nombre, marca, cantidad, 
-        categoria, presentacion, 
-        fecha_vencimiento, 
-        precio_compra,
-        precio_venta,
-        estado,
-        desc,
+        nombre_producto, marca_producto, cantidad_producto, 
+        categoria_producto, presentacion_producto, 
+        fecha_vencimiento_producto || null, 
+        precio_unitario_producto, precio_total_producto, 
         id
     ];
 
@@ -450,7 +405,7 @@ app.post('/guardar-usuario', async (req, res) => {
     const { tipo_documento, documento, nombre, apellido, usuario, telefono, correo, contrasena, admin_key } = req.body;
 
         if (correo === process.env.CORREO_SOPORTE) {
-            return res.status(400).json({ success: false, message: "El correo electrónico ya está registrado." });
+            return res.status(400).json({ success: false, message: "Este correo está reservado exclusivamente para soporte técnico del sistema." });
         }
 
         const sqlCheck = `
@@ -466,16 +421,16 @@ app.post('/guardar-usuario', async (req, res) => {
             const registrado = usuariosExistentes[0];
             
             if (registrado.documento.toString() === documento.toString()) {
-                return res.status(400).json({ success: false, message: "El número de documento ya está registrado." });
+                return res.status(400).json({ success: false, message: "El número de documento ya está registrado" });
             }
             if (registrado.usuario === usuario) {
-                return res.status(400).json({ success: false, message: "El nombre de usuario ya está en uso." });
+                return res.status(400).json({ success: false, message: "El nombre de usuario ya está en uso" });
             }
             if (registrado.telefono === telefono) {
-                return res.status(400).json({ success: false, message: "El número de teléfono ya está registrado." });
+                return res.status(400).json({ success: false, message: "El número de teléfono ya está registrado" });
             }
             if (registrado.correo === correo) {
-                return res.status(400).json({ success: false, message: "El correo electrónico ya está registrado." });
+                return res.status(400).json({ success: false, message: "El correo electrónico ya está registrado" });
             }
         }
 
@@ -520,7 +475,7 @@ app.post('/guardar-usuario', async (req, res) => {
 
     } catch (error) {
         console.error("Error en registro:", error);
-        return res.status(500).json({ success: false, message: "Error en el servidor" });
+        return res.status(500).json({ success: false, message: "Error del servidor" });
     }
 });
 
@@ -579,13 +534,16 @@ app.post('/login', async (req, res) => {
 
 // configuración nodemailer
 const transporter = nodemailer.createTransport({
-    service: 'gmail', 
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // true para el puerto 465 (SSL)
     auth: {
         user: process.env.EMAIL_USER,  
         pass: process.env.EMAIL_PASS 
     },
     tls: {
-        rejectUnauthorized: false // ⚠️ solo desarrollo local, ver nota abajo
+        // Ahora sí o sí va a ignorar el certificado autofirmado
+        rejectUnauthorized: false
     }
 });
 
@@ -797,7 +755,7 @@ app.get('/obtener-perfil/:id', async (req, res) => {
 app.get('/obtener-usuarios', async (req, res) => {
     try {
         const sql = `
-            SELECT id, documento, tipo_documento, nombre, apellido, usuario, 
+            SELECT documento, tipo_documento, nombre, apellido, usuario, 
                    telefono, correo, rol, estado, fecha_creacion 
             FROM usuario
         `;
@@ -811,89 +769,51 @@ app.get('/obtener-usuarios', async (req, res) => {
 
 // ELIMINAR USUARIO
 app.delete('/eliminar-usuario/:id', (req, res) => {
-    db.query("DELETE FROM usuario WHERE documento = ?", [req.params.id], (err) => {
+    db.query("DELETE FROM usuario WHERE id_usuario = ?", [req.params.id], (err) => {
         if (err) return res.status(500).json({ success: false });
         res.json({ success: true });
     });
 });
 
-// VERIFICAR CONTRASEÑA ANTES DE EDITAR
-app.post('/verificar-password-admin', async (req, res) => {
-    const { password_ingresada } = req.body;
+// VERIFICAR CONTRASEÑA ANTES DE EDITAR (NUEVO)
+app.post('/verificar-password-admin', (req, res) => {
+    const { id_usuario, password_ingresada } = req.body;
     
-    if (!password_ingresada) {
-        return res.status(400).json({ success: false, message: "Datos incompletos. Debe ingresar la contraseña." });
-    }
-
-    // Buscamos directamente la contraseña del Gerente en la base de datos
-    const sql = "SELECT contrasena FROM usuario WHERE rol = 'Gerente' LIMIT 1";
-    try {
-        const [results] = await db.promise().query(sql);
-        if (results.length === 0) {
-            return res.json({ success: false, message: "No se encontró un Gerente registrado." });
-        }
+    db.query("SELECT contraseña_usuario FROM usuario WHERE id_usuario = ?", [id_usuario], async (err, results) => {
+        if (err || results.length === 0) return res.status(500).json({ success: false });
         
-        // Comparamos la contraseña digitada con la del Gerente
-        const valid = await bcrypt.compare(password_ingresada, results[0].contrasena);
-        return res.json({ success: valid });
-    } catch (err) {
-        console.error("Error en verificar-password-admin:", err);
-        return res.status(500).json({ success: false, message: "Error en el servidor." });
-    }
+        const valid = await bcrypt.compare(password_ingresada, results[0].contraseña_usuario);
+        res.json({ success: valid });
+    });
 });
 
 // EDITAR USUARIO
 app.put('/editar-usuario/:id', async (req, res) => {
-    const { nombre, apellido, usuario, telefono, correo, contrasena } = req.body;
-    const id = req.params.id; 
+    const { nombre_usuario, apellido_usuario, usuario_usuario, correo_usuario, contraseña_usuario, cargo_usuario } = req.body;
+    const id = req.params.id;
 
     try {
         let sql;
         let params;
 
-        // Si el usuario cambia la contraseña
-        if (contrasena && contrasena.trim() !== "") {
+        // Si el usuario escribió una nueva contraseña en el modal de edición, la encriptamos y la guardamos
+        if (contraseña_usuario && contraseña_usuario.trim() !== "") {
             const salt = await bcrypt.genSalt(10);
-            const passwordEncriptada = await bcrypt.hash(contrasena, salt);
-            
-            sql = `UPDATE usuario SET nombre=?, apellido=?, usuario=?, telefono=?, correo=?, contrasena=?, fecha_modificacion=NOW(), usuario_modifica=? WHERE documento=?`;
-            params = [nombre, apellido, usuario, telefono, correo, passwordEncriptada, usuario, id];
+            const passwordEncriptada = await bcrypt.hash(contraseña_usuario, salt);
+            sql = `UPDATE usuario SET nombre_usuario=?, apellido_usuario=?, usuario_usuario=?, correo_usuario=?, contraseña_usuario=?, cargo_usuario=? WHERE id_usuario=?`;
+            params = [nombre_usuario, apellido_usuario, usuario_usuario, correo_usuario, passwordEncriptada, cargo_usuario, id];
         } else {
-            // Si el usuario dejó vacíos los inputs de contraseña
-            sql = `UPDATE usuario SET nombre=?, apellido=?, usuario=?, telefono=?, correo=?, fecha_modificacion=NOW(), usuario_modifica=? WHERE documento=?`;
-            params = [nombre, apellido, usuario, telefono, correo, usuario, id];
+            // Si dejó la contraseña vacía, actualizamos todo MENOS la contraseña
+            sql = `UPDATE usuario SET nombre_usuario=?, apellido_usuario=?, usuario_usuario=?, correo_usuario=?, cargo_usuario=? WHERE id_usuario=?`;
+            params = [nombre_usuario, apellido_usuario, usuario_usuario, correo_usuario, cargo_usuario, id];
         }
 
-        const [result] = await db.promise().query(sql, params);
-        
-        if (result.affectedRows > 0) {
-            return res.json({ success: true });
-        } else {
-            return res.status(404).json({ success: false, message: "No se encontró el registro para actualizar." });
-        }
+        db.query(sql, params, (err) => {
+            if (err) return res.status(500).json({ success: false });
+            res.json({ success: true });
+        });
     } catch (error) {
-        console.error("Error al actualizar usuario:", error);
-        return res.status(500).json({ success: false, message: "Error en el servidor." });
-    }
-});
-// BUSCAR USUARIO POR ID (PRIMARY KEY)
-app.get('/api/usuarios/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        // Hacemos el filtro directamente por la Primary Key 'id'
-        const sql = "SELECT tipo_documento, documento, nombre, apellido, usuario, telefono, correo, rol as cargo FROM usuario WHERE id = ? LIMIT 1";
-        const [results] = await db.promise().query(sql, [id]);
-
-        if (results.length === 0) {
-            return res.status(404).json({ success: false, message: "Usuario no encontrado." });
-        }
-
-        return res.json(results[0]);
-
-    } catch (error) {
-        console.error("Error al obtener usuario por ID:", error);
-        return res.status(500).json({ success: false, message: "Error en el servidor." });
+        res.status(500).json({ success: false });
     }
 });
 
@@ -907,7 +827,7 @@ app.post('/guardar-factura', (req, res) => {
 
     const sql = `
         INSERT INTO factura (
-            fecha_venta, hora_venta, cantidad_producto_venta, precio_venta, forma_pago_venta, numero_mesa,
+            fecha_venta, hora_venta, cantidad_producto_venta, precio_unitario, forma_pago_venta, numero_mesa,
             id_compra, id_proveedor, id_producto
         )
         VALUES (?, ?, ?, ?, ?, ?, NULL, NULL, ?)
@@ -941,144 +861,33 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-app.post('/actualizar_mesa', (req, res) => {
-    // Recibimos id, estado, tiempo y el tipo desde el frontend optimizado
-    const { id, estado, tiempo, tipo } = req.body;
-    
-    console.log(`Petición recibida: POST /actualizar_mesa - Tipo: ${tipo}, ID: ${id}, Estado: ${estado}, Tiempo: ${tiempo}`);
+app.post("/actualizar_mesa", (req, res) => {
 
-    // Validamos que el ID no llegue undefined o nulo
-    if (!id) {
-        return res.status(400).json({ error: "El ID del espacio de juego es requerido y llegó undefined." });
+  const mesa = req.body.mesa;
+  const estado = req.body.estado;
+  const tiempo = req.body.tiempo;
+
+  console.log("Mesa:", mesa, "Estado:", estado, "Tiempo:", tiempo);
+
+  const sql = `
+    UPDATE mesa
+    SET estado_mesa = ?, tiempo_servicio = ?
+    WHERE numero_mesa = ?
+  `;
+
+  db.query(sql, [estado, tiempo, mesa], (err, result) => {
+
+    if (err) {
+      console.log("Error:", err);
+      res.send("error");
+      return;
     }
 
-    // Definimos por defecto la tabla 'mesa'
-    let tabla = 'mesa'; 
-    if (tipo === 'billar') tabla = 'billar';
-    if (tipo === 'bolirana') tabla = 'bolirana';
+    console.log("Filas afectadas:", result.affectedRows);
+    res.send("ok");
 
-    // Construimos la consulta usando los campos estándar de tu base de datos ('estado' e 'id')
-    // NOTA: Si en tus tablas el campo se llama 'estado_mesa' o 'id_billar', ajústalos aquí abajo:
-    const sql = `
-        UPDATE ${tabla} 
-        SET estado = ?, tiempo_servicio = ? 
-        WHERE id = ?
-    `;
+  });
 
-    db.query(sql, [estado, tiempo, id], (err, result) => {
-        if (err) {
-            console.error("Error en MySQL:", err);
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ success: true, message: `${tabla} actualizada correctamente` });
-    });
-});
-app.post('/crear_mesa_db', (req, res) => {
-    const { id, tipo } = req.body;
-
-    if (!id || !tipo) {
-        return res.status(400).json({ error: "Faltan datos obligatorios (id o tipo)." });
-    }
-
-    let sql = "";
-    let params = [];
-
-    // Estructuramos el INSERT de acuerdo a las columnas de cada tabla
-    if (tipo === 'billar' || tipo === 'bolirana') {
-        sql = `INSERT INTO ${tipo} (id, estado, precio_hora, tiempo_servicio, mantenimiento) VALUES (?, 'Libre', 0.00, '00:00:00', 0)`;
-        params = [id];
-    } else if (tipo === 'mesa') {
-        // Para las mesas de consumo normal incluimos la columna 'capacidad' obligatoria
-        sql = `INSERT INTO mesa (id, estado, mantenimiento, capacidad) VALUES (?, 'Libre', 0, 4)`;
-        params = [id];
-    } else {
-        return res.status(400).json({ error: "Tipo de mesa no válido." });
-    }
-
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            console.error(`Error al insertar nueva ${tipo} en la BD:`, err);
-            return res.status(500).json({ error: err.message });
-        }
-        console.log(`-> Nueva ${tipo} registrada en la base de datos con ID: ${id}`);
-        res.json({ success: true, message: `${tipo} creada correctamente en la base de datos.` });
-    });
-});
-// ==========================================
-// RUTA 1: ELIMINAR REGISTRO FÍSICO DE LA BD
-// ==========================================
-app.post('/eliminar_mesa_db', (req, res) => {
-    const { idHTML } = req.body; // Recibe ej: 'mesa-billar-2'
-
-    if (!idHTML) {
-        return res.status(400).json({ error: "Falta el ID del elemento HTML." });
-    }
-
-    let tabla = "";
-    let idNumerico = "";
-
-    // Parseamos el prefijo para saber a qué tabla de MySQL corresponde
-    if (idHTML.startsWith('mesa-billar-')) {
-        tabla = 'billar';
-        idNumerico = idHTML.replace('mesa-billar-', '');
-    } else if (idHTML.startsWith('mesa-bolirana-')) {
-        tabla = 'bolirana';
-        idNumerico = idHTML.replace('mesa-bolirana-', '');
-    } else if (idHTML.startsWith('mesa-mesas-')) {
-        tabla = 'mesa';
-        idNumerico = idHTML.replace('mesa-mesas-', '');
-    } else {
-        return res.status(400).json({ error: "Estructura de ID no reconocida." });
-    }
-
-    const sql = `DELETE FROM ${tabla} WHERE id = ?`;
-
-    db.query(sql, [idNumerico], (err, result) => {
-        if (err) {
-            console.error(`Error al eliminar registro de la tabla [${tabla}]:`, err);
-            return res.status(500).json({ error: err.message });
-        }
-        console.log(`-> Registro eliminado: Tabla [${tabla}], ID [${idNumerico}]`);
-        res.json({ success: true, message: `Mesa borrada con éxito de la tabla ${tabla}.` });
-    });
-});
-
-// ==========================================
-// RUTA 2: ACTUALIZAR ESTADO DE MANTENIMIENTO
-// ==========================================
-app.post('/actualizar_mantenimiento_db', (req, res) => {
-    const { idHTML, mantenimiento } = req.body; // mantenimiento es 0 (activa) o 1 (desactivada)
-
-    if (!idHTML || mantenimiento === undefined) {
-        return res.status(400).json({ error: "Faltan datos requeridos (idHTML o mantenimiento)." });
-    }
-
-    let tabla = "";
-    let idNumerico = "";
-
-    if (idHTML.startsWith('mesa-billar-')) {
-        tabla = 'billar';
-        idNumerico = idHTML.replace('mesa-billar-', '');
-    } else if (idHTML.startsWith('mesa-bolirana-')) {
-        tabla = 'bolirana';
-        idNumerico = idHTML.replace('mesa-bolirana-', '');
-    } else if (idHTML.startsWith('mesa-mesas-')) {
-        tabla = 'mesa';
-        idNumerico = idHTML.replace('mesa-mesas-', '');
-    } else {
-        return res.status(400).json({ error: "Estructura de ID no reconocida." });
-    }
-
-    const sql = `UPDATE ${tabla} SET mantenimiento = ? WHERE id = ?`;
-
-    db.query(sql, [mantenimiento, idNumerico], (err, result) => {
-        if (err) {
-            console.error(`Error al actualizar estado en la tabla [${tabla}]:`, err);
-            return res.status(500).json({ error: err.message });
-        }
-        console.log(`-> Estado cambiado: Tabla [${tabla}], ID [${idNumerico}] a mantenimiento = ${mantenimiento}`);
-        res.json({ success: true, message: `Mantenimiento de ${tabla} ${idNumerico} cambiado a ${mantenimiento}.` });
-    });
 });
 // BUSCAR CANCIÓN EN YOUTUBE
 app.get('/search-song', async (req, res) => {
