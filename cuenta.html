@@ -1,1826 +1,1191 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuenta — DAMADD</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilos/cuenta.css">
-  <link rel="stylesheet" href="estilos/variables.css">
-  <link rel="stylesheet" href="estilos/carga.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --green:        #22c55e;
-      --green-dark:   #16a34a;
-      --green-glow:   rgba(34,197,94,0.25);
-      --green-border: rgba(34,197,94,0.55);
-      --bg:           #111111;
-      --bg-mid:       #161616;
-      --bg-card:      #1e1e1e;
-      --bg-input:     #252525;
-      --border:       #2e2e2e;
-      --border-focus: rgba(34,197,94,0.7);
-      --text-main:    #e8e8e8;
-      --text-muted:   #888888;
-      --text-label:   #aaaaaa;
-      --white:        #ffffff;
-      --shadow:       0 20px 60px rgba(0,0,0,0.7);
-    }
-    html, body {
-      min-height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background:
-        radial-gradient(ellipse 70% 50% at 20% 25%, rgba(15,60,15,0.55) 0%, transparent 65%),
-        radial-gradient(ellipse 55% 45% at 78% 72%, rgba(8,40,8,0.45) 0%, transparent 65%),
-        radial-gradient(ellipse 90% 70% at 50% 50%, rgba(4,20,4,0.6) 0%, transparent 100%),
-        linear-gradient(155deg, #0b1a0b 0%, #060e06 45%, #070707 100%);
-      color: var(--text-main);
-      overflow-x: hidden;
-    }
-    /* ===== MENU LATERAL ===== */
-    #btn-menu { display: none; }
-    .menu-lateral {
-      position: fixed; top: 0; left: 0;
-      width: 260px; height: 100vh; z-index: 2500;
-      background: linear-gradient(180deg, #0c280c 0%, #081a08 60%, #050f05 100%);
-      border-right: 1px solid rgba(34,197,94,0.55);
-      box-shadow: 4px 0 30px rgba(0,0,0,.7);
-      transform: translateX(-100%);
-      transition: transform .38s cubic-bezier(.4,0,.2,1);
-      display: flex; flex-direction: column; overflow: hidden;
-    }
-    #btn-menu:checked ~ .menu-lateral { transform: translateX(0); left: 0; }
-    #btn-menu:checked ~ .overlay,
-    #btn-menu:checked ~ .capa { display: block; }
-    .menu-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 1.4rem;
-      border-bottom: 1px solid rgba(46,204,46,.18);
-      background: linear-gradient(135deg, rgba(46,204,46,.08) 0%, transparent 100%);
-    }
-    .menu-header h3 { font-family: 'Nunito',sans-serif; color: var(--green); font-size: 1.1rem; }
-    .close-menu { cursor: pointer; font-size: 1.3rem; color: var(--text-muted); padding: 4px 8px; }
-    .close-menu:hover { color: var(--green); }
-    .menu-opciones ul { list-style: none; padding: .8rem 0; }
-    .menu-opciones ul li a {
-      display: block; padding: .65rem 1.5rem;
-      color: var(--text-main); text-decoration: none;
-      font-size: .95rem; font-weight: 500;
-      transition: background .2s, color .2s, padding-left .2s;
-    }
-    .menu-opciones ul li a:hover { background: var(--green-glow); color: var(--green); padding-left: 2rem; }
-    .submenu { padding-left: 1rem !important; }
-    .overlay, .capa {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.65); z-index: 199;
-      backdrop-filter: blur(3px);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAMADD · Cuenta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#0a0612;
+    --bg-panel:#120b1e;
+    --bg-panel-2:#160e24;
+    --bg-field:#1c1329;
+    --line:#2a1c3d;
+    --line-soft:#231733;
+    --purple:#a855f7;
+    --purple-deep:#7c3aed;
+    --purple-glow: rgba(168,85,247,0.35);
+    --felt:#18c974;
+    --felt-glow: rgba(24,201,116,0.3);
+    --gold:#e8b64a;
+    --text-hi:#f5f0fa;
+    --text-mid:#b6a9c9;
+    --text-low:#7a6d8f;
+    --danger:#e5484d;
+    --font-display: 'Rajdhani', sans-serif;
+    --font-body: 'Space Grotesk', sans-serif;
+  }
 
-    .boton-accesibilidad {
-      position: fixed; top: 70px; right: 18px; z-index: 300;
-      background: var(--green); border: none; border-radius: 50%;
-      width: 44px; height: 44px; font-size: 1.2rem; cursor: pointer;
-      box-shadow: 0 4px 16px var(--green-glow);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .boton-accesibilidad:hover { transform: scale(1.12); }
-    .panel-accesibilidad {
-      display: none; position: fixed; top: 122px; right: 18px; z-index: 300;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 12px; padding: .8rem; gap: .5rem;
-      flex-direction: column; box-shadow: var(--shadow);
-    }
-    .panel-accesibilidad.open { display: flex; }
-    .panel-accesibilidad button {
-      background: var(--bg-input); color: var(--text-main);
-      border: 1px solid var(--border); border-radius: 8px;
-      padding: .45rem .9rem; cursor: pointer; font-size: .85rem;
-      transition: background .2s, border-color .2s;
-    }
-    .panel-accesibilidad button:hover { background: var(--green); color: var(--bg); border-color: var(--green); }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(168,85,247,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(24,201,116,0.10), transparent 55%),
+      var(--bg-void);
+    color:var(--text-hi);
+    font-family:var(--font-body);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
 
-    .page-main {
-      position: relative; z-index: 1;
-      min-height: calc(100vh - 62px);
-      display: flex; flex-direction: column; align-items: center;
-      padding: 2.4rem 2rem 3rem;
-    }
+  /* ---------- Loader ---------- */
+  #loader{
+    position:fixed; inset:0; z-index:5000;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--bg-void);
+  }
+  .loader-box{ text-align:center; }
+  .loader-title{
+    font-family:var(--font-display); font-weight:700; letter-spacing:4px;
+    font-size:32px; color:var(--purple); text-shadow:0 0 24px var(--purple-glow);
+    margin-bottom:14px;
+  }
+  .video-container img{ width:140px; border-radius:12px; border:1px solid var(--line); }
+  .loader-text{ color:var(--text-low); font-size:13px; margin-top:12px; letter-spacing:.5px; }
+  .barra-taco{
+    width:220px; height:6px; border-radius:6px; background:var(--bg-field);
+    margin:14px auto 0; overflow:hidden; border:1px solid var(--line);
+  }
+  .progreso{ height:100%; width:0%; background:linear-gradient(90deg,var(--purple),var(--felt)); transition:width .25s ease; }
 
-.pestanas-cuenta {
-  display: flex;
-  justify-content: center; /* Centra los tres botones en la pantalla */
-  gap: 12px;               /* Separa limpiamente los botones entre sí */
-  margin-top: 20px;        /* Espacio respecto a la barra superior "CUENTA" */
-  margin-bottom: 25px;     /* Espacio antes de que empiece la tabla o el formulario */
-}
+  /* ---------- Accesibilidad ---------- */
+  .boton-accesibilidad{
+    position:fixed; top:18px; right:18px; z-index:900;
+    background:linear-gradient(135deg,var(--purple),var(--purple-deep));
+    border:none; border-radius:50%; width:44px; height:44px; font-size:1.15rem;
+    cursor:pointer; box-shadow:0 4px 16px var(--purple-glow);
+    transition:transform .2s ease;
+  }
+  .boton-accesibilidad:hover{ transform:scale(1.1); }
+  .panel-accesibilidad{
+    display:none; position:fixed; top:70px; right:18px; z-index:900;
+    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:14px;
+    padding:14px; min-width:210px; box-shadow:0 20px 50px rgba(0,0,0,.5);
+  }
+  .panel-accesibilidad.open{ display:block; }
+  .panel-accesibilidad h4{ font-family:var(--font-display); font-size:13px; letter-spacing:1px; margin:0 0 10px; color:var(--text-hi); }
+  .opcion-tema{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 10px; border-radius:9px; cursor:pointer; margin-bottom:6px;
+    color:var(--text-mid); font-size:12.5px; transition:background .15s ease;
+  }
+  .opcion-tema:hover{ background:rgba(168,85,247,.1); color:var(--text-hi); }
 
-.pestaña-btn {
-  padding: .7rem 2rem;
-  border: 1.5px solid var(--border);
-  font-family: 'Poppins', sans-serif; 
-  font-weight: 600; 
-  font-size: .9rem;
-  cursor: pointer;
-  background: var(--bg-card); 
-  color: var(--text-muted);
-  transition: background .25s, color .25s, border-color .25s;
-  white-space: nowrap;
-  border-radius: 8px; /* Redondea los 4 lados de forma individual por igual */
-}
+  /* ---------- Menú lateral ---------- */
+  #btn-menu{ display:none; }
+  .menu-lateral{
+    position:fixed; top:0; left:0; width:270px; height:100vh; z-index:2500;
+    background:linear-gradient(180deg,#1a0f2b 0%, #120b1e 60%, #0a0612 100%);
+    border-right:1px solid var(--line);
+    box-shadow:6px 0 30px rgba(0,0,0,.6);
+    transform:translateX(-100%);
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  #btn-menu:checked ~ .menu-lateral{ transform:translateX(0); }
+  #btn-menu:checked ~ .overlay,
+  #btn-menu:checked ~ .capa{ display:block; }
+  .menu-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 20px; border-bottom:1px solid var(--line-soft);
+    background:linear-gradient(135deg, rgba(168,85,247,.1), transparent);
+  }
+  .menu-header h3{ font-family:var(--font-display); color:var(--purple); font-size:18px; letter-spacing:1px; }
+  .close-menu{ cursor:pointer; font-size:20px; color:var(--text-low); padding:2px 8px; }
+  .close-menu:hover{ color:var(--felt); }
+  .menu-section-label{
+    padding:14px 20px 6px; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--text-low); font-family:var(--font-display);
+  }
+  .menu-opciones ul{ list-style:none; padding:2px 0; margin:0; }
+  .menu-opciones ul li a{
+    display:flex; align-items:center; gap:10px;
+    padding:11px 20px; color:var(--text-mid); text-decoration:none;
+    font-size:14px; font-weight:500; transition:background .15s ease, color .15s ease, padding-left .15s ease;
+  }
+  .menu-opciones ul li a:hover{ background:var(--purple-glow); color:var(--text-hi); padding-left:24px; }
+  .nav-icon svg{ width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:1.8; }
+  .submenu{ padding-left:12px !important; }
+  .divider{ height:1px; background:var(--line-soft); margin:10px 20px; }
+  .menu-footer{
+    margin-top:auto; display:flex; align-items:center; gap:8px;
+    padding:16px 20px; border-top:1px solid var(--line-soft); color:var(--text-low); font-size:11.5px;
+  }
+  .status-dot{ width:8px; height:8px; border-radius:50%; background:var(--felt); box-shadow:0 0 8px var(--felt-glow); }
+  .overlay, .capa{
+    display:none; position:fixed; inset:0; background:rgba(6,3,12,.65); z-index:199; backdrop-filter:blur(3px);
+  }
+  .btn-menu-toggle{
+    display:flex; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:9px; cursor:pointer;
+    color:var(--text-mid); font-size:19px; border:1px solid var(--line); background:var(--bg-field);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .btn-menu-toggle:hover{ color:var(--felt); border-color:var(--felt); }
 
-.pestaña-btn.activo {
-  background: var(--color-principal); 
-  color: #fff; /* Cambio a texto blanco sobre el morado para legibilidad */
-  border-color: var(--green); /* Borde verde brillante alrededor de todo el botón */
-}
+  /* ---------- Top bar ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 40px;
+    background:linear-gradient(180deg, #17091f 0%, #0d0616 100%);
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .topbar::after{
+    content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--purple), var(--felt), transparent);
+    opacity:.6;
+  }
+  .topbar-left{ display:flex; align-items:center; gap:16px; }
+  .brand{ font-family:var(--font-display); font-weight:700; font-size:22px; letter-spacing:2px; color:var(--text-hi); }
+  .brand span{ color:var(--purple); }
+  .topbar-right{ display:flex; align-items:center; gap:12px; color:var(--text-mid); font-size:14px; text-decoration:none; }
+  .avatar-dot{
+    width:34px;height:34px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff, var(--purple-deep) 60%, #3a1a5c);
+    border:2px solid var(--felt); box-shadow:0 0 12px var(--felt-glow);
+  }
 
-.pestaña-btn:hover:not(.activo) { 
-  color: var(--green); 
-  border-color: var(--green-border); 
-}
+  /* ---------- Hero label ---------- */
+  .page-head{ text-align:center; padding:44px 20px 8px; }
+  .eyebrow{
+    font-family:var(--font-display); letter-spacing:6px; font-size:12px;
+    color:var(--felt); text-transform:uppercase; margin-bottom:6px;
+  }
+  .page-head h1{
+    font-family:var(--font-display); font-weight:700; font-size:44px; letter-spacing:3px;
+    margin:0; text-transform:uppercase;
+    background:linear-gradient(180deg,#ffffff, #d9c6f5 60%, var(--purple));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 34px var(--purple-glow);
+  }
+  .page-head p{ color:var(--text-low); font-size:14px; margin-top:8px; letter-spacing:.5px; }
 
-/* Efecto hover al pasar el ratón por encima del marco del avatar */
-.avatar-frame:hover {
-  transform: scale(1.04);
-  border-color: var(--color-principal) !important;
-}
+  /* ---------- Layout ---------- */
+  .stage{
+    max-width:1180px; margin:34px auto 70px; padding:0 20px;
+    display:grid; grid-template-columns:320px 1fr; gap:26px; align-items:start;
+  }
+  .panel{
+    background:linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-panel-2) 100%);
+    border:1px solid var(--line); border-radius:20px; position:relative; overflow:hidden;
+  }
+  .panel::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(600px 220px at 50% -10%, var(--purple-glow), transparent 60%);
+    opacity:.35; pointer-events:none;
+  }
 
-.contenido-area { width: 100%; display: flex; justify-content: center; }
-.pestaña-contenido { display: none; width: 100%; }
-.pestaña-contenido.activo { display: flex; justify-content: center; width: 100%; }
-#administrar.pestaña-contenido.activo { max-width: 1400px; margin: 0 auto; }
+  /* ---------- Sidebar: Perfil ---------- */
+  .sidebar{ padding:34px 28px 32px; position:sticky; top:24px; }
+  .sidebar-title{ font-family: 'Poppins', sans-serif; font-weight:700; font-size:21px; letter-spacing:.5px; margin:0 0 22px; text-align:center; }
+  .sidebar-title .accent{ color:var(--felt); }
+  .profile-head{ display:flex; flex-direction:column; align-items:center; margin-bottom:24px; }
+  .avatar-ring{
+    width:88px; height:88px; border-radius:50%; border:2px solid var(--felt);
+    box-shadow:0 0 24px var(--felt-glow), inset 0 0 20px rgba(24,201,116,.15);
+    display:flex; align-items:center; justify-content:center; background:var(--bg-field);
+    position:relative; margin-bottom:12px; overflow:hidden;
+  }
+  .avatar-ring svg{ width:38px; height:38px; color:var(--text-low); }
+  .avatar-badge{
+    position:absolute; bottom:0; right:0; width:26px; height:26px; border-radius:50%;
+    background:var(--purple-deep); display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--bg-panel); cursor:pointer; transition:filter .2s ease, transform .15s ease;
+  }
+  .avatar-badge svg{ width:12px; height:12px; color:#fff; }
+  .avatar-badge:hover{ filter:brightness(1.15); transform:scale(1.06); }
+  #avatar-preview{ width:100%; height:100%; object-fit:cover; border-radius:50%; position:absolute; inset:0; display:none; }
+  .avatar-ring.has-photo #avatar-preview{ display:block; }
+  .avatar-ring.has-photo svg.avatar-placeholder{ display:none; }
+  .role-chip{
+    font-family:var(--font-display); font-size:11.5px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--purple); background:rgba(168,85,247,0.12); border:1px solid rgba(168,85,247,0.35);
+    padding:4px 12px; border-radius:20px;
+  }
+  .section-label{
+    font-family:var(--font-display); font-weight:700; font-size:14.5px; letter-spacing:1px;
+    color:var(--text-hi); margin:0 0 16px; padding-bottom:9px; border-bottom:1px solid var(--line-soft);
+  }
+  .side-fields{ display:grid; grid-template-columns:1fr 1fr; gap:14px 12px; margin-bottom:22px; }
+  .side-fields .field.full{ grid-column:1 / -1; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field label{ font-size:11px; color:var(--text-low); letter-spacing:.4px; }
+  .field label .req{ color:var(--felt); }
+  .input-wrap{
+    display:flex; align-items:center; gap:9px; background:var(--bg-field);
+    border:1px solid var(--line); border-radius:9px; padding:9px 12px;
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  .input-wrap:focus-within{ border-color:var(--purple); box-shadow:0 0 0 3px var(--purple-glow); }
+  .input-wrap svg{ width:14px; height:14px; color:var(--text-low); flex:none; }
+  .input-wrap input, .input-wrap select{
+    background:none; border:none; outline:none; color:var(--text-hi); font-family:var(--font-body);
+    font-size:12.5px; width:100%; text-overflow:ellipsis;
+  }
+  .input-wrap select{ color:var(--text-mid); }
+  .input-wrap.invalido{ border-color:var(--danger) !important; box-shadow:0 0 0 3px rgba(229,72,77,.2) !important; }
+  .input-wrap.readonly{ opacity:.75; }
+  .input-wrap.readonly input{ pointer-events:none; }
+  .toggle-eye{ cursor:pointer; color:var(--text-low); background:none; border:none; padding:0; display:flex; flex:none; }
+  .toggle-eye:hover{ color:var(--text-mid); }
+  .toggle-eye svg{ width:14px; height:14px; }
 
+  .btn{
+    font-family:var(--font-display); font-weight:700; font-size:14px; letter-spacing:1px;
+    text-transform:uppercase; border:none; border-radius:10px; padding:13px 20px;
+    cursor:pointer; width:100%; transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+  .btn-outline{ background:transparent; color:var(--felt); border:1.5px solid var(--felt); }
+  .btn-outline:hover{ box-shadow:0 0 18px var(--felt-glow); }
+  .btn-solid{
+    background:linear-gradient(135deg, #1fdb85, var(--felt) 120%); color:#06210f;
+    box-shadow:0 8px 24px var(--felt-glow);
+  }
 
-/* Tarjeta Principal del Perfil */
-.perfil-card {
-  background: #1e1e1e; /* Fondo oscuro de la tarjeta */
-  border-radius: 20px;
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 600px;
-  text-align: center;
-  border: 1px solid #2e1065;
-  /* Resplandor verde brillante exterior simétrico al de la imagen */
-  box-shadow: 0 0 25px rgba(0, 230, 118, 0.25); 
-  margin: 10px auto;
-}
+  /* ---------- Content ---------- */
+  .content-col{ display:flex; flex-direction:column; gap:20px; }
+  .actions-head{ text-align:center; }
+  .actions-eyebrow{
+    font-family:var(--font-display); letter-spacing:4px; font-size:13px; color:var(--text-low);
+    text-transform:uppercase; margin-bottom:14px;
+  }
+  .action-tabs{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+  .tab-btn{
+    font-family:var(--font-display); font-weight:600; font-size:14.5px; letter-spacing:.5px;
+    padding:11px 24px; border-radius:10px; border:1px solid var(--line); background:var(--bg-panel);
+    color:var(--text-mid); cursor:pointer; transition:all .2s ease; display:flex; align-items:center; gap:8px;
+  }
+  .tab-btn svg{ width:15px; height:15px; flex:none; opacity:.8; }
+  .tab-btn:hover{ color:var(--text-hi); border-color:var(--felt); }
+  .tab-btn.active{
+    color:#06210f; background:linear-gradient(135deg, #1fdb85, var(--felt) 120%);
+    border-color:var(--felt); box-shadow:0 6px 20px var(--felt-glow);
+  }
+  .content-panel{ padding:34px 38px 38px; animation:fadein .3s ease; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  .view{ display:none; }
+  .view.active{ display:block; }
+  .panel-title{ font-family:var(--font-display); font-weight:700; font-size:24px; letter-spacing:.5px; margin:0 0 24px; text-align:center; }
+  .panel-title .accent{ color:var(--felt); }
+  .field-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px 22px; margin-bottom:26px; }
+  .field-grid .input-wrap{ padding:11px 14px; }
+  .field-grid .input-wrap input, .field-grid .input-wrap select{ font-size:14px; }
+  .field-grid label{ font-size:12.5px; }
+  .strength{ display:flex; gap:5px; margin-top:6px; }
+  .strength i{ flex:1; height:4px; border-radius:3px; background:var(--line-soft); display:block; transition:background .25s ease; }
+  .hint{ font-size:11.5px; color:var(--text-low); margin-top:4px; min-height:1.2em; }
+  .hint.match-ok{ color:var(--felt); }
+  .hint.match-bad{ color:var(--danger); }
 
-/* Encabezados */
-.perfil-card h2 {
-  font-family: 'Poppins', sans-serif;
-  color: #ffffff;
-  font-size: 1.6rem;
-  margin-bottom: 1.5rem;
-}
+  /* ---------- Tabla cuentas ---------- */
+  .table-toolbar{ display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:18px; }
+  .search-wrap{ flex:1; max-width:280px; }
+  .search-wrap .input-wrap{ padding:11px 14px; }
+  .search-wrap .input-wrap input{ font-size:14px; }
+  .table-wrap{ border:1px solid var(--line); border-radius:14px; overflow:auto; }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px; }
+  thead th{
+    background:linear-gradient(135deg, #123322, #0e2a1c); color:var(--felt); font-family:var(--font-display);
+    letter-spacing:1.2px; text-transform:uppercase; font-size:12px; text-align:left; padding:13px 16px;
+    border-bottom:1px solid rgba(24,201,116,.35);
+  }
+  tbody td{ padding:13px 16px; border-bottom:1px solid var(--line-soft); color:var(--text-mid); }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr{ transition:background .15s ease; }
+  tbody tr:hover{ background:rgba(168,85,247,.06); }
+  td.name-cell{ color:var(--text-hi); font-weight:500; }
+  .role-pill{
+    display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-family:var(--font-display);
+    letter-spacing:.5px; padding:4px 10px; border-radius:20px; text-transform:capitalize;
+  }
+  .role-pill.gerente{ background:rgba(168,85,247,.14); color:var(--purple); border:1px solid rgba(168,85,247,.4); }
+  .role-pill.empleado{ background:rgba(232,182,74,.12); color:var(--gold); border:1px solid rgba(232,182,74,.35); }
+  .row-actions{ display:flex; gap:8px; }
+  .icon-btn{
+    width:32px; height:32px; border-radius:8px; border:none; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:filter .2s ease, transform .15s ease;
+  }
+  .icon-btn:hover{ filter:brightness(1.15); transform:translateY(-1px); }
+  .icon-btn svg{ width:15px; height:15px; }
+  .icon-btn.edit{ background:rgba(24,201,116,.16); color:var(--felt); }
+  .icon-btn.del{ background:rgba(229,72,77,.16); color:var(--danger); }
+  .table-foot{ display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:12.5px; color:var(--text-low); }
+  .mensaje-vacio{ text-align:center; padding:34px 10px; color:var(--text-low); font-size:14px; }
 
-.perfil-card h3 {
-  font-family: 'Poppins', sans-serif;
-  color: #ffffff;
-  font-size: 1.2rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
+  /* ---------- Alert / auth note ---------- */
+  .auth-note{
+    display:flex; gap:10px; align-items:flex-start; background:rgba(232,182,74,.08);
+    border:1px solid rgba(232,182,74,.3); border-radius:10px; padding:12px 14px; font-size:12.5px;
+    color:var(--gold); margin-bottom:24px;
+  }
+  .auth-note svg{ width:16px; height:16px; flex:none; margin-top:1px; }
 
-.destacado-verde {
-  color: #00e676; /* Verde brillante */
-}
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(6,3,12,0.72); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:100; padding:20px;
+  }
+  .modal-overlay.open{ display:flex; animation:fadein .2s ease; }
+  .modal-box{
+    width:100%; max-width:340px; background:linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-panel-2) 100%);
+    border:1px solid var(--line); border-radius:16px; padding:28px 26px 24px; text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(229,72,77,.08); animation:pop .18s ease;
+  }
+  .modal-box.modal-box-lg{ max-width:620px; text-align:left; padding:28px 32px 30px; }
+  @keyframes pop{ from{ transform:scale(.94); opacity:0; } to{ transform:none; opacity:1; } }
+  .modal-icon{
+    width:52px; height:52px; border-radius:50%; background:rgba(229,72,77,.12);
+    border:1px solid rgba(229,72,77,.35); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;
+  }
+  .modal-icon svg{ width:24px; height:24px; color:var(--danger); }
+  .modal-box h3{ font-family:var(--font-display); font-size:19px; letter-spacing:.4px; margin:0 0 8px; }
+  .modal-box p{ font-size:13px; color:var(--text-mid); margin:0 0 22px; line-height:1.5; }
+  .modal-head{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;
+    padding-bottom:14px; border-bottom:1px solid var(--line-soft);
+  }
+  .modal-head h3{ font-family:var(--font-display); font-size:19px; letter-spacing:.4px; margin:0; }
+  .modal-head .accent{ color:var(--felt); }
+  .modal-close{ background:none; border:none; color:var(--text-low); font-size:22px; cursor:pointer; line-height:1; }
+  .modal-close:hover{ color:var(--felt); }
+  .modal-actions{ display:flex; gap:10px; margin-top:6px; }
+  .modal-actions .btn{ padding:11px 16px; font-size:12.5px; }
+  .btn-ghost{ background:var(--bg-field); color:var(--text-mid); border:1px solid var(--line); }
+  .btn-ghost:hover{ color:var(--text-hi); border-color:var(--text-low); }
+  .btn-danger{ background:linear-gradient(135deg, #f0555a, var(--danger) 120%); color:#fff; box-shadow:0 8px 20px rgba(229,72,77,.3); }
 
-/* Contenedor del Avatar */
-.avatar-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 1rem;
-}
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed; left:50%; bottom:28px; transform:translate(-50%, 20px);
+    background:linear-gradient(135deg, #1fdb85, var(--felt) 120%); color:#06210f;
+    font-family:var(--font-display); font-weight:700; font-size:13.5px; letter-spacing:.4px;
+    padding:13px 22px; border-radius:10px; box-shadow:0 10px 30px var(--felt-glow);
+    display:flex; align-items:center; gap:8px; opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease; z-index:2600;
+  }
+  .toast.show{ opacity:1; transform:translate(-50%, 0); }
+  .toast.error{ background:linear-gradient(135deg,#f0555a,var(--danger) 120%); color:#fff; box-shadow:0 10px 30px rgba(229,72,77,.35); }
+  .toast svg{ width:16px; height:16px; }
 
-.avatar-frame {
-  position: relative;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  border: 3px solid #00e676; /* Borde verde de la foto */
-  padding: 3px;
-  background: #1e1e1e;
-}
+  
 
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* Pequeña insignia de icono superpuesto abajo a la derecha de la foto */
-.avatar-icon-badge {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  background: #424242;
-  color: #fff;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  border: 1.5px solid #1e1e1e;
-}
-
-.avatar-role {
-  color: #aaaaaa;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.95rem;
-  margin-top: 0.5rem;
-}
-
-/* Distribución del Formulario en 2 Columnas */
-.perfil-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Divide en dos columnas perfectas */
-  gap: 1.2rem;
-  text-align: left;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.form-group label {
-  color: #ffffff;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-/* Campos de lectura */
-.form-group input {
-  background: #2a2a2a;
-  border: 1px solid #444444;
-  color: #dddddd;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.9rem;
-  width: 100%;
-  box-sizing: border-box;
-  outline: none;
-}
-
-/* Opcional: Estilo visual cuando están bloqueados (readonly) */
-.form-group input[readonly] {
-  cursor: default;
-  background: #252525;
-}
-
-/* Contenedor del botón inferior centrado */
-.form-actions {
-  grid-column: span 2; /* Hace que el contenedor ocupe el ancho de ambas columnas */
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-/* Botón Editar Datos */
-.btn-editar {
-  background: #252525;
-  color: #ffffff;
-  border: 1.5px solid #00e676; /* Borde verde como el de la captura */
-  padding: 0.6rem 2rem;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.btn-editar:hover {
-  background: #00e676;
-  color: #000000;
-  box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
-}
-
-
-    .card {
-      background: var(--bg-card);
-      border: 1.5px solid var(--green-border);
-      border-radius: 16px; padding: 2rem 2.2rem;
-      width: 100%; max-width: 640px;
-      box-shadow: 0 0 0 1px rgba(34,197,94,0.08), var(--shadow);
-      animation: slideUp .38s cubic-bezier(.4,0,.2,1);
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .card h1 {
-      font-family: 'Nunito', sans-serif;
-      font-size: 1.55rem; font-weight: 800;
-      color: var(--white); margin-bottom: 1.6rem;
-      text-align: center; letter-spacing: .4px;
-    }
-    .card h1 span { color: var(--green); }
-
-    .field-group { margin-bottom: .85rem; }
-    .field-row {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: .85rem; margin-bottom: .85rem;
-    }
-    .field-row .field-group { margin-bottom: 0; }
-    label {
-      display: block;
-      font-size: .78rem; font-weight: 500; color: var(--text-label);
-      margin-bottom: .3rem; letter-spacing: .2px;
-    }
-    .input-wrap { position: relative; display: flex; align-items: center; }
-    .input-icon {
-      position: absolute; left: 13px;
-      width: 16px; height: 16px; color: var(--text-muted);
-      pointer-events: none; flex-shrink: 0; transition: color .2s;
-    }
-    .input-wrap:focus-within .input-icon { color: var(--green); }
-    .input-wrap input,
-    .input-wrap select {
-      width: 100%; padding: .72rem 1rem .72rem 2.5rem;
-      background: var(--bg-input); border: 1.5px solid var(--border);
-      border-radius: 10px; color: var(--text-main);
-      font-family: 'Poppins', sans-serif; font-size: .875rem;
-      outline: none; transition: border-color .25s, box-shadow .25s;
-      -webkit-appearance: none;
-    }
-    .input-wrap input::placeholder { color: var(--text-muted); opacity: .7; }
-    .input-wrap input:focus,
-    .input-wrap select:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px var(--green-glow);
-    }
-    .input-wrap.no-icon input,
-    .input-wrap.no-icon select { padding-left: 1rem; }
-    .input-wrap select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%23888888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center;
-      padding-right: 2.2rem; cursor: pointer;
-    }
-    .input-wrap select option { background: var(--bg-card); }
-    .eye-btn {
-      position: absolute; right: 11px;
-      background: none; border: none; cursor: pointer;
-      color: var(--text-muted); padding: 4px;
-      display: flex; align-items: center; transition: color .2s;
-    }
-    .eye-btn:hover { color: var(--green); }
-    .eye-btn svg { width: 17px; height: 17px; }
-    .input-wrap input.has-eye { padding-right: 2.4rem; }
-    .strength-bar { display: flex; gap: 4px; margin-top: .38rem; }
-    .strength-seg {
-      flex: 1; height: 4px; border-radius: 99px;
-      background: var(--border); transition: background .3s;
-    }
-    .strength-label { font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1em; }
-    .match-label    { font-size: .72rem; margin-top: .22rem; min-height: 1em; }
-    .btn-primary {
-      width: 100%; padding: .82rem;
-      background: var(--green); color: #000;
-      border: none; border-radius: 10px;
-      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem;
-      cursor: pointer; margin-top: 1.3rem; letter-spacing: .3px;
-      transition: background .22s, transform .15s, box-shadow .22s;
-      box-shadow: 0 4px 20px var(--green-glow);
-    }
-    .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 8px 28px var(--green-glow); }
-    .btn-primary:active { transform: translateY(0); }
-
-    .card-administrar {
-      width: 100% !important; max-width: 1400px !important;
-      animation: slideUp .38s cubic-bezier(.4,0,.2,1);
-      background: none !important;
-      border: none !important;
-      box-shadow: none !important;
-      padding: 0 1rem !important;
-    }
-    .card-administrar h1 {
-      font-family: 'Poppins', sans-serif !important;
-      font-size: 1.3rem !important; font-weight: 700 !important;
-      margin-bottom: 1.4rem !important; color: #ffffff !important;
-      text-align: center !important;
-    }
-    .card-administrar h1 span { color: var(--green) !important; }
-    .tabla-cuentas-wrapper {
-      background: #0a0a0a !important;
-      border-radius: 12px !important;
-      overflow: hidden !important;
-      border: 1px solid #1a3d1a !important;
-      overflow-x: auto !important;
-    }
-
-    .tabla-cuentas {
-      width: 100% !important;
-      border-collapse: collapse !important;
-      text-align: center !important;
-      background: #080f08 !important;
-      color: #d4e8d4 !important;
-      font-size: 13px !important;
-    }
-
-    .tabla-cuentas thead tr {
-      background: #005203 !important;
-      border-bottom: 3px solid var(--color-principal) !important;
-    }
-    .tabla-cuentas thead th {
-      background: #005203 !important;
-      text-align: center !important;
-      padding: 13px 12px !important;
-      color: #ffffff !important;
-      border-bottom: 3px solid var(--color-principal) !important;
-      border-right: 1px solid #006804 !important;
-      font-size: 11px !important;
-      font-weight: 700 !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.6px !important;
-      white-space: nowrap !important;
-    }
-    .tabla-cuentas thead th:first-child { border-left: 3px solid var(--color-principal) !important; }
-    .tabla-cuentas thead th:last-child  { border-right: none !important; }
-
-    .tabla-cuentas td {
-      padding: 11px 12px !important;
-      border-bottom: 1px solid #1a2e1a !important;
-      border-right: 1px solid #111e11 !important;
-      color: #d4e8d4 !important;
-    }
-    .tabla-cuentas tbody tr:nth-child(even) { background: #060d06 !important; }
-    .tabla-cuentas tbody tr:hover {
-      background: #0d1f0d !important;
-      transition: background 0.15s ease !important;
-    }
-
-    .badge-empleado {
-      background: #0a1a3d !important;
-      color: #60a5fa !important;
-      border: 1px solid rgba(37,99,235,0.4) !important;
-      border-radius: 20px !important;
-      padding: 3px 11px !important;
-      font-size: 11px !important; font-weight: 600 !important;
-      display: inline-block !important;
-    }
-    .badge-gerente {
-      background: #052e16 !important;
-      color: #4ade80 !important;
-      border: 1px solid rgba(22,163,74,0.4) !important;
-      border-radius: 20px !important;
-      padding: 3px 11px !important;
-      font-size: 11px !important; font-weight: 600 !important;
-      display: inline-block !important;
-    }
-
-    .btn-edit {
-      background: #0d3d0d !important;
-      color: #4ade80 !important;
-      border: 1px solid rgba(22,163,74,0.4) !important;
-      margin: 3px !important;
-      border-radius: 7px !important;
-      width: 32px !important; height: 30px !important;
-      cursor: pointer !important; font-size: 15px !important;
-      display: inline-flex !important; align-items: center !important; justify-content: center !important;
-      transition: background 0.15s ease !important;
-      padding: 0 !important;
-    }
-    .btn-edit:hover { background: #145214 !important; opacity: 0.8 !important; }
-
-    .btn-delete {
-      background: #2d0a0a !important;
-      color: #f87171 !important;
-      border: 1px solid rgba(220,38,38,0.4) !important;
-      margin: 3px !important;
-      border-radius: 7px !important;
-      width: 32px !important; height: 30px !important;
-      cursor: pointer !important; font-size: 15px !important;
-      display: inline-flex !important; align-items: center !important; justify-content: center !important;
-      transition: background 0.15s ease !important;
-      padding: 0 !important;
-    }
-    .btn-delete:hover { background: #4a1010 !important; opacity: 0.8 !important; }
-
-    .mensaje-vacio {
-      text-align: center !important; padding: 2rem !important;
-      color: #888 !important; font-size: 15px !important;
-      background: #080f08 !important;
-    }
-
-    /* ===== MODAL EDITAR ===== */
-    .modal {
-      display: none; position: fixed; inset: 0; z-index: 500;
-      background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
-      align-items: center; justify-content: center;
-    }
-    .modal.open { display: flex; }
-    .modal-contenido {
-      background: #1a1a1a;
-      border: 1px solid #1ed760;
-      border-radius: 15px; padding: 2rem;
-      width: 100%; max-width: 640px;
-      box-shadow: 0 25px 50px rgba(9,104,9,0.6), 0 0 15px rgba(20,109,2,0.2);
-      animation: slideUp .28s ease;
-    }
-    .modal-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 1.4rem;
-      border-bottom: 2px solid #1ed760;
-      padding-bottom: 1rem;
-    }
-    .modal-header h2 { color: #ffffff; margin: 0; font-size: 1.2rem; }
-    .cerrar-modal {
-      background: none; border: none; color: white;
-      font-size: 1.6rem; cursor: pointer; transition: color .2s;
-    }
-    .cerrar-modal:hover { color: #1ed760; }
-
-    .modal-botones { display: flex; gap: .8rem; margin-top: 1.4rem; }
-    .btn-guardar, .btn-cancelar {
-      flex: 1; padding: .78rem; border: none; border-radius: 10px;
-      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem;
-      cursor: pointer; transition: background .2s, transform .12s;
-    }
-    .btn-guardar {
-      background: #1ed760; color: #0a0a0a;
-    }
-    .btn-guardar:hover { background: #19b850; transform: translateY(-1px); }
-    .btn-cancelar {
-      background: transparent; color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    .btn-cancelar:hover { background: rgba(255,255,255,0.06); }
-
-    @media (max-width: 520px) {
-      .field-row { grid-template-columns: 1fr; }
-      .card { padding: 1.5rem 1rem; }
-      .pestaña-btn { padding: .65rem 1.2rem; font-size: .83rem; }
-      .tabla-cuentas { font-size: 11px; }
-      .tabla-cuentas td, .tabla-cuentas thead th { padding: 7px 6px; }
-    }
-
-    footer.footer-main {
-      background: linear-gradient(135deg, #0e5001, #030403);
-      color: #ffffff; padding: 10px 20px 20px;
-      margin-top: 10px; box-shadow: 0 -8px 24px rgb(0,0,0);
-    }
-    .footer-content {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; flex-wrap: wrap; gap: 40px;
-      justify-content: space-between; padding-bottom: 30px;
-      border-bottom: 4px solid rgb(0,198,33);
-    }
-    .footer-section { flex: 1; min-width: 20px; }
-    .footer-section h3 { margin: 0 0 16px 0; font-size: 18px; color: #ffffff; letter-spacing: 0.5px; }
-    .footer-section p  { margin: 8px 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.72); }
-    .footer-logo { height: 54px; margin-bottom: 12px; opacity: 0.94; transition: transform 0.2s ease, opacity 0.2s ease; }
-    .footer-logo:hover { transform: scale(1.06); opacity: 1; }
-    .footer-brand { font-size: 16px; font-style: italic; color: #707070; margin: 0; }
-    .social-icons { display: flex; gap: 16px; }
-    .social-link {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 40px; height: 40px; border-radius: 50%;
-      background: rgb(5,160,25);
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-    }
-    .social-link:hover {
-      background: linear-gradient(135deg, #000000, #04611e);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(255,253,253,0.932);
-    }
-    .social-link img { width: 20px; height: 20px; object-fit: contain; filter: brightness(0.95) invert(1); transition: filter 0.2s ease; }
-    .social-link:hover img { filter: brightness(1) invert(1); }
-    .footer-bottom { text-align: center; padding-top: 10px; font-size: 17px; color: rgba(255,255,255,0.54); }
-    .footer-bottom p { font-size: 14px; margin: 0; }
-  </style>
+  @media (max-width: 900px){ .stage{ grid-template-columns:1fr; } .sidebar{ position:static; } }
+  @media (max-width: 640px){
+    .topbar{ padding:16px 20px; }
+    .page-head h1{ font-size:30px; letter-spacing:1.5px; }
+    .content-panel{ padding:26px 20px 30px; }
+    .field-grid{ grid-template-columns:1fr; }
+    .table-toolbar{ flex-direction:column; align-items:stretch; }
+    .search-wrap{ max-width:none; }
+    table{ font-size:12px; }
+    thead th, tbody td{ padding:10px 10px; }
+    .action-tabs{ flex-wrap:wrap; }
+  }
+</style>
 </head>
 <body>
+
+  <!-- ===== Loader ===== -->
   <div id="loader">
-  <div class="loader-box">
-    <h1 class="loader-title">Damadd</h1>
-    
-    <div class="video-container">
-      <img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" alt="billar-animado" />
-    </div>
-    <p class="loader-text">Cargando contenido...</p>
-    <div class="barra-taco">
-      <div class="progreso" id="progreso"></div>
+    <div class="loader-box">
+      <h1 class="loader-title">DAMA<span style="color:var(--felt)">DD</span></h1>
+      <div class="video-container">
+        <img src="https://www.gifsanimados.org/data/media/420/billar-imagen-animada-0106.gif" alt="billar-animado">
+      </div>
+      <p class="loader-text">Cargando contenido...</p>
+      <div class="barra-taco"><div class="progreso" id="progreso"></div></div>
     </div>
   </div>
-</div>
 
-
- <!-- BOTÓN FLOTANTE -->
-      <!-- Botón de accesibilidad -->
-      <button id="btnAccesibilidad" class="boton-accesibilidad" title="Opciones de accesibilidad">
-          🎨
-      </button>
-      <div id="panelAccesibilidad" class="panel-accesibilidad">
-          <!-- Cabecera -->
-          <div class="panel-header">
-              <div class="info-panel">   
-                  <div>
-                      <h2>Opciones de accesibilidad</h2>
-                      <p>Personaliza la apariencia</p>
-                  </div>
-              </div>
-              <button class="cerrar-panel" id="cerrarPanel">
-                  ✕
-              </button>
-          </div>
-          <div class="linea-panel"></div>
-
-          <!-- Opciones -->
-          <div class="panel-body">
-              <!-- Tarjetica roja -->
-              <div class="opcion-tema tema-card-rojo"
-                  onclick="cambiarTema('rojo')">
-                  <div class="info-tema">
-                      <div class="icono-tema">
-                          🎨
-                      </div>
-                      <div class="texto-tema">
-                          <h3>Rojo</h3>
-                          <p>
-                              Aplica el tema con<br>
-                              tonos rojos
-                          </p>
-                      </div>
-                  </div>
-                  <div class="flecha">
-                      ❯
-                  </div>
-              </div>
-              <!-- Tarjetica morada -->
-              <div class="opcion-tema tema-card-morado"
-                  onclick="cambiarTema('morado')">
-                  <div class="info-tema">
-                      <div class="icono-tema">
-                          🎨
-                      </div>
-                      <div class="texto-tema">
-                          <h3>Morado</h3>
-                          <p>
-                              Aplica el tema con<br>
-                              tonos morados
-                          </p>
-                      </div>
-                  </div>
-                  <div class="flecha">
-                      ❯
-                  </div>
-              </div>
-              <!-- Tarjetica azul -->
-              <div class="opcion-tema tema-card-azul"
-                  onclick="cambiarTema('azul')">
-                  <div class="info-tema">
-                      <div class="icono-tema">
-                          🎨
-                      </div>
-                      <div class="texto-tema">
-                          <h3>Azul</h3>
-                          <p>
-                              Aplica el tema con<br>
-                              tonos azules
-                          </p>
-                      </div>
-                  </div>
-                  <div class="flecha">
-                      ❯
-                  </div>
-              </div>
-              <!-- restablecer tema  -->
-              <div class="opcion-tema tema-card-reset"
-                  onclick="restablecerTema()">
-                  <div class="info-tema">
-                      <div class="icono-tema">
-                          ↻
-                      </div>
-                      <div class="texto-tema">
-                          <h3>Restablecer</h3>
-                          <p>
-                              Vuelve al tema<br>
-                              predeterminado
-                          </p>
-                      </div>
-                  </div>
-                  <div class="flecha">
-                      ❯
-                  </div>
-              </div>
-          </div>
-      </div>
-    <input type="checkbox" id="btn-menu" hidden>
-    
-      <header class="header-mesas">
-        <div class="container">
-            <div class="btn-menu">
-                <label for="btn-menu" >☰</label>
-            </div>
-        </div>
-        <div class="logo">
-
-            <img src="imagenes/usuario.png" alt="Usuario" class="icono-img">
-            <span id="nombre-display" class="nombre">Cargando...</span>
-        </a>
-        </div>
-    </header>
-
-<label class="overlay" for="btn-menu"></label>
-
-    <nav class="menu-lateral">
-      <div class="menu-header">
-        <div class="menu-logo">
-          <div class="logo-icon">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="8" r="3"/>
-              <circle cx="6" cy="16" r="2.5"/>
-              <circle cx="18" cy="16" r="2.5"/>
-            </svg>
-          </div>
-          <h3>Menú</h3>
-        </div>
-        <label for="btn-menu" class="close-menu" aria-label="Cerrar menú">✕</label>
-      </div>
-      <div class="menu-opciones">
-        <div class="menu-section-label">Principal</div>
-        <ul>
-          <li>
-            <a href="inicio.html">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              </span>
-              <span class="nav-label">Inicio</span>
-            </a>
-          </li>
-          <li>
-            <a href="mesas.html">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="3" rx="1"/><line x1="6" y1="13" x2="6" y2="20"/><line x1="18" y1="13" x2="18" y2="20"/><rect x="2" y="7" width="20" height="3" rx="1"/></svg>
-              </span>
-              <span class="nav-label">Mesas</span>
-            </a>
-          </li>
-          <li class="has-sub">
-            <input type="checkbox" id="sub-inventario">
-            <label class="sub-toggle" for="sub-inventario">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-              </span>
-              <span class="nav-label">Inventario</span>
-              <svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </label>
-            <ul class="submenu">
-              <li><a href="proveedores.html"><span class="nav-label">Proveedores</span></a></li>
-              <li><a href="productos.html"><span class="nav-label">Productos</span></a></li>
-            </ul>
-          </li>
-        </ul>
-        <div class="divider"></div>
-        <div class="menu-section-label">Sistema</div>
-        <ul>
-          <li class="item-salir">
-            <a href="Inicio_sesion.html">
-              <span class="nav-icon">
-                <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              </span>
-              <span class="nav-label">Salir</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="menu-footer">
-        <div class="status-dot"></div>
-        <span class="menu-version">DAMADD v2.0 · </span>
-      </div>
-    </nav>
-
-    <div class="capa"></div>
-
-<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="ic-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-  </symbol>
-  <symbol id="ic-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/>
-    <line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>
-  </symbol>
-  <symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-  </symbol>
-  <symbol id="ic-at" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/>
-  </symbol>
-  <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.26 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.17 1.28h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
-  </symbol>
-  <symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-    <polyline points="22,6 12,13 2,6"/>
-  </symbol>
-  <symbol id="ic-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-  </symbol>
-  <symbol id="ic-check-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-    <polyline points="9 16 11 18 15 14"/>
-  </symbol>
-  <symbol id="ic-badge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
-  </symbol>
-  <symbol id="ic-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-  </symbol>
-  <symbol id="ic-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-    <line x1="1" y1="1" x2="23" y2="23"/>
-  </symbol>
-</svg>
-
-<main class="page-main">
-
-  <div class="pestanas-cuenta">
-    <button class="pestaña-btn" data-pestaña="perfil">Mi Perfil</button>
-    <button class="pestaña-btn" data-pestaña="administrar">Administrar Cuentas</button>
-    <button class="pestaña-btn activo" data-pestaña="crear">Crear Cuenta</button>
-   
+  <!-- ===== Accesibilidad ===== -->
+  <button id="btnAccesibilidad" class="boton-accesibilidad" title="Opciones de accesibilidad">🎨</button>
+  <div id="panelAccesibilidad" class="panel-accesibilidad">
+    <h4>Tema de color</h4>
+    <div class="opcion-tema" onclick="cambiarTema('purpura')"><span>🟣 Púrpura (predeterminado)</span></div>
+    <div class="opcion-tema" onclick="cambiarTema('rojo')"><span>🔴 Rojo</span></div>
+    <div class="opcion-tema" onclick="cambiarTema('azul')"><span>🔵 Azul</span></div>
+    <div class="opcion-tema" onclick="cambiarTema('dorado')"><span>🟡 Dorado</span></div>
   </div>
 
-  <div class="contenido-area">
-
-    <!-- PESTAÑA CREAR -->
-    <div id="crear" class="pestaña-contenido activo">
-      <div class="card">
-        <h1>Crear <span>Cuenta</span></h1>
-        <form id="formulario-crear-cuenta" autocomplete="off">
-          <div class="field-row">
-            <div class="field-group">
-              <label>Tipo de Documento<span>*</span></label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-doc"/></svg>
-                <select id="tipo_doc" name="tipo_documento" required>
-                  <option value="">Selecciona</option>
-                  <option value="CC">Cédula (CC)</option>
-                  <option value="CE">Cédula Extranjería (CE)</option>
-                  <option value="PP">Pasaporte (PP)</option>
-                  <option value="PPT">Permiso por Protección Temporal (PPT)</option>
-                </select>
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Número de Documento<span>*</span></label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-hash"/></svg>
-                <input type="text" id="num_doc" name="numero_documento" placeholder="Ej: 1023456789" required inputmode="numeric">
-              </div>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-group">
-              <label>Nombre<span>*</span></label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-user"/></svg>
-                <input type="text" id="nombre" name="nombre_usuario" placeholder="Ej: María José" required>
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Apellido<span>*</span></label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-user"/></svg>
-                <input type="text" id="apellido" name="apellido_usuario" placeholder="Ej: Gómez Cortes" required>
-              </div>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Usuario<span>*</span></label>
-            <div class="input-wrap">
-              <svg class="input-icon"><use href="#ic-at"/></svg>
-              <input type="text" id="usuario" name="usuario_usuario" placeholder="Nombre de usuario único" required>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-group">
-              <label>Teléfono<span>*</span></label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-phone"/></svg>
-                <input type="tel" id="telefono" name="telefono_usuario" placeholder="Ej: 3001234567" required inputmode="tel">
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Correo<span>*</span></label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-mail"/></svg>
-                <input type="email" id="correo" name="correo_usuario" placeholder="correo@gmail.com" required>
-              </div>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Contraseña<span>*</span></label>
-            <div class="input-wrap">
-              <svg class="input-icon"><use href="#ic-lock"/></svg>
-              <input type="password" id="contrasena" name="contraseña_usuario" placeholder="Mín. 6 caracteres + símbolo" required minlength="6" class="has-eye">
-              <button type="button" class="eye-btn" id="eye-pass" aria-label="Mostrar contraseña">
-                <svg><use href="#ic-eye"/></svg>
-              </button>
-            </div>
-            <div class="strength-bar">
-              <div class="strength-seg" id="s1"></div>
-              <div class="strength-seg" id="s2"></div>
-              <div class="strength-seg" id="s3"></div>
-              <div class="strength-seg" id="s4"></div>
-            </div>
-            <p class="strength-label" id="strength-label"></p>
-          </div>
-          <div class="field-group">
-            <label>Confirmar Contraseña<span>*</span></label>
-            <div class="input-wrap">
-              <svg class="input-icon"><use href="#ic-check-lock"/></svg>
-              <input type="password" id="confirmar" name="confirmar_contrasena" placeholder="Repite la contraseña" required class="has-eye">
-              <button type="button" class="eye-btn" id="eye-confirm" aria-label="Mostrar contraseña">
-                <svg><use href="#ic-eye"/></svg>
-              </button>
-            </div>
-            <p class="match-label" id="match-label"></p>
-          </div>
-          <div class="field-group"  style ="margin-top:.6rem">
-              <label for="admin-key">Clave de Autorización <span>*</span></label>
-                <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-lock"/></svg>
-                <input type="password" id="admin-key" name="admin_key_create" placeholder="Ingresa clave de autorización" required class="has-eye">
-                <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
-                <svg><use href="#ic-eye"/></svg>
-              </button>
-            </div>
-            <p style="font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1rem;" class="admin-key-note">* La clave de autorización es necesaria para crear cuentas de nivel Gerente.</p>
-          </div>
-          <button type="submit" class="btn-primary">Agregar Cuenta</button>
-        </form>
-      </div>
+  <!-- ===== Menú lateral ===== -->
+  <input type="checkbox" id="btn-menu" hidden>
+  <label class="overlay" for="btn-menu"></label>
+  <nav class="menu-lateral">
+    <div class="menu-header">
+      <h3>Menú</h3>
+      <label for="btn-menu" class="close-menu" aria-label="Cerrar menú">✕</label>
     </div>
-
-    <!-- PESTAÑA ADMINISTRAR -->
-    <div id="administrar" class="pestaña-contenido">
-      <div class="card-administrar">
-        <h1>Administrar <span>Cuentas</span></h1>
-        <div class="tabla-cuentas-wrapper">
-          <table class="tabla-cuentas">
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="tabla-cuentas-body"></tbody>
-          </table>
-        </div>
-        <div id="sin-cuentas" class="mensaje-vacio" style="display:none">
-          <p>No hay cuentas registradas aún.</p>
-        </div>
-      </div>
+    <div class="menu-opciones">
+      <div class="menu-section-label">Principal</div>
+      <ul>
+        <li><a href="inicio.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>Inicio</span></a></li>
+        <li><a href="mesas.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="3" rx="1"/><line x1="6" y1="13" x2="6" y2="20"/><line x1="18" y1="13" x2="18" y2="20"/><rect x="2" y="7" width="20" height="3" rx="1"/></svg></span><span>Mesas</span></a></li>
+        <li><a href="proveedores.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></span><span>Proveedores</span></a></li>
+        <li><a href="productos.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 7 12 3 4 7v10l8 4 8-4z"/></svg></span><span>Productos</span></a></li>
+      </ul>
+      <div class="divider"></div>
+      <div class="menu-section-label">Sistema</div>
+      <ul>
+        <li><a href="cuenta.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg></span><span>Cuenta</span></a></li>
+        <li><a href="Inicio_sesion.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span><span>Salir</span></a></li>
+      </ul>
     </div>
+    <div class="menu-footer"><div class="status-dot"></div><span>DAMADD v2.0</span></div>
+  </nav>
+  <div class="capa"></div>
 
-
-<div id="perfil" class="pestaña-contenido">
-      <div class="perfil-card">
-        <h1>Perfil <span>Gerente</span></h1>
-        
-        <!-- Contenedor del Avatar adaptable para subir archivos -->
-        <div class="avatar-container" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem;">
-          <label for="input-avatar" class="avatar-frame" title="Cambiar foto de perfil" style="position: relative; width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--green); padding: 3px; cursor: pointer; display: block; transition: transform 0.2s ease;">
-            <!-- Puedes colocar una imagen por defecto aquí -->
-            <img src="https://via.placeholder.com/110" alt="Foto de Gerente" id="avatar-preview" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-            <div class="avatar-icon-badge" style="position: absolute; bottom: 2px; right: 2px; background: #424242; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 1.5px solid #1e1e1e;">
-              <svg style="width: 14px; height: 14px; fill: currentColor;"><use href="#ic-user"/></svg>
-            </div>
-          </label>
-          <input type="file" id="input-avatar" accept="image/*" style="display: none;">
-          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem; font-family: 'Poppins', sans-serif;">Gerente</p>
-        </div>
-
-        <h2 style="font-family: 'Poppins', sans-serif; color: #ffffff; font-size: 1.2rem; text-align: center; margin-bottom: 1.5rem;">Datos Personales</h2>
-
-        <form id="formulario-perfil" autocomplete="off">
-          <div class="field-row">
-            <div class="field-group">
-              <label>Nombre</label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-user"/></svg>
-                <input type="text" value="Yulieth Daniela" readonly>
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Apellido</label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-user"/></svg>
-                <input type="text" value="Fonseca García" readonly>
-              </div>
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field-group">
-              <label>Documento</label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-hash"/></svg>
-                <input type="text" value="+57 3223122111" readonly>
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Correo</label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-mail"/></svg>
-                <input type="email" value="gerente@correo.com" readonly>
-              </div>
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field-group">
-              <label>Usuario</label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-at"/></svg>
-                <input type="text" value="gerente_yulieth" readonly>
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Rol</label>
-              <div class="input-wrap">
-                <svg class="input-icon"><use href="#ic-user"/></svg>
-                <input type="text" value="Gerente Principal" readonly>
-              </div>
-            </div>
-          </div>
-
-          <button type="button" class="btn-primary" style="background: transparent; border: 1.5px solid var(--green); color: #fff; margin-top: 1.5rem;">Editar Datos</button>
-        </form>
-      </div>
+  <!-- ===== Top bar ===== -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <label for="btn-menu" class="btn-menu-toggle" aria-label="Abrir menú">☰</label>
+      <div class="brand">DAMA<span>DD</span></div>
     </div>
-
+    <a href="#perfil" id="boton-perfil" class="topbar-right">
+      <span id="nombre-display">Cargando...</span>
+      <div class="avatar-dot"></div>
+    </a>
   </div>
-</main>
 
-<!-- MODAL EDITAR -->
-<div id="modal-editar" class="modal">
-  <div class="modal-contenido">
-    <div class="modal-header">
-      <h2>Editar <span style="color: var(--color-principal);">Cuenta</span></h2>
-      <button class="cerrar-modal">&times;</button>
-    </div>
-    <form id="formulario-editar-cuenta">
-      <input type="hidden" id="editar-usuario-original">
-      <div class="field-row">
-        <div class="field-group">
-          <label>Nombre<span>*</span></label>
-          <div class="input-wrap">
-            <svg class="input-icon"><use href="#ic-user"/></svg>
-            <input type="text" id="editar-nombre" required>
+  <div class="page-head">
+    <div class="eyebrow">Panel administrativo</div>
+    <h1>Gestión de Cuenta</h1>
+    <p>Perfil, usuarios y accesos del club — todo en un solo lugar</p>
+  </div>
+
+  <div class="stage">
+
+    <!-- ============ SIDEBAR: PERFIL (fijo) ============ -->
+    <aside class="panel sidebar" id="perfil">
+      <h2 class="sidebar-title">Perfil <span class="accent">Gerente</span></h2>
+
+      <div class="profile-head">
+        <div class="avatar-ring" id="avatarRing">
+          <svg class="avatar-placeholder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+          <img id="avatar-preview" src="" alt="Foto de perfil">
+          <div class="avatar-badge" id="avatarBadge" title="Agregar foto">
+            <svg id="avatarBadgeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 4v16M4 12h16"/></svg>
           </div>
         </div>
-        <div class="field-group">
+        <input type="file" id="input-avatar" accept="image/*" style="display:none;">
+        <span class="role-chip">Gerente Principal</span>
+      </div>
+
+      <div class="section-label">Datos Personales</div>
+      <div class="side-fields" id="sideFields">
+        <div class="field">
+          <label>Nombre</label>
+          <div class="input-wrap readonly">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+            <input class="editable-field" type="text" value="Yulieth Daniela" readonly>
+          </div>
+        </div>
+        <div class="field">
           <label>Apellido</label>
-          <div class="input-wrap">
-            <svg class="input-icon"><use href="#ic-user"/></svg>
-            <input type="text" id="editar-apellido" required>
+          <div class="input-wrap readonly">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+            <input class="editable-field" type="text" value="Fonseca García" readonly>
+          </div>
+        </div>
+        <div class="field">
+          <label>Documento</label>
+          <div class="input-wrap readonly">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l5 5v13H6z"/><path d="M9 12h6M9 16h6"/></svg>
+            <input class="editable-field" type="text" value="+57 3223122111" readonly>
+          </div>
+        </div>
+        <div class="field">
+          <label>Correo</label>
+          <div class="input-wrap readonly">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <input class="editable-field" type="text" value="gerente@correo.com" readonly>
+          </div>
+        </div>
+        <div class="field">
+          <label>Usuario</label>
+          <div class="input-wrap readonly">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19a6 6 0 0 1 11 0"/></svg>
+            <input class="editable-field" type="text" value="gerente_yulieth" readonly>
+          </div>
+        </div>
+        <div class="field">
+          <label>Rol</label>
+          <div class="input-wrap readonly">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6z"/></svg>
+            <input type="text" value="Gerente Principal" readonly disabled>
           </div>
         </div>
       </div>
-      <div class="field-group" style="margin-top:.6rem">
-        <label>Usuario<span>*</span></label>
-        <div class="input-wrap">
-          <svg class="input-icon"><use href="#ic-at"/></svg>
-          <input type="text" id="editar-usuario" required>
-        </div>
-      </div>
-      <div class="field-row" style="margin-top:.6rem">
-        <div class="field-group">
-          <label>Teléfono<span>*</span></label>
-          <div class="input-wrap">
-            <svg class="input-icon"><use href="#ic-phone"/></svg>
-            <input type="tel" id="editar-telefono">
-          </div>
-        </div>
-        <div class="field-group">
-          <label>Correo<span>*</span></label>
-          <div class="input-wrap">
-            <svg class="input-icon"><use href="#ic-mail"/></svg>
-            <input type="email" id="editar-correo" required>
-          </div>
-        </div>
-      </div>
-      <div class="field-group" style="margin-top:.6rem">
-        <label>Contraseña<span>*</span></label>
-        <div class="input-wrap">
-          <svg class="input-icon"><use href="#ic-lock"/></svg>
-          <input type="password" id="editar-contrasena" placeholder="Dejar vacío para mantener actual" class="has-eye">
-          <button type="button" class="eye-btn" id="eye-edit" aria-label="Mostrar">
-            <svg><use href="#ic-eye"/></svg>
+
+      <button class="btn btn-outline" id="editBtn">Editar Datos</button>
+    </aside>
+
+    <!-- ============ CONTENIDO: ACCIONES DEL GERENTE ============ -->
+    <div class="content-col">
+
+      <div class="actions-head">
+        <div class="actions-eyebrow">Acciones del Gerente</div>
+        <div class="action-tabs">
+          <button class="tab-btn active" data-target="administrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/></svg>
+            Administrar Cuentas
+          </button>
+          <button class="tab-btn" data-target="crear">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+            Crear Cuenta
           </button>
         </div>
       </div>
-      <div class="field-group" style="margin-top:.6rem">
-  <label>Rol / Cargo<span>*</span></label>
-  <div class="input-wrap">
-    <svg class="input-icon"><use href="#ic-user"/></svg>
-    <select id="editar-rol" required style="width: 100%; padding: 0.5rem 2rem; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: inherit;">
-      <option value="Empleado">Empleado</option>
-      <option value="Gerente">Gerente</option>
-    </select>
+
+      <!-- ============ ADMINISTRAR CUENTAS ============ -->
+      <section class="panel view active" id="administrar">
+        <div class="content-panel">
+          <h2 class="panel-title">Administrar <span class="accent">Cuentas</span></h2>
+
+          <div class="table-toolbar">
+            <div class="search-wrap">
+              <div class="input-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" id="buscarUsuario" placeholder="Buscar usuario...">
+              </div>
+            </div>
+            <span style="color:var(--text-low); font-size:12.5px; white-space:nowrap;" id="contadorCuentas">— cuentas registradas</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Usuario</th><th>Nombre</th><th>Apellido</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-cuentas-body"></tbody>
+            </table>
+          </div>
+          <div id="sin-cuentas" class="mensaje-vacio" style="display:none">No hay cuentas registradas aún.</div>
+
+          <div class="table-foot">
+            <span id="mostrandoCuentas">Mostrando 0 de 0 cuentas</span>
+            <span>Actualizado hoy</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CREAR CUENTA ============ -->
+      <section class="panel view" id="crear">
+        <div class="content-panel">
+          <h2 class="panel-title">Crear <span class="accent">Cuenta</span></h2>
+
+          <div class="auth-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="m10.3 3.86-8.14 14.1A1.5 1.5 0 0 0 3.46 20h17.08a1.5 1.5 0 0 0 1.3-2.04l-8.14-14.1a1.5 1.5 0 0 0-2.6 0Z"/></svg>
+            La clave de autorización es necesaria para crear cuentas de nivel Gerente.
+          </div>
+
+          <div class="section-label">Información de la cuenta</div>
+          <form id="formulario-crear-cuenta" autocomplete="off">
+            <div class="field-grid">
+              <div class="field">
+                <label>Tipo de Documento <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l5 5v13H6z"/></svg>
+                  <select id="tipo_doc" name="tipo_documento" required>
+                    <option value="">Selecciona</option>
+                    <option value="CC">Cédula (CC)</option>
+                    <option value="CE">Cédula Extranjería (CE)</option>
+                    <option value="PP">Pasaporte (PP)</option>
+                    <option value="PPT">Permiso por Protección Temporal (PPT)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Número de Documento <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16" stroke-linecap="round"/></svg>
+                  <input type="text" id="num_doc" name="numero_documento" placeholder="Ej: 1023456789" required inputmode="numeric">
+                </div>
+              </div>
+              <div class="field">
+                <label>Nombre <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+                  <input type="text" id="nombre" name="nombre_usuario" placeholder="Ej: María José" required>
+                </div>
+              </div>
+              <div class="field">
+                <label>Apellido <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+                  <input type="text" id="apellido" name="apellido_usuario" placeholder="Ej: Gómez Cortés" required>
+                </div>
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Usuario <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19a6 6 0 0 1 11 0"/></svg>
+                  <input type="text" id="usuario" name="usuario_usuario" placeholder="Nombre de usuario único" required>
+                </div>
+              </div>
+              <div class="field">
+                <label>Teléfono <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>
+                  <input type="tel" id="telefono" name="telefono_usuario" placeholder="Ej: 3001234567" required inputmode="tel">
+                </div>
+              </div>
+              <div class="field">
+                <label>Correo <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                  <input type="email" id="correo" name="correo_usuario" placeholder="correo@gmail.com" required>
+                </div>
+              </div>
+              <div class="field">
+                <label>Contraseña <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                  <input type="password" id="contrasena" name="contraseña_usuario" placeholder="Mín. 6 caracteres + símbolo" required minlength="6">
+                  <button type="button" class="toggle-eye" id="eye-pass">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <div class="strength"><i id="s1"></i><i id="s2"></i><i id="s3"></i><i id="s4"></i></div>
+                <div class="hint" id="strength-label"></div>
+              </div>
+              <div class="field">
+                <label>Confirmar Contraseña <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                  <input type="password" id="confirmar" name="confirmar_contrasena" placeholder="Repite la contraseña" required>
+                  <button type="button" class="toggle-eye" id="eye-confirm">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <div class="hint" id="match-label"></div>
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Clave de Autorización <span class="req">*</span></label>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+                  <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required>
+                  <button type="button" class="toggle-eye" id="eye-admin">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <div class="hint">Necesaria solo para crear cuentas de nivel Gerente.</div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-solid">Agregar Cuenta</button>
+          </form>
+        </div>
+      </section>
+
+    </div>
   </div>
-</div>
-      <div class="field-group"  style ="margin-top:.6rem">
-            <label for="admin-key">Clave de Autorización <span>*</span></label>
+
+  <!-- Modal: eliminar foto -->
+  <div class="modal-overlay" id="deletePhotoModal">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+      </div>
+      <h3>¿Deseas eliminar la foto?</h3>
+      <p>Se quitará tu foto de perfil actual. Podrás subir una nueva cuando quieras.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="cancelDeletePhoto">Cancelar</button>
+        <button class="btn btn-danger" id="confirmDeletePhoto">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: editar cuenta -->
+  <div class="modal-overlay" id="modal-editar">
+    <div class="modal-box modal-box-lg">
+      <div class="modal-head">
+        <h3>Editar <span class="accent">Cuenta</span></h3>
+        <button class="modal-close" id="cerrarModalEditar">&times;</button>
+      </div>
+      <form id="formulario-editar-cuenta">
+        <input type="hidden" id="editar-usuario-original">
+        <div class="field-grid">
+          <div class="field">
+            <label>Nombre <span class="req">*</span></label>
             <div class="input-wrap">
-              <svg class="input-icon"><use href="#ic-lock"/></svg>
-              <input type="password" id="admin-key" name="admin_key" placeholder="Ingresa clave de autorización" required class="has-eye">
-              <button type="button" class="eye-btn" id="eye-admin" aria-label="Mostrar clave de autorización">
-                <svg><use href="#ic-eye"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+              <input type="text" id="editar-nombre" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Apellido</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+              <input type="text" id="editar-apellido" required>
+            </div>
+          </div>
+          <div class="field" style="grid-column:1 / -1;">
+            <label>Usuario <span class="req">*</span></label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19a6 6 0 0 1 11 0"/></svg>
+              <input type="text" id="editar-usuario" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Teléfono <span class="req">*</span></label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>
+              <input type="tel" id="editar-telefono">
+            </div>
+          </div>
+          <div class="field">
+            <label>Correo <span class="req">*</span></label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <input type="email" id="editar-correo" required>
+            </div>
+          </div>
+          <div class="field">
+            <label>Contraseña</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <input type="password" id="editar-contrasena" placeholder="Dejar vacío para mantener actual">
+              <button type="button" class="toggle-eye" id="eye-edit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </div>
-            <p style="font-size: .72rem; color: var(--text-muted); margin-top: .22rem; min-height: 1rem;" class="admin-key-note">* La clave de autorización es necesaria para crear cuentas de nivel Gerente.</p>
           </div>
-      <div class="modal-botones">
-        <button type="submit" class="btn-guardar">Guardar Cambios</button>
-        <button type="button" class="btn-cancelar">Cancelar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<footer class="footer-main">
-  <div class="footer-content">
-    <div class="footer-section">
-      <img src="imagenes/logo.png" alt="Logo de DAMADD" class="footer-logo">
-      <p class="footer-brand">DAMADD — La mejor opción</p>
+          <div class="field">
+            <label>Rol / Cargo <span class="req">*</span></label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6z"/></svg>
+              <select id="editar-rol" required>
+                <option value="empleado">Empleado</option>
+                <option value="gerente">Gerente</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" style="grid-column:1 / -1;">
+            <label>Clave de Autorización <span class="req">*</span></label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+              <input type="password" id="admin-key-editar" name="admin_key_edit" placeholder="Ingresa clave de autorización" required>
+              <button type="button" class="toggle-eye" id="eye-admin-editar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="hint">Necesaria para asignar el nivel Gerente.</div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelarEdicion">Cancelar</button>
+          <button type="submit" class="btn btn-solid">Guardar Cambios</button>
+        </div>
+      </form>
     </div>
-    <div class="footer-section">
-      <h3>Redes Sociales</h3>
-      <div class="social-icons">
-        <a href="#" title="Facebook" class="social-link"><img src="imagenes/facebook.png" alt="Facebook"></a>
-        <a href="#" title="Instagram" class="social-link"><img src="imagenes/instagram.png" alt="Instagram"></a>
-        <a href="#" title="WhatsApp" class="social-link"><img src="imagenes/whatsapp.png" alt="WhatsApp"></a>
-        <a href="#" title="TikTok" class="social-link"><img src="imagenes/tik-tok.png" alt="TikTok"></a>
-      </div>
-    </div>
-    <div class="footer-section">
-      <h3>Contacto</h3>
-      <p>Email: DAMADD@gmail.com</p>
-      <p>Teléfono: +57 (3) 2245 18377</p>
-    </div>
   </div>
-  <div class="footer-bottom">
-    <p>&copy; 2025 DAMADD. Todos los derechos reservados a DAMADD.</p>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toastText">Datos actualizados</span>
   </div>
-</footer>
 
-<script src="js/memoriaPersonalizacion.js"></script>
-<script>
-
-
-// --- Nombre / Apellido ---
-function agregarValidacionNombreApellido(input) {
-  input.addEventListener('keydown', function (event) {
-    const tecla = event.key;
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-    if (teclasPermitidas.includes(tecla) || event.ctrlKey || event.metaKey) return;
-
-    if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]$/.test(tecla)) { event.preventDefault(); return; }
-
-    const palabras      = this.value.split(' ');
-    const palabraActual = palabras[palabras.length - 1];
-    if (tecla !== ' ' && palabraActual.length >= 25) { event.preventDefault(); return; }
-
-    if (tecla === ' ') {
-      if (this.value.length === 0 || this.value.endsWith(' ')) { event.preventDefault(); return; }
-      if ((this.value.match(/ /g) || []).length >= 2) { event.preventDefault(); return; }
-    }
-  });
-
-  input.addEventListener('input', function () {
-    const pos    = this.selectionStart;
-    const partes = this.value.split(' ').map(p =>
-      p.length === 0 ? '' : p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()
-    );
-    const nuevo = partes.join(' ');
-    if (this.value !== nuevo) { this.value = nuevo; this.setSelectionRange(pos, pos); }
-  });
-
-  input.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const clipboard = event.clipboardData || window.clipboardData;
-    let texto  = clipboard ? clipboard.getData('text') : '';
-    let limpio = texto.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ ]/g, '');
-    const start = this.selectionStart, end = this.selectionEnd;
-    let unido   = this.value.substring(0, start) + limpio + this.value.substring(end);
-    let palabras = unido.split(' ').filter(p => p.trim() !== '').slice(0, 3)
-      .map(p => { let c = p.substring(0, 25); return c.charAt(0).toUpperCase() + c.slice(1).toLowerCase(); });
-    let resultado = palabras.join(' ');
-    if (unido.endsWith(' ') && palabras.length < 3) resultado += ' ';
-    this.value = resultado;
-    this.setSelectionRange(resultado.length, resultado.length);
-  });
-}
-
-
-function agregarValidacionTelefono(input) {
-  if (!input) return;
-
-  const validarBordeTelefono = (value) => {
-    const estructuraTelefono = /^[0-9]{10}$/;
-    if (value === "" || estructuraTelefono.test(value)) {
-      input.style.borderColor = '';
-    } else {
-      input.style.borderColor = 'red';
-    }
-  };
-
-  input.addEventListener('keydown', function (event) {
-    const tecla        = event.key;
-    const valorActual  = this.value;
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-
-    if (teclasPermitidas.includes(tecla) || event.ctrlKey || event.metaKey) return;
-    if (tecla === ' ') { event.preventDefault(); return; }
-    if (!/^[0-9]$/.test(tecla)) { event.preventDefault(); return; }
-    if (valorActual.length === 0 && tecla !== '3' && tecla !== '6') { event.preventDefault(); return; }
-    if (valorActual.length === 1 && valorActual === '6' && tecla !== '0') { event.preventDefault(); return; }
-    if (valorActual.length >= 10) { event.preventDefault(); return; }
-  });
-
-  input.addEventListener('input', function () {
-    const posicionCursor = this.selectionStart;
-    let textoLimpio = this.value.replace(/[^0-9]/g, '').slice(0, 10);
-
-    if (textoLimpio.length > 0) {
-      const primerDigito = textoLimpio.charAt(0);
-      if (primerDigito !== '3' && primerDigito !== '6') {
-        textoLimpio = '';
-      } else if (primerDigito === '6' && textoLimpio.length > 1 && textoLimpio.charAt(1) !== '0') {
-        textoLimpio = '6';
-      }
-    }
-
-    if (this.value !== textoLimpio) {
-      this.value = textoLimpio;
-      this.setSelectionRange(posicionCursor - 1, posicionCursor - 1);
-    }
-    validarBordeTelefono(this.value);
-  });
-
-  input.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const clipboard = event.clipboardData || window.clipboardData;
-    let texto  = clipboard ? clipboard.getData('text') : '';
-    let limpio = texto.replace(/[^0-9]/g, '');
-
-    const start = this.selectionStart, end = this.selectionEnd;
-    let unido = this.value.substring(0, start) + limpio + this.value.substring(end);
-    if (unido.length > 10) unido = unido.slice(0, 10);
-
-    if (unido.length > 0) {
-      const primerDigito = unido.charAt(0);
-      if (primerDigito !== '3' && primerDigito !== '6') return;
-      if (primerDigito === '6' && unido.length > 1 && unido.charAt(1) !== '0') {
-        unido = '6';
-      }
-    }
-
-    const caracteresAgregados = unido.length - (this.value.length - (end - start));
-    this.value = unido;
-    this.setSelectionRange(start + caracteresAgregados, start + caracteresAgregados);
-    validarBordeTelefono(this.value);
-  });
-}
-
-
-function agregarValidacionCorreo(input) {
-  if (!input) return;
-
-  input.addEventListener('keydown', function (event) {
-    const tecla = event.key;
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-    if (teclasPermitidas.includes(tecla) || event.ctrlKey || event.metaKey) return;
-    if (!/^[a-zA-Z0-9@._\-+]$/.test(tecla)) { event.preventDefault(); return; }
-    if (this.value.length >= 50) { event.preventDefault(); return; }
-  });
-
-  input.addEventListener('blur', function () {
-    const valor = this.value.trim();
-    if (valor === '') return;
-    if (!/^[^\s@]+@gmail\.com$/.test(valor)) {
-      this.setCustomValidity('Por favor ingresa un correo válido con @gmail.com');
-      this.reportValidity();
-    } else {
-      this.setCustomValidity('');
-    }
-  });
-
-  input.addEventListener('input', function () {
-    this.setCustomValidity('');
-  });
-
-  input.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const clipboard = event.clipboardData || window.clipboardData;
-    let texto  = clipboard ? clipboard.getData('text') : '';
-    let limpio = texto.replace(/[^a-zA-Z0-9@._\-+]/g, '');
-    const start = this.selectionStart, end = this.selectionEnd;
-    let unido    = this.value.substring(0, start) + limpio + this.value.substring(end);
-    let resultado = unido.substring(0, 50);
-    this.value = resultado;
-    this.setSelectionRange(resultado.length, resultado.length);
-  });
-}
-
-
-function agregarValidacionDocumento(inputDoc, selectTipo) {
-  if (!inputDoc) return;
-
-  function obtenerReglasDocumento() {
-    const tipo = selectTipo ? selectTipo.value : 'CC';
-    switch (tipo) {
-      case 'CC':  return { regex: /^\d{9,10}$/,      minLength: 9,  maxLength: 10, soloNumeros: true  };
-      case 'CE':  return { regex: /^\d{6,15}$/,      minLength: 6,  maxLength: 15, soloNumeros: true  };
-      case 'PPT': return { regex: /^\d{6,8}$/,       minLength: 6,  maxLength: 8,  soloNumeros: true  };
-      case 'PP':  return { regex: /^[a-zA-Z0-9]{6,15}$/, minLength: 6, maxLength: 15, soloNumeros: false };
-      case 'NIT': return { regex: /^\d{9,11}$/,      minLength: 9,  maxLength: 11, soloNumeros: true  };
-      default:    return { regex: /^\d{9,10}$/,      minLength: 9,  maxLength: 10, soloNumeros: true  };
-    }
-  }
-
-  function validarDoc(value) {
-    const reglas = obtenerReglasDocumento();
-    if (value === '') {
-      inputDoc.style.borderColor = '';
-    } else if (reglas.regex.test(value)) {
-      inputDoc.style.borderColor = '';
-    } else {
-      inputDoc.style.borderColor = 'red';
-    }
-  }
-
-  if (selectTipo) {
-    selectTipo.addEventListener('change', () => {
-      inputDoc.value = '';
-      inputDoc.style.borderColor = '';
+  <script>
+    /* ======================= Loader ======================= */
+    window.addEventListener('load', ()=>{
+      const loader = document.getElementById('loader');
+      const progreso = document.getElementById('progreso');
+      let pct = 0;
+      const iv = setInterval(()=>{
+        pct += Math.random()*18;
+        if(pct >= 100){ pct = 100; clearInterval(iv); setTimeout(()=> loader.style.display='none', 200); }
+        progreso.style.width = pct + '%';
+      }, 220);
     });
-  }
 
-  inputDoc.addEventListener('keydown', function (event) {
-    const reglas = obtenerReglasDocumento();
-    const teclasPermitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
-    if (event.ctrlKey || event.metaKey || teclasPermitidas.includes(event.key)) return;
-    if (event.key === ' ') { event.preventDefault(); return; }
-    if (reglas.soloNumeros && !/^[0-9]$/.test(event.key)) { event.preventDefault(); return; }
-    if (!reglas.soloNumeros && !/^[a-zA-Z0-9]$/.test(event.key)) { event.preventDefault(); return; }
-    if (this.value.length >= reglas.maxLength && this.selectionStart === this.selectionEnd) {
-      event.preventDefault(); return;
-    }
-  });
-
-  inputDoc.addEventListener('input', function () {
-    const reglas = obtenerReglasDocumento();
-    if (this.value.length > reglas.maxLength) {
-      this.value = this.value.slice(0, reglas.maxLength);
-    }
-    validarDoc(this.value);
-  });
-
-  inputDoc.addEventListener('paste', function (event) {
-    event.preventDefault();
-    const reglas    = obtenerReglasDocumento();
-    const clipboard = event.clipboardData || window.clipboardData;
-    const texto     = clipboard ? clipboard.getData('text').trim() : '';
-    const textoFiltrado = reglas.soloNumeros
-      ? texto.replace(/[^0-9]/g, '')
-      : texto.replace(/[^a-zA-Z0-9]/g, '');
-    if (!textoFiltrado) return;
-
-    const ini = this.selectionStart, fin = this.selectionEnd;
-    let unido = this.value.substring(0, ini) + textoFiltrado + this.value.substring(fin);
-    if (unido.length > reglas.maxLength) unido = unido.slice(0, reglas.maxLength);
-
-    const agregados = unido.length - (this.value.length - (fin - ini));
-    this.value = unido;
-    const pos = ini + Math.max(0, agregados);
-    this.setSelectionRange(pos, pos);
-    validarDoc(this.value);
-  });
-}
-
-
-
-function cambiarTema(c) {
-  const m = {
-    rojo:   { color: '#e74c3c', dark: '#c0392b' },
-    morado: { color: '#9b59b6', dark: '#7d3c98' },
-    azul:   { color: '#3498db', dark: '#2980b9' }
-  };
-  const t = m[c];
-  document.documentElement.style.setProperty('--green',        t.color);
-  document.documentElement.style.setProperty('--green-dark',   t.dark);
-  document.documentElement.style.setProperty('--green-glow',   t.color + '40');
-  document.documentElement.style.setProperty('--green-border', t.color + '88');
-  const footer = document.querySelector('footer.footer-main');
-  if (footer) footer.style.background = 'linear-gradient(135deg,' + t.dark + '55,#030403)';
-  const fc = document.querySelector('.footer-content');
-  if (fc) fc.style.borderBottomColor = t.color;
-  document.querySelectorAll('.social-link').forEach(el => el.style.background = t.color);
-  document.body.style.background =
-    'radial-gradient(ellipse 70% 50% at 20% 25%,' + t.color + '22 0%,transparent 65%),' +
-    'radial-gradient(ellipse 55% 45% at 78% 72%,' + t.color + '11 0%,transparent 65%),' +
-    'linear-gradient(155deg,#0b0b0b 0%,#070707 100%)';
-}
-
-function restablecerTema() {
-  document.documentElement.style.setProperty('--green',        '#22c55e');
-  document.documentElement.style.setProperty('--green-dark',   '#16a34a');
-  document.documentElement.style.setProperty('--green-glow',   'rgba(34,197,94,0.25)');
-  document.documentElement.style.setProperty('--green-border', 'rgba(34,197,94,0.55)');
-  const footer = document.querySelector('footer.footer-main');
-  if (footer) footer.style.background = 'linear-gradient(135deg,#0e5001,#030403)';
-  const fc = document.querySelector('.footer-content');
-  if (fc) fc.style.borderBottomColor = 'rgb(0,198,33)';
-  document.querySelectorAll('.social-link').forEach(el => el.style.background = 'rgb(5,160,25)');
-  document.body.style.background =
-    'radial-gradient(ellipse 70% 50% at 20% 25%,rgba(15,60,15,0.55) 0%,transparent 65%),' +
-    'radial-gradient(ellipse 55% 45% at 78% 72%,rgba(8,40,8,0.45) 0%,transparent 65%),' +
-    'linear-gradient(155deg,#0b1a0b 0%,#060e06 45%,#070707 100%)';
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-
-
-  const btnAcces = document.querySelector('.boton-accesibilidad');
-  if (btnAcces) {
-    btnAcces.onclick = function(e) {
-      e.stopPropagation();
-      document.getElementById('panel').classList.toggle('open');
-    };
-  }
-  window.addEventListener('click', function(e) {
-    const panel = document.getElementById('panel');
-    const btn   = document.querySelector('.boton-accesibilidad');
-    if (panel && btn && !panel.contains(e.target) && e.target !== btn) {
-      panel.classList.remove('open');
-    }
-  });
-
-  /* ---- Mostrar/ocultar contraseña ---- */
-  function makeEye(btnId, inputId) {
-    const btn = document.getElementById(btnId);
-    const inp = document.getElementById(inputId);
-    if (!btn || !inp) return;
-    btn.addEventListener('click', () => {
-      const show = inp.type === 'password';
-      inp.type = show ? 'text' : 'password';
-      btn.querySelector('use').setAttribute('href', show ? '#ic-eye-off' : '#ic-eye');
+    /* ======================= Accesibilidad / temas ======================= */
+    const btnAcces = document.getElementById('btnAccesibilidad');
+    const panelAcces = document.getElementById('panelAccesibilidad');
+    btnAcces.addEventListener('click', (e)=>{ e.stopPropagation(); panelAcces.classList.toggle('open'); });
+    document.addEventListener('click', (e)=>{
+      if(panelAcces.classList.contains('open') && !panelAcces.contains(e.target) && e.target !== btnAcces){
+        panelAcces.classList.remove('open');
+      }
     });
-  }
-  makeEye('eye-pass',    'contrasena');
-  makeEye('eye-confirm', 'confirmar');
-  makeEye('eye-edit',    'editar-contrasena')
-  makeEye('eye-admin',   'admin-key');
+    function cambiarTema(nombre){
+      const temas = {
+        purpura:{ p:'#a855f7', pd:'#7c3aed' },
+        rojo:{ p:'#e74c3c', pd:'#c0392b' },
+        azul:{ p:'#3498db', pd:'#2980b9' },
+        dorado:{ p:'#e8b64a', pd:'#c8961f' }
+      };
+      const t = temas[nombre] || temas.purpura;
+      document.documentElement.style.setProperty('--purple', t.p);
+      document.documentElement.style.setProperty('--purple-deep', t.pd);
+      document.documentElement.style.setProperty('--purple-glow', t.p + '59');
+    }
 
- 
-  const passEl = document.getElementById('contrasena');
-  const confEl = document.getElementById('confirmar');
+    /* ======================= Tabs ======================= */
+    const tabs = document.querySelectorAll('.tab-btn');
+    const views = { administrar: document.getElementById('administrar'), crear: document.getElementById('crear') };
+    tabs.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tabs.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        Object.values(views).forEach(v=>v.classList.remove('active'));
+        views[btn.dataset.target].classList.add('active');
+        if(btn.dataset.target === 'administrar') cargarUsuarios();
+      });
+    });
 
-  passEl && passEl.addEventListener('input', () => {
-    const v = passEl.value;
-    let score = 0;
-    if (v.length >= 6)  score++;
-    if (v.length >= 10) score++;
-    if (/[!@#$%^&*.]/.test(v)) score++;
-    if (/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
-    const colors = ['#e74c3c','#e67e22','#f1c40f','#2ecc71'];
+    /* ======================= Toast ======================= */
+    function mostrarAlerta(msg, tipo){
+      const toast = document.getElementById('toast');
+      document.getElementById('toastText').textContent = msg;
+      toast.classList.toggle('error', tipo === 'error');
+      toast.classList.add('show');
+      clearTimeout(mostrarAlerta._t);
+      mostrarAlerta._t = setTimeout(()=> toast.classList.remove('show'), 2800);
+    }
+
+    /* ======================= Ojo de contraseña (genérico) ======================= */
+    function makeEye(btnId, inputId){
+      const btn = document.getElementById(btnId);
+      const inp = document.getElementById(inputId);
+      if(!btn || !inp) return;
+      btn.addEventListener('click', ()=>{ inp.type = inp.type === 'password' ? 'text' : 'password'; });
+    }
+    makeEye('eye-pass', 'contrasena');
+    makeEye('eye-confirm', 'confirmar');
+    makeEye('eye-admin', 'admin-key');
+    makeEye('eye-edit', 'editar-contrasena');
+    makeEye('eye-admin-editar', 'admin-key-editar');
+
+    /* ======================= Validaciones (nombre, teléfono, correo, documento) ======================= */
+    function agregarValidacionNombreApellido(input){
+      if(!input) return;
+      input.addEventListener('keydown', function(e){
+        const tecla = e.key;
+        const permitidas = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+        if(permitidas.includes(tecla) || e.ctrlKey || e.metaKey) return;
+        if(!/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]$/.test(tecla)){ e.preventDefault(); return; }
+      });
+      input.addEventListener('input', function(){
+        const pos = this.selectionStart;
+        const nuevo = this.value.split(' ').map(p => p.length ? p.charAt(0).toUpperCase()+p.slice(1).toLowerCase() : '').join(' ');
+        if(this.value !== nuevo){ this.value = nuevo; this.setSelectionRange(pos,pos); }
+      });
+    }
+    function agregarValidacionTelefono(input){
+      if(!input) return;
+      const validar = v => {
+        input.closest('.input-wrap').classList.toggle('invalido', v !== '' && !/^[36][0-9]{9}$/.test(v));
+      };
+      input.addEventListener('input', function(){
+        let limpio = this.value.replace(/[^0-9]/g,'').slice(0,10);
+        this.value = limpio; validar(limpio);
+      });
+    }
+    function agregarValidacionCorreo(input){
+      if(!input) return;
+      input.addEventListener('blur', function(){
+        const v = this.value.trim();
+        this.closest('.input-wrap').classList.toggle('invalido', v !== '' && !/^[^\s@]+@gmail\.com$/.test(v));
+      });
+      input.addEventListener('input', function(){ this.closest('.input-wrap').classList.remove('invalido'); });
+    }
+    function agregarValidacionDocumento(inputDoc, selectTipo){
+      if(!inputDoc) return;
+      function reglas(){
+        switch(selectTipo ? selectTipo.value : 'CC'){
+          case 'CC': return {re:/^\d{9,10}$/, max:10, num:true};
+          case 'CE': return {re:/^\d{6,15}$/, max:15, num:true};
+          case 'PPT': return {re:/^\d{6,8}$/, max:8, num:true};
+          case 'PP': return {re:/^[a-zA-Z0-9]{6,15}$/, max:15, num:false};
+          default: return {re:/^\d{9,10}$/, max:10, num:true};
+        }
+      }
+      if(selectTipo) selectTipo.addEventListener('change', ()=>{ inputDoc.value=''; inputDoc.closest('.input-wrap').classList.remove('invalido'); });
+      inputDoc.addEventListener('input', function(){
+        const r = reglas();
+        let v = r.num ? this.value.replace(/[^0-9]/g,'') : this.value.replace(/[^a-zA-Z0-9]/g,'');
+        this.value = v.slice(0, r.max);
+        this.closest('.input-wrap').classList.toggle('invalido', this.value !== '' && !r.re.test(this.value));
+      });
+    }
+    agregarValidacionDocumento(document.getElementById('num_doc'), document.getElementById('tipo_doc'));
+    [document.getElementById('nombre'), document.getElementById('apellido')].forEach(agregarValidacionNombreApellido);
+    agregarValidacionTelefono(document.getElementById('telefono'));
+    agregarValidacionCorreo(document.getElementById('correo'));
+    [document.getElementById('editar-nombre'), document.getElementById('editar-apellido')].forEach(agregarValidacionNombreApellido);
+    agregarValidacionTelefono(document.getElementById('editar-telefono'));
+    agregarValidacionCorreo(document.getElementById('editar-correo'));
+
+    /* ======================= Fuerza / coincidencia de contraseña ======================= */
+    const passEl = document.getElementById('contrasena');
+    const confEl = document.getElementById('confirmar');
+    const colors = ['#e5484d','#e8b64a','#18c974','#18c974'];
     const labels = ['Muy débil','Débil','Buena','Fuerte'];
-    [1,2,3,4].forEach(i => {
-      document.getElementById('s'+i).style.background = i <= score ? colors[score-1] : 'var(--border)';
+    passEl.addEventListener('input', ()=>{
+      const v = passEl.value; let score = 0;
+      if(v.length >= 6) score++;
+      if(v.length >= 10) score++;
+      if(/[!@#$%^&*.]/.test(v)) score++;
+      if(/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
+      [1,2,3,4].forEach(i=>{
+        document.getElementById('s'+i).style.background = i <= score ? colors[score-1] : 'var(--line-soft)';
+      });
+      document.getElementById('strength-label').textContent = v.length ? (labels[score-1]||'') : '';
+      checkMatch();
     });
-    document.getElementById('strength-label').textContent = v.length ? (labels[score-1]||'') : '';
-    checkMatch();
-  });
-  confEl && confEl.addEventListener('input', checkMatch);
-
-  function checkMatch() {
-    if (!passEl || !confEl) return;
-    const lbl = document.getElementById('match-label');
-    if (!confEl.value) { lbl.textContent = ''; return; }
-    if (passEl.value === confEl.value) {
-      lbl.textContent = 'Las contraseñas coinciden';
-      lbl.style.color = 'var(--green)';
-    } else {
-      lbl.textContent = 'Las contraseñas no coinciden';
-      lbl.style.color = '#e74c3c';
+    confEl.addEventListener('input', checkMatch);
+    function checkMatch(){
+      const lbl = document.getElementById('match-label');
+      if(!confEl.value){ lbl.textContent=''; lbl.className='hint'; return; }
+      if(passEl.value === confEl.value){ lbl.textContent='Las contraseñas coinciden'; lbl.className='hint match-ok'; }
+      else { lbl.textContent='Las contraseñas no coinciden'; lbl.className='hint match-bad'; }
     }
-  }
 
+    /* ======================= Crear cuenta ======================= */
+    document.getElementById('formulario-crear-cuenta').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const tipo_documento = document.getElementById('tipo_doc').value.trim();
+      const documento = document.getElementById('num_doc').value.trim();
+      const nombre = document.getElementById('nombre').value.trim();
+      const apellido = document.getElementById('apellido').value.trim();
+      const usuario = document.getElementById('usuario').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const correo = document.getElementById('correo').value.trim();
+      const contrasena = document.getElementById('contrasena').value.trim();
+      const confirmar = document.getElementById('confirmar').value.trim();
+      const admin_key = document.getElementById('admin-key').value.trim();
 
-  const botones    = document.querySelectorAll('.pestaña-btn');
-  const contenidos = document.querySelectorAll('.pestaña-contenido');
-  botones.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const obj = btn.getAttribute('data-pestaña');
-      botones.forEach(b => b.classList.remove('activo'));
-      contenidos.forEach(c => c.classList.remove('activo'));
-      btn.classList.add('activo');
-      const sec = document.getElementById(obj);
-      if (sec) sec.classList.add('activo');
-      if (obj === 'administrar') cargarUsuarios();
-    });
-  });
-
-
-  const inputDocumento = document.getElementById('num_doc');
-  const selectTipoDoc  = document.getElementById('tipo_doc');
-  if (inputDocumento) agregarValidacionDocumento(inputDocumento, selectTipoDoc);
-
-  // Nombre y Apellido (formulario crear)
-  [document.getElementById('nombre'), document.getElementById('apellido')].forEach(inp => {
-    if (inp) agregarValidacionNombreApellido(inp);
-  });
-
-  // Teléfono (formulario crear)
-  const inputTelefono = document.getElementById('telefono');
-  if (inputTelefono) agregarValidacionTelefono(inputTelefono);
-
-  // Correo (formulario crear)
-  const inputCorreo = document.getElementById('correo');
-  if (inputCorreo) agregarValidacionCorreo(inputCorreo);
-
-
-
-  [document.getElementById('editar-nombre'), document.getElementById('editar-apellido')].forEach(inp => {
-    if (inp) agregarValidacionNombreApellido(inp);
-  });
-
-  // Teléfono (modal)
-  const editarTelefono = document.getElementById('editar-telefono');
-  if (editarTelefono) agregarValidacionTelefono(editarTelefono);
-
-  // Correo (modal)
-  const editarCorreo = document.getElementById('editar-correo');
-  if (editarCorreo) agregarValidacionCorreo(editarCorreo);
-
-  /* ---- Tabla de cuentas ---- */
-  const tablaCuerpo = document.getElementById('tabla-cuentas-body');
-  const sinCuentas   = document.getElementById('sin-cuentas');
-  const modalEditar = document.getElementById('modal-editar');
-  const formEditar   = document.getElementById('formulario-editar-cuenta');
-  const formCrear    = document.getElementById('formulario-crear-cuenta');
-
-  async function cargarUsuarios() {
-    try {
-      const res      = await fetch('/obtener-usuarios');
-      const usuarios = await res.json();
-      tablaCuerpo.innerHTML = '';
-      if (!Array.isArray(usuarios) || usuarios.length === 0) {
-        if (sinCuentas) sinCuentas.style.display = 'block';
-        return;
+      if(!tipo_documento || !documento || !nombre || !apellido || !usuario || !telefono || !correo || !contrasena || !confirmar || !admin_key){
+        mostrarAlerta('Todos los campos obligatorios deben estar completos.', 'error'); return;
       }
-      if (sinCuentas) sinCuentas.style.display = 'none';
-      
-      usuarios.forEach(u => {
-        // SOLUCIÓN AL UNDEFINED: Validamos si la propiedad viene como '.cargo' o '.rol'
-        const rolUsuario = u.cargo || u.rol || 'empleado';
+      if(contrasena !== confirmar){ mostrarAlerta('Las contraseñas no coinciden', 'error'); return; }
+      if(!/^[^\s@]+@gmail\.com$/.test(correo)){ mostrarAlerta('El correo debe tener formato válido: algo@gmail.com', 'error'); return; }
+      if(!/^[36][0-9]{9}$/.test(telefono)){ mostrarAlerta('El teléfono debe tener 10 dígitos y empezar con 3 o 6.', 'error'); return; }
 
+      const datos = { tipo_documento, documento, nombre, apellido, usuario, telefono, correo, contrasena, admin_key, cargo:'empleado', rol:'empleado' };
+
+      try{
+        const resp = await fetch('/guardar-usuario', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(datos) });
+        const json = await resp.json();
+        if(resp.ok && json.success){
+          mostrarAlerta('Cuenta creada correctamente.', 'ok');
+          e.target.reset();
+          [1,2,3,4].forEach(i=> document.getElementById('s'+i).style.background='var(--line-soft)');
+          document.getElementById('strength-label').textContent = '';
+          document.getElementById('match-label').textContent = '';
+          document.querySelector('.tab-btn[data-target="administrar"]').click();
+        } else {
+          mostrarAlerta(json.message || 'Error al registrar la cuenta', 'error');
+        }
+      } catch(err){ console.error(err); mostrarAlerta('Error al conectar con el servidor', 'error'); }
+    });
+
+    /* ======================= Administrar cuentas ======================= */
+    const tablaCuerpo = document.getElementById('tabla-cuentas-body');
+    const sinCuentas = document.getElementById('sin-cuentas');
+    let usuariosCache = [];
+
+    async function cargarUsuarios(){
+      try{
+        const res = await fetch('/obtener-usuarios');
+        const usuarios = await res.json();
+        usuariosCache = Array.isArray(usuarios) ? usuarios : [];
+        pintarUsuarios(usuariosCache);
+      } catch(err){ console.error('Error cargando usuarios:', err); mostrarAlerta('Error al conectar con el servidor', 'error'); }
+    }
+
+    function pintarUsuarios(lista){
+      tablaCuerpo.innerHTML = '';
+      document.getElementById('contadorCuentas').textContent = lista.length + ' cuenta' + (lista.length===1?'':'s') + ' registrada' + (lista.length===1?'':'s');
+      document.getElementById('mostrandoCuentas').textContent = `Mostrando ${lista.length} de ${usuariosCache.length} cuentas`;
+      if(!lista.length){ sinCuentas.style.display = 'block'; return; }
+      sinCuentas.style.display = 'none';
+      lista.forEach(u=>{
+        const rol = (u.cargo || u.rol || 'empleado').toLowerCase();
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${u.usuario}</td>
-          <td>${u.nombre}</td>
-          <td>${u.apellido}</td>
-          <td>${u.correo}</td>
+          <td class="name-cell">${u.usuario ?? ''}</td>
+          <td>${u.nombre ?? ''}</td>
+          <td>${u.apellido ?? ''}</td>
+          <td>${u.correo ?? ''}</td>
           <td>${u.telefono || '—'}</td>
-          <td><span class="badge-${rolUsuario}">${rolUsuario}</span></td>
+          <td><span class="role-pill ${rol === 'gerente' ? 'gerente' : 'empleado'}">${rol}</span></td>
           <td>
-            <button class="btn-edit"   onclick="prepararEdicion(${u.id})" title="Editar">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            </button>
-            <button class="btn-delete" onclick="eliminarUsuario(${u.id})" title="Eliminar">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-            </button>
+            <div class="row-actions">
+              <button class="icon-btn edit" title="Editar" onclick="prepararEdicion('${u.id}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </button>
+              <button class="icon-btn del" title="Eliminar" onclick="eliminarUsuario('${u.documento ?? u.id}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+              </button>
+            </div>
           </td>`;
         tablaCuerpo.appendChild(tr);
       });
-    } catch (err) {
-      console.error('Error cargando usuarios:', err);
-      mostrarAlerta('Error al conectar con el servidor', 'error');
     }
-  }
-window.prepararEdicion = async function(id) {
-  const pwd = prompt('Ingrese su contraseña de GERENTE para autorizar la edición:');
-  if (pwd === null) return;
-  
-  try {
-    const verif = await fetch('/verificar-password-admin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password_ingresada: pwd })
-    });
-    
-    const r = await verif.json();
-    if (!r.success) { 
-      mostrarAlerta('Contraseña de Gerente incorrecta.', 'error'); 
-      return; 
-    }
-    
-    // Cambiamos la ruta para pedirlo por ID al backend
-    const res = await fetch(`/api/usuarios/${id}`);
-    const u   = await res.json();
-    
-    // Llenas los campos exactamente igual
-    document.getElementById('editar-usuario-original').value = u.documento;
-    document.getElementById('editar-nombre').value           = u.nombre;
-    document.getElementById('editar-apellido').value         = u.apellido;
-    document.getElementById('editar-usuario').value          = u.usuario;
-    document.getElementById('editar-telefono').value         = u.telefono || '';
-    document.getElementById('editar-correo').value           = u.correo;
-    document.getElementById('editar-rol').value              = u.cargo || u.rol;
-    
-    const modalEditar = document.getElementById('modal-editar');
-    if (modalEditar) modalEditar.classList.add('open');
-    
-  } catch (err) { 
-    console.error(err); 
-    mostrarAlerta('Error de conexión', 'error'); 
-  }
-};
 
-async function saveNew() {
-  // Usamos el operador '?.' para que si no encuentra el ID, no rompa la página
-  const tipo_documento = document.getElementById('tipo_doc')?.value.trim() || '';
-  const documento = document.getElementById('num_doc')?.value.trim() || '';
-  const nombre = document.getElementById('nombre')?.value.trim() || '';
-  const apellido = document.getElementById('apellido')?.value.trim() || '';
-  const usuario = document.getElementById('usuario')?.value.trim() || '';
-  const telefono = document.getElementById('telefono')?.value.trim() || '';
-  const correo = document.getElementById('correo')?.value.trim() || '';
-  const contrasena = document.getElementById('contrasena')?.value.trim() || '';
-  const confirmar = document.getElementById('confirmar')?.value.trim() || '';
-  
-  // Si no usas llave de administrador en el formulario, esto devolverá vacío en lugar de dar error
-  const admin_key = document.getElementById('admin-key')?.value.trim() || 'NO_KEY';
-
-  // Validar que todos estén llenos (Quitamos admin_key de la validación estricta por si no lo tienes en el HTML)
-  if (!tipo_documento || !documento || !nombre || !apellido || !usuario || !telefono || !correo || !contrasena || !confirmar) {
-    mostrarAlerta("Todos los campos obligatorios deben estar completos.", 'error');
-    return;
-  }
-
-  if (contrasena !== confirmar) {
-    mostrarAlerta('Las contraseñas no coinciden', 'error');
-    return;
-  }
-
-  if (!/^[^\s@]+@gmail\.com$/.test(correo)) {
-    mostrarAlerta("El correo debe tener formato válido: algo@gmail.com", 'error');
-    return;
-  }
-
-  if (!/^[36][0-9]{9}$/.test(telefono)) {
-    mostrarAlerta("El teléfono debe tener 10 dígitos y empezar con 3 o 6.", 'error');
-    return;
-  }
-
-  const datos = {
-    tipo_documento,
-    documento,
-    nombre,
-    apellido,
-    usuario,
-    telefono,
-    correo,
-    contrasena,
-    admin_key,
-    cargo: 'empleado', 
-    rol: 'empleado' 
-  };
-
-  try {
-    const response = await fetch('/guardar-usuario', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datos)
+    document.getElementById('buscarUsuario').addEventListener('input', function(){
+      const q = this.value.trim().toLowerCase();
+      if(!q){ pintarUsuarios(usuariosCache); return; }
+      pintarUsuarios(usuariosCache.filter(u =>
+        (u.usuario||'').toLowerCase().includes(q) ||
+        (u.nombre||'').toLowerCase().includes(q) ||
+        (u.apellido||'').toLowerCase().includes(q) ||
+        (u.correo||'').toLowerCase().includes(q)
+      ));
     });
 
-    const json = await response.json();
-    if (response.ok && json.success) {
-      mostrarAlerta("Cuenta creada correctamente.", 'ok');
-      if (formCrear) formCrear.reset();
-      [1,2,3,4].forEach(i => {
-        const line = document.getElementById('s'+i);
-        if (line) line.style.background = 'var(--border)';
-      });
-      
-      const strLabel = document.getElementById('strength-label');
-      const matchLabel = document.getElementById('match-label');
-      if (strLabel) strLabel.textContent = '';
-      if (matchLabel) matchLabel.textContent = '';
-      
-      document.querySelector('[data-pestaña="administrar"]')?.click();
-    } else {
-      mostrarAlerta(json.message || "Error al registrar la cuenta", 'error');
-    }
-  } catch (error) {
-    console.error("Error al agregar usuario:", error);
-    mostrarAlerta("Error al conectar con el servidor", 'error');
-  }
-}
+    window.prepararEdicion = async function(id){
+     try{
+        const res = await fetch(`/api/usuarios/${id}`);
+        const u = await res.json();
 
-  window.eliminarUsuario = async documento => {
-    if (!confirm('¿Estás seguro de eliminar esta cuenta? Esta acción no se puede deshacer.')) return;
-    try {
-      const res  = await fetch(`/eliminar-usuario/${documento}`, { method: 'DELETE' });
-      const json = await res.json();
-      if (res.ok && json.success) {
-        mostrarAlerta('Usuario eliminado correctamente', 'ok');
-        cargarUsuarios();
-      } else {
-        mostrarAlerta(json.message || 'Error al eliminar', 'error');
-      }
-    } catch (err) { mostrarAlerta('Error de conexión', 'error'); }
-  };
+        document.getElementById('editar-usuario-original').value = u.documento ?? u.id;
+        document.getElementById('editar-nombre').value = u.nombre || '';
+        document.getElementById('editar-apellido').value = u.apellido || '';
+        document.getElementById('editar-usuario').value = u.usuario || '';
+        document.getElementById('editar-telefono').value = u.telefono || ''; 
+        document.getElementById('editar-correo').value = u.correo || '';
+        document.getElementById('editar-rol').value = (u.cargo || u.rol || 'empleado').toLowerCase();
+        document.getElementById('editar-contrasena').value = '';
+        document.getElementById('admin-key-editar').value = '';
 
-  function mostrarAlerta(mensaje, tipo = 'ok') {
-    const alerta = document.createElement('div');
-    alerta.textContent = mensaje;
-    alerta.style.cssText = `
-      position:fixed; top:20px; right:20px; padding:12px 20px;
-      border-radius:10px; color:#fff; font-weight:600; z-index:9999;
-      box-shadow:0 5px 15px rgba(0,0,0,.3);
-      background:${tipo === 'ok' ? '#2ecc71' : '#e74c3c'};
-    `;
-    document.body.appendChild(alerta);
-    setTimeout(() => alerta.remove(), 3000);
-  }
-
-  function cerrarModal() {
-    if (modalEditar) modalEditar.classList.remove('open');
-    if (formEditar) formEditar.reset();
-    ['editar-telefono','editar-correo'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.borderColor = '';
-    });
-  }
-
-  document.querySelector('.cerrar-modal')?.addEventListener('click', cerrarModal);
-  document.querySelector('.btn-cancelar')?.addEventListener('click', cerrarModal);
-  modalEditar?.addEventListener('click', e => { if (e.target === modalEditar) cerrarModal(); });
-
-});
-
-// SOLUCIÓN AL ERROR STYLE: Movemos todo el control de carga e intervalos al evento 'load'
-window.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-  const app = document.getElementById('app');
-  const progreso = document.getElementById('progreso');
-  let porcentaje = 0;
-
-  if (progreso) {
-    let intervalo = setInterval(() => {
-      porcentaje += Math.random() * 15; 
-      if (porcentaje >= 100) {
-        porcentaje = 100;
-        clearInterval(intervalo);
-        if (loader) loader.style.display = 'none';
-        if (app) app.style.display = 'block';
-      }
-      progreso.style.width = porcentaje + '%';
-    }, 300);
-  } else {
-    // Si no encuentra la barra de progreso, oculta el loader por seguridad directamente
-    if (loader) loader.style.display = 'none';
-    if (app) app.style.display = 'block';
-  }
-});
-
-document.getElementById('input-avatar').addEventListener('change', function(event) {
-  const archivo = event.target.files[0];
-  if (archivo) {
-    const lector = new FileReader();
-    lector.onload = function(e) {
-      // Actualiza la visualización de la foto en tiempo real
-      document.getElementById('avatar-preview').src = e.target.result;
+        document.getElementById('modal-editar').classList.add('open');
+      } catch(err){ console.error(err); mostrarAlerta('Error de conexión', 'error'); }
     };
-    lector.readAsDataURL(archivo);
-  }
-});
-</script>
-</script>
+
+    document.getElementById('formulario-editar-cuenta').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const original = document.getElementById('editar-usuario-original').value;
+      const datos = {
+        nombre: document.getElementById('editar-nombre').value.trim(),
+        apellido: document.getElementById('editar-apellido').value.trim(),
+        usuario: document.getElementById('editar-usuario').value.trim(),
+        telefono: document.getElementById('editar-telefono').value.trim(),
+        correo: document.getElementById('editar-correo').value.trim(),
+        contrasena: document.getElementById('editar-contrasena').value.trim(),
+        cargo: document.getElementById('editar-rol').value,
+        rol: document.getElementById('editar-rol').value,
+        admin_key: document.getElementById('admin-key-editar').value.trim()
+      };
+      if(!datos.admin_key){ mostrarAlerta('La clave de autorización es obligatoria.', 'error'); return; }
+      try{
+        const resp = await fetch(`/editar-usuario/${original}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(datos) });
+        const json = await resp.json();
+        if(resp.ok && json.success){
+          mostrarAlerta('Cuenta actualizada correctamente', 'ok');
+          cerrarModalEditar();
+          cargarUsuarios();
+        } else {
+          mostrarAlerta(json.message || 'Error al actualizar la cuenta', 'error');
+        }
+      } catch(err){ console.error(err); mostrarAlerta('Error de conexión', 'error'); }
+    });
+
+    function cerrarModalEditar(){
+      document.getElementById('modal-editar').classList.remove('open');
+      document.getElementById('formulario-editar-cuenta').reset();
+    }
+    document.getElementById('cerrarModalEditar').addEventListener('click', cerrarModalEditar);
+    document.getElementById('cancelarEdicion').addEventListener('click', cerrarModalEditar);
+    document.getElementById('modal-editar').addEventListener('click', (e)=>{ if(e.target.id === 'modal-editar') cerrarModalEditar(); });
+
+    window.eliminarUsuario = async function(documento){
+      if(!confirm('¿Estás seguro de eliminar esta cuenta? Esta acción no se puede deshacer.')) return;
+      try{
+        const res = await fetch(`/eliminar-usuario/${documento}`, { method:'DELETE' });
+        const json = await res.json();
+        if(res.ok && json.success){ mostrarAlerta('Usuario eliminado correctamente', 'ok'); cargarUsuarios(); }
+        else { mostrarAlerta(json.message || 'Error al eliminar', 'error'); }
+      } catch(err){ mostrarAlerta('Error de conexión', 'error'); }
+    };
+
+    /* Carga inicial de la tabla (pestaña activa por defecto) */
+    cargarUsuarios();
+
+    /* ======================= Foto de perfil ======================= */
+    const avatarRing = document.getElementById('avatarRing');
+    const avatarImg = document.getElementById('avatar-preview');
+    const avatarBadge = document.getElementById('avatarBadge');
+    const avatarBadgeIcon = document.getElementById('avatarBadgeIcon');
+    const avatarInput = document.getElementById('input-avatar');
+    const deleteModal = document.getElementById('deletePhotoModal');
+    const iconPlus = '<path d="M12 4v16M4 12h16"/>';
+    const iconTrash = '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>';
+    let hasPhoto = false;
+    function setBadgeIcon(type){ avatarBadgeIcon.innerHTML = type === 'trash' ? iconTrash : iconPlus; }
+
+    avatarBadge.addEventListener('click', ()=>{
+      if(hasPhoto){ deleteModal.classList.add('open'); } else { avatarInput.click(); }
+    });
+    avatarInput.addEventListener('change', (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev)=>{
+        avatarImg.src = ev.target.result;
+        avatarRing.classList.add('has-photo');
+        avatarBadge.title = 'Cambiar o eliminar foto';
+        hasPhoto = true; setBadgeIcon('trash');
+        mostrarAlerta('Foto de perfil actualizada', 'ok');
+      };
+      reader.readAsDataURL(file);
+    });
+    document.getElementById('cancelDeletePhoto').addEventListener('click', ()=> deleteModal.classList.remove('open'));
+    document.getElementById('confirmDeletePhoto').addEventListener('click', ()=>{
+      avatarImg.src = '';
+      avatarRing.classList.remove('has-photo');
+      avatarBadge.title = 'Agregar foto';
+      hasPhoto = false; avatarInput.value = '';
+      setBadgeIcon('plus');
+      deleteModal.classList.remove('open');
+      mostrarAlerta('Foto de perfil eliminada', 'ok');
+    });
+  deleteModal.addEventListener('click', (e)=>{ if(e.target === deleteModal) deleteModal.classList.remove('open'); });
+
+    /* ======================= Editar datos del perfil ======================= */
+    const editBtn = document.getElementById('editBtn');
+    const editableFields = document.querySelectorAll('#sideFields .editable-field');
+    let isEditing = false;
+    editBtn.addEventListener('click', ()=>{
+      isEditing = !isEditing;
+      editableFields.forEach(input=>{
+        input.readOnly = !isEditing;
+        input.closest('.input-wrap').classList.toggle('readonly', !isEditing);
+      });
+      if(isEditing){
+        editBtn.textContent = 'Guardar Cambios';
+        editBtn.classList.remove('btn-outline'); editBtn.classList.add('btn-solid');
+        editableFields[0].focus();
+      } else {
+        editBtn.textContent = 'Editar Datos';
+        editBtn.classList.remove('btn-solid'); editBtn.classList.add('btn-outline');
+        mostrarAlerta('Datos actualizados', 'ok');
+      }
+    });
+
+    /* ======================= Nombre en la barra superior ======================= */
+    document.getElementById('nombre-display').textContent =
+      document.querySelector('#sideFields .editable-field').value.split(' ')[0] || 'Gerente';
+  </script>
+
 </body>
 </html>
